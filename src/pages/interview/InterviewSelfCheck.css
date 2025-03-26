@@ -1,0 +1,219 @@
+/* Webcam*/
+.webcam-container {
+  position: relative;
+  /* background: linear-gradient(180deg, #ff7eb3, #b2d3ff); */
+  width: 100vw;
+  height: 100vh; /* 화면 높이에 맞춤 */
+  overflow: hidden; /* 넘치는 부분을 잘라냄 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.webcam {
+  position: relative;
+  z-index: 0;
+  width: 100vw;
+  object-fit: cover; /* 비디오를 세로에 맞추고 나머지를 잘라냄 */
+}
+/* ============================================================ */
+/* 체크리스트 컨테이너 */
+.checklist {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 10;
+  padding: 2em;
+  padding-bottom: 3em;
+  color: var(--text-color);
+
+  /* From https://css.glass */
+  background: rgba(251, 252, 255, 0.7);
+  border-radius: 16px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 0;
+}
+.checklist > .head{
+  margin: 10px;
+  text-align: right;
+}
+.head > h1{
+  /* 헤드부분 */
+  margin-bottom: 10px;
+  margin-top: 0px;
+  /* text-shadow: 0 0 10px #fff; */
+  background:  var(--sub-linear-gradient) border-box;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.cam {
+  /* h1 헤드 그라데이션 */
+  text-align: left;
+  font: 3rem 'Oswald', Arial, sans-serif;
+  color: #006aff;
+}
+.head > p {
+  font-size: 1.5rem;
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+/* 체크리스트 */
+.checklist > ul {
+  list-style: none; /* Remove the list markers */
+  padding-left: 20px; /* Remove default padding */
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-top: 10px; /* Remove default margin */
+  margin-bottom: 40px; /* Remove default margin */
+  text-align: left;
+
+  /* From https://css.glass */
+  background: var(--white-blur);
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(140, 180, 255, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 0;
+}
+
+.checklist > ul > li {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+} 
+
+.checklist > ul > li > .ion-icon{
+  font-size: 1.1rem;
+}
+/* ============================================================ */
+/* 버튼 */
+.gradientButton {
+  --r:40px; /* radius */
+  --b:3px; /* border width */
+  
+  background:  var(--sub-linear-gradient) border-box;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  border: var(--b) solid transparent;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+
+  height: 60px;
+  margin: 0 auto;
+  position: relative;
+  z-index:0;
+  text-decoration: none;
+  width: 264px;
+}
+/* check lined question for the detail of the below code */
+.gradientButton::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset: 0;
+  border: var(--b) solid transparent;
+  border-radius: var(--r);
+  background: inherit;
+  background-origin: border-box;
+  background-clip: border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  -webkit-mask-repeat: no-repeat;
+}
+/**/
+.gradientButton:hover {
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+}
+
+.gradientButton:hover::before {
+  color: #fff;
+  -webkit-mask:none;
+}
+/* ============================================================ */
+/* 모달 */
+.picModal{
+  z-index: 20;
+  position: absolute;
+  width: 100vw;
+  height: 100vh; /* 화면 높이에 맞춤*/
+  align-items: center;
+  padding: 1em;
+  color: #fff;
+
+  /* From https://css.glass */
+  background: rgba(10, 13, 27, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8.4px);
+  -webkit-backdrop-filter: blur(8.4px);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.picModal > h1{
+  padding-top: 50px;
+  font-size: 3rem;
+  margin: 0;
+}
+.picModal > h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.modal-pic{
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+.modal-pic > img{
+  height: 400px;
+  width: auto;
+}
+
+.modal-btn-container{
+  display: flex;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+.modal-btn{
+  background: none; 
+  border: none;     
+  color: var(--background-color);
+  font-size: 20px;  
+  cursor: pointer;
+}
+.modal-btn:hover{
+  opacity: 0.7;
+}
+
+.third{
+  width: 33.3%;
+  
+}
+.modal-btn-container > .flex{
+  display: flex;
+  /* width: fit-content; */
+}
+.modal-content{
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

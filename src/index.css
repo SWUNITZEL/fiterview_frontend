@@ -1,0 +1,80 @@
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-9Black.ttf') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-8ExtraBold.ttf') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-7Bold.ttf') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-6SemiBold.ttf') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-5Medium.ttf') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-4Regular.ttf') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-3Light.ttf') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-2ExtraLight.ttf') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freesentation';
+  src: url('../public/font/Freesentation-1Thin.ttf') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  font-family: 'Freesentation', -apple-system, BlinkMacSystemFont;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Freesentation', source-code-pro, Menlo, Monaco, Consolas;
+}
+
+p {
+  font-family: 'Freesentation';
+  font-size: '20px';
+}
+
+b {
+  font-family: 'Freesentation';
+  font-size: '20px';
+}
+
+span {
+  font-family: 'Freesentation';
+  font-size: '20px';
+}
