@@ -1,0 +1,81 @@
+.interview-type-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.header {
+  width: 100%;
+  text-align: left;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.content {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.type-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.type-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.type-buttons .selected {
+  font-weight: bold;
+  background-color: #ddd;
+}
+
+.description {
+  flex: 1;
+  padding: 10px;
+}
+
+.description button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.footer-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.footer-buttons .save,
+.footer-buttons .exit {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+.footer-buttons .save {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.footer-buttons .exit {
+  background-color: #f44336;
+  color: white;
+}
