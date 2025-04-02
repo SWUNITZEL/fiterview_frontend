@@ -6,8 +6,8 @@ import { TbCameraCheck, TbMoodCheck, TbArrowNarrowLeft, TbArrowNarrowRight, TbCh
 
 
 const WebcamCapture = () => {
-  const BackCaptureURL = "" // 백엔드 엔드포인트 
-  const FrontLoadingURL = "" // 백엔드 엔드포인트 
+  const backCaptureURL = "" // 백엔드 엔드포인트 
+  const frontLoadingURL = "" // 프론트 로딩페이지지 엔드포인트 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [capturedImage, setCapturedImage] = useState(null);
@@ -51,7 +51,7 @@ const WebcamCapture = () => {
 
   const sendImg = async () => {
     try{
-      const response = await fetch(BackCaptureURL, {
+      const response = await fetch(backCaptureURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const WebcamCapture = () => {
 
         const data = await response.json();
         console.log('Response:', data)
-        window.location.replace(FrontLoadingURL);
+        window.location.replace(frontLoadingURL);
       }catch(e){
         console.log('send error')
       }
