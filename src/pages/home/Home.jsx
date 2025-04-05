@@ -1,13 +1,27 @@
+/**
+ * @file Home.jsx
+ * @description 홈
+ * @author 이찬우
+ * @created 2025-01-04
+ * @lastModified 2025-04-03
+**/
+
 import React, {useState, useEffect} from 'react';
 import { Container } from "@mui/material";
 import NavbarComponent from '../../components/Navbar'
-import FullBanner from '../../components/FullBanner'
+import "./Home.css"
+import MainBanner from "./MainBanner.jsx"
+import ServiceIntro from "./ServiceIntro.jsx"
 
 function Home() {
-  const [scrollPosition, setScrollPosition] = useState(0); // scroll 위치 구하기(애니메이션 적용을 위함)
+  /**
+   * @state {number} scrollY - 스크롤 위치
+   */
+  const [scrollY, setScrollY] = useState(0);
+  
   useEffect(() => {
     const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+      setScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -21,13 +35,11 @@ function Home() {
         backgroundColor: "var(--background-color)",
         minHeight: "100vh",
         padding: "0 0",
+        overflow: "hidden"
       }}>
-      <NavbarComponent />
-      {/* <FullBanner 
-        scrollPosition={scrollPosition}
-        maxScroll = {70} 
-        imgUrl={'images/home/banner.png'}/> */}
-      <h2>Home!</h2>
+      {/* <NavbarComponent /> */}
+      <MainBanner />
+      <ServiceIntro scrollY={scrollY}/>
     </Container>
   );
 }

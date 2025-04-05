@@ -1,0 +1,89 @@
+/* src/components/interview.css */
+.interview > .header{
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+.interview > .header > h2{
+    margin: 0;
+}
+/* 녹화 버튼! */
+.interview > .header > .record-state {
+    background-color: gray;
+    border: 0;
+    color: white;
+    border-radius: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.record-state > h4 {
+    margin: 0;
+    font-size: 1em;
+}
+.record-state > h4 > span {
+    position: relative;
+    bottom: 1px;
+    font-size: 18px;
+    font-weight: bold;
+}
+.interview > .header > .record-state-after {
+    background-color: red;
+    border: 0;
+    color: white;
+    border-radius: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.record-state-after > h4 {
+    position: relative;
+    font-size: 1em;
+    margin: 0;
+}
+.record-state-after > h4 > span {
+    position: relative;
+    bottom: 1px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.main-video {
+    width: 80%;
+    height: 100%;
+    background-color: #b5afaf;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* 인터뷰어 사진 */
+.interviewer-w{
+    width: 70vw;
+    height: 70vh;
+    border-radius: 1em;
+    object-fit: cover;
+    position: absolute; /* Allows the image to be positioned relative to its container */
+    top: 58%; /* Start positioning the image from the center vertically */
+    left: 50%; /* Start positioning the image from the center horizontally */
+    transform: translate(-50%, -50%); /* Translate the image back by 50% of its width and height to truly center it */
+
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+.interviewer-c{
+    width: 70vw;
+    height: 70vh;
+    border-radius: 1em;
+    object-fit: cover;
+    position: absolute; /* Allows the image to be positioned relative to its container */
+    top: 58%; /* Start positioning the image from the center vertically */
+    left: 50%; /* Start positioning the image from the center horizontally */
+    transform: translate(-50%, -50%); /* Translate the image back by 50% of its width and height to truly center it */
+
+    box-shadow: 0 0 30px rgba(78, 110, 255, 0.5);
+}
