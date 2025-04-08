@@ -54,7 +54,7 @@ const CustomStyledButton = styled(Button)`
   }
   
   .MuiTouchRipple-root .MuiTouchRipple-rippleVisible {
-    color: ${(props) => props.rippleColor || "rgba(255, 255, 255, 0.3)"};
+    color: ${(props) => props.rippleColor || "var(--primary-lightest)"};
   }
 `;
 

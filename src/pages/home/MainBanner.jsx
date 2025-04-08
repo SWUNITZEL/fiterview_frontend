@@ -8,25 +8,18 @@
 
 import React, {useState, useEffect} from 'react';
 
-import { FaAngleRight, FaCaretRight    } from "react-icons/fa6";
+import { FaCaretRight } from "react-icons/fa6";
 import DotText from "../../components/DotText";
 import CustomButton from "../../components/CustomButton";
 import {GradientH1} from "../../components/CustomH1";
-import { keyframes } from "@emotion/react";
 
 import "./Home.css"
 
-const MainBanner = () => {
+const MainBanner = ({scrollY}) => {
 
   const [isVisible, setIsVisible] = useState(false);
-  const shake = keyframes`
-    0% { transform: translateX(0); }
-    20% { transform: translateX(-5px); }
-    40% { transform: translateX(5px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-    100% { transform: translateX(0); }
-  `;
+  const contentsOpacity = Math.max(0, Math.min(1, 1 - (scrollY - 0) / (5)));
+  const backgroundOpacity = Math.max(0, Math.min(1, 1 - (scrollY - 200) / (400)));
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,49 +28,51 @@ const MainBanner = () => {
   }, []);
 
   return (
-    <div className="full-screen center-vertical child-column gradient-loop" style={{position: "fixed", transition: "transform 0.3s ease-in-out"}}>
-      <div  
+    <div className="full-screen center-both child-column gradient-loop" 
+    style={{opacity: isVisible ? backgroundOpacity : 0, position: "fixed", transition: "transform 0.3s ease-in-out"}}>
+      <div  className="center-screen child-column-center"
         style={{
-          opacity: isVisible ? 1 : 0,
+          opacity: isVisible ? contentsOpacity : 0,
           transform: isVisible ? "translateY(0px)" : "translateY(50px)",
           transition: "opacity 0.6s ease-out, transform 0.6s ease-out",
-          marginTop: "30vh", 
-          marginLeft: "10vw"
+          // marginTop: "30vh", 
         }}
       >
-        <div className="child-column" style={{marginBottom:"-5px"}}>
+        <div className="child-column-center" style={{marginBottom:"-5px"}}>
           {/* <img className="emoji" src="/images/emoji/desktop-computer.webp" alt="emoji"></img> */}
           {/* <GradientH1 fontFamily = "Sofia" fontSize="9rem" text="Fiterview" /> */}
           <GradientH1 fontWeight = "800" fontSize="8rem" letterSpacing = "-7px" text="Fiterview" />
           <p style={{
                       paddingTop:"0px", 
                       marginTop:"0px",
-                      fontSize: "24px"
+                      fontSize: "20px"
                       // marginLeft:"1.5rem"
                       }}>
             AI 면접관과 함께 실전 대비!&nbsp;
-          <strong style={{fontWeight: "600", fontSize: "24px"}}>
-            <DotText dotSize="28px" fontSize = "24px" dotTop="-20px" spacing="12px">맞춤형</DotText>&nbsp;
-            <DotText dotSize="28px" fontSize = "24px" dotTop="-20px" spacing="8px">대학</DotText>&nbsp;
-            <DotText dotSize="28px" fontSize = "24px" dotTop="-20px" spacing="8px">면접</DotText>&nbsp;
-            <DotText dotSize="28px" fontSize = "24px" dotTop="-20px" spacing="8px">연습</DotText>&nbsp;
+          <strong style={{fontWeight: "500", fontSize: "20px"}}>
+            <DotText dotSize="24px" fontSize = "20px" dotTop="-15px" spacing="6px">맞춤형</DotText>&nbsp;
+            <DotText dotSize="24px" fontSize = "20px" dotTop="-15px" spacing="4px">대학</DotText>&nbsp;
+            <DotText dotSize="24px" fontSize = "20px" dotTop="-15px" spacing="4px">면접</DotText>&nbsp;
+            <DotText dotSize="24px" fontSize = "20px" dotTop="-15px" spacing="4px">연습</DotText>&nbsp;
             플랫폼
           </strong>
           </p>          
         </div>
         <CustomButton 
-        variant="text" 
-        bgColor="transparent" 
-        hoverBgColor="transparent" 
-        textColor="var(--text-color)" 
-        hoverTextColor="var(--primary-hover)" 
-        rippleColor="var(--background-color)"
-        margin="-20px 0px"
+        zIndex="9999"
+        variant="contained" 
+        bgColor="var(--background-color)" 
+        hoverBgColor="var(--background-color-light)" 
+        textColor="var(--primary-light)" 
+        hoverTextColor="var(--primary-light)" 
+        rippleColor="var(--primary-lightest)"
+        margin="10px 0px"
         // margin="-10px 1.5rem"
-        padding='0px'
-        endIcon={<FaCaretRight   style={{ color: "var(--primary-hover)" }}/> }
+        // padding='0px'
+        borderRadius="30px"
+        endIcon={<FaCaretRight   style={{ color: "var(--primary-light)" }}/> }
         onClick={() => console.log("clicked")}>
-          <span style={{fontSize:"32px",fontWeight:"700", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
+          <span style={{color:"var(--primary-light)", fontSize:"24px",fontWeight:"400", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
         </CustomButton>
       </div>
     </div>
