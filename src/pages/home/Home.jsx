@@ -9,9 +9,11 @@
 import React, {useState, useEffect} from 'react';
 import { Container } from "@mui/material";
 import NavbarComponent from '../../components/Navbar'
+// import { AnimatedLandingText } from "../../components/AnimatedLandingText"
 import "./Home.css"
 import MainBanner from "./MainBanner.jsx"
 import ServiceIntro from "./ServiceIntro.jsx"
+import KeyFeatures from "./KeyFeatures.jsx"
 
 function Home() {
   /**
@@ -37,9 +39,12 @@ function Home() {
         padding: "0 0",
         overflow: "hidden"
       }}>
-      {/* <NavbarComponent /> */}
-      <MainBanner />
+      {/* <AnimatedLandingText /> */}
+      <NavbarComponent />
+      <MainBanner scrollY={scrollY} />
       <ServiceIntro scrollY={scrollY}/>
+      <KeyFeatures scrollY={scrollY}/>
+      
     </Container>
   );
 }

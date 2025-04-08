@@ -1,28 +1,5 @@
-.gradient-animation {
-    position: relative;
-    overflow: hidden;
-  }
-  
-.gradient-animation::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 30vh; /* 그라데이션 높이 */
-    background: linear-gradient(to top, var(--primary-lightest) 10%, transparent 100%);
-    animation: fadeGradient 3s infinite alternate ease-in-out;
-  }
-@keyframes fadeGradient {
-    0% {
-      opacity: 0.5;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 .gradient-loop {
-    pointer-events: none; /* 클릭 안 막게 */
+    /* pointer-events: none; */
     background: radial-gradient(circle, var(--secondary-light) 0%, var(--primary-lightest) 30%, transparent 70%);
     background-repeat: no-repeat;
     background-position: right;
@@ -33,15 +10,12 @@
 @keyframes pulse {
     0% {
       background-size: 100% 100%;
-      opacity: 1;
     }
     50% {
       background-size: 150% 150%;
-      opacity: 1;
     }
     100% {
       background-size: 100% 100%;
-      opacity: 1;
     }
   }
   
