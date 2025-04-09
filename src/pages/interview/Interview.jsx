@@ -23,8 +23,8 @@ function Interview() {
      * @constant {string} resultLoadingURL - 결과 페이지 URL
      * @constant {string} lastMent - 면접 종료 멘트 
      * */
-    const websocketURL = ""
-    const videoUploadURL = "";
+    const websocketURL = process.env.REACT_APP_WS_URL
+    const videoUploadURL = `${process.env.REACT_APP_API_URL}`
     const resultLoadingURL = ""
     const lastMent = ""
 

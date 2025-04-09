@@ -2,7 +2,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import './InterviewSelfCheck.css';
 import CaptureModal from './CaptureModal.jsx'
 //
-import { TbCameraCheck, TbMoodCheck, TbArrowNarrowLeft, TbArrowNarrowRight, TbCheckbox  } from "react-icons/tb";
+import { TbCameraCheck, TbCheckbox  } from "react-icons/tb";
 
 
 const WebcamCapture = () => {
