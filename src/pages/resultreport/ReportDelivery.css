@@ -1,0 +1,170 @@
+/* ReportDelivery.css */
+
+.reportDeliveryHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 32px;
+  background: linear-gradient(180deg, #f5f7fe 0%, #ffffff 100%);
+}
+
+.reportDeliveryHeaderContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reportDeliveryHeaderText span:first-child {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.reportDeliveryHeaderText span:last-child {
+  font-size: 14px;
+  color: var(--system-gray2);
+}
+
+.reportDeliveryHeaderButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.homeBtn,
+.downloadBtn {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.reportDeliveryScoreBox {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 24px 32px;
+  margin: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.reportDeliveryScoreBox > span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reportDeliveryCharts {
+  display: flex;
+  justify-content: space-around;
+  gap: 16px;
+}
+
+.chartItem {
+  flex: 1;
+  text-align: center;
+}
+
+.chartItem span {
+  display: block;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.reportDeliveryDescriptions {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin-top: 16px;
+}
+
+.reportDeliveryDescriptions li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot.blue {
+  background-color: var(--primary-color);
+}
+
+.dot.red {
+  background-color: #f87070;
+}
+
+.reportDeliveryDetails {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin: 32px;
+}
+
+.detailCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detailCard > span {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.detailCard p span {
+  font-size: 14px;
+}
+
+.iconPlaceholder,
+.wavePlaceholder,
+.graphPlaceholder {
+  width: 48px;
+  height: 48px;
+  background-color: var(--system-gray4);
+  border-radius: 8px;
+}
+
+.tagButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tagButtons button {
+  padding: 6px 12px;
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.reportDeliveryFooter {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px 0 40px;
+}
+
+.reportDeliveryFooter button {
+  background-color: var(--system-gray5);
+  padding: 8px 20px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+}
