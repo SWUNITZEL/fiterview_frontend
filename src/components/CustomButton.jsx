@@ -39,8 +39,8 @@ import styled from "@emotion/styled";
 const CustomStyledButton = styled(Button)`
   margin: ${(props) => props.margin || "0px"};
   font-size: ${(props) => props.fontSize || "20px"};
-  font-weight: bold;
-  color: ${(props) => props.textColor || "var(--button-text, var(--background-color))"}; /* 기본 텍스트 색상 */
+  font-weight: 400;
+  color: ${(props) => props.textColor || "var(--background-color)"}; /* 기본 텍스트 색상 */
   background-color: ${(props) => props.bgColor || "var(--button-bg, var(--primary-color))"}; /* 기본 배경색 */
   border: ${(props) => props.border || "var(--button-border, none)"}; /* 테두리 */
   border-radius: ${(props) => props.borderRadius || "9999px"}; /* 둥글기 */
@@ -48,6 +48,7 @@ const CustomStyledButton = styled(Button)`
   transition: all 0.3s ease-in-out;
 
   &:hover {
+    font-weight: 800;
     background-color: ${(props) => props.hoverBgColor || "var(--button-hover-bg, var(--primary-hover))"}; /* 호버 시 배경 */
     color: ${(props) => props.hoverTextColor || "var(--button-hover-text, var(--background-color))"}; /* 호버 시 텍스트 */
     border: ${(props) => props.hoverBorder || "var(--button-hover-border, none)"}; /* 호버 시 테두리 */

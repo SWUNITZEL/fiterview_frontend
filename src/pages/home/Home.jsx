@@ -40,7 +40,12 @@ function Home() {
         overflow: "hidden"
       }}>
       {/* <AnimatedLandingText /> */}
-      <NavbarComponent />
+      <NavbarComponent 
+      scrollY={scrollY} 
+      bgColor="transparent"
+      textColor="var(--text-color)"
+      isBoxShadow="none"
+      />
       <MainBanner scrollY={scrollY} />
       <ServiceIntro scrollY={scrollY}/>
       <KeyFeatures scrollY={scrollY}/>
