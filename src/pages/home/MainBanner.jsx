@@ -60,9 +60,9 @@ const MainBanner = ({scrollY}) => {
         </div>
         <CustomButton 
         zIndex="9999"
-        variant="contained" 
-        bgColor="var(--background-color)" 
-        hoverBgColor="var(--background-color-light)" 
+        variant="text" 
+        bgColor="transparent" 
+        hoverBgColor="transparent" 
         textColor="var(--primary-light)" 
         hoverTextColor="var(--primary-light)" 
         rippleColor="var(--primary-lightest)"
@@ -72,7 +72,7 @@ const MainBanner = ({scrollY}) => {
         borderRadius="30px"
         endIcon={<FaCaretRight   style={{ color: "var(--primary-light)" }}/> }
         onClick={() => console.log("clicked")}>
-          <span style={{color:"var(--primary-light)", fontSize:"24px",fontWeight:"400", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
+          <span style={{color:"var(--primary-light)", fontSize:"24px", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
         </CustomButton>
       </div>
     </div>
