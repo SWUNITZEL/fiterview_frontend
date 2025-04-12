@@ -1,6 +1,6 @@
 /**
  * @file DocumentCombinationModal.jsx
- * @description 면접 조합 모달 컴포넌트
+ * @description 면접 조합 모달 컴포넌트2
  */
 
 import React from "react";
