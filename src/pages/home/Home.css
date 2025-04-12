@@ -1,0 +1,105 @@
+.gradient-loop {
+    /* pointer-events: none; */
+    background: radial-gradient(circle, var(--secondary-light) 0%, var(--primary-lightest) 30%, transparent 70%);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 0% 0%;
+    animation: pulse 10s ease-in-out infinite;
+  }
+  
+@keyframes pulse {
+    0% {
+      background-size: 100% 100%;
+    }
+    50% {
+      background-size: 150% 150%;
+    }
+    100% {
+      background-size: 100% 100%;
+    }
+  }
+  
+  .messages {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    border-radius: 20px;
+    padding: 8px 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+  
+  .yours {
+    align-items: flex-start;
+  }
+  
+  .yours .message {
+    margin-right: 25%;
+    background-color: var(--system-gray5);
+    position: relative;
+  }
+  
+  .yours .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: -7px;
+    height: 20px;
+    width: 20px;
+    background: var(--system-gray5);
+    border-bottom-right-radius: 15px;
+  }
+  .yours .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: -10px;
+    width: 10px;
+    height: 20px;
+    background: var(--background-color);
+    border-bottom-right-radius: 10px;
+  }
+  
+  .mine {
+    align-items: flex-end;
+  }
+  
+  .mine .message {
+    color: var(--background-color);
+    margin-left: 25%;
+    background: var(--primary-light);
+    background-attachment: fixed;
+    position: relative;
+  }
+  
+  .mine .message.last:before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    right: -8px;
+    height: 20px;
+    width: 20px;
+    background: var(--primary-light);
+    background-attachment: fixed;
+    border-bottom-left-radius: 15px;
+  }
+  
+  .mine .message.last:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: -10px;
+    width: 10px;
+    height: 20px;
+    background: var(--background-color);
+    border-bottom-left-radius: 10px;
+  }
+  
