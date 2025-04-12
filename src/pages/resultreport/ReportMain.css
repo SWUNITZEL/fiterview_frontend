@@ -1,7 +1,7 @@
 .report-container {
   width: 100%;
   min-height: 100vh;
-  background-color: #e5eaff; 
+  background-color: var(--background-color); 
   display: flex;
   flex-direction: column;
 }
@@ -29,7 +29,7 @@
 .report-card {
   width: 90%;
   max-width: 1200px;
-  background-color: white;
+  background-color: var(--background-color);
   border-radius: 20px;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -75,7 +75,7 @@
 }
 
 .nav-button {
-  background-color: #e8f0ff;
+  background-color: var(--background-color);
   color: var(--primary-color);
   border: none;
   border-radius: 15px;

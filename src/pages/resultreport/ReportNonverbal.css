@@ -13,7 +13,7 @@
   padding: 1rem 2rem;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  color: white;
+  color: var(--background-color);
   margin-bottom: 2rem;
 }
 
@@ -23,11 +23,11 @@
 
 .reportNonverbalSubInfo span {
   font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--background-color);
 }
 
 .reportNonverbalButtons button {
-  background-color: white;
+  background-color: var(--background-color);
   color: var(--primary-color);
   border: 1px solid var(--primary-light);
   border-radius: 0.5rem;
@@ -39,16 +39,16 @@
 
 .reportNonverbalButtons .downloadBtn {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--background-color);
 }
 
 .reportNonverbalButtons button:hover {
   background-color: var(--primary-hover);
-  color: white;
+  color: var(--background-color);
 }
 
 .reportNonverbalScoreBox {
-  background: white;
+  background: var(--background-color);
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -90,7 +90,7 @@
 }
 
 .detailCard {
-  background: white;
+  background: var(--background-color);
   padding: 1rem;
   border-radius: 1rem;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
@@ -109,7 +109,7 @@
 
 .nextBtn button {
   background: var(--primary-color);
-  color: white;
+  color: var(--background-color);
   padding: 0.75rem 1.5rem;
   border-radius: 2rem;
   border: none;

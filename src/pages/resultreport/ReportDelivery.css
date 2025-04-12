@@ -32,7 +32,7 @@
 .homeBtn,
 .downloadBtn {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--background-color);
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
@@ -41,7 +41,7 @@
 }
 
 .reportDeliveryScoreBox {
-  background: white;
+  background: var(--background-color);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 24px 32px;
@@ -100,7 +100,7 @@
 }
 
 .dot.red {
-  background-color: #f87070;
+  background-color: var(--system-pink);
 }
 
 .reportDeliveryDetails {
@@ -111,7 +111,7 @@
 }
 
 .detailCard {
-  background: white;
+  background: var(--background-color);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 24px;
@@ -148,7 +148,7 @@
   padding: 6px 12px;
   background-color: var(--primary-color);
   border: none;
-  color: white;
+  color: var(--background-color);
   border-radius: 12px;
   font-size: 12px;
   font-weight: 500;

@@ -48,7 +48,7 @@ const CustomStyledButton = styled(Button)`
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    font-weight: 800;
+    font-weight: 500;
     background-color: ${(props) => props.hoverBgColor || "var(--button-hover-bg, var(--primary-hover))"}; /* 호버 시 배경 */
     color: ${(props) => props.hoverTextColor || "var(--button-hover-text, var(--background-color))"}; /* 호버 시 텍스트 */
     border: ${(props) => props.hoverBorder || "var(--button-hover-border, none)"}; /* 호버 시 테두리 */

@@ -15,7 +15,7 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
   // 스크롤 위치에 따라 색상 변경
     useEffect(() => {
       const handleScroll = () => {
-        if (window.scrollY > scrollY) {
+        if (scrollY > window.innerHeight) {
           setHeaderColor("var(--background-color)");
           setColor("var(--text-color)");
           setBoxShadow("none");
@@ -31,14 +31,14 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
       return () => {
         window.removeEventListener("scroll", handleScroll); // 클린업도 필요
       };
-    }, []);
+    }, [scrollY]);
 
   return (
     <AppBar
       position="fixed"
       style={{
         backgroundColor: headerColor, // 스크롤에 따라 배경색 변경
-        color:textColor,
+        color:color,
         boxShadow: boxShadow,
         backdropFilter: "blur(10px)",
         transition: "background-color 0.3s ease-out", // 색상 변경에 부드러운 전환 효과
@@ -49,7 +49,7 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
       <Toolbar style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
   <div style={{
     width: '100%',
-    maxWidth: '700px',
+    maxWidth: '770px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',

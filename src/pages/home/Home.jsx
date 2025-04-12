@@ -14,6 +14,7 @@ import "./Home.css"
 import MainBanner from "./MainBanner.jsx"
 import ServiceIntro from "./ServiceIntro.jsx"
 import KeyFeatures from "./KeyFeatures.jsx"
+import CallToAction from "./CallToAction.jsx"
 
 function Home() {
   /**
@@ -49,6 +50,8 @@ function Home() {
       <MainBanner scrollY={scrollY} />
       <ServiceIntro scrollY={scrollY}/>
       <KeyFeatures scrollY={scrollY}/>
+      <CallToAction scrollY={scrollY}/>
+      
       
     </Container>
   );

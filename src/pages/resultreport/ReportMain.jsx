@@ -1,6 +1,8 @@
 import { Radar } from "react-chartjs-2"
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from "chart.js"
+
 import "./ReportMain.css"
+import NavbarComponent from '../../components/Navbar'
 
 // Register Chart.js components
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend)
@@ -14,12 +16,12 @@ const ReportMain = () => {
         label: "면접 결과",
         data: [80, 70, 75, 65, 85],
         backgroundColor: "rgba(23, 86, 230, 0.2)",
-        borderColor: "rgba(23, 86, 230, 1)",
+        borderColor: "var(--primary-color)",
         borderWidth: 2,
-        pointBackgroundColor: "rgba(23, 86, 230, 1)",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "rgba(23, 86, 230, 1)",
+        pointBackgroundColor: "var(--primary-color)",
+        pointBorderColor: "var(--background-color)",
+        pointHoverBackgroundColor: "var(--background-color)",
+        pointHoverBorderColor: "var(--primary-color)",
       },
     ],
   }
@@ -30,7 +32,7 @@ const ReportMain = () => {
       r: {
         angleLines: {
           display: true,
-          color: "rgba(0, 0, 0, 0.1)",
+          color: "var(--system-gray)",
         },
         suggestedMin: 0,
         suggestedMax: 100,
@@ -50,10 +52,11 @@ const ReportMain = () => {
 
   return (
     <div className="report-container">
-      <div className="report-header">
-        <h1 className="report-title">JOBADREAM</h1>
-      </div>
-
+      <NavbarComponent 
+      bgColor="transparent"
+      textColor="var(--text-color)"
+      isBoxShadow="none"
+      />
       <div className="report-content">
         <div className="report-card">
           <div className="report-info">
