@@ -1,6 +1,6 @@
 /**
  * @file DocumentSelection.jsx
- * @description 면접 문서 선택 페이지 컴포넌트
+ * @description 면접 문서 선택 페이지 컴포넌트2
  */
 
 import React, { useState } from "react";
