@@ -17,6 +17,7 @@
   --gradient-1: linear-gradient(to right, var(--primary-hover) 50%, var(--tertiary-hover) 100%);
   --gradient-2: linear-gradient(90deg, var(--primary-light), var(--tertiary-color));
   --gradient-3: linear-gradient(90deg, #A9CDF9, #FEB6AB);
+  --gradient-4: linear-gradient(to top,#A9CDF9, #d1e2f0, transparent);
 
 
   --text-color: #091D25;

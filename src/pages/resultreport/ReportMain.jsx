@@ -9,19 +9,24 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, 
 
 const ReportMain = () => {
   // Chart.js 데이터 설정
+  const rootStyles = getComputedStyle(document.documentElement);
+  const primaryHoverColor = rootStyles.getPropertyValue('--primary-hover').trim();
+
   const data = {
-    labels: ["전공적합성", "창의도", "테도", "전달력", "화력"],
+    university:"서울여자대학교",
+    department:"소프트웨어융합학과",
+    labels: ["전공적합성", "침착성", "태도", "전달력", "집중도"],
     datasets: [
       {
         label: "면접 결과",
         data: [80, 70, 75, 65, 85],
         backgroundColor: "rgba(23, 86, 230, 0.2)",
-        borderColor: "var(--primary-color)",
-        borderWidth: 2,
-        pointBackgroundColor: "var(--primary-color)",
-        pointBorderColor: "var(--background-color)",
-        pointHoverBackgroundColor: "var(--background-color)",
-        pointHoverBorderColor: "var(--primary-color)",
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        borderColor: primaryHoverColor,
+        borderWidth: 3,
+        pointBackgroundColor: primaryHoverColor,
+        pointBorderColor: "rgba(23, 86, 230, 0.2)",
       },
     ],
   }
@@ -57,23 +62,23 @@ const ReportMain = () => {
       textColor="var(--text-color)"
       isBoxShadow="none"
       />
-      <div className="report-content">
-        <div className="report-card">
-          <div className="report-info">
-            <h2 className="university-info">XX대학 XX학과</h2>
+      <div className="report-content child-column-center">
+      <div className="report-info">
+            <h2 className="university-info">{data.university} {data.department}</h2>
             <h3 className="interview-info">모의면접 결과</h3>
           </div>
-
+        <div className="report-card">
+          
           <div className="report-data">
             <div className="chart-container">
               <Radar data={data} options={options} />
             </div>
 
             <div className="navigation-buttons">
-              <button className="nav-button">비언어적 커뮤니케이션 분석 결과</button>
-              <button className="nav-button">전달력 분석 결과</button>
-              <button className="nav-button">답변 구성 분석 결과</button>
-              <button className="nav-button">비교 분석 결과</button>
+              <button className="nav-button neumorphic-box">비언어적 커뮤니케이션 분석 결과</button>
+              <button className="nav-button neumorphic-box">전달력 분석 결과</button>
+              <button className="nav-button neumorphic-box">답변 구성 분석 결과</button>
+              <button className="nav-button neumorphic-box">비교 분석 결과</button>
             </div>
           </div>
         </div>

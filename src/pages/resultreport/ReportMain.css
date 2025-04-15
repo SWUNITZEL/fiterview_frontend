@@ -12,7 +12,7 @@
 }
 
 .report-title {
-  color: var(--primary-color);
+  color: var(--primary-hover);
   font-weight: 700;
   font-size: 1rem;
   margin: 0;
@@ -24,15 +24,24 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
+  background: var(--gradient-4);
 }
 
 .report-card {
+  height: 100%;
+  max-height: 500px;
   width: 90%;
-  max-width: 1200px;
-  background-color: var(--background-color);
+  max-width: 1000px;
+  background-color: rgba(247, 247, 251, 0.7); /* 반투명 흰색 */
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  /* glass effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2); /* 부드러운 테두리 */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* 더 깊은 그림자 */
 }
 
 .report-info {
@@ -41,14 +50,15 @@
 }
 
 .university-info {
-  color: var(--primary-color);
+  color: var(--text-color);
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
 .interview-info {
-  color: var(--text-color);
+  color: var(--system-gray);
   font-size: 1.2rem;
+  font-weight: 600;
   margin-top: 0;
 }
 
@@ -61,9 +71,10 @@
 
 .chart-container {
   flex: 1;
-  height: 350px;
+  height: 250px;
   position: relative;
   max-width: 50%; 
+  padding: 2rem;
 }
 
 .navigation-buttons {
@@ -72,26 +83,34 @@
   flex-direction: column;
   gap: 1rem;
   justify-content: center;
+  padding: 1rem;
 }
 
 .nav-button {
-  background-color: var(--background-color);
-  color: var(--primary-color);
-  border: none;
-  border-radius: 15px;
+  background: var(--background-color);
+  color: var(--system-darkgray);
+  border: none; /* 2px solid var(--primary-hover); */
   padding: 1rem;
-  font-family: "Freesentation", sans-serif;
+  font-family: "Freesentation";
   font-weight: 500;
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
+  border-radius: 20px;
+  border-radius: 20px;
 }
 
 .nav-button:hover {
-  background-color: var(--primary-lightest);
-  transform: translateY(-2px);
+  transform: scale(0.99);
+  color: var(--text-color);
+  background-color: #e9e9ed;
+  /* background: rgba(var(--background-color-shadow), 1); */
+  border-radius: 20px;
+  box-shadow:
+    inset 6px 6px 10px rgba(91, 91, 93, 0.05),
+    inset -6px -6px 10px var(--background-color-shadow);
 }
 
 /* 반응형 디자인 */
