@@ -63,4 +63,3 @@ export default function DotText({ children, dotColor, dotSize, dotTop, spacing, 
     </Wrapper>
   );
 }
-
