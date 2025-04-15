@@ -55,22 +55,44 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
     alignItems: 'center',
   }}>
     {/* 왼쪽: 홈 아이콘 */}
-    <IconButton color="inherit" style={{ padding: "8px", margin: "0px" }} onClick={() => { navigate("/home") }}>
+    <IconButton 
+      color="inherit" 
+      onClick={() => { navigate("/home") }} 
+      sx={{
+        padding: "4px",      // 클릭 영역 최소화
+        width: "32px",       // 원하는 크기로 제한
+        height: "32px", 
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "0px"
+      }}
+    >
       <FaCartShopping size="1.2rem" />
     </IconButton>
 
     {/* 오른쪽: 버튼들 */}
     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button color="inherit">
+      <Button color="inherit"
+        sx={{
+          whiteSpace: "nowrap", // 줄바꿈 방지
+          padding: "6px 12px",
+          minWidth: "auto",     // 자동 너비
+        }}>
         <span>모의 면접</span>
       </Button>
-      <Button color="inherit">
+      <Button color="inherit"
+      sx={{
+        whiteSpace: "nowrap", // 줄바꿈 방지
+        padding: "6px 12px",
+        minWidth: "auto",     // 자동 너비
+      }}>
         <span>내 히스토리</span>
       </Button>
       <CustomButton 
       variant="outlined" 
       fontSize="16px"
-      hoverBgColor="var(--tertiary-color)"
+      hoverBgColor="var(--primary-lightest)"
       bgColor="var(--primary-light)"
       onClick={() => { navigate("/login") }}>
         <span style={{fontWeight: "400",color:"var(--background-color)"}}>로그인</span>

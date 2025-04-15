@@ -46,6 +46,8 @@ const CustomStyledButton = styled(Button)`
   border-radius: ${(props) => props.borderRadius || "9999px"}; /* 둥글기 */
   padding: ${(props) => props.padding || "2px 20px"}; /* 패딩 */
   transition: all 0.3s ease-in-out;
+  width: fit-content;
+  white-space: nowrap;
 
   &:hover {
     font-weight: 500;
