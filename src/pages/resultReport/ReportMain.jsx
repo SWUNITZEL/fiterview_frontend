@@ -67,7 +67,7 @@ const ReportMain = () => {
             <h2 className="university-info">{data.university} {data.department}</h2>
             <h3 className="interview-info">모의면접 결과</h3>
           </div>
-        <div className="report-card">
+        <div className="report-card child-row-center">
           
           <div className="report-data">
             <div className="chart-container">

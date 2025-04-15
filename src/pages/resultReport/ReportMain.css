@@ -83,7 +83,7 @@
   flex-direction: column;
   gap: 1rem;
   justify-content: center;
-  padding: 1rem;
+  padding-left:2rem;
 }
 
 .nav-button {
@@ -97,20 +97,22 @@
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  width: 100%;
-  border-radius: 20px;
-  border-radius: 20px;
+  width: 350px;
+  /* max-width: 300px; */
+  border-radius: 9999px;
+  box-shadow:
+    8px 8px 16px #d6e1ee,
+    -8px -8px 16px #eaf2ff;
 }
 
 .nav-button:hover {
-  transform: scale(0.99);
+  /* transform: scale(0.99); */
   color: var(--text-color);
-  background-color: #e9e9ed;
+  background-color:  #eaf2ff;
   /* background: rgba(var(--background-color-shadow), 1); */
-  border-radius: 20px;
   box-shadow:
     inset 6px 6px 10px rgba(91, 91, 93, 0.05),
-    inset -6px -6px 10px var(--background-color-shadow);
+    inset -6px -6px 10px #d6e1ee;
 }
 
 /* 반응형 디자인 */
