@@ -9,9 +9,10 @@ import "./pages/document/DocumentSelection.css";
 import Practice from "./pages/practice/Practice";
 import InterviewTypeSelection from "./pages/interview/InterviewTypeSelection.jsx";
 import Interview from "./pages/interview/Interview.jsx";
-import ReportMain from "./pages/resultReport/ReportMain";
-import ReportNonverbal from "./pages/resultReport/ReportNonverbal";
-import ReportDelivery from "./pages/resultReport/ReportDelivery";
+import ReportMain from './pages/resultReport/ReportMain';
+import ReportNonverbal from './pages/resultReport/ReportNonverbal';
+import ReportDelivery from './pages/resultReport/ReportDelivery';
+import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
 
 const RouterConfig = () => {
   return (
@@ -27,6 +28,7 @@ const RouterConfig = () => {
       <Route path="/result" element={<ReportMain />} />
       <Route path="/result/nonverbal" element={<ReportNonverbal />} />
       <Route path="/result/delivery" element={<ReportDelivery />} />
+      <Route path="/result/analysis-by-an-answer" element={<ReportAnswerAnalysis />} />
     </Routes>
   );
 };
