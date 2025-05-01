@@ -154,7 +154,7 @@ function Interview() {
     const startRecording = async () => {
         setRecording(true);
         const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        mediaRecorder.current = new MediaRecorder(stream, { mimeType: 'video/mp4' });
+        mediaRecorder.current = new MediaRecorder(stream, { mimeType: 'video/webm' });
 
         // 녹화 이벤트 발생 시 실행
         mediaRecorder.current.ondataavailable = (event) => {
@@ -175,7 +175,7 @@ function Interview() {
         mediaRecorder.current.stop();
 
         mediaRecorder.current.onstop = () => {
-            const blob = new Blob(recordedChunks.current, { type: 'video/mp4' });
+            const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
             setVideoChunks(prevChunks => [...prevChunks, blob]);
             recordedChunks.current = []; //레코드 저장 공간 리셋
             
@@ -191,14 +191,63 @@ function Interview() {
      * @function sendAudioToServer
      * @description 답변 종료 시 저장된 비디오의 오디오를 소켓으로 전송
      */
+    const encodeWAV = (audioBuffer) => {
+        const numOfChan = audioBuffer.numberOfChannels;
+        const length = audioBuffer.length * numOfChan * 2 + 44;
+        const buffer = new ArrayBuffer(length);
+        const view = new DataView(buffer);
+    
+        // RIFF chunk descriptor
+        writeString(view, 0, 'RIFF');
+        view.setUint32(4, 36 + audioBuffer.length * numOfChan * 2, true);
+        writeString(view, 8, 'WAVE');
+    
+        // FMT sub-chunk
+        writeString(view, 12, 'fmt ');
+        view.setUint32(16, 16, true); // SubChunk1Size
+        view.setUint16(20, 1, true);  // PCM
+        view.setUint16(22, numOfChan, true);
+        view.setUint32(24, audioBuffer.sampleRate, true);
+        view.setUint32(28, audioBuffer.sampleRate * numOfChan * 2, true);
+        view.setUint16(32, numOfChan * 2, true);
+        view.setUint16(34, 16, true); // bits/sample
+    
+        // data sub-chunk
+        writeString(view, 36, 'data');
+        view.setUint32(40, audioBuffer.length * numOfChan * 2, true);
+    
+        // write interleaved PCM samples
+        let offset = 44;
+        for (let i = 0; i < audioBuffer.length; i++) {
+            for (let channel = 0; channel < numOfChan; channel++) {
+                const sample = audioBuffer.getChannelData(channel)[i];
+                const s = Math.max(-1, Math.min(1, sample));
+                view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+                offset += 2;
+            }
+        }
+    
+        return new Blob([view], { type: 'audio/wav' });
+    };
+    
+    const writeString = (view, offset, string) => {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
+    };
+    
     const extractAndSendAudio = (videoBlob) => {
         const audioContext = new AudioContext();
         const reader = new FileReader();
         reader.readAsArrayBuffer(videoBlob);
         reader.onloadend = async () => {
-            const audioBuffer = await audioContext.decodeAudioData(reader.result);
-            const wavBlob = new Blob([audioBuffer], { type: 'audio/mp3' });
-            sendAudioToServer(wavBlob);
+            try {
+                const audioBuffer = await audioContext.decodeAudioData(reader.result);
+                const wavBlob = encodeWAV(audioBuffer); // <-- WAV로 인코딩
+                sendAudioToServer(wavBlob);
+            } catch (err) {
+                console.error("오디오 추출 실패:", err);
+            }
         };
     };
     const sendAudioToServer = (audioBlob) => {
