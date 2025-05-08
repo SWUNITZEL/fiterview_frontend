@@ -4,7 +4,8 @@
  */
 
 import React from "react";
-import "./DocumentCombinationModal.css";
+import "./AIMock.css";
+
 
 /**
  * @component DocumentCombinationModal
