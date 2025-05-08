@@ -1,0 +1,279 @@
+/**
+ * @file AIMock.css
+ * @description 면접 조합 모달의 스타일 정의2
+ */
+ .dropzone {
+  border: 2px dashed var(--background-color);
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--background-color) 0.2s ease;
+  width: 300px;
+  margin: 0 auto;
+}
+.dropzone:hover {
+  background-color: var(--primary-lightest);
+}
+.icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+}
+.main-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.sub-text {
+  font-size: 13px;
+  color: var(--system-gray);
+  margin-top: 5px;
+}
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background: var(--background-color);
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  text-align: center;
+}
+
+.modalContent h2 {
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input[type="text"], select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+button {
+  background: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+button:hover {
+  background: var(--primary-hover-color);
+}
+
+/* ### Tabs ### */
+.tabs-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background-color: var(--background-color);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.tab-button:hover {
+  background-color: var(--background-color);
+}
+
+.tab-button.active {
+  background-color:var(--background-color);
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.tab-content {
+  border: 1px solid var(--background-color);
+  padding: 20px;
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+/* ### Tabs Contents ### */
+.timeline {
+  position: relative;
+  padding-bottom: 30px; /* 마지막 원 높이의 절반만큼 줘야 끊긴 듯 보임 */
+}
+
+.timeline-step {
+  display: flex;
+  position: relative;
+  min-height: 80px;
+  padding-bottom: 40px;
+  z-index: 1; /* 선보다 위에 오게 */
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 40px;
+  width: 2px;
+  height: calc(100%);
+  background-color: var(--system-gray5);
+  z-index: 0;
+}
+
+/* 마지막 단계의 선을 제거 */
+.timeline-step:last-child::before {
+  display: none;
+}
+
+/* 기존 스타일 */
+.circle-line-wrapper {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circle {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  text-align: center;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  z-index: 1;
+}
+
+/* 나머지 스타일 */
+.step-detail {
+  padding-left: 50px;
+  font-size: 16px;
+  flex: 1;
+}
+
+.step-detail h3 {
+  margin-top: 10px;
+  font-size: 24px;
+}
+
+.step-detail p {
+  color: var(--system-gray);
+}
+
+.button-group button {
+  margin-right: 10px;
+  padding: 6px 12px;
+  color: var(--system-gray);
+  background-color: var(--system-gray6);
+  border: 1px solid var(--system-gray5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.step-image {
+  margin-top: 12px;
+  max-width: 300px;
+  border-radius: 8px;
+  border: 1px solid var(--system-gray);
+}
+
+/* ### PostUploadContents ### */
+.statics-container {
+  padding: 30px;
+  border-radius: 10px;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.statics-container h1 {
+  color: var(--primary-color);
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.statics-container h3 {
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.category-buttons button {
+  padding: 8px 16px;
+  border: 1px solid var(--text-color);
+  border-radius: 20px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  cursor: pointer;
+  width: fit-content;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.category-buttons button.active {
+  border: 2px solid var(--primary-color);
+  background-color: var(--background-color);
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.search-button {
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.search-button:hover {
+  background-color: var(--primary-hover);
+}

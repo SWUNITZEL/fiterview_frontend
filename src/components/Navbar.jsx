@@ -78,7 +78,9 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
           whiteSpace: "nowrap", // 줄바꿈 방지
           padding: "6px 12px",
           minWidth: "auto",     // 자동 너비
-        }}>
+        }}
+        onClick={() => { navigate("/ai-mock") }}
+        >
         <span>모의 면접</span>
       </Button>
       <Button color="inherit"
@@ -87,7 +89,7 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
         padding: "6px 12px",
         minWidth: "auto",     // 자동 너비
       }}>
-        <span>내 히스토리</span>
+        <span >내 히스토리</span>
       </Button>
       <CustomButton 
       variant="outlined" 

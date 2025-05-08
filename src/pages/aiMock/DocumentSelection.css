@@ -16,7 +16,7 @@ h1, h2 {
 
 button {
   background: var(--primary-color);
-  color: white;
+  color:var(--background-color);
   border: none;
   padding: 10px 20px;
   cursor: pointer;
