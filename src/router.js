@@ -4,10 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import InterviewSelfCheck from "./pages/interview/InterviewSelfCheck.jsx";
-import DocumentSelection from "./pages/document/DocumentSelection.jsx";
-import "./pages/document/DocumentSelection.css";
-import Practice from "./pages/practice/Practice";
-import InterviewTypeSelection from "./pages/interview/InterviewTypeSelection.jsx";
+import AIMock from "./pages/aiMock/AIMock.jsx";
 import Interview from "./pages/interview/Interview.jsx";
 import ReportMain from './pages/resultReport/ReportMain';
 import ReportNonverbal from './pages/resultReport/ReportNonverbal';
@@ -21,9 +18,7 @@ const RouterConfig = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/self-check" element={<InterviewSelfCheck />} />
-      <Route path="/document-selection" element={<DocumentSelection />} />
-      <Route path="/practice" element={<Practice />} />
-      <Route path="/interview-type" element={<InterviewTypeSelection />} />
+      <Route path="/ai-mock" element={<AIMock />} />
       <Route path="/interview" element={<Interview />} />
       <Route path="/result" element={<ReportMain />} />
       <Route path="/result/nonverbal" element={<ReportNonverbal />} />
