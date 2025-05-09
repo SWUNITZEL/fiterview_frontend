@@ -26,13 +26,13 @@ const Dots = styled.div`
 
 const Dot = styled.span`
   font-size: ${(props) => props.dotSize || "20px"};
-  color: ${(props) => props.dotColor || "var(--text-color)"};
+  color: ${(props) => props.dotColor || "var(--font-body)"};
 `;
 
 const Text = styled.span`
   font-size: ${(props) => props.fontSize || "20px"};
   font-weight: bold;
-  color: ${(props) => props.textColor || "var(--text-color)"};
+  color: ${(props) => props.textColor || "var(--font-body)"};
 `;
 
 /**

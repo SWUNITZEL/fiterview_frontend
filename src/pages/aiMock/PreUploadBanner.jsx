@@ -8,7 +8,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-import { TbSquareRoundedArrowUp   } from "react-icons/tb";
+import { CloudArrowUpIcon    } from "@heroicons/react/24/solid";
 
 const PreUploadBanner = () => {
 
@@ -53,7 +53,7 @@ const PreUploadBanner = () => {
         <div className="child-column">
             <div {...getRootProps()} className="dropzone">
                 <input {...getInputProps()} />
-                <TbSquareRoundedArrowUp className='icon' />
+                <CloudArrowUpIcon  className='icon' />
                 <p className="main-text">클릭 혹은 파일을 이곳에 드롭하세요.</p>
                 <p className="sub-text">파일당 최대 40MB</p>
             </div>

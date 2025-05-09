@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from "./CustomButton"
 import { AppBar, Toolbar, Button, IconButton } from '@mui/material';
-import { FaCartShopping } from "react-icons/fa6"; // Cart icon
+import { HeartIcon  } from '@heroicons/react/24/solid';
 
 const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
   const navigate = useNavigate(); 
@@ -17,11 +17,11 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
       const handleScroll = () => {
         if (scrollY > window.innerHeight) {
           setHeaderColor("var(--background-color)");
-          setColor("var(--text-color)");
+          setColor("var(--font-body)");
           setBoxShadow("none");
         } else {
           setHeaderColor("transparent");
-          setColor("var(--text-color)");
+          setColor("var(--font-body)");
           setBoxShadow("none");
         }
       };
@@ -68,7 +68,7 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
         margin: "0px"
       }}
     >
-      <FaCartShopping size="1.2rem" />
+      <HeartIcon />
     </IconButton>
 
     {/* 오른쪽: 버튼들 */}
@@ -94,8 +94,8 @@ const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
       <CustomButton 
       variant="outlined" 
       fontSize="16px"
-      hoverBgColor="var(--primary-lightest)"
-      bgColor="var(--primary-light)"
+      hoverBgColor="var(--primary-20)"
+      bgColor="var(--primary-60)"
       onClick={() => { navigate("/login") }}>
         <span style={{fontWeight: "400",color:"var(--background-color)"}}>로그인</span>
       </CustomButton>

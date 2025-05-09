@@ -9,7 +9,7 @@ import React, { useCallback } from 'react';
 import { Button } from "@mui/material";
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-import { TbChevronRight, TbSquareRoundedArrowUp   } from "react-icons/tb";
+import { ChevronRightIcon , CloudArrowUpIcon } from "@heroicons/react/24/solid";
 
 const PostUploadBanner = () => {
 
@@ -50,12 +50,12 @@ const PostUploadBanner = () => {
         <div className="child-column">
             <h1>등록한 생기부로
             <br />모의면접 하러가기</h1>
-            <Button endIcon={<TbChevronRight  />}><span>바로시작</span></Button>
+            <Button endIcon={<ChevronRightIcon   />}><span>바로시작</span></Button>
         </div>
         <div className="child-column">
             <div {...getRootProps()} className="dropzone">
                 <input {...getInputProps()} />
-                <TbSquareRoundedArrowUp className='icon' />
+                <CloudArrowUpIcon  className='icon' />
                 <p className="main-text">클릭 혹은 파일을 이곳에 드롭하세요.</p>
                 <p className="sub-text">파일당 최대 40MB</p>
             </div>

@@ -9,7 +9,7 @@
 }
 /* 녹화 버튼! */
 .interview > .header > .record-state {
-    background-color: var(--system-gray);
+    background-color: var(--nuetral-60);
     border: 0;
     color: var(--background-color);
     border-radius: 30px;
@@ -30,7 +30,7 @@
     font-weight: bold;
 }
 .interview > .header > .record-state-after {
-    background-color: var(--system-red);
+    background-color: var(--error-80);
     border: 0;
     color: var(--background-color);
     border-radius: 30px;
@@ -55,7 +55,7 @@
 .main-video {
     width: 80%;
     height: 100%;
-    background-color: var(--system-gray);
+    background-color: var(--nuetral-60);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,8 +72,6 @@
     top: 58%; /* Start positioning the image from the center vertically */
     left: 50%; /* Start positioning the image from the center horizontally */
     transform: translate(-50%, -50%); /* Translate the image back by 50% of its width and height to truly center it */
-
-    box-shadow: 0 0 30px var(--system-gray);
 }
 .interviewer-c{
     width: 70vw;
@@ -84,6 +82,4 @@
     top: 58%; /* Start positioning the image from the center vertically */
     left: 50%; /* Start positioning the image from the center horizontally */
     transform: translate(-50%, -50%); /* Translate the image back by 50% of its width and height to truly center it */
-
-    box-shadow: 0 0 30px var(--primary-light);
 }
