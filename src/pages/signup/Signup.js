@@ -1,7 +1,7 @@
 import { useState } from "react"
-import "./MainSignup.css"
+import "./Signup.css"
 
-function MainSignup() {
+function Signup() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -79,4 +79,4 @@ function MainSignup() {
   )
 }
 
-export default MainSignup
+export default Signup

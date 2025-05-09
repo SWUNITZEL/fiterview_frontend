@@ -41,8 +41,8 @@ const CustomStyledButton = styled(Button)`
   font-size: ${(props) => props.fontSize || "20px"};
   font-weight: 400;
   color: ${(props) => props.textColor || "var(--background-color)"}; /* 기본 텍스트 색상 */
-  background-color: ${(props) => props.bgColor || "var(--button-bg, var(--primary-color))"}; /* 기본 배경색 */
-  border: ${(props) => props.border || "var(--button-border, none)"}; /* 테두리 */
+  background-color: ${(props) => props.bgColor || "var(--primary-60)"}; /* 기본 배경색 */
+  border: ${(props) => props.border || "none"}; /* 테두리 */
   border-radius: ${(props) => props.borderRadius || "9999px"}; /* 둥글기 */
   padding: ${(props) => props.padding || "2px 20px"}; /* 패딩 */
   transition: all 0.3s ease-in-out;
@@ -51,13 +51,13 @@ const CustomStyledButton = styled(Button)`
 
   &:hover {
     font-weight: 500;
-    background-color: ${(props) => props.hoverBgColor || "var(--button-hover-bg, var(--primary-hover))"}; /* 호버 시 배경 */
-    color: ${(props) => props.hoverTextColor || "var(--button-hover-text, var(--background-color))"}; /* 호버 시 텍스트 */
-    border: ${(props) => props.hoverBorder || "var(--button-hover-border, none)"}; /* 호버 시 테두리 */
+    background-color: ${(props) => props.hoverBgColor || "var(--primary-70)"}; /* 호버 시 배경 */
+    color: ${(props) => props.hoverTextColor || "var(--background-color)"}; /* 호버 시 텍스트 */
+    border: ${(props) => props.hoverBorder || "none"}; /* 호버 시 테두리 */
   }
   
   .MuiTouchRipple-root .MuiTouchRipple-rippleVisible {
-    color: ${(props) => props.rippleColor || "var(--primary-lightest)"};
+    color: ${(props) => props.rippleColor || "var(--primary-20)"};
   }
 `;
 

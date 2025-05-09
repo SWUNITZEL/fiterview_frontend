@@ -8,7 +8,7 @@
 
 import React, {useState, useEffect} from 'react';
 
-import { FaCaretRight } from "react-icons/fa6";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import DotText from "../../components/DotText";
 import CustomButton from "../../components/CustomButton";
 import {GradientH1} from "../../components/CustomH1";
@@ -63,16 +63,16 @@ const MainBanner = ({scrollY}) => {
         variant="text" 
         bgColor="transparent" 
         hoverBgColor="transparent" 
-        textColor="var(--primary-light)" 
-        hoverTextColor="var(--primary-light)" 
-        rippleColor="var(--primary-lightest)"
+        textColor="var(--primary-40)" 
+        hoverTextColor="var(--primary-40)" 
+        rippleColor="var(--primary-20)"
         margin="10px 0px"
         // margin="-10px 1.5rem"
         // padding='0px'
         borderRadius="30px"
-        endIcon={<FaCaretRight   style={{ color: "var(--primary-light)" }}/> }
+        endIcon={<ChevronRightIcon   style={{ color: "var(--primary-40)" }}/> }
         onClick={() => console.log("clicked")}>
-          <span style={{color:"var(--primary-light)", fontSize:"24px", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
+          <span style={{color:"var(--primary-40)", fontSize:"24px", letterSpacing:"-1px"}}>지금 바로 시작하기</span>
         </CustomButton>
       </div>
     </div>

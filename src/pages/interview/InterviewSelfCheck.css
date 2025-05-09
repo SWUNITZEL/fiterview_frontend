@@ -24,14 +24,10 @@
   z-index: 10;
   padding: 2em;
   padding-bottom: 3em;
-  color: var(--text-color);
+  color: var(--font-body);
 
   /* From https://css.glass */
-  background: rgba(251, 252, 255, 0.7);
-  border-radius: 16px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: var(--info-10);
   border: 0;
 }
 .checklist > .head{
@@ -42,8 +38,7 @@
   /* 헤드부분 */
   margin-bottom: 10px;
   margin-top: 0px;
-  /* text-shadow: 0 0 10px #fff; */
-  background:  var(--sub-linear-gradient) border-box;
+  background:  linear-gradient(to top, var(--primary-60), var(--primary-20)) border-box;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -53,7 +48,7 @@
   /* h1 헤드 그라데이션 */
   text-align: left;
   font: 3rem 'Oswald', Arial, sans-serif;
-  color: #006aff;
+  color: var(--primary-60);
 }
 .head > p {
   font-size: 1.5rem;
@@ -72,22 +67,9 @@
   text-align: left;
 
   /* From https://css.glass */
-  background: var(--white-blur);
+  background: var(--background-color);
   border-radius: 16px;
-  box-shadow: 0 0 10px rgba(140, 180, 255, 0.3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   border: 0;
-}
-
-.checklist > ul > li {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 5px;
-} 
-
-.checklist > ul > li > .ion-icon{
-  font-size: 1.1rem;
 }
 /* ============================================================ */
 /* 버튼 */
@@ -95,18 +77,11 @@
   --r:40px; /* radius */
   --b:3px; /* border width */
   
-  background:  var(--sub-linear-gradient) border-box;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background-color:  var(--primary-20);
   color: transparent;
-  border: var(--b) solid transparent;
-  border-radius: var(--r);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-
   height: 60px;
   margin: 0 auto;
   position: relative;
@@ -114,35 +89,16 @@
   text-decoration: none;
   width: 264px;
 }
-/* check lined question for the detail of the below code */
-.gradientButton::before {
-  content:"";
-  position:absolute;
-  z-index:-1;
-  inset: 0;
-  border: var(--b) solid transparent;
-  border-radius: var(--r);
-  background: inherit;
-  background-origin: border-box;
-  background-clip: border-box;
-  -webkit-mask:
-    linear-gradient(#fff 0 0) padding-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
-  -webkit-mask-repeat: no-repeat;
-}
-/**/
 .gradientButton:hover {
-  color: #fff;
-  -webkit-text-fill-color: #fff;
+  color: var(--nuetral-10);
+  background-color: var(--primary-60);
+  -webkit-text-fill-color: var(--nuetral-10);
   -webkit-background-clip: border-box;
   background-clip: border-box;
 }
 
 .gradientButton:hover::before {
-  color: #fff;
-  -webkit-mask:none;
+  color: var(--nuetral-10);
 }
 /* ============================================================ */
 /* 모달 */
@@ -153,24 +109,7 @@
   height: 100vh; /* 화면 높이에 맞춤*/
   align-items: center;
   padding: 1em;
-  color: #fff;
-
-  /* From https://css.glass */
-  background: rgba(10, 13, 27, 0.5);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(8.4px);
-  -webkit-backdrop-filter: blur(8.4px);
-  border: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.picModal > h1{
-  padding-top: 50px;
-  font-size: 3rem;
-  margin: 0;
-}
-.picModal > h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
+  color:  var(--nuetral-10);
 }
 
 .modal-pic{
@@ -178,7 +117,6 @@
   width: fit-content;
   margin: auto;
   border-radius: 10px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
   overflow: hidden;
 }
 .modal-pic > img{

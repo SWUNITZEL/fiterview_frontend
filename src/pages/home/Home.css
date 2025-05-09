@@ -1,6 +1,6 @@
 .gradient-loop {
   /* pointer-events: none; */
-  background: radial-gradient(circle, var(--secondary-light) 0%, var(--primary-lightest) 30%, transparent 70%);
+  background: radial-gradient(circle, var(--secondary-light) 0%, var(--primary-40) 30%, transparent 70%);
   background-repeat: no-repeat;
   background-position: right;
   background-size: 0% 0%;
@@ -39,7 +39,7 @@
 
 .yours .message {
   margin-right: 25%;
-  background-color: var(--system-gray5);
+  background-color: var(--nuetral-50);
   position: relative;
 }
 
@@ -51,7 +51,7 @@
   left: -7px;
   height: 20px;
   width: 20px;
-  background: var(--system-gray5);
+  background: var(--nuetral-50);
   border-bottom-right-radius: 15px;
 }
 .yours .message.last:after {
@@ -73,7 +73,7 @@
 .mine .message {
   color: var(--background-color);
   margin-left: 25%;
-  background: var(--primary-light);
+  background: var(--primary-40);
   background-attachment: fixed;
   position: relative;
 }
@@ -86,7 +86,7 @@
   right: -8px;
   height: 20px;
   width: 20px;
-  background: var(--primary-light);
+  background: var(--primary-40);
   background-attachment: fixed;
   border-bottom-left-radius: 15px;
 }

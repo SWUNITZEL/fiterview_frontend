@@ -2,7 +2,9 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 import './InterviewSelfCheck.css';
 import CaptureModal from './CaptureModal.jsx'
 //
-import { TbCameraCheck, TbCheckbox  } from "react-icons/tb";
+import {
+  CameraIcon, CheckCircleIcon
+} from '@heroicons/react/24/solid'
 
 
 const WebcamCapture = () => {
@@ -86,7 +88,7 @@ const WebcamCapture = () => {
 
         
         <div className='head'>
-          <div className='cam'><TbCameraCheck /></div>
+          <div className='cam'><CameraIcon /></div>
           <h1>면접이 곧 시작돼요</h1>
           <p>준비가 다 됐다면</p>
           <p>정면 사진을 찍어주세요!</p>
@@ -95,19 +97,19 @@ const WebcamCapture = () => {
 
         <ul>
           <li>
-            <span className='ion-icon'><TbCheckbox  /></span> &nbsp; <span>카메라를 켜 주세요!</span>
+            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>카메라를 켜 주세요!</span>
           </li>
           <li>
-            <span className='ion-icon'><TbCheckbox  /></span> &nbsp; <span>마이크를 켜 주세요!</span>
+            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>마이크를 켜 주세요!</span>
           </li>
           <li>
-            <span className='ion-icon'><TbCheckbox  /></span> &nbsp; <span>스피커를 켜 주세요!</span>
+            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>스피커를 켜 주세요!</span>
           </li>
           <li>
-            <span className='ion-icon'><TbCheckbox  /></span> &nbsp; <span>앞머리는 걷어 주세요!</span>
+            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>앞머리는 걷어 주세요!</span>
           </li>
           <li>
-            <span className='ion-icon'><TbCheckbox  /></span> &nbsp; <span>소음이 없는지 확인해 주세요!</span>
+            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>소음이 없는지 확인해 주세요!</span>
           </li>
         </ul>
         <div className='button-place'>

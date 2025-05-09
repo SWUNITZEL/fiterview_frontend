@@ -1,14 +1,13 @@
-.login-container {
+.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
     background-color: var(--background-color);
-    font-family: "Freesentation", -apple-system, BlinkMacSystemFont;
   }
   
-  .login-content {
+  .signup-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,30 +16,29 @@
   
   .app-title {
     font-size: 48px;
-    color: var(--primary-color);
+    color: var(--primary-60);
     font-weight: 700;
     margin: 0;
   }
   
-  .login-form-container {
+  .signup-form-container {
     width: 400px;
-    background-color: #e8f0fe;
+    background-color: var(--background-color);
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 8px 8px 16px var(--background-color-shadow), -8px -8px 16px var(--background-color-light);
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
   
-  .login-title {
+  .signup-title {
     text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
     font-weight: 600;
   }
   
-  .login-form {
+  .signup-form {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -62,40 +60,33 @@
     width: 100%;
     padding: 12px 0;
     border: none;
-    border-bottom: 1px solid var(--system-gray3);
+    border-bottom: 1px solid var(--nuetral-20);
     background-color: transparent;
-    font-family: "Freesentation";
     font-size: 16px;
     outline: none;
     box-sizing: border-box;
   }
   
   .error-message {
-    color: var(--system-red);
+    color: var(--error-80);
     font-size: 14px;
     margin: 0;
     text-align: center;
   }
   
-  .login-button {
+  .signup-button {
     width: 100%;
     padding: 15px;
     margin-top: 20px;
-    background-color: var(--system-gray5);
+    background-color: var(--nuetral-50);
     border: none;
     border-radius: 8px;
-    font-family: "Freesentation";
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
   }
   
-  .login-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-  
-  .signup-prompt {
+  .login-redirect {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -103,18 +94,17 @@
     margin-top: 10px;
   }
   
-  .signup-prompt p {
+  .login-redirect p {
     font-size: 14px;
     margin: 0;
   }
   
-  .signup-button {
-    background-color: transparent;
+  .login-button {
+    background-color: var(--nuetral-50);
     border: none;
-    font-family: "Freesentation";
     font-size: 14px;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--font-body);
     cursor: pointer;
     margin-left: 8px;
     padding: 4px 8px;

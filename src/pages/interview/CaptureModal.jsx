@@ -1,12 +1,16 @@
 import React from 'react';
-import { TbCameraCheck, TbArrowNarrowLeft, TbArrowNarrowRight } from "react-icons/tb";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CameraIcon,
+} from '@heroicons/react/24/solid'
 import './InterviewSelfCheck.css';
 
 const CaptureModal = ({ capturedImage, onClose, onConfirm }) => {
   return (
     <div className='picModal'>      
         <div className="modal-content">
-            <h1><TbCameraCheck /></h1>
+            <h1><CameraIcon /></h1>
             <h2>잘 찍혔는지 확인해주세요!</h2>
             
             <div className='modal-btn-container'>
@@ -14,13 +18,13 @@ const CaptureModal = ({ capturedImage, onClose, onConfirm }) => {
                 <div className='third flex'>
                 <div className='third'>
                   <button className='modal-btn' onClick={onClose}>
-                    <span><TbArrowNarrowLeft /> &nbsp; 다시 촬영</span>
+                    <span><ArrowLeftIcon /> &nbsp; 다시 촬영</span>
                   </button>
             </div>
             <div className='third'></div>
             <div className='third'>
                 <button className='modal-btn' onClick={onConfirm}>
-                    <span>면접 보러 가기 &nbsp;<TbArrowNarrowRight /></span>
+                    <span>면접 보러 가기 &nbsp;<ArrowRightIcon /></span>
                 </button>
             </div>
           </div>
