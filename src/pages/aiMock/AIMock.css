@@ -2,120 +2,111 @@
  * @file AIMock.css
  * @description 면접 조합 모달의 스타일 정의2
  */
- .dropzone {
-  border: 2px dashed var(--background-color);
-  border-radius: 8px;
-  padding: 40px;
+ /* Frame 119 */
+.preupload-banner {
+  width: 100vw;
+  height: 100vh;
+  max-height: 717px;
+  background-image: url("../../../public/images/banner01.png");
+  background-size: cover;
+  background-position: center center;
+  /* background: radial-gradient(50% 50% at 50% 50%, rgba(0, 55, 179, 0.2) 0%, rgba(126, 165, 248, 0.2) 100%); */
+}
+.preupload-banner-container{
+  margin-left: auto;
+  margin-right: auto;
+/*   
+  width: calc(1920px*2/3);
+  height: calc(668px*2/3);
+  margin-top: 120px; 
+  background-image: url("../../../public/images/tape02.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat; */
+
+  margin-top: 120px; 
+  padding-top: 1px;
+} 
+.dropzone {
+  margin-top: 54px;
+  
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   cursor: pointer;
-  transition: var(--background-color) 0.2s ease;
-  width: 300px;
-  margin: 0 auto;
+
+  width: 500px;
+  height: 240px;
+  padding-top: 30px;
+  padding-bottom: 20px;
+
+  /* width: 711px;
+  padding-top: 60px;
+  height: 307px; */
+
+  /* background: radial-gradient(50% 50% at 50% 50%, transparent 0%, rgb(252,252,252,0.6) 100%); rgb(252 252 252) == --background-color */
+  /* border: 1px solid var(--nuetral-40); */
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: background 1s ease;
+
 }
 .dropzone:hover {
-  background-color: var(--primary-40);
+  background: rgba(255, 255, 255, 0.8);
+  /* background-color: var(--nuetral-30); */
+  box-shadow: 0px 2px 4px rgba(75, 75, 75, 0.1); /* medium */
 }
-.icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 10px;
-}
-.main-text {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--font-body);
-}
-
-.sub-text {
-  font-size: 13px;
-  color: var(--nuetral-60);
-  margin-top: 5px;
-}
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.modalContent {
-  background: var(--background-color);
-  padding: 20px;
-  border-radius: 10px;
-  width: 400px;
-  text-align: center;
-}
-
-.modalContent h2 {
-  margin-bottom: 20px;
-}
-
-form label {
-  display: block;
-  margin: 10px 0 5px;
-}
-
-input[type="text"], select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-}
-
-button {
-  background: var(--primary-60);
-  color: var(--background-color);
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 6px;
-}
-
-button:hover {
-  background: var(--primary-80);
-}
-
 /* ### Tabs ### */
 .tabs-container {
+  margin: 0;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
 }
-
 .tab-buttons {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 19px;
   margin-bottom: 20px;
-}
-
-.tab-button {
-  padding: 10px 20px;
-  background-color: var(--background-color);
-  border: 2px solid transparent;
-  border-radius: 8px;
-  color: var(--font-body);
   cursor: pointer;
-  font-size: 16px;
+}
+.tab-button {
+  width: 100%;
+  height: 150px;
+
+  padding: 15px 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background: var(--nuetral-30);
+  border-radius: 24px;
+
+  font-size: 18px;
+  line-height: 36px;
+  color: var(--font-light);
+  font-weight: 700;
+  box-shadow: 0px 1px 2px rgba(75, 75, 75, 0.25);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .tab-button:hover {
-  background-color: var(--background-color);
+  background-color: var(--nuetral-40);
 }
 
 .tab-button.active {
   background-color:var(--background-color);
   border: 2px solid var(--primary-60);
-  color: var(--primary-color);
-  font-weight: bold;
+  /* background-color:var(--primary-20); */
+  box-shadow: 0px 4px 12px rgba(75, 75, 75, 0.1);
+  color: var(--primary-60);
 }
 
 .tab-content {
@@ -173,25 +164,17 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 12px;
   z-index: 1;
 }
 
 /* 나머지 스타일 */
 .step-detail {
   padding-left: 50px;
-  font-size: 16px;
   flex: 1;
 }
 
 .step-detail h3 {
   margin-top: 10px;
-  font-size: 24px;
-}
-
-.step-detail p {
-  color: var(--nuetral-60);
 }
 
 .button-group button {
@@ -212,26 +195,6 @@ button:hover {
 }
 
 /* ### PostUploadContents ### */
-.statics-container {
-  padding: 30px;
-  border-radius: 10px;
-  width: fit-content;
-  margin: 0 auto;
-}
-
-.statics-container h1 {
-  color: var(--primary-color);
-  font-size: 20px;
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
-
-.statics-container h3 {
-  font-weight: normal;
-  font-size: 16px;
-  margin-bottom: 0;
-}
-
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -255,9 +218,8 @@ button:hover {
 }
 
 .category-buttons button.active {
-  border: 2px solid var(--primary-60);
+  border: 1px solid var(--primary-60);
   background-color: var(--background-color);
-  font-weight: 700;
   color: var(--primary-60);
 }
 
@@ -274,5 +236,14 @@ button:hover {
 }
 
 .search-button:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--primary-80);
+}
+
+.criterion-card{
+  width: 100%;
+  height: 250px;
+  flex-shrink: 0;
+  padding-top: 20px;
+  background-color: var(--primary-60);
+  border-radius: 20px;
 }
