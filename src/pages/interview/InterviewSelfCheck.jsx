@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Interview.css';
-import NavbarComponent from '../../components/Navbar'
+import NavbarComponent from '../../components/Navbar';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 const InterviewSelfCheck = () => {
@@ -15,7 +15,7 @@ const InterviewSelfCheck = () => {
   const [selectedCam, setSelectedCam] = useState('');
   const [stream, setStream] = useState(null);
 
-  // ✅ 초기 권한 요청 및 장치 목록 세팅
+  // ✅ 장치 목록 + 초기 권한 요청
   useEffect(() => {
     const init = async () => {
       try {
@@ -23,11 +23,11 @@ const InterviewSelfCheck = () => {
         setStream(mediaStream);
         setMicPermission(true);
         setCamPermission(true);
-        videoRef.current.srcObject = mediaStream;
+        if (videoRef.current) videoRef.current.srcObject = mediaStream;
 
         const devices = await navigator.mediaDevices.enumerateDevices();
-        const audio = devices.filter(d => d.kind === 'audioinput');
-        const video = devices.filter(d => d.kind === 'videoinput');
+        const audio = devices.filter((d) => d.kind === 'audioinput');
+        const video = devices.filter((d) => d.kind === 'videoinput');
         setAudioDevices(audio);
         setVideoDevices(video);
         if (audio.length > 0) setSelectedMic(audio[0].deviceId);
@@ -39,21 +39,22 @@ const InterviewSelfCheck = () => {
     init();
   }, []);
 
-  // ✅ 드롭다운 장치 선택 바뀌면 새 stream 적용
+  // ✅ 장치 선택 변경 시 새 stream 요청
   useEffect(() => {
     const updateStream = async () => {
       if (!selectedMic && !selectedCam) return;
       try {
         const constraints = {
-          audio: selectedMic ? { deviceId: selectedMic } : true,
-          video: selectedCam ? { deviceId: selectedCam } : true,
+          audio: selectedMic ? { deviceId: { exact: selectedMic } } : true,
+          video: selectedCam ? { deviceId: { exact: selectedCam } } : true,
         };
         const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         setStream(mediaStream);
         setMicPermission(true);
         setCamPermission(true);
-        videoRef.current.srcObject = mediaStream;
+        if (videoRef.current) videoRef.current.srcObject = mediaStream;
       } catch (err) {
+        console.error('장치 선택 후 권한 실패:', err);
         setMicPermission(false);
         setCamPermission(false);
         alert('선택된 장치 권한을 허용해주세요.');
@@ -62,38 +63,47 @@ const InterviewSelfCheck = () => {
     updateStream();
   }, [selectedMic, selectedCam]);
 
-  // ✅ 영상 → canvas에 그리기 + 루프 정리
+  // ✅ canvas에 video 그리기 (metadata 로딩 후)
   useEffect(() => {
-    if (!videoRef.current || !canvasRef.current || !stream) return;
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || !stream) return;
 
-    const ctx = canvasRef.current.getContext('2d');
+    const ctx = canvas.getContext('2d');
     let animationId;
 
-    const draw = () => {
-      if (videoRef.current.readyState === 4) {
-        canvasRef.current.width = videoRef.current.videoWidth;
-        canvasRef.current.height = videoRef.current.videoHeight;
-        ctx.drawImage(videoRef.current, 0, 0);
-      }
-      animationId = requestAnimationFrame(draw);
+    const startDrawing = () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      const draw = () => {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        animationId = requestAnimationFrame(draw);
+      };
+      draw();
     };
 
-    draw();
-    return () => cancelAnimationFrame(animationId);
+    video.addEventListener('loadedmetadata', startDrawing);
+    video.play().catch(err => console.warn('Video play error:', err));
+
+    return () => {
+      video.removeEventListener('loadedmetadata', startDrawing);
+      cancelAnimationFrame(animationId);
+    };
   }, [stream]);
 
-  // ✅ 버튼으로 권한 재요청
+  // ✅ 권한 재요청 버튼
   const requestPermissions = async () => {
     try {
       const constraints = {
-        audio: selectedMic ? { deviceId: selectedMic } : true,
-        video: selectedCam ? { deviceId: selectedCam } : true,
+        audio: selectedMic ? { deviceId: { exact: selectedMic } } : true,
+        video: selectedCam ? { deviceId: { exact: selectedCam } } : true,
       };
       const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
       setStream(mediaStream);
       setMicPermission(true);
       setCamPermission(true);
-      videoRef.current.srcObject = mediaStream;
+      if (videoRef.current) videoRef.current.srcObject = mediaStream;
     } catch (err) {
       alert('마이크 및 카메라 권한을 허용해주세요.');
     }
@@ -102,15 +112,16 @@ const InterviewSelfCheck = () => {
   const canProceed = micPermission && camPermission;
 
   return (
-    <div className="full-screen">
+    <div className="full-screen overflow-hidden center-screen">
       <NavbarComponent />
-
       <div className="side-margin"></div>
       <div className="container">
         <div className="left-panel">
           {!stream ? (
             <div className="permission-box">
-              <p className="title-32-bold" style={{color:"var(--background-color)"}}>마이크와 카메라를 감지할 수 없어요.</p>
+              <p className="title-32-bold" style={{ color: 'var(--background-color)' }}>
+                마이크와 카메라를 감지할 수 없어요.
+              </p>
               <button className="request-btn" onClick={requestPermissions}>
                 마이크 및 카메라 권한 요청
               </button>
@@ -118,20 +129,24 @@ const InterviewSelfCheck = () => {
           ) : (
             <>
               <canvas ref={canvasRef} className="preview-canvas" />
-              <video ref={videoRef} style={{ display: 'none' }} autoPlay muted />
+              <video ref={videoRef} style={{ display: 'none' }} autoPlay muted playsInline />
             </>
           )}
         </div>
 
         <div className="right-panel">
-          <h2 className="title-32-bold" style={{ textAlign: "center", padding:"0", margin:"0" }}>면접 참여</h2>
-          <p className="subtitle-18-medium" style={{ textAlign: "center", padding:"0", margin:"0" }}>카메라와 마이크 사용 권한을 확인해주세요!</p>
+          <h2 className="title-32-bold" style={{ textAlign: 'center', paddingBottom: '0', marginBottom: '0' }}>
+            면접 참여
+          </h2>
+          <p className="subtitle-18-medium" style={{ textAlign: 'center', padding: '0', margin: '0' }}>
+            카메라와 마이크 사용 권한을 확인해주세요!
+          </p>
 
           <div className="select-box">
             <label>🎙 마이크 선택</label>
             <select value={selectedMic} onChange={(e) => setSelectedMic(e.target.value)}>
               <option value="">선택하세요</option>
-              {audioDevices.map(device => (
+              {audioDevices.map((device) => (
                 <option key={device.deviceId} value={device.deviceId}>
                   {device.label || '이름 없는 마이크'}
                 </option>
@@ -141,7 +156,7 @@ const InterviewSelfCheck = () => {
             <label>📷 카메라 선택</label>
             <select value={selectedCam} onChange={(e) => setSelectedCam(e.target.value)}>
               <option value="">선택하세요</option>
-              {videoDevices.map(device => (
+              {videoDevices.map((device) => (
                 <option key={device.deviceId} value={device.deviceId}>
                   {device.label || '이름 없는 카메라'}
                 </option>

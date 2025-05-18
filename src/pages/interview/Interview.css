@@ -5,19 +5,20 @@
   justify-content: center;
   width: 100%;
   height: 100vh;
-  padding-top: 256px;
+  margin-top: 140px;
+  align-items: stretch;
 }
 
 .left-panel {
-  background-color: var(--nuetral-80);
   color: var(--background-color);
+  /* background-color: var(--nuetral-80); */
   border-radius: 20px;
   width: 1000px;
   height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 2rem;
+  margin-right: 30px;
   position: relative;
 }
 
@@ -37,14 +38,19 @@
 
 .preview-canvas {
   width: 100%;
+  max-width: 640px;
   height: auto;
   border-radius: 8px;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  background-color: black;
 }
 
 .right-panel {
+  margin-top: 54px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
 }
 
 .select-box select {
