@@ -1,125 +1,173 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import './InterviewSelfCheck.css';
-import CaptureModal from './CaptureModal.jsx'
-//
-import {
-  CameraIcon, CheckCircleIcon
-} from '@heroicons/react/24/solid'
+import React, { useEffect, useRef, useState } from 'react';
+import './Interview.css';
+import NavbarComponent from '../../components/Navbar'
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
-
-const WebcamCapture = () => {
-  const backCaptureURL = "" // 백엔드 엔드포인트 
-  const frontLoadingURL = "" // 프론트 로딩페이지지 엔드포인트 
+const InterviewSelfCheck = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  
+
+  const [micPermission, setMicPermission] = useState(false);
+  const [camPermission, setCamPermission] = useState(false);
+  const [audioDevices, setAudioDevices] = useState([]);
+  const [videoDevices, setVideoDevices] = useState([]);
+  const [selectedMic, setSelectedMic] = useState('');
+  const [selectedCam, setSelectedCam] = useState('');
+  const [stream, setStream] = useState(null);
+
+  // ✅ 초기 권한 요청 및 장치 목록 세팅
   useEffect(() => {
-    let stream;
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(mediaStream => {
-        stream = mediaStream;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      })
-      .catch(error => console.error('Error accessing webcam:', error));
-  
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop()); // 스트림 정리
+    const init = async () => {
+      try {
+        const mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+        setStream(mediaStream);
+        setMicPermission(true);
+        setCamPermission(true);
+        videoRef.current.srcObject = mediaStream;
+
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audio = devices.filter(d => d.kind === 'audioinput');
+        const video = devices.filter(d => d.kind === 'videoinput');
+        setAudioDevices(audio);
+        setVideoDevices(video);
+        if (audio.length > 0) setSelectedMic(audio[0].deviceId);
+        if (video.length > 0) setSelectedCam(video[0].deviceId);
+      } catch (err) {
+        console.warn('초기 권한 요청 실패:', err);
       }
     };
+    init();
   }, []);
-  
 
-  const startCapture = () => {
-    const canvas = canvasRef.current;
-    const video = videoRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-    const image = canvas.toDataURL('image/webp');
-    console.log(image)
-    setCapturedImage(image);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setCapturedImage(null);
-  };
-
-  const sendImg = async () => {
-    try{
-      const response = await fetch(backCaptureURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          image: capturedImage,
-        }),
-        })
-
-        const data = await response.json();
-        console.log('Response:', data)
-        window.location.replace(frontLoadingURL);
-      }catch(e){
-        console.log('send error')
+  // ✅ 드롭다운 장치 선택 바뀌면 새 stream 적용
+  useEffect(() => {
+    const updateStream = async () => {
+      if (!selectedMic && !selectedCam) return;
+      try {
+        const constraints = {
+          audio: selectedMic ? { deviceId: selectedMic } : true,
+          video: selectedCam ? { deviceId: selectedCam } : true,
+        };
+        const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+        setStream(mediaStream);
+        setMicPermission(true);
+        setCamPermission(true);
+        videoRef.current.srcObject = mediaStream;
+      } catch (err) {
+        setMicPermission(false);
+        setCamPermission(false);
+        alert('선택된 장치 권한을 허용해주세요.');
       }
+    };
+    updateStream();
+  }, [selectedMic, selectedCam]);
 
-  }
+  // ✅ 영상 → canvas에 그리기 + 루프 정리
+  useEffect(() => {
+    if (!videoRef.current || !canvasRef.current || !stream) return;
+
+    const ctx = canvasRef.current.getContext('2d');
+    let animationId;
+
+    const draw = () => {
+      if (videoRef.current.readyState === 4) {
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
+        ctx.drawImage(videoRef.current, 0, 0);
+      }
+      animationId = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(animationId);
+  }, [stream]);
+
+  // ✅ 버튼으로 권한 재요청
+  const requestPermissions = async () => {
+    try {
+      const constraints = {
+        audio: selectedMic ? { deviceId: selectedMic } : true,
+        video: selectedCam ? { deviceId: selectedCam } : true,
+      };
+      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+      setStream(mediaStream);
+      setMicPermission(true);
+      setCamPermission(true);
+      videoRef.current.srcObject = mediaStream;
+    } catch (err) {
+      alert('마이크 및 카메라 권한을 허용해주세요.');
+    }
+  };
+
+  const canProceed = micPermission && camPermission;
 
   return (
-    <div className='webcam-container'>
-      {/* 웹캠 비디오 요소 */}
-      <video ref={videoRef} autoPlay playsInline className='webcam' />
-      {showModal && (
-        <CaptureModal 
-          capturedImage={capturedImage} 
-          onClose={closeModal} 
-          onConfirm={sendImg} 
-        />
-      )}
+    <div className="full-screen">
+      <NavbarComponent />
 
-      <div className='checklist'>
-
-        
-        <div className='head'>
-          <div className='cam'><CameraIcon /></div>
-          <h1>면접이 곧 시작돼요</h1>
-          <p>준비가 다 됐다면</p>
-          <p>정면 사진을 찍어주세요!</p>
-        </div>
-        <br></br>
-
-        <ul>
-          <li>
-            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>카메라를 켜 주세요!</span>
-          </li>
-          <li>
-            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>마이크를 켜 주세요!</span>
-          </li>
-          <li>
-            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>스피커를 켜 주세요!</span>
-          </li>
-          <li>
-            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>앞머리는 걷어 주세요!</span>
-          </li>
-          <li>
-            <span className='ion-icon'><CheckCircleIcon  /></span> &nbsp; <span>소음이 없는지 확인해 주세요!</span>
-          </li>
-        </ul>
-        <div className='button-place'>
-          <button onClick={startCapture} className='gradientButton'><b>사진 찍기</b></button>
+      <div className="side-margin"></div>
+      <div className="container">
+        <div className="left-panel">
+          {!stream ? (
+            <div className="permission-box">
+              <p className="title-32-bold" style={{color:"var(--background-color)"}}>마이크와 카메라를 감지할 수 없어요.</p>
+              <button className="request-btn" onClick={requestPermissions}>
+                마이크 및 카메라 권한 요청
+              </button>
+            </div>
+          ) : (
+            <>
+              <canvas ref={canvasRef} className="preview-canvas" />
+              <video ref={videoRef} style={{ display: 'none' }} autoPlay muted />
+            </>
+          )}
         </div>
 
-        {/* 캡처된 이미지를 그릴 캔버스 */}
-        <canvas ref={canvasRef} style={{ display: 'none' }} />
+        <div className="right-panel">
+          <h2 className="title-32-bold" style={{ textAlign: "center", padding:"0", margin:"0" }}>면접 참여</h2>
+          <p className="subtitle-18-medium" style={{ textAlign: "center", padding:"0", margin:"0" }}>카메라와 마이크 사용 권한을 확인해주세요!</p>
+
+          <div className="select-box">
+            <label>🎙 마이크 선택</label>
+            <select value={selectedMic} onChange={(e) => setSelectedMic(e.target.value)}>
+              <option value="">선택하세요</option>
+              {audioDevices.map(device => (
+                <option key={device.deviceId} value={device.deviceId}>
+                  {device.label || '이름 없는 마이크'}
+                </option>
+              ))}
+            </select>
+
+            <label>📷 카메라 선택</label>
+            <select value={selectedCam} onChange={(e) => setSelectedCam(e.target.value)}>
+              <option value="">선택하세요</option>
+              {videoDevices.map(device => (
+                <option key={device.deviceId} value={device.deviceId}>
+                  {device.label || '이름 없는 카메라'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="checkboxes">
+            <label>
+              <input type="checkbox" checked={micPermission} readOnly />
+              마이크 사용 권한 {micPermission && <CheckCircleIcon className="icon" />}
+            </label>
+            <label>
+              <input type="checkbox" checked={camPermission} readOnly />
+              카메라 사용 권한 {camPermission && <CheckCircleIcon className="icon" />}
+            </label>
+          </div>
+
+          <button className="complete-btn" disabled={!canProceed}>
+            완료
+          </button>
+        </div>
       </div>
+      <div className="side-margin"></div>
     </div>
-  );};
+  );
+};
 
-export default WebcamCapture;
+export default InterviewSelfCheck;
