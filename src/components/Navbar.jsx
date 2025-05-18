@@ -54,11 +54,11 @@ const Navbar = () => {
 
           {/* 오른쪽 메뉴 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Typography onClick = {() => navigate('/ai-mock')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap', cursor: 'pointer' }} className='body-14-medium'>
+            <Typography onClick = {() => navigate('/ai-mock')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
               AI 모의면접
             </Typography>
             <Divider orientation="vertical" flexItem sx={{height:'24px', margin:'auto', borderBottomWidth: '2px'}}/>
-            <Typography onClick = {() => navigate('/login')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap', cursor: 'pointer' }} className='body-14-medium'>
+            <Typography onClick = {() => navigate('/login')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
               회원가입
             </Typography>
             <Button

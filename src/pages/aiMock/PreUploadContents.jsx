@@ -44,7 +44,7 @@ const PreUploadContents = () => {
         </div>
         <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
           <hr style={{width: "100%", height:"1px", margin: "70px 5px 112px 5px"}}></hr>
-          <span style={{whiteSpace: "nowrap", margin: "70px 5px 112px 5px", color:"var(--primary-60)"}} className='subtitle-20-bold'>{activeTab === 'parent' ? "[나이스 대국민 서비스]":"[정부 24]"}</span>
+          <span style={{whiteSpace: "nowrap", margin: "70px 5px 112px 5px", color:"var(--nuetral-80)"}} className='subtitle-20-bold'>{activeTab === 'parent' ? "나이스 대국민 서비스":"정부 24"}</span>
           <hr style={{width: "100%", margin: "70px 5px 112px 5px"}}></hr>
         </div>
         <div className="tab-content">

@@ -10,7 +10,6 @@ import "./AIMock.css";
 import { Container } from "@mui/material";
 import { getCookie } from '../../utils/cookies'; 
 import NavbarComponent from '../../components/Navbar'
-import DocumentCombinationModal from "./DocumentCombinationModal";
 import PreUploadBanner from "./PreUploadBanner";
 import PreUploadContents from "./PreUploadContents";
 import PostUploadBanner from "./PostUploadBanner";
