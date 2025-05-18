@@ -1,0 +1,212 @@
+.interview-page-wrapper {
+  background-color: var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Pretendard';
+}
+
+.logo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  height: 60px;
+}
+
+.logo-img {
+  width: 120px;
+  height: auto;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.login-placeholder {
+  color: var(--font-dark);
+  font-size: 14px;
+}
+
+.avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  background-color: var(--nuetral-40);
+  border-radius: 50%;
+}
+
+.content-box {
+  flex-grow: 1;
+  padding: 20px;
+  justify-content: flex-start;
+}
+
+.move-down {
+  margin-top: 40px;
+}
+
+.title-center {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-area {
+  gap: 20px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-label {
+  font-size: 14px;
+  color: var(--font-dark);
+  margin-bottom: 6px;
+}
+
+select {
+  padding: 12px;
+  border: 1px solid var(--nuetral-40);
+  border-radius: 6px;
+  background-color: white;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  width: 100%;
+  min-height: 44px;
+}
+
+.radio-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 16px;
+  color: var(--font-body);
+}
+
+.radio-column label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dual-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.same-line > .form-group {
+  margin-bottom: 0;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.align-right {
+  align-items: flex-end;
+}
+
+.count-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count-box button {
+  width: 32px;
+  height: 32px;
+  background-color: var(--primary-40);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.count-box span {
+  min-width: 40px;
+  text-align: center;
+}
+
+.date-input {
+  padding: 12px;
+  width: 180px;
+  font-family: 'Pretendard';
+  font-size: 16px;
+  border: 1px solid var(--nuetral-40);
+  border-radius: 6px;
+}
+
+.center-horizontal {
+  display: flex;
+  justify-content: center;
+}
+
+.start-button {
+  margin-top: 16px !important;
+  background-color: var(--primary-60) !important;
+  color: white !important;
+  font-family: 'Pretendard' !important;
+  padding: 8px 20px !important;
+  font-size: 16px !important;
+  min-width: 220px;
+}
+
+/* 푸터 위 구분선 */
+.divider-line {
+  width: 100%;
+  height: 1px;
+  background-color: var(--nuetral-30);
+}
+
+/* 푸터 */
+.footer-area {
+  width: 100%;
+  background-color: var(--nuetral-10);
+  text-align: center;
+  font-family: 'Pretendard';
+  color: var(--font-light);
+  font-size: 13px;
+  padding: 0 20px 24px;
+}
+
+.footer-divider {
+  height: 1px;
+  background-color: var(--nuetral-20);
+  border: none;
+  margin-bottom: 12px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.footer-links .highlight {
+  color: var(--error-60);
+  font-weight: 600;
+}
+
+.footer-desc {
+  line-height: 1.6;
+}

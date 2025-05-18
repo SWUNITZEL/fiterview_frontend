@@ -10,6 +10,8 @@ import ReportMain from './pages/resultReport/ReportMain';
 import ReportNonverbal from './pages/resultReport/ReportNonverbal';
 import ReportDelivery from './pages/resultReport/ReportDelivery';
 import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
+import PersonaSelection from './pages/selection/PersonaSelection.jsx';
+import InterviewerSelection from './pages/selection/InterviewerSelection.jsx';
 
 const RouterConfig = () => {
   return (
@@ -24,6 +26,8 @@ const RouterConfig = () => {
       <Route path="/result/nonverbal" element={<ReportNonverbal />} />
       <Route path="/result/delivery" element={<ReportDelivery />} />
       <Route path="/result/analysis-by-an-answer" element={<ReportAnswerAnalysis />} />
+      <Route path="/select-persona" element={<PersonaSelection />} />
+      <Route path="/select-interviewer" element={<InterviewerSelection />} />
     </Routes>
   );
 };
