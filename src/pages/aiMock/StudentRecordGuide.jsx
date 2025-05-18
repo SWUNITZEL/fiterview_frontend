@@ -78,11 +78,11 @@ const StudentRecordGuide = ({stepsIdx}) => {
       {steps[Number(stepsIdx)].map((step, idx) => (
         <div className="timeline-step" key={idx}>
           <div className="circle-line-wrapper">
-            <div className="circle">STEP<br/>{String(idx + 1).padStart(2, '0')}</div>
+            <div className="circle title-24-bold">{String(idx + 1).padStart(2, '0')}</div>
           </div>
           <div className="step-detail">
-            <h3>{step.title}</h3>
-            <p>{step.description}</p>
+            <h3 className="subtitle-18-semibold">{step.title}</h3>
+            <p className="subtitle-18-regular">{step.description}</p>
             {step.buttons && (
               <div className="button-group">
                 {step.buttons.map((btn, i) => (

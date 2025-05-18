@@ -61,7 +61,7 @@
 	src: local('Pretendard Thin'), url(../public/font/Pretendard-1.3.9/woff2/Pretendard-Thin.woff2) format('woff2'), url(../public/font/Pretendard-1.3.9/woff/Pretendard-Thin.woff) format('woff');
 }
 
-body, button, input, select, textarea {
+body, div, button, input, select, textarea {
   margin: 0;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont;
   -webkit-font-smoothing: antialiased;
@@ -79,7 +79,7 @@ code {
 
 /* Titles */
 .title-40-bold {
-  font-size: 42px;
+  font-size: 40px;
   line-height: 56px;
   font-weight: 700; 
   color: var(--font-body);
@@ -215,7 +215,9 @@ code {
   display: flex;
 }
 .side-margin {
+  flex-shrink: 0;
   width: 240px;
+  margin: 0;
 }
 .center-screen {
   display: flex;

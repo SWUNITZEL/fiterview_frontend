@@ -16,15 +16,19 @@ import PreUploadContents from "./PreUploadContents";
 import PostUploadBanner from "./PostUploadBanner";
 import PostUploadContents from "./PostUploadContents";
 
-/**
- * @component AIMock
- * @description 사용자가 면접 문서를 선택하고 조합할 수 있는 페이지
- * @returns {JSX.Element} 문서 선택 UI
- */
 const AIMock = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
-  const [modalType, setModalType] = useState("");
+
+  // const userName = "하은"
+  // const averageDataByCategory = {
+  //   "국어":     [1, 3, 3, 2, 1, null],
+  //   "수학":     [3, 3, 2, 1, 1, null],
+  //   "영어":     [1, 3, 3, 2, 1, null],
+  //   "사회":     [1, 3, 3, 2, 1, null],
+  //   "과학":     [3, 3, 2, 1, 1, null],
+  //   "한국사":   [1, 1, 2, 2, 1, null],
+  //   "기술·가정/제2외국어/한문/교양": [1, 1, 1, 1, 1, null],
+  // };
 
   useEffect(() => {
       const sessionId = getCookie('session_id');
@@ -44,16 +48,12 @@ const AIMock = () => {
         padding: "0 0",
         overflow: "hidden"
       }}>
-      <NavbarComponent 
-      bgColor="transparent"
-      textColor="var(--text-color)"
-      isBoxShadow="none" 
-      />
+      <NavbarComponent />
+
       {isUpload? <PostUploadBanner/>:<PreUploadBanner />}
       {isUpload? <PostUploadContents />:<PreUploadContents />}
-      <PostUploadBanner />
-
-
+      {/* <PostUploadBanner /> */}
+      {/* <PostUploadContents userName={userName} averageDataByCategory={averageDataByCategory} /> */}
     </Container>
   );
 };
