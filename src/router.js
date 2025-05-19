@@ -5,7 +5,7 @@ import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import AIMock from "./pages/aiMock/AIMock.jsx";
 import PersonaSelection from './pages/selection/PersonaSelection.jsx';
-import InterviewerSelection from './pages/selection/InterviewerSelection.jsx';
+import InterviewConditionSelection from './pages/selection/InterviewConditionSelection.jsx';
 import SelfCheck from "./pages/selfCheck/SelfCheck.jsx";
 import FaceCheck from "./pages/selfCheck/FaceCheck.jsx";
 import SoundCheck from "./pages/selfCheck/SoundCheck.jsx";
@@ -40,8 +40,9 @@ const RouterConfig = () => {
       <Route path="/result-notice" element={<ResultNotice />} />
       <Route path="/report-generating" element={<ReportGenerating />} />
       <Route path="/interview-summary" element={<InterviewResultSummary />} />
-      <Route path="/select-persona" element={<PersonaSelection />} />
-      <Route path="/select-interviewer" element={<InterviewerSelection />} />
+
+      <Route path="/select-interview-condition/persona" element={<PersonaSelection />} />
+      <Route path="/select-interview-condition" element={<InterviewConditionSelection />} />
 
     </Routes>
   );
