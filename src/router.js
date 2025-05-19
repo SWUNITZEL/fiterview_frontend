@@ -12,6 +12,9 @@ import ReportDelivery from './pages/resultReport/ReportDelivery';
 import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
 import PersonaSelection from './pages/selection/PersonaSelection.jsx';
 import InterviewerSelection from './pages/selection/InterviewerSelection.jsx';
+import ResultNotice from './pages/preResult/ResultNotice';
+import ReportGenerating from './pages/preResult/ReportGenerating';
+import InterviewResultSummary from './pages/preResult/InterviewResultSummary';
 
 const RouterConfig = () => {
   return (
@@ -28,6 +31,9 @@ const RouterConfig = () => {
       <Route path="/result/analysis-by-an-answer" element={<ReportAnswerAnalysis />} />
       <Route path="/select-persona" element={<PersonaSelection />} />
       <Route path="/select-interviewer" element={<InterviewerSelection />} />
+      <Route path="/result-notice" element={<ResultNotice />} />
+      <Route path="/report-generating" element={<ReportGenerating />} />
+      <Route path="/interview-summary" element={<InterviewResultSummary />} />
     </Routes>
   );
 };
