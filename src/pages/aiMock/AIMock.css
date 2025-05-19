@@ -186,8 +186,8 @@
 
 .step-image {
   margin-top: 12px;
-  width: 560px;
-  height: 304px;
+  width: 360px;
+  height: auto;
   border-radius: 8px;
 }
 
