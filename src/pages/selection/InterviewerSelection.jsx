@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { universities } from "../../data/universities";
+import NavbarComponent from '../../components/Navbar'
 import "./InterviewerSelection.css";
 
 const InterviewerSelection = () => {
@@ -28,13 +29,7 @@ const InterviewerSelection = () => {
 
   return (
     <div className="interview-page-wrapper">
-      <header className="logo-header">
-        <img src="/logo-placeholder.png" alt="로고" className="logo-img" />
-        <div className="header-right">
-          <span className="login-placeholder">AI 모의면접</span>
-          <div className="avatar-placeholder"></div>
-        </div>
-      </header>
+      <NavbarComponent />
 
       <main className="child-column-center content-box move-down">
         <h2 className="title-32-bold title-center">면접 연습 전 아래 사항을 체크해 주세요!</h2>

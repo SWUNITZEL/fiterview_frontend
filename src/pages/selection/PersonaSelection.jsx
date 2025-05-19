@@ -9,17 +9,12 @@
 import React from "react";
 import "./PersonaSelection.css";
 import { personas } from "../../data/personas";
+import NavbarComponent from '../../components/Navbar'
 
 const PersonaSelection = () => {
   return (
     <div className="persona-page-wrapper">
-      <header className="logo-header">
-        <img src="/logo-placeholder.png" alt="로고" className="logo-img" />
-        <div className="header-right">
-          <span className="login-placeholder">AI 모의면접</span>
-          <div className="avatar-placeholder"></div>
-        </div>
-      </header>
+      <NavbarComponent />
 
       <main className="persona-content child-column-center">
         <h2 className="title-24-bold title-center">어떤 면접관과 연습 면접을 진행할까요?</h2>
