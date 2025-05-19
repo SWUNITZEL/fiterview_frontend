@@ -96,7 +96,7 @@ const StudentRecordGuide = ({stepsIdx}) => {
             <div className="circle subtitle-18-medium">{String(idx + 1).padStart(2, '0')}</div>
           </div>
           <div className="step-detail" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-            <div style={{width: "500px"}}>
+            <div style={{width: "400px"}}>
               <h3 className="subtitle-18-semibold">{step.title}</h3>
               <p className="subtitle-18-regular" style={{whiteSpace: 'pre-line'}}>{step.description}</p>
               {step.buttons && (
