@@ -10,6 +10,7 @@ import "./AIMock.css";
 import { Container } from "@mui/material";
 import { getCookie } from '../../utils/cookies'; 
 import NavbarComponent from '../../components/Navbar'
+import LoadingScreen from '../../components/LoadingScreen';
 import PreUploadBanner from "./PreUploadBanner";
 import PreUploadContents from "./PreUploadContents";
 import PostUploadBanner from "./PostUploadBanner";
@@ -17,27 +18,22 @@ import PostUploadContents from "./PostUploadContents";
 
 const AIMock = () => {
   const [isUpload, setIsUpload] = useState(false);
-
-  // const userName = "하은"
-  // const averageDataByCategory = {
-  //   "국어":     [1, 3, 3, 2, 1, null],
-  //   "수학":     [3, 3, 2, 1, 1, null],
-  //   "영어":     [1, 3, 3, 2, 1, null],
-  //   "사회":     [1, 3, 3, 2, 1, null],
-  //   "과학":     [3, 3, 2, 1, 1, null],
-  //   "한국사":   [1, 1, 2, 2, 1, null],
-  //   "기술·가정/제2외국어/한문/교양": [1, 1, 1, 1, 1, null],
-  // };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
       const sessionId = getCookie('session_id');
+      
       if (sessionId) {
 
       }
       else {
         setIsUpload(false)
       }
+
+      setLoading(false);
     }, [isUpload]);
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <Container maxWidth={false}
