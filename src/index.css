@@ -213,6 +213,7 @@ code {
   width: 100vw;
   min-height: 100vh;
   display: flex;
+  background-color: var(--background-color);
 }
 .side-margin {
   flex-shrink: 0;

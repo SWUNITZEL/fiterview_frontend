@@ -11,59 +11,85 @@ const CustomAudioPlayer = ({ src }) => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const updateProgress = () => {
-        setProgress(audio.currentTime);
+    const handleTimeUpdate = () => {
+      setProgress(audio.currentTime);
     };
 
-    const setAudioData = () => {
-        // console.log("duration set:", audio.duration);
-        if (!isNaN(audio.duration)) {
-        setDuration(audio.duration);
-        }
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setProgress(0);
     };
 
-    audio.addEventListener('loadedmetadata', setAudioData);
-    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+
+    // 초기화: src가 바뀌었을 때만
+    setIsPlaying(false);
+    setProgress(0);
+    setDuration(0);
 
     return () => {
-        audio.removeEventListener('loadedmetadata', setAudioData);
-        audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
     };
-    }, [src]);
+  }, [src]);
 
-    const togglePlay = () => {
-        const audio = audioRef.current;
-        if (!audio) return;
-        if (isPlaying) {
-        audio.pause();
-        } else {
-        audio.play();
-        }
-        setIsPlaying(!isPlaying);
+  const handleMetadataLoad = (e) => {
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  // duration이 0 또는 Infinity인 경우 강제 초기화
+  if (!isFinite(audio.duration) || audio.duration === 0) {
+    audio.currentTime = 1e101;
+    audio.ontimeupdate = () => {
+      audio.currentTime = 0;
+      audio.ontimeupdate = null;
+      setDuration(audio.duration); // 이 시점에 duration이 유효해짐
     };
+  } else {
+    setDuration(audio.duration);
+  }
+};
 
-    const handleSeek = (e) => {
-        const audio = audioRef.current;
-        const sliderValue = e.target.value;
+  const togglePlay = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
 
-        if (!audio || !isFinite(duration)) return;
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+    } else {
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((error) => {
+            console.error("Audio play failed:", error);
+          });
+      }
+    }
+  };
 
-        const newTime = (sliderValue / 100) * duration;
+  const handleSeek = (e) => {
+    const audio = audioRef.current;
+    const sliderValue = e.target.value;
 
-        if (isFinite(newTime)) {
-            audio.currentTime = newTime;
-            setProgress(newTime);
-        }
-        };
+    if (!audio || !isFinite(duration)) return;
 
+    const newTime = (sliderValue / 100) * duration;
+    if (isFinite(newTime)) {
+      audio.currentTime = newTime;
+    }
+  };
 
-    const formatTime = (time) => {
-        if (!isFinite(time)) return '00:00';
-        const minutes = Math.floor(time / 60).toString().padStart(2, '0');
-        const seconds = Math.floor(time % 60).toString().padStart(2, '0');
-        return `${minutes}:${seconds}`;
-        };
-
+  const formatTime = (time) => {
+    if (!isFinite(time)) return '00:00';
+    const minutes = Math.floor(time / 60).toString().padStart(2, '0');
+    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  };
 
   return (
     <div
@@ -72,10 +98,15 @@ const CustomAudioPlayer = ({ src }) => {
         alignItems: 'center',
         gap: '10px',
         width: '100%',
-        maxWidth: '400px',
+        maxWidth: '600px',
       }}
     >
-      <audio ref={audioRef} src={src} preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={src}
+        preload="metadata"
+        onLoadedMetadata={handleMetadataLoad}
+      />
       {isPlaying ? (
         <PauseCircleIcon
           onClick={togglePlay}
@@ -97,35 +128,42 @@ const CustomAudioPlayer = ({ src }) => {
           }}
         />
       )}
+
       <input
-        type="range"
-        value={duration ? (progress / duration) * 100 : 0}
-        onChange={handleSeek}
-        style={{
-          flex: 1,
-          appearance: 'none',
-          height: '6px',
-          backgroundColor: '#dde3ff',
-          borderRadius: '3px',
-          outline: 'none',
-          cursor: 'pointer',
-        }}
-      />
+  type="range"
+  min="0"
+  max="100"
+  value={duration > 0 ? (progress / duration) * 100 : 0}
+  onChange={handleSeek}
+  style={{
+    flex: 1,
+    appearance: 'none',
+    width: "500px",
+    height: '6px',
+    borderRadius: '3px',
+    outline: 'none',
+    cursor: 'pointer',
+    background: `linear-gradient(to right, var(--primary-60) 0%, var(--primary-60) ${duration > 0 ? (progress / duration) * 100 : 0}%, var(--primary-10) ${duration > 0 ? (progress / duration) * 100 : 0}%, var(--primary-10) 100%)`,
+  }}
+/>
+
       <style>
         {`
           input[type="range"]::-webkit-slider-thumb {
             appearance: none;
             width: 10px;
             height: 10px;
-            background-color: var(--primary-40);
+            background-color: var(--primary-60);
             border-radius: 50%;
+            cursor: pointer;
           }
           input[type="range"]::-moz-range-thumb {
             width: 10px;
             height: 10px;
-            background-color: var(--primary-40);
+            background-color: var(--primary-60);
             border-radius: 50%;
             border: none;
+            cursor: pointer;
           }
         `}
       </style>

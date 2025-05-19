@@ -48,15 +48,9 @@
   margin-top: 40px;
 }
 
-.title-center {
-  margin-bottom: 24px;
-  text-align: center;
-}
-
 .form-area {
-  gap: 20px;
-  width: 100%;
-  max-width: 480px;
+  gap: 56px;
+  width: 600px;
 }
 
 .form-group {
@@ -69,13 +63,14 @@
   font-size: 14px;
   color: var(--font-dark);
   margin-bottom: 6px;
+  text-align: start;
 }
 
 select {
   padding: 12px;
   border: 1px solid var(--nuetral-40);
   border-radius: 6px;
-  background-color: white;
+  background-color: var(--background-color);
   font-family: 'Pretendard';
   font-size: 16px;
   width: 100%;
@@ -99,6 +94,7 @@ select {
 .dual-row {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   gap: 16px;
 }
 
@@ -120,21 +116,6 @@ select {
   gap: 8px;
 }
 
-.count-box button {
-  width: 32px;
-  height: 32px;
-  background-color: var(--primary-40);
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .count-box span {
   min-width: 40px;
   text-align: center;
@@ -142,7 +123,7 @@ select {
 
 .date-input {
   padding: 12px;
-  width: 180px;
+  width: 300px;
   font-family: 'Pretendard';
   font-size: 16px;
   border: 1px solid var(--nuetral-40);
@@ -156,57 +137,12 @@ select {
 
 .start-button {
   margin-top: 16px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   background-color: var(--primary-60) !important;
-  color: white !important;
+  color: var(--background-color) !important;
   font-family: 'Pretendard' !important;
-  padding: 8px 20px !important;
+  padding: 10px 20px !important;
   font-size: 16px !important;
   min-width: 220px;
-}
-
-/* 푸터 위 구분선 */
-.divider-line {
-  width: 100%;
-  height: 1px;
-  background-color: var(--nuetral-30);
-}
-
-/* 푸터 */
-.footer-area {
-  width: 100%;
-  background-color: var(--nuetral-10);
-  text-align: center;
-  font-family: 'Pretendard';
-  color: var(--font-light);
-  font-size: 13px;
-  padding: 0 20px 24px;
-}
-
-.footer-divider {
-  height: 1px;
-  background-color: var(--nuetral-20);
-  border: none;
-  margin-bottom: 12px;
-}
-
-.footer-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  font-weight: 500;
-}
-
-.footer-links .highlight {
-  color: var(--error-60);
-  font-weight: 600;
-}
-
-.footer-desc {
-  line-height: 1.6;
 }

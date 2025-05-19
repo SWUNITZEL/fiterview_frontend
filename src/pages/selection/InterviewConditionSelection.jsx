@@ -1,23 +1,26 @@
 /**
- * @file InterviewerSelection.jsx
+ * @file InterviewConditionSelection.jsx
  * @description 면접 전 선택 페이지
  * @author 김하은
  * @created 2025-05-17
 **/
 
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/react/24/outline";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
-import "./InterviewerSelection.css";
+import "./InterviewConditionSelection.css";
 
-const InterviewerSelection = () => {
+const InterviewConditionSelection = () => {
+  const navigate = useNavigate();
+
   const [school, setSchool] = useState("");
   const [department, setDepartment] = useState("");
   const [interviewType, setInterviewType] = useState("document");
-  const [questionCount, setQuestionCount] = useState(1);
-  const [timeLimit, setTimeLimit] = useState(4);
+  const [questionCount, setQuestionCount] = useState(4);
+  const [timeLimit, setTimeLimit] = useState(60);
   const [interviewDate, setInterviewDate] = useState("");
 
   const handleSchoolChange = (e) => {
@@ -25,15 +28,28 @@ const InterviewerSelection = () => {
     setDepartment("");
   };
 
+
+  const handleSelectPersona = () => {
+    navigate("/select-interview-condition/persona", {
+      state: {
+        school,
+        department,
+        interviewType,
+        questionCount,
+        timeLimit,
+        interviewDate,
+      },
+    });
+  };
+
   const selectedUniversity = universities.find((u) => u.name === school);
 
   return (
-    <div className="interview-page-wrapper">
+    <div className="full-screen overflow-hidden">
       <NavbarComponent />
-
+      <div className="side-margin"></div>
       <main className="child-column-center content-box move-down">
-        <h2 className="title-32-bold title-center">면접 연습 전 아래 사항을 체크해 주세요!</h2>
-
+        <h2 className="title-32-bold title-center" style={{marginTop: "80px", marginBottom: "96px", textAlign:"center"}}>면접 연습 전 아래 사항을 체크해 주세요!</h2>
         <div className="form-area child-column-left">
           <div className="dual-row same-line">
             <div className="form-group flex-grow">
@@ -84,18 +100,18 @@ const InterviewerSelection = () => {
             <div className="form-group">
               <label className="form-label">질문 개수</label>
               <div className="count-box">
-                <button onClick={() => setQuestionCount((prev) => Math.max(1, prev - 1))}>-</button>
+                <MinusCircleIcon style={{color:(questionCount>4)?"var(--primary-40)":"var(--nuetral-50)", width:"32px", height:"auto"}} onClick={() => (questionCount>4)?setQuestionCount((prev) => Math.max(1, prev - 1)):{}} />
                 <span>{questionCount} 개</span>
-                <button onClick={() => setQuestionCount((prev) => prev + 1)}>+</button>
+                <PlusCircleIcon style={{color:"var(--primary-40)", width:"32px", height:"auto"}} onClick={() => setQuestionCount((prev) => prev + 1)} />
               </div>
             </div>
 
-            <div className="form-group align-right">
+            <div className="form-group">
               <label className="form-label">답변 제한 시간</label>
               <div className="count-box">
-                <button onClick={() => setTimeLimit((prev) => Math.max(1, prev - 1))}>-</button>
-                <span>{timeLimit} 분</span>
-                <button onClick={() => setTimeLimit((prev) => prev + 1)}>+</button>
+                <MinusCircleIcon style={{color:(timeLimit>60)?"var(--primary-40)":"var(--nuetral-50)", width:"32px", height:"auto"}} onClick={() => (timeLimit>60)?setTimeLimit((prev) => Math.max(60, prev - 30)):{}}/>
+                <span>{timeLimit} 초</span>
+                <PlusCircleIcon style={{color:"var(--primary-40)", width:"32px", height:"auto"}} onClick={() => setTimeLimit((prev) => prev + 30)} />
               </div>
             </div>
           </div>
@@ -110,15 +126,17 @@ const InterviewerSelection = () => {
             />
           </div>
 
-          <div className="form-group center-horizontal">
-            <Button variant="contained" className="start-button" endIcon={<ChevronRightIcon />}>
+          
+        </div>
+        <div className="form-group child-column-center" style={{marginTop:"96px"}}>
+            <Button onClick={()=> handleSelectPersona()} variant="contained" className="start-button" endIcon={<ChevronRightIcon />}>
               면접관 선택하기
             </Button>
           </div>
-        </div>
       </main>
+      <div className="side-margin"></div>
     </div>
   );
 };
 
-export default InterviewerSelection;
+export default InterviewConditionSelection;

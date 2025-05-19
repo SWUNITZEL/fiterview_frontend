@@ -26,7 +26,7 @@ function Interview() {
     const websocketURL = process.env.REACT_APP_WS_URL
     const videoUploadURL = `${process.env.REACT_APP_API_URL}`
     const resultLoadingURL = ""
-    const lastMent = ""
+    const lastMent = "수고하셨습니다."
 
     /** 
      * @state {boolean} isLooping - 면접관 영상 반복 여부
@@ -37,7 +37,7 @@ function Interview() {
     const [isLooping, setIsLooping] = useState(false);
     const [recording, setRecording] = useState(false); 
     const [question, setQuestion] = useState(''); 
-    const [videoChunks, setVideoChunks] = useState([]);
+    const videoChunks = useRef([])
 
     /** 
      * @ref {Object} videoRef - 면접관 비디오 요소 참조 
@@ -119,11 +119,12 @@ function Interview() {
             };
 
             // onclose: 연결 종료시 실행
-            websocket.current.onclose = () => {
-                mediaRecorder.current = null; // 스트림 해제
+            websocket.current.onclose = async () => {
                 alert('면접이 완료되었습니다. 면접이 저장되기 전까지 페이지를 벗어나지 마세요.');
+                console.log(`websocket.current.onclose에서의 videoChunks 확인: ${videoChunks}`)
                 sendAllVideosToServer();
-                alert('파일이 저장이 완료되었습니다다.');
+                mediaRecorder.current = null; // 스트림 해제
+                alert('파일이 저장이 완료되었습니다.');
                 window.location.replace(resultLoadingURL);
             };
 
@@ -176,8 +177,9 @@ function Interview() {
 
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-            setVideoChunks(prevChunks => [...prevChunks, blob]);
+            videoChunks.current.push(blob);
             recordedChunks.current = []; //레코드 저장 공간 리셋
+            console.log(`videoChunks update: ${videoChunks}`)
             
             // 서버에 blob 데이터 전송
             extractAndSendAudio(blob);
@@ -266,9 +268,9 @@ function Interview() {
      */
     const sendAllVideosToServer = () => {
         const formData = new FormData();
-        console.log("videoChunks")
-        console.log(videoChunks)
-        videoChunks.forEach((blob, index) => {
+        console.log("sendAllVideosToServer")
+        console.log(`videoChunks: ${videoChunks}`)
+        videoChunks.current.forEach((blob, index) => {
             formData.append(`video${index}`, blob, `interview_part${index}.webm`);
         });
         fetch(videoUploadURL, {
