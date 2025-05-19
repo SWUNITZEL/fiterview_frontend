@@ -29,7 +29,15 @@ const InterviewConditionSelection = () => {
   };
 
 
-  const handleSelectPersona = () => {
+ const handleSelectPersona = () => {
+  if (
+    school &&
+    department &&
+    interviewType &&
+    questionCount &&
+    timeLimit &&
+    interviewDate
+  ) {
     navigate("/select-interview-condition/persona", {
       state: {
         school,
@@ -40,7 +48,10 @@ const InterviewConditionSelection = () => {
         interviewDate,
       },
     });
-  };
+  } else {
+    alert("모든 항목을 입력해 주세요.");
+  }
+};
 
   const selectedUniversity = universities.find((u) => u.name === school);
 

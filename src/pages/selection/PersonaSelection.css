@@ -35,6 +35,7 @@
 /* 개별 박스 */
 .persona-box {
   display: flex;
+  box-sizing: border-box;
   border: 1px solid var(--nuetral-30);
   background-color: white;
   border-radius: 12px;
@@ -46,6 +47,11 @@
 /* 좌측 이미지 */
 .persona-box-left {
   flex-shrink: 0;
+}
+
+.persona-box.selected {
+  border: 2px solid var(--primary-60);
+  border-radius: 12px; /* 선택 시 좀 더 강조해도 좋습니다 */
 }
 
 .persona-img {
