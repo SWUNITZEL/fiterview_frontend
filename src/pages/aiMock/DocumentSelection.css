@@ -1,0 +1,48 @@
+/**
+ * @file DocumentSelection.css
+ * @description 문서 선택 페이지의 스타일 정의2
+ */
+
+ .documentSelectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+}
+
+button {
+  background: var(--primary-color);
+  color:var(--background-color);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+button:hover {
+  background: var(--primary-hover-color);
+}
+
+.combinationList {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comboItem {
+  background: var(--secondary-color);
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.comboItem:hover {
+  background: var(--secondary-hover-color);
+}

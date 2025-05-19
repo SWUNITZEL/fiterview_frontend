@@ -1,107 +1,91 @@
-import React, { useState, useEffect } from 'react';
+/**
+ * @file Navbar.jsx
+ * @description 상단 네비게이션 바
+ * @author 이찬우
+**/
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CustomButton from "./CustomButton"
-import { AppBar, Toolbar, Button, IconButton } from '@mui/material';
-import { FaCartShopping } from "react-icons/fa6"; // Cart icon
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Box,
+  Divider,
+  useScrollTrigger,
+  Slide,
+} from '@mui/material';
 
-const Navbar = ({scrollY, bgColor, textColor, isBoxShadow}) => {
-  const navigate = useNavigate(); 
-  const [headerColor, setHeaderColor] = useState(bgColor); // 헤더 초기 색상
-  const [color, setColor] = useState(textColor); // 글 색 초기 색상
-  const [boxShadow, setBoxShadow] = useState(isBoxShadow); // 초기 색상
+// 스크롤 내릴 때 숨기고, 올릴 때 보여주는 Slide 애니메이션
+function HideOnScroll({ children }) {
+  const trigger = useScrollTrigger({
+    target: typeof window !== 'undefined' ? window : undefined
+  });
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
-
-
-  // 스크롤 위치에 따라 색상 변경
-    useEffect(() => {
-      const handleScroll = () => {
-        if (scrollY > window.innerHeight) {
-          setHeaderColor("var(--background-color)");
-          setColor("var(--text-color)");
-          setBoxShadow("none");
-        } else {
-          setHeaderColor("transparent");
-          setColor("var(--text-color)");
-          setBoxShadow("none");
-        }
-      };
-    
-      window.addEventListener("scroll", handleScroll); // ← 이거 빠졌음!
-    
-      return () => {
-        window.removeEventListener("scroll", handleScroll); // 클린업도 필요
-      };
-    }, [scrollY]);
+const Navbar = () => {
+  const navigate = useNavigate();
 
   return (
-    <AppBar
-      position="fixed"
-      style={{
-        backgroundColor: headerColor, // 스크롤에 따라 배경색 변경
-        color:color,
-        boxShadow: boxShadow,
-        backdropFilter: "blur(10px)",
-        transition: "background-color 0.3s ease-out", // 색상 변경에 부드러운 전환 효과
-        paddingLeft: "3rem",
-        paddingRight: "3rem"
-      }}
-    >
-      <Toolbar style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-  <div style={{
-    width: '100%',
-    maxWidth: '770px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }}>
-    {/* 왼쪽: 홈 아이콘 */}
-    <IconButton 
-      color="inherit" 
-      onClick={() => { navigate("/home") }} 
-      sx={{
-        padding: "4px",      // 클릭 영역 최소화
-        width: "32px",       // 원하는 크기로 제한
-        height: "32px", 
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        margin: "0px"
-      }}
-    >
-      <FaCartShopping size="1.2rem" />
-    </IconButton>
+    <HideOnScroll>
+      <AppBar position="fixed" color="transparent" elevation={0} sx={{ maxHeight: '50px', minHeight: '50px'}}>
+        <Toolbar
+          disableGutters
+          sx={(theme) => ({
+                minHeight: 50,
+                [theme.breakpoints.up('sm')]: {
+                  minHeight: 50,
+                },
+                px: '240px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                backgroundColor: 'var(--background-color)',
+              })}
+        >
+          {/* 왼쪽 로고 */}
+          <Box onClick = {() => navigate('/home')} sx={{ display: 'flex', alignItems: 'center' }}>
+            <img src="/logo.svg" alt="Logo" style={{ cursor: 'pointer', height: 32 }} />
+          </Box>
 
-    {/* 오른쪽: 버튼들 */}
-    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-      <Button color="inherit"
-        sx={{
-          whiteSpace: "nowrap", // 줄바꿈 방지
-          padding: "6px 12px",
-          minWidth: "auto",     // 자동 너비
-        }}>
-        <span>모의 면접</span>
-      </Button>
-      <Button color="inherit"
-      sx={{
-        whiteSpace: "nowrap", // 줄바꿈 방지
-        padding: "6px 12px",
-        minWidth: "auto",     // 자동 너비
-      }}>
-        <span>내 히스토리</span>
-      </Button>
-      <CustomButton 
-      variant="outlined" 
-      fontSize="16px"
-      hoverBgColor="var(--primary-lightest)"
-      bgColor="var(--primary-light)"
-      onClick={() => { navigate("/login") }}>
-        <span style={{fontWeight: "400",color:"var(--background-color)"}}>로그인</span>
-      </CustomButton>
-    </div>
-  </div>
-</Toolbar>
-
-    </AppBar>
+          {/* 오른쪽 메뉴 */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+            <Typography onClick = {() => navigate('/ai-mock')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+              AI 모의면접
+            </Typography>
+            <Divider orientation="vertical" flexItem sx={{height:'24px', margin:'auto', borderBottomWidth: '2px'}}/>
+            <Typography onClick = {() => navigate('/login')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+              회원가입
+            </Typography>
+            <Button
+              onClick = {() => navigate('/login')}
+              variant="outlined"
+              size="small"
+              sx={{
+                cursor: 'pointer',
+                borderRadius: '20px',
+                textTransform: 'none',
+                whiteSpace: 'nowrap',
+                width: '61px',
+                height: '30px',
+                border: '1px solid var(--nuetral-50)',
+                '&:hover': {
+                  borderColor: 'var(--nuetral-60)',       // 호버 시 테두리 색
+                  backgroundColor: 'var(--nuetral-30)',
+    
+              }}}
+              className='body-14-medium'
+            >
+              로그인
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </HideOnScroll>
   );
 };
 

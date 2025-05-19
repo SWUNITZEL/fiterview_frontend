@@ -5,7 +5,6 @@
   flex-direction: column;
   gap: 24px;
   padding: 24px 32px;
-  background: linear-gradient(180deg, #f5f7fe 0%, #ffffff 100%);
 }
 
 .reportDeliveryHeaderContent {
@@ -21,7 +20,7 @@
 
 .reportDeliveryHeaderText span:last-child {
   font-size: 14px;
-  color: var(--system-gray2);
+  color: var(--nuetral-gray5);
 }
 
 .reportDeliveryHeaderButtons {
@@ -43,7 +42,6 @@
 .reportDeliveryScoreBox {
   background: var(--background-color);
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 24px 32px;
   margin: 0 32px;
   display: flex;
@@ -96,11 +94,11 @@
 }
 
 .dot.blue {
-  background-color: var(--primary-color);
+  background-color: var(--primary-60);
 }
 
 .dot.red {
-  background-color: var(--system-pink);
+  background-color: var(--secondary-20);
 }
 
 .reportDeliveryDetails {
@@ -113,7 +111,6 @@
 .detailCard {
   background: var(--background-color);
   border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -134,7 +131,7 @@
 .graphPlaceholder {
   width: 48px;
   height: 48px;
-  background-color: var(--system-gray4);
+  background-color: var(--background-color);
   border-radius: 8px;
 }
 
@@ -146,7 +143,7 @@
 
 .tagButtons button {
   padding: 6px 12px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-60);
   border: none;
   color: var(--background-color);
   border-radius: 12px;
@@ -162,7 +159,7 @@
 }
 
 .reportDeliveryFooter button {
-  background-color: var(--system-gray5);
+  background-color: var(--nuetral-30);
   padding: 8px 20px;
   border-radius: 12px;
   border: none;

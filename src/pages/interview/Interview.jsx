@@ -8,7 +8,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import "./Interview.css";
-import { TbPlaystationCircle } from "react-icons/tb";
+import { CircleStackIcon } from "@heroicons/react/24/solid";
 
 /**
  * @component
@@ -266,8 +266,10 @@ function Interview() {
      */
     const sendAllVideosToServer = () => {
         const formData = new FormData();
+        console.log("videoChunks")
+        console.log(videoChunks)
         videoChunks.forEach((blob, index) => {
-            formData.append(`video${index}`, blob, `interview_part${index}.mp4`);
+            formData.append(`video${index}`, blob, `interview_part${index}.webm`);
         });
         fetch(videoUploadURL, {
             method: 'POST',
@@ -282,7 +284,7 @@ function Interview() {
             {/* 질문/녹화 버튼 컨테이너 */}
             <div className='header'>
                 <button onClick={recording ? stopRecording : startRecording} className= {recording ? 'record-state-after' : 'record-state'}>
-                    <h4><span><TbPlaystationCircle /></span> &nbsp; {recording ? '답변 완료' : '답변 시작'}</h4>
+                    <h4><span><CircleStackIcon /></span> &nbsp; {recording ? '답변 완료' : '답변 시작'}</h4>
                 </button>
                 <h3>{question}</h3>
             </div>
