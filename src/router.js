@@ -10,6 +10,9 @@ import ReportMain from './pages/resultReport/ReportMain';
 import ReportNonverbal from './pages/resultReport/ReportNonverbal';
 import ReportDelivery from './pages/resultReport/ReportDelivery';
 import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
+import ResultNotice from './pages/preResult/ResultNotice';
+import ReportGenerating from './pages/preResult/ReportGenerating';
+import InterviewResultSummary from './pages/preResult/InterviewResultSummary';
 
 const RouterConfig = () => {
   return (
@@ -24,6 +27,9 @@ const RouterConfig = () => {
       <Route path="/result/nonverbal" element={<ReportNonverbal />} />
       <Route path="/result/delivery" element={<ReportDelivery />} />
       <Route path="/result/analysis-by-an-answer" element={<ReportAnswerAnalysis />} />
+      <Route path="/result-notice" element={<ResultNotice />} />
+      <Route path="/report-generating" element={<ReportGenerating />} />
+      <Route path="/interview-summary" element={<InterviewResultSummary />} />
     </Routes>
   );
 };
