@@ -1,0 +1,109 @@
+/* InterviewSelfCheck.css */
+/* self-check */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-height: 100vh;
+}
+
+.left-panel {
+  color: var(--background-color);
+  min-height: fit-content; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  position: relative;
+}
+
+.permission-box {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: auto;
+  background-color: var(--nuetral-80);
+  border-radius: 16px;
+  width: 800px;
+  height: 600px;
+}
+
+.request-btn {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  background-color: var(--primary-60);
+  color: var(--background-color);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.preview-canvas {
+  display: block;
+  position: relative;
+  background-color: var(--nuetral-80);
+  width: 800px;
+  border-radius: 16px;
+}
+
+.right-panel {
+  width: 300px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.select-box{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  z-index: 1;
+  bottom: 15px;
+}
+
+.select-box select {
+  margin-bottom: 1rem;
+  padding: 5px;
+  min-width: 162px;
+  max-width: 162px;
+  border-radius: 50px;
+}
+
+.select-box select:focus {
+  outline: none;
+  box-shadow: none;
+  border: 2px solid var(--primary-60); /* 또는 원하시는 테두리 스타일로 */
+}
+
+.checkboxes label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  width: 16px;
+  color: var(--success-60);
+}
+
+.complete-btn {
+  width: 150px;
+  background-color: var(--background-color);
+  cursor: pointer;
+}
+
+.complete-btn:enabled {
+  background-color: var(--primary-60);
+  color: var(--background-color);
+}
+
