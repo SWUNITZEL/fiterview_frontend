@@ -29,24 +29,20 @@ function Interview() {
     const lastMent = "수고하셨습니다."
 
     /** 
-     * @state {boolean} isLooping - 면접관 영상 반복 여부
      * @state {boolean} recording - 녹화 여부
      * @state {string} question - 서버에서 받아온 질문
      * @state {Blob} videoChunks - 녹화된 비디오 Blob들, 면접 종료 후 한번에 전송
      * */
-    const [isLooping, setIsLooping] = useState(false);
     const [recording, setRecording] = useState(false); 
     const [question, setQuestion] = useState(''); 
     const videoChunks = useRef([])
 
     /** 
-     * @ref {Object} videoRef - 면접관 비디오 요소 참조 
      * @ref {Object} mediaRecorder - 미디어 레코더 객체 참조
      * @ref {Array} recordedChunks - 녹화된 데이터 저장
      * @ref {Object} websocket - 웹소켓 연결 객체
      * @var {string} preQuestion = 웹소켓이 두 번 열려 같은 질문을 두번 하지 않도록 이전 질문 저장
     */
-    const videoRef = useRef(null);
     const mediaRecorder = useRef(null);   
     const recordedChunks = useRef([]);
     const websocket = useRef(null);
@@ -59,14 +55,6 @@ function Interview() {
             document.body.style.backgroundColor = originalBodyStyle;
         };
     }, []);
-
-    useEffect(() => {
-        if (videoRef.current) {
-          videoRef.current.play().catch(error => {
-            console.log("자동 재생이 차단됨: ", error);
-          });
-        }
-      }, []);
 
     /**
      * @useEffect 웹소켓 연결 및 메시지 처리
@@ -123,6 +111,7 @@ function Interview() {
                 alert('면접이 완료되었습니다. 면접이 저장되기 전까지 페이지를 벗어나지 마세요.');
                 console.log(`websocket.current.onclose에서의 videoChunks 확인: ${videoChunks}`)
                 sendAllVideosToServer();
+                mediaRecorder.current?.stream?.getTracks().forEach(track => track.stop());
                 mediaRecorder.current = null; // 스트림 해제
                 alert('파일이 저장이 완료되었습니다.');
                 window.location.replace(resultLoadingURL);
@@ -143,13 +132,6 @@ function Interview() {
             };
         },2000)
     }, []);
-
-    const handleVideoEnd = () => {
-        if (isLooping) {
-          videoRef.current.currentTime = 0;
-          videoRef.current.play();
-        }
-    };
 
     // 녹화 시작시 실행될 함수
     const startRecording = async () => {
@@ -291,7 +273,7 @@ function Interview() {
                 <h3>{question}</h3>
             </div>
             {/* 면접관 영상 */}
-            <video ref={videoRef} src="videos\interviewer.mp4" alt="interviewer_video" className={recording ? 'interviewer-c' : 'interviewer-w'} onEnded={handleVideoEnd} style={{ pointerEvents: "none" }}/>
+            <video src="videos\interviewer.mp4" alt="interviewer_video" className={recording ? 'interviewer-c' : 'interviewer-w'} style={{ pointerEvents: "none" }}/>
         </div>
     );
 }

@@ -7,7 +7,7 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/react/24/outline";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
@@ -56,8 +56,15 @@ const InterviewConditionSelection = () => {
   const selectedUniversity = universities.find((u) => u.name === school);
 
   return (
-    <div className="full-screen overflow-hidden">
+    <Container maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        minHeight: "100vh",
+        padding: "0 0",
+        overflow: "hidden"
+      }}>
       <NavbarComponent />
+      <div style={{display:"flex"}}>
       <div className="side-margin"></div>
       <main className="child-column-center content-box move-down">
         <h2 className="title-32-bold title-center" style={{marginTop: "80px", marginBottom: "96px", textAlign:"center"}}>면접 연습 전 아래 사항을 체크해 주세요!</h2>
@@ -146,7 +153,8 @@ const InterviewConditionSelection = () => {
           </div>
       </main>
       <div className="side-margin"></div>
-    </div>
+      </div>
+    </Container>
   );
 };
 
