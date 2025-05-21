@@ -9,7 +9,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "./Interview.css";
 import { CircleStackIcon } from "@heroicons/react/24/solid";
-import { Container } from '@mui/material';
+import { Container, Button } from '@mui/material';
 
 /**
  * @component
@@ -63,71 +63,71 @@ function Interview() {
      * - 마지막 질문이면 웹소켓 연결 종료 및 결과 페이지 이동
      */
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            websocket.current = new WebSocket(websocketURL);
-            // onopen: 웹소켓 연결 성공 후 실행
-            websocket.current.onopen = () => console.log('WebSocket connection opened');
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //         websocket.current = new WebSocket(websocketURL);
+    //         // onopen: 웹소켓 연결 성공 후 실행
+    //         websocket.current.onopen = () => console.log('WebSocket connection opened');
 
-            // onmessage: 파일 수신 완료 후 실행
-            websocket.current.onmessage = (event) => {
+    //         // onmessage: 파일 수신 완료 후 실행
+    //         websocket.current.onmessage = (event) => {
             
-            let receiveText = event.data;
-            console.log(receiveText)
-            setQuestion(receiveText)
+    //         let receiveText = event.data;
+    //         console.log(receiveText)
+    //         setQuestion(receiveText)
 
-            /** 
-             * @function playTTSAndRecord
-             * @description TTS 실행, 실행 후 비디오 녹화 시작
-             * */
-            function playTTSAndRecord() {
-                preQuestion = receiveText
+    //         /** 
+    //          * @function playTTSAndRecord
+    //          * @description TTS 실행, 실행 후 비디오 녹화 시작
+    //          * */
+    //         function playTTSAndRecord() {
+    //             preQuestion = receiveText
 
-                var utterance = new SpeechSynthesisUtterance(receiveText);
-                utterance.lang = 'ko-KR'; // 한글로 설정
+    //             var utterance = new SpeechSynthesisUtterance(receiveText);
+    //             utterance.lang = 'ko-KR'; // 한글로 설정
                 
-                utterance.onend = () => {
-                    if (receiveText !== lastMent){
-                        startRecording();
-                    }
-                };
-                speechSynthesis.speak(utterance);
-            }
+    //             utterance.onend = () => {
+    //                 if (receiveText !== lastMent){
+    //                     startRecording();
+    //                 }
+    //             };
+    //             speechSynthesis.speak(utterance);
+    //         }
 
-            // 이전 질문과 현재 질문이 같지 않다면 TTS 실행
-            if (receiveText !== preQuestion){
-                playTTSAndRecord() //TTS 실행
-            }
+    //         // 이전 질문과 현재 질문이 같지 않다면 TTS 실행
+    //         if (receiveText !== preQuestion){
+    //             playTTSAndRecord() //TTS 실행
+    //         }
             
-            // 만일 받아온 텍스트가 마무리 멘트라면
-            if (receiveText === lastMent){
-                websocket.current.close() // 웹소켓 연결 종료
-            }
-            };
+    //         // 만일 받아온 텍스트가 마무리 멘트라면
+    //         if (receiveText === lastMent){
+    //             websocket.current.close() // 웹소켓 연결 종료
+    //         }
+    //         };
 
-            // onclose: 연결 종료시 실행
-            websocket.current.onclose = async () => {
-                alert('면접이 완료되었습니다.');
-                mediaRecorder.current?.stream?.getTracks().forEach(track => track.stop());
-                mediaRecorder.current = null; // 스트림 해제
-                window.location.replace(resultLoadingURL);
-            };
+    //         // onclose: 연결 종료시 실행
+    //         websocket.current.onclose = async () => {
+    //             alert('면접이 완료되었습니다.');
+    //             mediaRecorder.current?.stream?.getTracks().forEach(track => track.stop());
+    //             mediaRecorder.current = null; // 스트림 해제
+    //             window.location.replace(resultLoadingURL);
+    //         };
 
-            // onerror: 에러가 발생시 실행
-            websocket.current.onerror = (error) => {
-                console.error('WebSocket error:', error); // 에러 발생 메세지
-            };
+    //         // onerror: 에러가 발생시 실행
+    //         websocket.current.onerror = (error) => {
+    //             console.error('WebSocket error:', error); // 에러 발생 메세지
+    //         };
         
-            // 브라우저 주소 이동 등으로 연결이 종료되면
-            return () => {
-            if (websocket.current) {
-                console.log('Closing WebSocket on unmount');
-                websocket.current.close();
-                clearTimeout(timer)
-            }
-            };
-        },2000)
-    }, []);
+    //         // 브라우저 주소 이동 등으로 연결이 종료되면
+    //         return () => {
+    //         if (websocket.current) {
+    //             console.log('Closing WebSocket on unmount');
+    //             websocket.current.close();
+    //             clearTimeout(timer)
+    //         }
+    //         };
+    //     },2000)
+    // }, []);
 
     // 녹화 시작시 실행될 함수
     const startRecording = async () => {
@@ -168,7 +168,7 @@ function Interview() {
     const sendVideoToServer = (videoBlob) => {
         const formData = new FormData();
         formData.append('video', videoBlob, 'recorded_video.webm');
-        fetch(videoUploadURL, {
+        fetch(websocketURL, {
             method: 'POST',
             body: formData
         })
@@ -183,17 +183,31 @@ function Interview() {
                 backgroundColor: "var(--background-color)",
                 minHeight: "100vh",
                 padding: "0 0",
-                overflow: "hidden"
+                overflow: "hidden",
+                display:"flex"
               }}>
+            <div className='side-margin'></div>
             {/* 질문/녹화 버튼 컨테이너 */}
-            <div className='header'>
-                <button onClick={recording ? stopRecording : startRecording} className= {recording ? 'record-state-after' : 'record-state'}>
-                    <h4><span><CircleStackIcon /></span> &nbsp; {recording ? '답변 완료' : '답변 시작'}</h4>
-                </button>
-                <h3>{question}</h3>
+            <div className='interview-container'>
+                <video autoPlay muted loop playsInline className="bg-video">
+                    <source src="/videos/interviewer.mp4" type="video/mp4" />
+                    브라우저가 동영상을 지원하지 않습니다.
+                </video>
+                <div className='contents-container'>
+                    <div className='text-container'>
+                        {question}
+                        <Button
+                              onClick={recording ? stopRecording : startRecording}
+                              className="complete-btn"
+                              size="large"
+                              sx={{ borderRadius: '8px', padding: '8px 16px', marginTop: '20px' }}
+                            >
+                        {recording ? '답변 완료' : '답변 시작'}
+                    </Button>
+                    </div>
+                </div>
             </div>
-            {/* 면접관 영상 */}
-            <video src="videos\interviewer.mp4" alt="interviewer_video" className={recording ? 'interviewer-c' : 'interviewer-w'} style={{ pointerEvents: "none" }}/>
+            <div className='side-margin'></div>
         </Container>
     );
 }
