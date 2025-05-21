@@ -1,47 +1,8 @@
-.interview-page-wrapper {
-  background-color: var(--background-color);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  font-family: 'Pretendard';
-}
-
-.logo-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 24px;
-  height: 60px;
-}
-
-.logo-img {
-  width: 120px;
-  height: auto;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.login-placeholder {
-  color: var(--font-dark);
-  font-size: 14px;
-}
-
-.avatar-placeholder {
-  width: 32px;
-  height: 32px;
-  background-color: var(--nuetral-40);
-  border-radius: 50%;
-}
-
 .content-box {
-  flex-grow: 1;
-  padding: 20px;
+  flex-grow: 1 1 auto;
   justify-content: flex-start;
+  width: calc(100% - 480px); /* 정확히 전체 너비 맞추기 */
+  box-sizing: border-box;
 }
 
 .move-down {

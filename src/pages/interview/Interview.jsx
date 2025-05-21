@@ -9,6 +9,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "./Interview.css";
 import { CircleStackIcon } from "@heroicons/react/24/solid";
+import { Container } from '@mui/material';
 
 /**
  * @component
@@ -25,28 +26,22 @@ function Interview() {
      * */
     const websocketURL = process.env.REACT_APP_WS_URL
     const videoUploadURL = `${process.env.REACT_APP_API_URL}`
-    const resultLoadingURL = ""
+    const resultLoadingURL = "/home"
     const lastMent = "수고하셨습니다."
 
     /** 
-     * @state {boolean} isLooping - 면접관 영상 반복 여부
      * @state {boolean} recording - 녹화 여부
      * @state {string} question - 서버에서 받아온 질문
-     * @state {Blob} videoChunks - 녹화된 비디오 Blob들, 면접 종료 후 한번에 전송
      * */
-    const [isLooping, setIsLooping] = useState(false);
     const [recording, setRecording] = useState(false); 
     const [question, setQuestion] = useState(''); 
-    const videoChunks = useRef([])
 
     /** 
-     * @ref {Object} videoRef - 면접관 비디오 요소 참조 
      * @ref {Object} mediaRecorder - 미디어 레코더 객체 참조
      * @ref {Array} recordedChunks - 녹화된 데이터 저장
      * @ref {Object} websocket - 웹소켓 연결 객체
      * @var {string} preQuestion = 웹소켓이 두 번 열려 같은 질문을 두번 하지 않도록 이전 질문 저장
     */
-    const videoRef = useRef(null);
     const mediaRecorder = useRef(null);   
     const recordedChunks = useRef([]);
     const websocket = useRef(null);
@@ -59,14 +54,6 @@ function Interview() {
             document.body.style.backgroundColor = originalBodyStyle;
         };
     }, []);
-
-    useEffect(() => {
-        if (videoRef.current) {
-          videoRef.current.play().catch(error => {
-            console.log("자동 재생이 차단됨: ", error);
-          });
-        }
-      }, []);
 
     /**
      * @useEffect 웹소켓 연결 및 메시지 처리
@@ -120,11 +107,9 @@ function Interview() {
 
             // onclose: 연결 종료시 실행
             websocket.current.onclose = async () => {
-                alert('면접이 완료되었습니다. 면접이 저장되기 전까지 페이지를 벗어나지 마세요.');
-                console.log(`websocket.current.onclose에서의 videoChunks 확인: ${videoChunks}`)
-                sendAllVideosToServer();
+                alert('면접이 완료되었습니다.');
+                mediaRecorder.current?.stream?.getTracks().forEach(track => track.stop());
                 mediaRecorder.current = null; // 스트림 해제
-                alert('파일이 저장이 완료되었습니다.');
                 window.location.replace(resultLoadingURL);
             };
 
@@ -143,13 +128,6 @@ function Interview() {
             };
         },2000)
     }, []);
-
-    const handleVideoEnd = () => {
-        if (isLooping) {
-          videoRef.current.currentTime = 0;
-          videoRef.current.play();
-        }
-    };
 
     // 녹화 시작시 실행될 함수
     const startRecording = async () => {
@@ -177,112 +155,36 @@ function Interview() {
 
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
-            videoChunks.current.push(blob);
-            recordedChunks.current = []; //레코드 저장 공간 리셋
-            console.log(`videoChunks update: ${videoChunks}`)
-            
+            recordedChunks.current = []; //레코드 저장 공간 리셋            
             // 서버에 blob 데이터 전송
-            extractAndSendAudio(blob);
+            sendVideoToServer(blob);
         };
     };
 
     /**
-     * @function extractAndSendAudio
-     * @description 답변 종료 시 저장된 비디오의 오디오를 추출하고 sendAudioToServer 호출
-     * 
-     * @function sendAudioToServer
-     * @description 답변 종료 시 저장된 비디오의 오디오를 소켓으로 전송
-     */
-    const encodeWAV = (audioBuffer) => {
-        const numOfChan = audioBuffer.numberOfChannels;
-        const length = audioBuffer.length * numOfChan * 2 + 44;
-        const buffer = new ArrayBuffer(length);
-        const view = new DataView(buffer);
-    
-        // RIFF chunk descriptor
-        writeString(view, 0, 'RIFF');
-        view.setUint32(4, 36 + audioBuffer.length * numOfChan * 2, true);
-        writeString(view, 8, 'WAVE');
-    
-        // FMT sub-chunk
-        writeString(view, 12, 'fmt ');
-        view.setUint32(16, 16, true); // SubChunk1Size
-        view.setUint16(20, 1, true);  // PCM
-        view.setUint16(22, numOfChan, true);
-        view.setUint32(24, audioBuffer.sampleRate, true);
-        view.setUint32(28, audioBuffer.sampleRate * numOfChan * 2, true);
-        view.setUint16(32, numOfChan * 2, true);
-        view.setUint16(34, 16, true); // bits/sample
-    
-        // data sub-chunk
-        writeString(view, 36, 'data');
-        view.setUint32(40, audioBuffer.length * numOfChan * 2, true);
-    
-        // write interleaved PCM samples
-        let offset = 44;
-        for (let i = 0; i < audioBuffer.length; i++) {
-            for (let channel = 0; channel < numOfChan; channel++) {
-                const sample = audioBuffer.getChannelData(channel)[i];
-                const s = Math.max(-1, Math.min(1, sample));
-                view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-                offset += 2;
-            }
-        }
-    
-        return new Blob([view], { type: 'audio/wav' });
-    };
-    
-    const writeString = (view, offset, string) => {
-        for (let i = 0; i < string.length; i++) {
-            view.setUint8(offset + i, string.charCodeAt(i));
-        }
-    };
-    
-    const extractAndSendAudio = (videoBlob) => {
-        const audioContext = new AudioContext();
-        const reader = new FileReader();
-        reader.readAsArrayBuffer(videoBlob);
-        reader.onloadend = async () => {
-            try {
-                const audioBuffer = await audioContext.decodeAudioData(reader.result);
-                const wavBlob = encodeWAV(audioBuffer); // <-- WAV로 인코딩
-                sendAudioToServer(wavBlob);
-            } catch (err) {
-                console.error("오디오 추출 실패:", err);
-            }
-        };
-    };
-    const sendAudioToServer = (audioBlob) => {
-        if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                websocket.current.send(reader.result);
-            };
-            reader.readAsArrayBuffer(audioBlob);
-        }
-    };
-
-    /**
-     * @function sendAllVideosToServer
-     * @description 페이지 종료 시 저장된 비디오를 한 번에 서버로 전송
-     */
-    const sendAllVideosToServer = () => {
+     * @function sendVideoToServer
+     * @description 답변 종료 시 저장된 비디오를 소켓으로 전송
+     */    
+    const sendVideoToServer = (videoBlob) => {
         const formData = new FormData();
-        console.log("sendAllVideosToServer")
-        console.log(`videoChunks: ${videoChunks}`)
-        videoChunks.current.forEach((blob, index) => {
-            formData.append(`video${index}`, blob, `interview_part${index}.webm`);
-        });
+        formData.append('video', videoBlob, 'recorded_video.webm');
         fetch(videoUploadURL, {
             method: 'POST',
             body: formData
-        }).then(response => response.json())
-          .then(data => console.log('Upload successful:', data))
-          .catch(error => console.error('Upload error:', error));
+        })
+        .then(res => res.json())
+        .then(data => console.log('비디오 업로드 성공:', data))
+        .catch(err => console.error('비디오 업로드 실패:', err));
     };
 
     return (
-        <div className='interview'>
+        <Container maxWidth={false}
+              style={{
+                backgroundColor: "var(--background-color)",
+                minHeight: "100vh",
+                padding: "0 0",
+                overflow: "hidden"
+              }}>
             {/* 질문/녹화 버튼 컨테이너 */}
             <div className='header'>
                 <button onClick={recording ? stopRecording : startRecording} className= {recording ? 'record-state-after' : 'record-state'}>
@@ -291,8 +193,8 @@ function Interview() {
                 <h3>{question}</h3>
             </div>
             {/* 면접관 영상 */}
-            <video ref={videoRef} src="videos\interviewer.mp4" alt="interviewer_video" className={recording ? 'interviewer-c' : 'interviewer-w'} onEnded={handleVideoEnd} style={{ pointerEvents: "none" }}/>
-        </div>
+            <video src="videos\interviewer.mp4" alt="interviewer_video" className={recording ? 'interviewer-c' : 'interviewer-w'} style={{ pointerEvents: "none" }}/>
+        </Container>
     );
 }
 
