@@ -37,7 +37,8 @@ function Interview() {
      * @constant {string} resultLoadingURL - 결과 페이지 URL
      * @constant {string} lastMent - 면접 종료 멘트 
      * */
-    const WEBSOCKET_URL = `${process.env.REACT_APP_WS_URL}interview/${interviewId}`
+    const WEBSOCKET_URL = `${process.env.REACT_APP_WS_URL}interview/1`
+    // ${interviewId}
     const FRONT_HOME_URL = "/home"
     const lastMent = "수고하셨습니다."
 
@@ -76,8 +77,6 @@ function Interview() {
             // onopen: 웹소켓 연결 성공 후 실행
             websocket.current.onopen = () => {
                 console.log('WebSocket connection opened');
-
-                // interviewId는 외부에서 전달받았다고 가정 (예: location.state, query 등)
                 if (interviewId) {
                     websocket.current.send(JSON.stringify({
                     type: "init",
