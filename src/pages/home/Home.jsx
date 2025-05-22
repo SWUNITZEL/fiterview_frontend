@@ -6,12 +6,11 @@
  * @lastModified 2025-04-03
 **/
 
-import React
-// , {useState, useEffect} 
-from 'react';
+import {useState, useEffect} from 'react';
 import { Container } from "@mui/material";
 import NavbarComponent from '../../components/Navbar'
 import "./Home.css"
+import MainBanner from "./MainBanner"
 
 function Home() {
   /**
@@ -38,7 +37,7 @@ function Home() {
         overflow: "hidden"
       }}>
       <NavbarComponent />
-
+      <MainBanner />
       
       
     </Container>

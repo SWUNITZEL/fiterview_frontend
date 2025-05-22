@@ -4,7 +4,6 @@
  * @author 이찬우
  * @created 2025-05-07
 **/
-
 import React from 'react';
 import './AIMock.css'; // 아래 CSS 참고
 
@@ -60,29 +59,39 @@ const steps = [
     [
         {
             title: '나이스 대국민 학부모서비스 접속',
-            description: '나이스 대국민 학부모서비스에 접속하세요.',
-            image: '/images/step01.png',
-            buttons: ['안드로이드 앱 다운로드', 'iOS 앱 다운로드']
+            description: `나이스 대한민국 서비스 '학부모 서비스'에 접속해 주세요.`,
+            image: '/images/nice/step01.png',
+            buttons: ['바로가기']
         },
         {
             title: '학교생활기록 선택',
-            description: '로그인 후 학교생활기록을 클릭해 주세요.',
-            image: '/images/step02.png',
+            description: `로그인 후 '학교생활기록'을 클릭합니다.`,
+            image: '/images/nice/step02.png',
         },
         {
-            title: '학교생활기록 확인',
-            description: '학교생활기록의 항목을 모두 선택해 주세요.',
-            image: '/images/step03.png',
+            title: '대입전형자료 선택',
+            description: `'자녀생활 > 학교생활기록'을 선택합니다.`,
+            image: '/images/nice/step03.png',
         },
         {
-            title: 'HTML 파일 저장',
-            description: '브라우저(크롬, 엣지)의 페이지 저장 기능을 활용해 문서를 저장합니다.파일 형식은 웹페이지, 전부또는 웹페이지, 완료로 설정하세요.',
-            image: '/images/step04.png',
+            title: '자료 상세사항 설정자료 상세사항 설정',
+            description: `대입 학년도와 모집 구분을 설정한 후, '조회' 버튼을 누릅니다.\n대입 학년도는 대학 입학 예정 년도를,모집 구분은 수시를 선택해 주세요.`,
+            image: '/images/nice/step04.png',
         },
         {
-            title: '생기부 등록',
-            description: '생기부 페이지에 파일을 등록해 주세요.',
-            image: '/images/step05.png',
+            title: '대입전형 제공자료',
+            description: `대입전형자료 요청내역 상단의 '대입전형 제공자료'\n버튼을 클릭합니다.`,
+            image: '/images/nice/step05.png',
+        },
+        {
+            title: '페이지 저장하기',
+            description: '브라우저(크롬, 엣지)의 페이지 저장 기능으로 문서를\n저장합니다.',
+            image: '/images/nice/step06.png',
+        },
+        {
+            title: 'html 파일 업로드',
+            description: '파일 형식을 웹페이지, 전부로 설정하고 저장합니다.\n저장한 폴더에 _files 폴더와 .html 파일이 저장됩니다.',
+            image: '/images/nice/step07.png',
         }
     ]
 ];
@@ -107,7 +116,7 @@ const StudentRecordGuide = ({stepsIdx}) => {
                 </div>
               )}
             </div>
-            {step.image && <img src={step.image} alt={step.title} className="step-image" />}
+            {step.image && <img src={step.image} alt={step.title} className="step-image drop-shadow-medium" />}
           </div>
         </div>
       ))}

@@ -5,7 +5,7 @@
  * @created 2025-05-07
 **/
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
