@@ -10,7 +10,6 @@ const SoundCheck = () => {
     
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
-    const audioRef = useRef(null); // 녹음된 오디오 재생용
     const mediaRecorderRef = useRef(null); // MediaRecorder 인스턴스
     const chunksRef = useRef([]); // 녹음 데이터 저장
 

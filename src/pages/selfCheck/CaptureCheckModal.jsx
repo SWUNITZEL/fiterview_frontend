@@ -11,7 +11,7 @@ const CaptureModal = ({ capturedImage, open, onClose }) => {
   const location = useLocation();
   const { selectedMic, selectedCam } = location.state || {}
 
-  const imgUploadAndGetInterviewIdURL = `${process.env.REACT_APP_API_URL}/interview/upload-image`
+  const imgUploadAndGetInterviewIdURL = `${process.env.REACT_APP_API_URL}interview/waiting-room`
 
   const onConfirm = async () => {
     if (!capturedImage) return;

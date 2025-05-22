@@ -12,7 +12,8 @@ import { FolderPlusIcon } from "@heroicons/react/24/solid";
 
 const PreUploadBanner = () => {
 
-    const maxSize = 40 * 1024 * 1024; // 3MB
+    const maxSize = 40 * 1024 * 1024;
+    const uploadPdfURL = `${process.env.REACT_APP_API_URL}school-records/upload`
 
     const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
         if (fileRejections.length > 0) {
@@ -25,7 +26,7 @@ const PreUploadBanner = () => {
         formData.append('pdf', file);
 
         try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload-pdf`, formData, {
+        const res = await axios.post(uploadPdfURL, formData, {
             headers: {
             'Content-Type': 'multipart/form-data',
             },
