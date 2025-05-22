@@ -5,7 +5,7 @@
  * @created 2025-05-07
 **/
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './AIMock.css';
 import StudentRecordGuide from './StudentRecordGuide';
 

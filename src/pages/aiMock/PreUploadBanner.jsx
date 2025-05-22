@@ -5,13 +5,15 @@
  * @created 2025-05-07
 **/
 
-import React, { useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
+import LoadingModal from '../../components/LoadingModal';
+
 
 const PreUploadBanner = () => {
-
+    const [isLoading, setIsLoading] = useState(false)
     const maxSize = 40 * 1024 * 1024;
     const uploadPdfURL = `${process.env.REACT_APP_API_URL}school-records/upload`
 
@@ -26,19 +28,22 @@ const PreUploadBanner = () => {
         formData.append('pdf', file);
 
         try {
-        const res = await axios.post(uploadPdfURL, formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data',
-            },
-        });
-        alert('업로드 성공: ' + JSON.stringify(res.data));
+            setIsLoading(true)
+            const res = await axios.post(uploadPdfURL, formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert('업로드 성공: ' + JSON.stringify(res.data));
         } catch (err) {
-        console.error('업로드 실패', err);
-        alert('업로드 중 오류 발생');
+            console.error('업로드 실패', err);
+            alert('업로드 중 오류 발생');
+        } finally {
+            setIsLoading(false)
         }
-    }, []);
+    }, [uploadPdfURL]);
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const { getRootProps, getInputProps } = useDropzone({
         onDrop,
         accept: { 'application/pdf': ['.pdf'] },
         multiple: false,
@@ -47,6 +52,7 @@ const PreUploadBanner = () => {
 
     return (
         <div className="center-both child-row preupload-banner" >
+            {isLoading && <LoadingModal />}
                 <div className='preupload-banner-container'>
                     <h1 className='title-32-bold' style={{textAlign:"center",color:"var(--nuetral-10)"}}>생기부 문서업로드</h1>
                     <div {...getRootProps()} className="dropzone drop-shadow-small">

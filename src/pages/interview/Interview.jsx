@@ -9,7 +9,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream'
-import { Container, Button, Chip } from '@mui/material';
+import { Container, Button, Chip, LinearProgress } from '@mui/material';
+
 import "./Interview.css";
 
 /**
@@ -36,15 +37,17 @@ function Interview() {
      * @constant {string} resultLoadingURL - 결과 페이지 URL
      * @constant {string} lastMent - 면접 종료 멘트 
      * */
-    const websocketURL = `${process.env.REACT_APP_WS_URL}interview/1`
-    const resultLoadingURL = "/home"
+    const WEBSOCKET_URL = `${process.env.REACT_APP_WS_URL}interview/1`
+    // ${interviewId}
+    const FRONT_HOME_URL = "/home"
     const lastMent = "수고하셨습니다."
 
     /** 
      * @state {boolean} recording - 녹화 여부
      * @state {string} question - 서버에서 받아온 질문
      * */
-    const [recording, setRecording] = useState(false); 
+    const [recording, setRecording] = useState(false);
+    const [readyForChainQuestion, setReadyForChainQuestion] = useState(false) 
     const [question, setQuestion] = useState(''); 
     const [totalQustions, setTotalQustions] = useState(4)
     const [completedQustions, setCompletedQustions] = useState(1)
@@ -70,9 +73,21 @@ function Interview() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            websocket.current = new WebSocket(websocketURL);
+            websocket.current = new WebSocket(WEBSOCKET_URL);
             // onopen: 웹소켓 연결 성공 후 실행
-            websocket.current.onopen = () => console.log('WebSocket connection opened');
+            websocket.current.onopen = () => {
+                console.log('WebSocket connection opened');
+                if (interviewId) {
+                    websocket.current.send(JSON.stringify({
+                    type: "init",
+                    interviewId: interviewId,
+                    source: "interview" 
+                    }));
+                    console.log('init 메시지 전송됨:', interviewId);
+                } else {
+                    console.error('interviewId가 없습니다. init 메시지를 보낼 수 없습니다.');
+                }
+                }
 
             // onmessage: 파일 수신 완료 후 실행
             websocket.current.onmessage = (event) => {
@@ -115,7 +130,7 @@ function Interview() {
                 alert('면접이 완료되었습니다.');
                 mediaRecorder.current?.stream?.getTracks().forEach(track => track.stop());
                 mediaRecorder.current = null; // 스트림 해제
-                window.location.replace(resultLoadingURL);
+                window.location.replace(FRONT_HOME_URL);
             };
 
             // onerror: 에러가 발생시 실행
@@ -183,7 +198,7 @@ function Interview() {
         const reader = new FileReader();
         reader.onload = () => {
             websocket.current.send(reader.result);
-            console.log("비디오 전송 수신 완료")
+            console.log("비디오 전송")
         };
         reader.readAsArrayBuffer(videoBlob);
     } else {
@@ -204,12 +219,21 @@ function Interview() {
             <div className='side-margin'></div>
             {/* 질문/녹화 버튼 컨테이너 */}
             <div className='interview-container'>
+                <div className='loading' style={{display:readyForChainQuestion?"flex":"none"}}>
+                    <h4 className='title-24-bold' style={{color:"var(--background-color)", marginTop:"100px", textAlign:"center"}}>AI 면접관이 꼬리질문을<br />출제하고 있어요</h4>
+                    <LinearProgress sx={{
+                        width:"400px",
+                        borderRadius:"16px",                        
+                    '& .MuiLinearProgress-bar1Determinate': {
+                        backgroundColor: 'var(--primary-60)',
+                    }}} />
+                </div>
                 <video autoPlay muted loop playsInline className="bg-video">
                     <source src="/videos/interviewer.mp4" type="video/mp4" />
                     브라우저가 동영상을 지원하지 않습니다.
                 </video>
                 <Chip className="recording" label="녹화 중" sx={{backgroundColor:"var(--error-20)", display:recording?"flex":"none"}} />
-                <div className='contents-container'>
+                <div className='contents-container' style={{boxShadow:recording?"0 0 0 2px var(--error-60) inset":"none"}}>
                     <div className='text-container'>
                         <Chip className="progress" label={`${completedQustions}/${totalQustions}`} sx={{backgroundColor:"var(--background-color)"}} />
                         <div className='question-container subtitle-20-bold'>

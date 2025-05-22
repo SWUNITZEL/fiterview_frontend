@@ -5,7 +5,7 @@
  * @created 2025-05-07
 **/
 
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { Button } from "@mui/material";
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';

@@ -12,6 +12,7 @@ import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
 import "./InterviewConditionSelection.css";
+import { PATH } from "../../constants/paths"
 
 const InterviewConditionSelection = () => {
   const navigate = useNavigate();
@@ -30,28 +31,28 @@ const InterviewConditionSelection = () => {
 
 
  const handleSelectPersona = () => {
-  if (
-    school &&
-    department &&
-    interviewType &&
-    questionCount &&
-    timeLimit &&
-    interviewDate
-  ) {
-    navigate("/select-interview-condition/persona", {
-      state: {
+    if (
+      school &&
+      department &&
+      interviewType &&
+      questionCount &&
+      timeLimit &&
+      interviewDate
+    ) {
+      const queryParams = new URLSearchParams({
         school,
         department,
         interviewType,
-        questionCount,
-        timeLimit,
+        questionCount: questionCount.toString(),
+        timeLimit: timeLimit.toString(),
         interviewDate,
-      },
-    });
-  } else {
-    alert("모든 항목을 입력해 주세요.");
+      }).toString();
+
+      navigate(`${PATH.INTERVIEW_CONFIG_PERSONA}?${queryParams}`);
+    } else {
+      alert("모든 항목을 입력해 주세요.");
+    }
   }
-};
 
   const selectedUniversity = universities.find((u) => u.name === school);
 
