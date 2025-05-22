@@ -5,7 +5,7 @@
  * @created 2025-05-07
 **/
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./AIMock.css";
 import { Container } from "@mui/material";
 import { getCookie } from '../../utils/cookies'; 

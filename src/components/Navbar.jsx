@@ -5,6 +5,7 @@
 **/
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PATH } from '../constants/paths';
 import {
   AppBar,
   Toolbar,
@@ -48,21 +49,21 @@ const Navbar = () => {
               })}
         >
           {/* 왼쪽 로고 */}
-          <Box onClick = {() => navigate('/home')} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box onClick = {() => navigate(PATH.HOME)} sx={{ display: 'flex', alignItems: 'center' }}>
             <img src="/logo.svg" alt="Logo" style={{ cursor: 'pointer', height: 32 }} />
           </Box>
 
           {/* 오른쪽 메뉴 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Typography onClick = {() => navigate('/ai-mock')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+            <Typography onClick = {() => navigate(PATH.AI_MOCK)} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
               AI 모의면접
             </Typography>
             <Divider orientation="vertical" flexItem sx={{height:'24px', margin:'auto', borderBottomWidth: '2px'}}/>
-            <Typography onClick = {() => navigate('/login')} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+            <Typography onClick = {() => navigate(PATH.JOIN)} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
               회원가입
             </Typography>
             <Button
-              onClick = {() => navigate('/login')}
+              onClick = {() => navigate(PATH.LOGIN)}
               variant="outlined"
               size="small"
               sx={{

@@ -5,6 +5,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { Button } from '@mui/material';
 import useMediaSetup from '../../hooks/useMediaSetup';
 import useMediaStream from '../../hooks/useMediaStream';
+import { PATH } from '../../constants/paths';
 
 const SelfCheck = () => {
   const navigate = useNavigate();
@@ -129,7 +130,7 @@ const SelfCheck = () => {
 
           <Button
             onClick={() =>
-              navigate('/self-check/sound-check', {
+              navigate(PATH.INTERVIEW_SELF_CHECK_SOUND, {
                 state: {
                   selectedMic,
                   selectedCam,

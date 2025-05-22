@@ -4,14 +4,16 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingModal from '../../components/LoadingModal';
 import './SelfCheck.css';
+import { PATH } from '../../constants/paths';
 
 const CaptureModal = ({ capturedImage, open, onClose }) => {
   const [loading, setLoading] = useState(false)
+  const [interviewId, setInterviewId] = useState(null)
   const navigate = useNavigate();
   const location = useLocation();
   const { selectedMic, selectedCam } = location.state || {}
 
-  const imgUploadAndGetInterviewIdURL = `${process.env.REACT_APP_API_URL}interview/waiting-room`
+  const INTERVIEW_INIT_URL = `${process.env.REACT_APP_API_URL}interview/waiting-room`
 
   const onConfirm = async () => {
     if (!capturedImage) return;
@@ -25,20 +27,20 @@ const CaptureModal = ({ capturedImage, open, onClose }) => {
       formData.append('image', blob, 'capture.png');
 
       // POST 요청 및 인터뷰 ID 응답 받기
-      const response = await axios.post(imgUploadAndGetInterviewIdURL, formData, {
+      const response = await axios.post(INTERVIEW_INIT_URL, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
-      const { interviewId } = response.data; // ✅ 백엔드에서 { interviewId: '...' } 형태로 응답한다고 가정
+      setInterviewId(response.data); // ✅ 백엔드에서 { interviewId: '...' } 형태로 응답한다고 가정
 
       if (!interviewId) {
         throw new Error('interviewId가 응답에 없습니다.');
       }
 
       // 완료되면 다음 화면으로 이동
-      navigate('/interview', {
+      navigate(PATH.INTERVIEW, {
         state: {
           interviewId,
           selectedMic,

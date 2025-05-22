@@ -4,22 +4,23 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@mui/material';
 import useMediaStream from '../../hooks/useMediaStream';
 import CustomAudioPlayer from '../../components/CustomAudioPlayer';
+import { PATH } from '../../constants/paths';
+
 
 const SoundCheck = () => {
     const navigate = useNavigate();
-    
-    const videoRef = useRef(null);
-    const canvasRef = useRef(null);
-    const mediaRecorderRef = useRef(null); // MediaRecorder 인스턴스
-    const chunksRef = useRef([]); // 녹음 데이터 저장
 
     const location = useLocation();
     const { selectedMic, selectedCam } = location.state || {};
+    const videoRef = useRef(null);
+    const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
 
     const [isRecording, setIsRecording] = useState(false);
     const [recordedAudioURL, setRecordedAudioURL] = useState(null);
+    const canvasRef = useRef(null);
 
-    const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
+    const mediaRecorderRef = useRef(null); // MediaRecorder 인스턴스
+    const chunksRef = useRef([]); // 녹음 데이터 저장
 
     // 비디오 스트리밍 → 캔버스에 그림
     useEffect(() => {
@@ -110,7 +111,7 @@ const SoundCheck = () => {
                 {recordedAudioURL && (
                 <Button
                 onClick={() =>
-                navigate('/self-check/face-check', {
+                navigate(PATH.INTERVIEW_SELF_CHECK_FACE, {
                     state: {
                     selectedMic,
                     selectedCam,
