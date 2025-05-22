@@ -10,6 +10,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream'
 import { Container, Button, Chip } from '@mui/material';
+
 import "./Interview.css";
 
 /**
@@ -183,7 +184,7 @@ function Interview() {
         const reader = new FileReader();
         reader.onload = () => {
             websocket.current.send(reader.result);
-            console.log("비디오 전송 수신 완료")
+            console.log("비디오 전송")
         };
         reader.readAsArrayBuffer(videoBlob);
     } else {
@@ -209,7 +210,7 @@ function Interview() {
                     브라우저가 동영상을 지원하지 않습니다.
                 </video>
                 <Chip className="recording" label="녹화 중" sx={{backgroundColor:"var(--error-20)", display:recording?"flex":"none"}} />
-                <div className='contents-container'>
+                <div className='contents-container' style={{boxShadow:recording?"0 0 0 2px var(--error-60) inset":"none"}}>
                     <div className='text-container'>
                         <Chip className="progress" label={`${completedQustions}/${totalQustions}`} sx={{backgroundColor:"var(--background-color)"}} />
                         <div className='question-container subtitle-20-bold'>
