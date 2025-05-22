@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom"; // ✅ 추가
+import { useLocation } from "react-router-dom";
+import { Container } from '@mui/material';
 import "./PersonaSelection.css";
 import { personas } from "../../data/personas";
 import NavbarComponent from '../../components/Navbar';
@@ -35,7 +36,14 @@ const PersonaSelection = () => {
   };
 
   return (
-    <div className="full-screen overflow-hidden">
+    <Container maxWidth={false}
+                  style={{
+                    backgroundColor: "var(--background-color)",
+                    minHeight: "100vh",
+                    padding: "0 0",
+                    overflow: "hidden",
+                    display:"flex"
+                  }}>
       <NavbarComponent />
       <div className="side-margin"></div>
 
@@ -77,7 +85,7 @@ const PersonaSelection = () => {
         </div>
       </main>
       <div className="side-margin"></div>
-    </div>
+    </Container>
   );
 };
 
