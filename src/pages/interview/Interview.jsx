@@ -6,10 +6,11 @@
  * @lastModified 2025-04-02
 **/
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream'
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
+import { PATH } from "../../constants/paths"
 
 import "./Interview.css";
 
@@ -37,9 +38,8 @@ function Interview() {
      * @constant {string} resultLoadingURL - 결과 페이지 URL
      * @constant {string} lastMent - 면접 종료 멘트 
      * */
-    const WEBSOCKET_URL = `${process.env.REACT_APP_WS_URL}interview/1`
-    // ${interviewId}
-    const FRONT_HOME_URL = "/home"
+    const WEBSOCKET_URL = `${process.env.REACT_APP_WS_URL}interview/1` // ${interviewId}
+    const FRONT_HOME_URL = PATH.HOME
     const lastMent = "수고하셨습니다."
 
     /** 

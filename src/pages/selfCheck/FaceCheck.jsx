@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@mui/material';
