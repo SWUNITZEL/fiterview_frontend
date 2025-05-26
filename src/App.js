@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./router";
 import MuiTheme from './components/MuiTheme';
+import { UserProvider } from './contexts/UserContext'
 
 const cache = createCache({ key: 'css', prepend: true });
 
@@ -14,9 +15,11 @@ function App() {
     <CacheProvider value={cache}>
       <ThemeProvider theme={MuiTheme}>
         <CssBaseline />
-        <Router>
-          <Routes />
-        </Router>
+        <UserProvider>
+          <Router>
+            <Routes />
+          </Router>
+        </UserProvider>
       </ThemeProvider>
     </CacheProvider>
   );
