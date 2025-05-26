@@ -7,7 +7,6 @@
 
 import { useEffect, useState } from "react";
 import "./AIMock.css";
-import { Container } from "@mui/material";
 import { useUser } from '../../contexts/UserContext';
 import NavbarComponent from '../../components/Navbar'
 import LoadingScreen from '../../components/LoadingScreen';
@@ -16,9 +15,35 @@ import PreUploadContents from "./PreUploadContents";
 import PostUploadBanner from "./PostUploadBanner";
 import PostUploadContents from "./PostUploadContents";
 
+import { Skeleton, Container } from "@mui/material";
+
 const AIMock = () => {
   const [isUpload, setIsUpload] = useState(false);
-  const user = useUser().user;
+  const { user, loading } = useUser();
+
+  if (loading) {
+    return (
+      <Container maxWidth={false}
+        style={{
+          backgroundColor: "var(--background-color)",
+          minHeight: "100vh",
+          padding: "0 0",
+          overflowX: "hidden",
+          display: "flex",             // ⭐ flex로 만들기
+          flexDirection: "column",
+          textAlign: "center",
+          alignItems: "center", 
+          justifyContent: "center"  
+        }}>
+          <NavbarComponent />        
+          <Skeleton variant="rectangular" width="100%" height={520} />
+          <Skeleton variant="text" width="40%" height={40} style={{ marginTop: "100px" }} />
+          <Skeleton variant="text" width="60%" height={80} style={{ marginTop: "40px"}} />
+          <Skeleton variant="rectangular" width="60%" height={700} style={{ marginTop: 40, margin: "auto" }} />
+        
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth={false}
@@ -29,11 +54,19 @@ const AIMock = () => {
         overflowX: "hidden"
       }}>
       <NavbarComponent />
-      {user && user.id? <PostUploadBanner userName={user.name}/>:<PreUploadBanner />}
-      {user && user.id? <PostUploadContents 
-                          userName={user.name}
-                          averageDataByCategory = {{}} />:<PreUploadContents />}
-      {/* <PostUploadContents userName={userName} averageDataByCategory={averageDataByCategory} /> */}
+      {user && user.id ? (
+        <PostUploadBanner userName={user.name}/>
+      ) : (
+        <PreUploadBanner />
+      )}
+      {user && user.id ? (
+        <PostUploadContents 
+          userName={user.name}
+          averageDataByCategory={{}} 
+        />
+      ) : (
+        <PreUploadContents />
+      )}
     </Container>
   );
 };

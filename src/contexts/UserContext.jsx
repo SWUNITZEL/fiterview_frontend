@@ -5,6 +5,7 @@ const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);  // ⭐ 로딩 상태 추가
 
   useEffect(() => {
     getCurrentUser()
@@ -13,12 +14,15 @@ export const UserProvider = ({ children }) => {
       })
       .catch(() => {
         console.warn('⚠️ 유저 정보 fetch 실패, 더미데이터 상태로 처리합니다.');
-        setUser({id:"cksdn", name:"찬우", profile: '/images/default/profile.png'}); // 실패 시 null (비로그인)
+        setUser({ id: 'cksdn', name: '찬우', profile: '/images/default/profile.png' });
+      })
+      .finally(() => {
+        setLoading(false);  // ⭐ 로딩 끝
       });
   }, []);
 
   return (
-    <UserContext.Provider value={{user}}>
+    <UserContext.Provider value={{ user, loading }}>
       {children}
     </UserContext.Provider>
   );
