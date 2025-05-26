@@ -9,7 +9,7 @@
 
 export const personas = [
   {
-    id: 1,
+    id: "1",
     name: "박민철 교수",
     role: "공과대학 면접관",
     description:
@@ -17,7 +17,7 @@ export const personas = [
     questions: "전공 적합성 > 성향 > 진위"
   },
   {
-    id: 2,
+    id: "2",
     name: "이수연 교수",
     role: "인문대학 면접관",
     description:
@@ -25,7 +25,7 @@ export const personas = [
     questions: "성향 > 전공 적합성 > 진위"
   },
   {
-    id: 3,
+    id: "3",
     name: "정우진 교수",
     role: "사회과학대학 면접관",
     description:
@@ -33,7 +33,7 @@ export const personas = [
     questions: "전공 적합성 > 성향 > 진위"
   },
   {
-    id: 4,
+    id: "4",
     name: "김진아 교수",
     role: "자연과학대학 면접관",
     description:
@@ -41,7 +41,7 @@ export const personas = [
     questions: "전공 적합성 > 진위 > 성향"
   },
   {
-    id: 5,
+    id: "5",
     name: "한유라 교수",
     role: "미술대학 면접관",
     description:

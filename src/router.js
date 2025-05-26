@@ -2,10 +2,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
-import Signup from "./pages/signup/Signup.jsx"
+import Join from "./pages/signup/Join.jsx"
 import AIMock from "./pages/aiMock/AIMock.jsx";
-import PersonaSelection from './pages/selection/PersonaSelection.jsx';
+
 import InterviewConditionSelection from './pages/selection/InterviewConditionSelection.jsx';
+import PersonaSelection from './pages/selection/PersonaSelection.jsx';
+
 import SelfCheck from "./pages/selfCheck/SelfCheck.jsx";
 import FaceCheck from "./pages/selfCheck/FaceCheck.jsx";
 import SoundCheck from "./pages/selfCheck/SoundCheck.jsx";
@@ -14,7 +16,7 @@ import ReportMain from './pages/resultReport/ReportMain';
 import ReportNonverbal from './pages/resultReport/ReportNonverbal';
 import ReportDelivery from './pages/resultReport/ReportDelivery';
 import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
-import PersonaSelection from './pages/selection/PersonaSelection.jsx';
+
 import ResultNotice from './pages/preResult/ResultNotice';
 import ReportGenerating from './pages/preResult/ReportGenerating';
 import InterviewResultSummary from './pages/preResult/InterviewResultSummary';
@@ -27,7 +29,7 @@ const RouterConfig = () => {
       <Route path={PATH.ROOT} element={<Navigate to={PATH.HOME} />} />
       <Route path={PATH.HOME} element={<Home />} />
       <Route path={PATH.LOGIN} element={<Login />} />
-      <Route path={PATH.JOIN} element={<Signup />} />
+      <Route path={PATH.JOIN} element={<Join />} />
       <Route path={PATH.AI_MOCK} element={<AIMock />} />
       <Route path={PATH.INTERVIEW} element={<Interview />} />
 

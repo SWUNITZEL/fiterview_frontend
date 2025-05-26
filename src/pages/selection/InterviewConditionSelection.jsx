@@ -17,22 +17,22 @@ import { PATH } from "../../data/paths"
 const InterviewConditionSelection = () => {
   const navigate = useNavigate();
 
-  const [school, setSchool] = useState("");
+  const [university, setUniversity] = useState("");
   const [department, setDepartment] = useState("");
   const [interviewType, setInterviewType] = useState("document");
   const [questionCount, setQuestionCount] = useState(4);
   const [timeLimit, setTimeLimit] = useState(60);
   const [interviewDate, setInterviewDate] = useState("");
 
-  const handleSchoolChange = (e) => {
-    setSchool(e.target.value);
+  const handleUniversityChange = (e) => {
+    setUniversity(e.target.value);
     setDepartment("");
   };
 
 
  const handleSelectPersona = () => {
     if (
-      school &&
+      university &&
       department &&
       interviewType &&
       questionCount &&
@@ -40,7 +40,7 @@ const InterviewConditionSelection = () => {
       interviewDate
     ) {
       const queryParams = new URLSearchParams({
-        school,
+        university,
         department,
         interviewType,
         questionCount: questionCount.toString(),
@@ -54,7 +54,7 @@ const InterviewConditionSelection = () => {
     }
   }
 
-  const selectedUniversity = universities.find((u) => u.name === school);
+  const selectedUniversity = universities.find((u) => u.name === university);
 
   return (
     <Container maxWidth={false}
@@ -73,7 +73,7 @@ const InterviewConditionSelection = () => {
           <div className="dual-row same-line">
             <div className="form-group flex-grow">
               <label className="form-label">지원 학교</label>
-              <select value={school} onChange={handleSchoolChange}>
+              <select value={university} onChange={handleUniversityChange}>
                 <option value="">선택해주세요</option>
                 {universities.map((u) => (
                   <option key={u.id} value={u.name}>{u.name}</option>
@@ -83,7 +83,7 @@ const InterviewConditionSelection = () => {
 
             <div className="form-group flex-grow">
               <label className="form-label">지원 학과</label>
-              <select value={department} onChange={(e) => setDepartment(e.target.value)} disabled={!school}>
+              <select value={department} onChange={(e) => setDepartment(e.target.value)} disabled={!university}>
                 <option value="">선택해주세요</option>
                 {selectedUniversity &&
                   selectedUniversity.departments.map((d, i) => (
