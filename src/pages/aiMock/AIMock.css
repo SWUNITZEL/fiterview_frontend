@@ -192,6 +192,25 @@
 }
 
 /* ### PostUploadContents ### */
+.statics-container {
+  padding: 30px;
+  border-radius: 10px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.statics-container h1 {
+  color: var(--primary-color);
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.statics-container h3 {
+  font-weight: normal;
+  font-size: 16px;
+  margin-bottom: 0;
+}
 .category-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -243,4 +262,20 @@
   padding-top: 20px;
   background-color: var(--primary-60);
   border-radius: 20px;
+}
+
+.doc-card{
+  position: relative;
+  box-sizing: border-box;
+
+  width: 560px;
+  height: 320px;
+
+  /* Blue/Blue05 */
+  background: var(--primary-10);
+  border: 1.6px solid var(--primary-40);
+  border-radius: 16px;
+
+  padding: 48px 40px;
+
 }
