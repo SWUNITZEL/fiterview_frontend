@@ -6,11 +6,14 @@ import MainBanner from "./MainBanner";
 import SectionIntro from "./SectionIntro";
 import SectionFeature01 from "./SectionFeature01";
 import SectionFeature02 from "./SectionFeature02";
+import SectionFeature03 from "./SectionFeature03";
 
 function Home() {
-  const [activeSection, setActiveSection] = useState(0);
-  
+  const [activeSection, setActiveSection] = useState(-1);
+
   const sectionRefs = [
+    useRef(null),
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -18,26 +21,42 @@ function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + window.innerHeight / 2; // 화면 중간 기준
-      let found = 0;
+    const scrollPos = window.scrollY + window.innerHeight*0.5;
+    let found = -1;
 
-      sectionRefs.forEach((ref, index) => {
-        const el = ref.current;
-        if (el) {
-          const offsetTop = el.offsetTop;
-          const offsetHeight = el.offsetHeight;
-          if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
-            found = index;
-          }
-        }
-      });
+    for (let i = 0; i < sectionRefs.length; i++) {
+      const el = sectionRefs[i].current;
+      if (!el) continue;
 
+      const offsetTop = el.offsetTop;
+      const offsetHeight = el.offsetHeight;
+      const nextSection = sectionRefs[i + 1]?.current;
+      const nextOffsetTop = nextSection ? nextSection.offsetTop : 0;
+
+      // 2번 섹션만 특별히 임계값 80%로 설정
+      let threshold = offsetTop + offsetHeight*0.8;
+
+
+      if (scrollPos >= offsetTop && scrollPos < threshold) {
+        found = i;
+        break;
+      } else if (scrollPos >= threshold && nextOffsetTop !== 0) {
+        found = i + 1;
+      }
+    }
+
+    if (found !== activeSection) {
       setActiveSection(found);
+    }
     };
 
+
+
+
     window.addEventListener("scroll", handleScroll);
+    handleScroll(); // 초기 실행
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [activeSection]);
 
   return (
     <Container
@@ -52,23 +71,34 @@ function Home() {
       <NavbarComponent />
       <div
         ref={sectionRefs[0]}
-        className={`section ${activeSection === 0 ? 'visible' : 'hidden'}`}
+        className={`section ${activeSection === 0 ? 'visible' : ''}`}
       >
         <MainBanner />
       </div>
       <div
         ref={sectionRefs[1]}
-        className={`section ${activeSection === 1 ? 'visible' : 'hidden'}`}
+        className={`section ${activeSection === 1 ? 'visible' : ''}`}
       >
         <SectionIntro />
       </div>
       <div
         ref={sectionRefs[2]}
-        className={`section ${activeSection === 2 ? 'visible' : 'hidden'}`}
+        className={`section ${activeSection === 2 ? 'visible' : ''}`}
       >
         <SectionFeature01 />
       </div>
-      <SectionFeature02 />
+      <div
+        ref={sectionRefs[3]}
+        className={`section ${activeSection === 3 ? 'visible' : ''}`}
+      >
+        <SectionFeature02 />
+      </div>
+      <div
+        ref={sectionRefs[4]}
+        className={`section ${activeSection === 4 ? 'visible' : ''}`}
+      >
+        <SectionFeature03 />
+      </div>
     </Container>
   );
 }
