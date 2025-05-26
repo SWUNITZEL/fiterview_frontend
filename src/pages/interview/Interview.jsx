@@ -10,7 +10,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream'
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
-import { PATH } from "../../constants/paths"
+import { PATH } from "../../data/paths"
 
 import "./Interview.css";
 

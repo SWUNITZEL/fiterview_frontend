@@ -19,7 +19,7 @@ import ResultNotice from './pages/preResult/ResultNotice';
 import ReportGenerating from './pages/preResult/ReportGenerating';
 import InterviewResultSummary from './pages/preResult/InterviewResultSummary';
 
-import { PATH } from './constants/paths';
+import { PATH } from './data/paths';
 
 const RouterConfig = () => {
   return (

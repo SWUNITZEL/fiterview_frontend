@@ -1,50 +1,18 @@
-/**
- * @file PostUploadBanner.jsx
- * @description AI 모의면접 페이지/문서 업로드 후 배너
- * @author 이찬우
- * @created 2025-05-07
-**/
-
-import { useCallback } from 'react';
 import { 
     Button, 
-    Container } from "@mui/material";
-import { useDropzone } from 'react-dropzone';
-import axios from 'axios';
-import { ChevronRightIcon, ExclamationCircleIcon  } from "@heroicons/react/24/solid";
+    Container 
+} from "@mui/material";
+import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
+import { usePdfUpload } from '../../hooks/usePdfUpload'; // ⬅️ 경로는 맞게 수정
 
-const PostUploadBanner = ({userName}) => {
-
-    const maxSize = 40 * 1024 * 1024; // 40MB
-
-    const onDrop = useCallback(async (acceptedFiles, fileRejections) => {
-        if (fileRejections.length > 0) {
-        alert('PDF 파일만 가능하며, 최대 40MB까지 업로드할 수 있습니다.');
-        return;
+const PostUploadBanner = ({ userName }) => {
+    const { getRootProps, getInputProps } = usePdfUpload({
+        onSuccess: (data) => {
+            console.log('업로드 성공!', data);
+        },
+        onError: (err) => {
+            console.log('업로드 에러', err);
         }
-
-        const file = acceptedFiles[0];
-        const formData = new FormData();
-        formData.append('pdf', file);
-
-        try {
-        const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/upload-pdf`, formData, {
-            headers: {
-            'Content-Type': 'multipart/form-data',
-            },
-        });
-        alert('업로드 성공: ' + JSON.stringify(res.data));
-        } catch (err) {
-        console.error('업로드 실패', err);
-        alert('업로드 중 오류 발생');
-        }
-    }, []);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: { 'application/pdf': ['.pdf'] },
-        multiple: false,
-        maxSize,
     });
 
     return (
@@ -54,8 +22,8 @@ const PostUploadBanner = ({userName}) => {
             padding: "0",
             overflow: "hidden",
             display: "flex",
-            backgroundImage:"url(/images/ai_mock_banner/001.png",
-            backgroundSize:"cover",
+            backgroundImage: "url(/images/ai_mock_banner/002.png)",
+            backgroundSize: "cover",
             backgroundPosition: "center center"
         }}>
             <div className='side-margin'></div>
@@ -65,32 +33,52 @@ const PostUploadBanner = ({userName}) => {
                 height: "100vh",
                 margin: "auto",
                 display: "flex",
-                flexDirection:"row",
-                justifyContent:"space-between",
-                paddingTop:"120px"}}>
+                flexDirection: "row",
+                justifyContent: "space-between",
+                paddingTop: "120px"
+            }}>
                 <div className="child-column">
                     <h1 className='title-32-bold'>등록한 생기부로
-                    <br />모의면접 하러가기</h1>
-                    <span style={{display: 'inline-flex', alignItems: 'center', color:"var(--primary-60)", fontSize:"18px", fontWeight:"500", cursor:"pointer"}}>바로시작<ChevronRightIcon style={{height:"24px"}}/></span>
+                        <br />모의면접 하러가기</h1>
+                    <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        color: "var(--primary-60)",
+                        fontSize: "18px",
+                        fontWeight: "500",
+                        cursor: "pointer"
+                    }}>
+                        바로시작 <ChevronRightIcon style={{ height: "24px" }} />
+                    </span>
                 </div>
                 <div className="child-column">
                     <div {...getRootProps()} className="doc-card">
                         <input {...getInputProps()} />
-                        <h4 className='subtitle-20-semibold' style={{marginTop:"0", marginBottom:"0"}}>{userName}님의 생기부</h4>
-                        <p className="body-16-regular" style={{marginTop:"0"}}>업로드</p>
+                        <h4 className='subtitle-20-semibold' style={{ marginTop: "0", marginBottom: "0" }}>{userName}님의 생기부</h4>
+                        <p className="body-16-regular" style={{ marginTop: "0" }}>업로드</p>
                         <div style={{
                             width: "100%",
                             height: "82px",
                             background: "var(--error-10)",
                             borderRadius: "8px",
-                            padding:"18px 24px"
+                            padding: "18px 24px"
                         }}>
-                            <p className="subtitle-16-semibold" style={{display: 'inline-flex', alignItems: 'center', color:"var(--error-40)", marginTop:"0", marginBottom:"0"}}>< ExclamationCircleIcon style={{height:"20px"}} />&nbsp;FITERVIEW 제안</p>
-                            <p className="body-16-regular" style={{color:"var(--error-40)", marginTop:"0", marginBottom:"0"}}>파일당 최대 40MB</p>
+                            <p className="subtitle-16-semibold" style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                color: "var(--error-40)",
+                                marginTop: "0",
+                                marginBottom: "0"
+                            }}>
+                                <ExclamationCircleIcon style={{ height: "20px" }} />&nbsp;FITERVIEW 제안
+                            </p>
+                            <p className="body-16-regular" style={{ color: "var(--error-40)", marginTop: "0", marginBottom: "0" }}>
+                                파일당 최대 40MB
+                            </p>
                         </div>
                         <Button
                             sx={{
-                                width:"calc(100% - 48px)",
+                                width: "calc(100% - 48px)",
                                 padding: '12px',
                                 position: 'absolute',
                                 width: '464px',
@@ -98,14 +86,16 @@ const PostUploadBanner = ({userName}) => {
                                 bottom: '34px',
                                 backgroundColor: 'var(--primary-60)',
                                 borderRadius: '8px',
-                                color:"var(--background-color)",
-                                fontSize:"16px",
-                                fontWeight:"500",
+                                color: "var(--background-color)",
+                                fontSize: "16px",
+                                fontWeight: "500",
                                 '&:hover': {
-                                backgroundColor: 'var(--primary-80)',
+                                    backgroundColor: 'var(--primary-80)',
                                 },
                             }}
-                            >생활기록부 재업로드</Button>
+                        >
+                            생활기록부 재업로드
+                        </Button>
                     </div>
                 </div>
             </div>

@@ -12,7 +12,7 @@ import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
 import "./InterviewConditionSelection.css";
-import { PATH } from "../../constants/paths"
+import { PATH } from "../../data/paths"
 
 const InterviewConditionSelection = () => {
   const navigate = useNavigate();

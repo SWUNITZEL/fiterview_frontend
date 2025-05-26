@@ -5,7 +5,7 @@ import "./PersonaSelection.css";
 import { personas } from "../../data/personas";
 import NavbarComponent from '../../components/Navbar';
 import LoadingModal from '../../components/LoadingModal';
-import { PATH } from "../../constants/paths";
+import { PATH } from "../../data/paths";
 
 const PersonaSelection = () => {
   const [selectedIds, setSelectedIds] = useState([]);
