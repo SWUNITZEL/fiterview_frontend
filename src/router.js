@@ -39,6 +39,7 @@ const RouterConfig = () => {
       <Route path={PATH.RESULT_NONVERBAL} element={<ReportNonverbal />} />
       <Route path={PATH.RESULT_DELIVERY} element={<ReportDelivery />} />
       <Route path={PATH.RESULT_ANALYSIS_BY_ANSWER} element={<ReportAnswerAnalysis />} />
+
       <Route path={PATH.RESULT_NOTICE} element={<ResultNotice />} />
       <Route path={PATH.REPORT_GENERATING} element={<ReportGenerating />} />
       <Route path={PATH.INTERVIEW_SUMMARY} element={<InterviewResultSummary />} />
