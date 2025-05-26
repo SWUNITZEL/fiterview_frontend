@@ -5,7 +5,7 @@
 **/
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { PATH } from '../constants/paths';
+import { PATH } from '../data/paths';
 import {
   AppBar,
   Toolbar,
@@ -69,7 +69,7 @@ const Navbar = () => {
               >
                 <Avatar
                   alt={user.name}
-                  src={user.profile || '/images/default/profile.png'} // 프로필 이미지 없으면 기본 이미지
+                  src={user.profile? user.profile : '/images/default/profile.png'} // 프로필 이미지 없으면 기본 이미지
                   sx={{ width: 32, height: 32 }}
                 />
               </Box>

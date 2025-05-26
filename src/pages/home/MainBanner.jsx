@@ -12,7 +12,8 @@ const MainBanner = () => {
         <div className="center-both child-column-center" 
         style={{
             width:"100%", 
-            height:"707px",
+            minHeight:"707px",
+            height:"100vh",
             backgroundImage: `url("/images/home/banner.png")`,
             backgroundSize: "cover",
             backgroundPosition: "center center"}} >
@@ -21,7 +22,11 @@ const MainBanner = () => {
             <h4 className="subtitle-18-medium" style={{marginTop:"30px"}}>맞춤형 질문부터 AI 분석까지, 면접 준비의 새로운 기준</h4>
             <Button sx={{
                 backgroundColor:"var(--primary-60)", color:"var(--background-color)", 
-                fontSize:"20px", padding:"8px 16px", marginTop:"100px", fontWeight: "500", borderRadius:"16px"}}>지금 바로 AI 면접 시작하기</Button>
+                fontSize:"20px", padding:"8px 32px", marginTop:"100px", fontWeight: "500", borderRadius:"16px",
+                "&:hover":{
+                    backgroundColor: "var(--primary-80)"
+                }
+                }}>지금 바로 AI 면접 시작하기</Button>
         </div>
     );
 };

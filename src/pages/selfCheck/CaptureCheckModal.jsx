@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingModal from '../../components/LoadingModal';
 import './SelfCheck.css';
-import { PATH } from '../../constants/paths';
+import { PATH } from '../../data/paths';
 
 const CaptureModal = ({ capturedImage, open, onClose }) => {
   const [loading, setLoading] = useState(false)
