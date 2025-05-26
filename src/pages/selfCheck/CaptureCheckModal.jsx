@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@mui/material';
+import { Button, Container } from '@mui/material';
 import LoadingModal from '../../components/LoadingModal';
 import { useCaptureConfirm } from '../../hooks/useCaptureConfirm';
 import './SelfCheck.css';
@@ -10,7 +10,15 @@ const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
   if (!open) return null;
 
   return (
-    <div className="container child-column-center" style={{ backgroundColor: "var(--background-color)" }}>
+    <Container maxWidth={false} style={{
+            backgroundColor: "var(--background-color)",
+            padding: "0",
+            overflow: "hidden",
+            display: "flex",
+            flexDirection:"column",
+            justifyContent:"center",
+            alignItems:"center"
+        }}>
       {loading && <LoadingModal open={true} message="이미지를 전송 중입니다..." />}
       <h1 className="title-24-bold" style={{ margin: 0, padding: 0 }}>
         촬영이 완료되었어요
@@ -21,7 +29,7 @@ const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
       <div>
         <img style={{ width: 600, borderRadius: 16 }} src={capturedImage} alt="Captured" />
       </div>
-      <div className="child-row-center" style={{ gap: 24 }}>
+      <div className="child-row-center" style={{ height:"fit-contents", gap: 24 }}>
         <Button
           onClick={onClose}
           size="large"
@@ -30,7 +38,7 @@ const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
             width: 150,
             borderRadius: 8,
             padding: '8px 16px',
-            marginTop: 20,
+            marginTop: '20px',
             borderColor: 'var(--nuetral-60)',
             backgroundColor: 'var(--background-color)',
             color: 'var(--font-color)'
@@ -45,7 +53,7 @@ const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
           sx={{
             borderRadius: 8,
             padding: '8px 16px',
-            marginTop: 20,
+            marginTop: '20px',
             backgroundColor: 'var(--primary-60)',
             color: 'var(--background-color)'
           }}
@@ -53,7 +61,7 @@ const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
           다음으로
         </Button>
       </div>
-    </div>
+    </Container>
   );
 };
 

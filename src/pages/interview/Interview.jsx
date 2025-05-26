@@ -65,9 +65,9 @@ function Interview() {
         }
     };
     
-    if (!isConnected) {
-    return <LoadingScreen message="면접 준비 중입니다" />;
-    }
+    // if (!isConnected) {
+    // return <LoadingScreen message="면접 준비 중입니다" />;
+    // }
     
     return (
         <Container maxWidth={false} style={{
