@@ -8,7 +8,7 @@
 import { useEffect, useState } from "react";
 import "./AIMock.css";
 import { Container } from "@mui/material";
-import { getCookie } from '../../utils/cookies'; 
+import { useUser } from '../../contexts/UserContext';
 import NavbarComponent from '../../components/Navbar'
 import LoadingScreen from '../../components/LoadingScreen';
 import PreUploadBanner from "./PreUploadBanner";
@@ -18,22 +18,7 @@ import PostUploadContents from "./PostUploadContents";
 
 const AIMock = () => {
   const [isUpload, setIsUpload] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-      const sessionId = getCookie('session_id');
-      
-      if (sessionId) {
-
-      }
-      else {
-        setIsUpload(false)
-      }
-
-      setLoading(false);
-    }, [isUpload]);
-
-  if (loading) return <LoadingScreen />;
+  const user = useUser().user;
 
   return (
     <Container maxWidth={false}
@@ -41,13 +26,13 @@ const AIMock = () => {
         backgroundColor: "var(--background-color)",
         minHeight: "100vh",
         padding: "0 0",
-        overflow: "hidden"
+        overflowX: "hidden"
       }}>
       <NavbarComponent />
-
-      {isUpload? <PostUploadBanner/>:<PreUploadBanner />}
-      {isUpload? <PostUploadContents />:<PreUploadContents />}
-      {/* <PostUploadBanner /> */}
+      {user && user.id? <PostUploadBanner userName={user.name}/>:<PreUploadBanner />}
+      {user && user.id? <PostUploadContents 
+                          userName={user.name}
+                          averageDataByCategory = {{}} />:<PreUploadContents />}
       {/* <PostUploadContents userName={userName} averageDataByCategory={averageDataByCategory} /> */}
     </Container>
   );
