@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Container } from "@mui/material";
 import {
   LineChart,
   CartesianGrid,
@@ -66,7 +67,12 @@ const PostUploadContents = ({ userName, averageDataByCategory }) => {
   };
 
   return (
-    <div className="full-screen child-row">
+    <Container maxWidth={false} style={{
+            backgroundColor: "var(--background-color)",
+            padding: "0",
+            overflow: "hidden",
+            display: "flex",
+        }}>
       <div className="side-margin"></div>
       <div className="statics-container">
         <div className="child-column-center">
@@ -144,7 +150,7 @@ const PostUploadContents = ({ userName, averageDataByCategory }) => {
           </div>
       </div>
       <div className="side-margin"></div>
-    </div>
+    </Container>
   );
 };
 

@@ -114,13 +114,26 @@ code {
   font-weight: 700;
 }
 
+.subtitle-20-bold {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--font-body);
+  font-weight: 700;
+}
+
+.subtitle-20-semibold {
+  font-size: 20px;
+  line-height: 24px;
+  color: var(--font-body);
+  font-weight: 600;
+}
+
 .subtitle-20-medium {
   font-size: 20px;
   line-height: 24px;
   color: var(--font-body);
   font-weight: 500;
 }
-
 .subtitle-18-bold {
   font-size: 18px;
   line-height: 22px;
