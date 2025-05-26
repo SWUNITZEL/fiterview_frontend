@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@mui/material';
 import useMediaStream from '../../hooks/useMediaStream';
 import CustomAudioPlayer from '../../components/CustomAudioPlayer';
-import { PATH } from '../../constants/paths';
+import { PATH } from '../../data/paths';
 
 
 const SoundCheck = () => {

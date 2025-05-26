@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
       })
       .catch(() => {
         console.warn('⚠️ 유저 정보 fetch 실패, 더미데이터 상태로 처리합니다.');
-        setUser({ id: 'cksdn', name: '찬우', profile: '/images/default/profile.png' });
+        setUser(null);
       })
       .finally(() => {
         setLoading(false);  // ⭐ 로딩 끝

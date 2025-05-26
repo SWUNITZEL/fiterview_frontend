@@ -1,18 +1,26 @@
-import { useState } from 'react';
+/**
+ * @file Interview.jsx
+ * @description 모의면접 실행 페이지
+ * @author 이찬우
+ * @created 2025-03-27
+ * @lastModified 2025-04-02
+**/
+
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
 import { useMediaRecorder } from '../../hooks/useMediaRecorder';
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
-import { PATH } from '../../constants/paths';
 import LoadingScreen from '../../components/LoadingScreen';
+import { PATH } from "../../data/paths"
+
 import "./Interview.css";
 
 function Interview() {
     const location = useLocation();
     const { interviewId, selectedMic, selectedCam } = location.state || {};
     const { stream } = useMediaStream(selectedMic, selectedCam);
-
     const [recording, setRecording] = useState(false);
     const [question, setQuestion] = useState('');
     const [totalQustions, setTotalQustions] = useState(4);

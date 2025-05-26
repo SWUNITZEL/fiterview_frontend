@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import "./AIMock.css";
 import { useUser } from '../../contexts/UserContext';
 import NavbarComponent from '../../components/Navbar'
-import LoadingScreen from '../../components/LoadingScreen';
 import PreUploadBanner from "./PreUploadBanner";
 import PreUploadContents from "./PreUploadContents";
 import PostUploadBanner from "./PostUploadBanner";
@@ -29,7 +28,7 @@ const AIMock = () => {
           minHeight: "100vh",
           padding: "0 0",
           overflowX: "hidden",
-          display: "flex",             // ⭐ flex로 만들기
+          display: "flex", 
           flexDirection: "column",
           textAlign: "center",
           alignItems: "center", 
@@ -38,8 +37,8 @@ const AIMock = () => {
           <NavbarComponent />        
           <Skeleton variant="rectangular" width="100%" height={520} />
           <Skeleton variant="text" width="40%" height={40} style={{ marginTop: "100px" }} />
-          <Skeleton variant="text" width="60%" height={80} style={{ marginTop: "40px"}} />
-          <Skeleton variant="rectangular" width="60%" height={700} style={{ marginTop: 40, margin: "auto" }} />
+          <Skeleton variant="text" width="calc(100% - 480px)" height={80} />
+          <Skeleton variant="rectangular" width="calc(100% - 480px)" height={700} style={{ marginTop: 40, margin: "auto" }} />
         
       </Container>
     );

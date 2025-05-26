@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import {
   Container,
   TextField,
@@ -10,28 +10,32 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import "./Signup.css"
+import "./Signup.css";
 import NavbarComponent from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../constants/paths';
-
+import { PATH } from '../../data/paths';
+import { signup } from '../../api/auth';
 
 function Signup() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     confirmPassword: '',
-    age: '',
+    name: '',
+    birth: '',
     gender: '',
-    region: '',
-    academyCode: '',
+    promotion_code: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const genders = ['남성', '여성', '기타'];
-  const regions = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '기타'];
+  const genders = [
+    { label: '남성', value: 'male' },
+    { label: '여성', value: 'female' },
+    { label: '기타', value: 'other' },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +44,7 @@ function Signup() {
 
   const validate = () => {
     let tempErrors = {};
+
     if (!formData.email) tempErrors.email = '이메일을 입력해주세요.';
     else if (!/\S+@\S+\.\S+/.test(formData.email)) tempErrors.email = '유효한 이메일을 입력해주세요.';
 
@@ -49,40 +54,56 @@ function Signup() {
     if (formData.confirmPassword !== formData.password)
       tempErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
 
-    if (!formData.age) tempErrors.age = '나이를 입력해주세요.';
-    else if (isNaN(formData.age) || formData.age < 0) tempErrors.age = '유효한 나이를 입력해주세요.';
+    if (!formData.name) tempErrors.name = '이름을 입력해주세요.';
+
+    if (!formData.birth) tempErrors.birth = '생년월일을 입력해주세요.';
 
     if (!formData.gender) tempErrors.gender = '성별을 선택해주세요.';
-    if (!formData.region) tempErrors.region = '지역을 선택해주세요.';
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      // 서버 전송 등 처리
-      console.log('회원가입 정보:', formData);
-      alert('회원가입 완료!');
+    if (!validate()) return;
+
+    setLoading(true);
+    try {
+      const signupPayload = {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        birth: formData.birth,
+        gender: formData.gender,
+        promotion_code: formData.promotion_code,
+      };
+      const response = await signup(signupPayload);
+      console.log('회원가입 성공:', response);
+      alert('회원가입 완료! 로그인 페이지로 이동합니다.');
+      navigate(PATH.LOGIN);
+    } catch (error) {
+      alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Container maxWidth={false}
-                      style={{
-                        backgroundColor: "var(--background-color)",
-                        minHeight: "100vh",
-                        padding: "0 0",
-                        overflow: "hidden",
-                        display:"flex"
-                      }}>
+      style={{
+        backgroundColor: "var(--background-color)",
+        minHeight: "100vh",
+        padding: "0 0",
+        overflow: "hidden",
+        display: "flex"
+      }}>
       <NavbarComponent />
       <div className="side-margin"></div>
       <div className="signup-content">
         <h1 className="app-title">FITERVIEW</h1>
-        <h4 className="subtitle-18-semibold" style={{marginTop:"0px"}}>회원가입</h4>
-        <Box component="form" onSubmit={handleSubmit} sx={{ width: 700, mx: 'auto', display: 'flex', flexDirection: 'column', gap: 2,}} noValidate>
+        <h4 className="subtitle-18-semibold" style={{ marginTop: "0px" }}>회원가입</h4>
+        <Box component="form" onSubmit={handleSubmit} sx={{ width: 700, mx: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }} noValidate>
           <TextField
             fullWidth
             label="이메일"
@@ -93,6 +114,18 @@ function Signup() {
             onChange={handleChange}
             error={Boolean(errors.email)}
             helperText={errors.email}
+            required
+            variant="standard"
+          />
+          <TextField
+            fullWidth
+            label="이름"
+            name="name"
+            margin="normal"
+            value={formData.name}
+            onChange={handleChange}
+            error={Boolean(errors.name)}
+            helperText={errors.name}
             required
             variant="standard"
           />
@@ -124,19 +157,18 @@ function Signup() {
           />
           <TextField
             fullWidth
-            label="나이"
-            name="age"
-            type="number"
+            label="생년월일"
+            name="birth"
+            type="date"
             margin="normal"
-            value={formData.age}
+            value={formData.birth}
             onChange={handleChange}
-            error={Boolean(errors.age)}
-            helperText={errors.age}
+            error={Boolean(errors.birth)}
+            helperText={errors.birth}
             required
-            inputProps={{ min: 0 }}
+            InputLabelProps={{ shrink: true }}
             variant="standard"
           />
-
           <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)}>
             <InputLabel>성별</InputLabel>
             <Select
@@ -147,34 +179,18 @@ function Signup() {
               variant="standard"
             >
               {genders.map((gender) => (
-                <MenuItem key={gender} value={gender}>{gender}</MenuItem>
+                <MenuItem key={gender.value} value={gender.value}>{gender.label}</MenuItem>
               ))}
             </Select>
             {errors.gender && <Typography variant="caption" color="error">{errors.gender}</Typography>}
           </FormControl>
 
-          <FormControl fullWidth margin="normal" required error={Boolean(errors.region)}>
-            <InputLabel>지역</InputLabel>
-            <Select
-              name="region"
-              value={formData.region}
-              label="지역"
-              onChange={handleChange}
-              variant="standard"
-            >
-              {regions.map((region) => (
-                <MenuItem key={region} value={region}>{region}</MenuItem>
-              ))}
-            </Select>
-            {errors.region && <Typography variant="caption" color="error">{errors.region}</Typography>}
-          </FormControl>
-
           <TextField
             fullWidth
-            label="학원 제휴 코드 (선택)"
-            name="academyCode"
+            label="프로모션 코드 (선택)"
+            name="promotion_code"
             margin="normal"
-            value={formData.academyCode}
+            value={formData.promotion_code}
             onChange={handleChange}
             variant="standard"
           />
@@ -185,16 +201,18 @@ function Signup() {
             color="primary"
             fullWidth
             sx={{ mt: 3 }}
+            disabled={loading}
           >
-            회원가입
+            {loading ? '회원가입 중...' : '회원가입'}
           </Button>
-          <h4 className="body-16-medium" style={{marginTop:"10px", cursor:"pointer", textAlign:"center"}} onClick={()=>{navigate(PATH.LOGIN)}}>로그인 페이지로 돌아가기</h4>
-          
+          <h4 className="body-16-medium" style={{ marginTop: "10px", cursor: "pointer", textAlign: "center" }} onClick={() => { navigate(PATH.LOGIN) }}>
+            로그인 페이지로 돌아가기
+          </h4>
         </Box>
       </div>
       <div className="side-margin"></div>
     </Container>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

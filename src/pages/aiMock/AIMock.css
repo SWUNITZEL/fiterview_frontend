@@ -6,7 +6,7 @@
 .preupload-banner {
   width: 100vw;
   height: 100vh;
-  max-height: 717px;
+  max-height: 520px;
   background-image: url("../../../public/images/ai_mock_banner/001.png");
   background-size: cover;
   background-position: center center;

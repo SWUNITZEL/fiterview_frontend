@@ -1,23 +1,22 @@
-.gradient-loop {
-  /* pointer-events: none; */
-  background: radial-gradient(circle, var(--secondary-light) 0%, var(--primary-40) 30%, transparent 70%);
-  background-repeat: no-repeat;
-  background-position: right;
-  background-size: 0% 0%;
-  animation: pulse 10s ease-in-out infinite;
+.section {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  opacity: 0;
+  transform: translateY(0px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-@keyframes pulse {
-  0% {
-    background-size: 100% 100%;
-  }
-  50% {
-    background-size: 150% 150%;
-  }
-  100% {
-    background-size: 100% 100%;
-  }
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
+
+.section.hidden {
+  opacity: 0;
+  transform: translateY(0px);
+}
+
 
 .messages {
   margin-top: 30px;

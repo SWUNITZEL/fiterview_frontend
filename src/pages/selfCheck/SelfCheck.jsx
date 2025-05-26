@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { Button } from '@mui/material';
 import useMediaSetup from '../../hooks/useMediaSetup';
 import useMediaStream from '../../hooks/useMediaStream';
-import { PATH } from '../../constants/paths';
+import { PATH } from '../../data/paths';
 
 const SelfCheck = () => {
   const navigate = useNavigate();

@@ -1,35 +1,35 @@
-import { useState } from "react"
-import "./Login.css"
+import { useState } from "react";
+import "./Login.css";
+import { login as loginAPI } from "../../api/auth"; // auth.js 위치에 맞게 조정하세요
 
 function Login() {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState("")
-  const [loginAttempts, setLoginAttempts] = useState(0)
-  const [isLocked, setIsLocked] = useState(false)
+  const [email, setEmail] = useState("");  // username -> email 변경
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isLocked, setIsLocked] = useState(false);
 
-  const handleLogin = (e) => {
-    e.preventDefault()
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    // Simulate login validation
-    const isValidCredentials = username === "admin" && password === "password"
+    if (isLocked) return;
 
-    if (!isValidCredentials) {
-      const newAttempts = loginAttempts + 1
-      setLoginAttempts(newAttempts)
+    try {
+      const data = await loginAPI({ email, password });
+      setError("");
+      alert("로그인 성공! 토큰:\n" + JSON.stringify(data, null, 2));
+    } catch (err) {
+      const newAttempts = loginAttempts + 1;
+      setLoginAttempts(newAttempts);
 
       if (newAttempts >= 5) {
-        setIsLocked(true)
-        setError("로그인 시도 횟수를 초과했습니다. 계정이 잠겼습니다.")
+        setIsLocked(true);
+        setError("로그인 시도 횟수를 초과했습니다. 계정이 잠겼습니다.");
       } else {
-        setError("아이디와 비밀번호를 다시 확인해주세요.")
+        setError(err.response?.data?.message || "아이디와 비밀번호를 다시 확인해주세요.");
       }
-    } else {
-      setError("")
-      // Success
-      alert("로그인 성공!")
     }
-  }
+  };
 
   return (
     <div className="login-container">
@@ -41,13 +41,14 @@ function Login() {
 
           <form onSubmit={handleLogin} className="login-form">
             <div className="input-group">
-              <label htmlFor="username">아이디</label>
+              <label htmlFor="email">이메일</label>
               <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 disabled={isLocked}
+                required
               />
             </div>
 
@@ -59,6 +60,7 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLocked}
+                required
               />
             </div>
 
@@ -76,7 +78,7 @@ function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

@@ -4,7 +4,6 @@
  * @author 이찬우
  * @created 2025-05-07
 **/
-import React from 'react';
 import './AIMock.css'; // 아래 CSS 참고
 
 const steps = [
