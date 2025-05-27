@@ -2,11 +2,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
-import Join from "./pages/signup/Join.jsx"
+import Join from "./pages/join/Join.jsx"
 import AIMock from "./pages/aiMock/AIMock.jsx";
 
-import InterviewConditionSelection from './pages/selection/InterviewConditionSelection.jsx';
-import PersonaSelection from './pages/selection/PersonaSelection.jsx';
+import InterviewConfig from './pages/config/InterviewConfig.jsx';
+import PersonaConfig from './pages/config/PersonaConfig.jsx';
 
 import SelfCheck from "./pages/selfCheck/SelfCheck.jsx";
 import FaceCheck from "./pages/selfCheck/FaceCheck.jsx";
@@ -46,8 +46,8 @@ const RouterConfig = () => {
       <Route path={PATH.REPORT_GENERATING} element={<ReportGenerating />} />
       <Route path={PATH.INTERVIEW_SUMMARY} element={<InterviewResultSummary />} />
 
-      <Route path={PATH.INTERVIEW_CONFIG_PERSONA} element={<PersonaSelection />} />
-      <Route path={PATH.INTERVIEW_CONFIG} element={<InterviewConditionSelection />} />
+      <Route path={PATH.INTERVIEW_CONFIG_PERSONA} element={<PersonaConfig />} />
+      <Route path={PATH.INTERVIEW_CONFIG} element={<InterviewConfig />} />
     </Routes>
   );
 };

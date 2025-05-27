@@ -10,13 +10,13 @@ import {
   Typography,
   Box,
 } from '@mui/material';
-import "./Signup.css";
+import "./Join.css";
 import NavbarComponent from '../../components/Navbar';
 import { useNavigate } from 'react-router-dom';
 import { PATH } from '../../data/paths';
-import { signup } from '../../api/auth';
+import { join } from '../../api/auth';
 
-function Signup() {
+function Join() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -78,7 +78,7 @@ function Signup() {
         gender: formData.gender,
         promotion_code: formData.promotion_code,
       };
-      const response = await signup(signupPayload);
+      const response = await join(signupPayload);
       console.log('회원가입 성공:', response);
       alert('회원가입 완료! 로그인 페이지로 이동합니다.');
       navigate(PATH.LOGIN);
@@ -215,4 +215,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default Join;

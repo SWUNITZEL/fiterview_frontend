@@ -69,7 +69,7 @@ export const logout = async () => {
 };
 
 // 회원가입 요청
-export const signup = async (signupData) => {
+export const join = async (signupData) => {
   try {
     const response = await api.post('/api/user/join', signupData);
     return response.data;

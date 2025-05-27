@@ -1,11 +1,11 @@
 import { Container } from "@mui/material";
-import "./PersonaSelection.css";
+import "./PersonaConfig.css";
 import { personas } from "../../data/personas";
 import NavbarComponent from "../../components/Navbar";
 import LoadingModal from "../../components/LoadingModal";
 import { useInterviewConfig } from "../../hooks/useInterviewConfig";
 
-const PersonaSelection = () => {
+const PersonaConfig = () => {
   const { selectedIds, isLoading, handleSelect, handleStartInterview } = useInterviewConfig();
 
   return (
@@ -77,4 +77,4 @@ const PersonaSelection = () => {
   );
 };
 
-export default PersonaSelection;
+export default PersonaConfig;
