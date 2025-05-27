@@ -1,4 +1,4 @@
-import './ReportCompare.css';
+import './Report.css';
 import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
 import ReportHeader from '../../components/ReportHeader';
@@ -68,7 +68,7 @@ const ReportCompare = () => {
         timestamp="2025-03-15 21:25:41" 
         onDownload={handleDownload}
         />
-      <div className="compare-container">
+      <div className="report-container">
         <h2 className="title-24-bold">직전 면접보다 높은 점수를 받았어요</h2>
 
         <div className="score-section drop-shadow-medium">

@@ -8,7 +8,6 @@ import {
 } from "recharts";
 import NavbarComponent from '../../components/Navbar'
 import { Container, Button } from '@mui/material';
-import "./ReportMain.css";
 import { useNavigate } from 'react-router-dom';
 import { PATH } from "../../data/paths";
 
@@ -54,7 +53,7 @@ const ReportMain = () => {
           marginBottom: "32px"
         }}>
           {/* 왼쪽: 분석 항목 */}
-          <div className="report-left">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {["비언어적 커뮤니케이션", "전달력", "답변 구성", "비교 분석"].map((title, idx) => (
               <div style={{
                 backgroundColor: 'var(--nuetral-20)',
@@ -62,8 +61,8 @@ const ReportMain = () => {
                 borderRadius: '8px',
                 width:"600px",
               }} key={idx}>
-                  <div className="caption-16-medium feedback-title">{title}</div>
-                  <div className="body-16-regular feedback-content">
+                  <div style={{color:"var(--primary-60)"}} className="caption-16-medium">{title}</div>
+                  <div className="body-16-regular">
                     가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이오, 내일 밤이 남은 까닭이오,
                     아직 나의 청춘이 다하지 않은 까닭입니다. 어머님, 그리고 당신은 멀리 북간도에 계십니다.
                   </div>
@@ -72,7 +71,7 @@ const ReportMain = () => {
             </div>
 
             {/* 오른쪽: 차트 + 총평 */}
-            <div className="report-right">
+            <div style={{display: 'flex', flexDirection: 'column'}}>
               <ResponsiveContainer width={260} height={220}>
                 <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
                   <PolarGrid />
@@ -92,7 +91,7 @@ const ReportMain = () => {
                 border: "1px solid var(--nuetral-30)",
                 padding:"16px",
                 borderRadius: '8px',
-                height:"100%"
+                flex: 1
                 }}>
                 <div className="caption-16-medium feedback-title">면접 총평</div>
                 <div className="body-16-regular feedback-content">

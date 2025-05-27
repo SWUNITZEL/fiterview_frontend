@@ -1,5 +1,5 @@
 import React from 'react';
-import './ReportDelivery.css';
+import './Report.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
@@ -46,7 +46,7 @@ const ReportDelivery = () => {
     ];
 
     return (
-      <div className="summary-box">
+      <div className="summary-box drop-shadow-large">
         <h3>{title}</h3>
         <ResponsiveContainer width="100%" height={120}>
           <BarChart data={data} layout="vertical">
@@ -103,7 +103,7 @@ const ReportDelivery = () => {
         timestamp="2025-03-15 21:25:41" 
         onDownload={handleDownload}
         />
-    <div className="delivery-container">
+    <div className="report-container">
       <h3 className="total-score">총점 <span>{deliveryData.totalScore}점</span></h3>
 
       <div className="summary-section">
@@ -115,14 +115,14 @@ const ReportDelivery = () => {
       <h3 className="detail-title">세부 분석 결과</h3>
       <div className="detail-section">
         <div className="detail-row">
-          <div className="detail-box">
+          <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>발음 세부 분석 결과</h4>
               <p>{deliveryData.pronunciation.detail}</p>
             </div>
             <div className="detail-right">[발음 분석]</div>
           </div>
-          <div className="detail-box">
+          <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>톤 세부 분석 결과</h4>
               <p>{deliveryData.tone.detail}</p>
@@ -132,14 +132,14 @@ const ReportDelivery = () => {
         </div>
 
         <div className="detail-row">
-          <div className="detail-box">
+          <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>속도 세부 분석 결과</h4>
               <p>{deliveryData.speed.detail}</p>
             </div>
             <div className="detail-right">[속도 그래프]</div>
           </div>
-          <div className="detail-box">
+          <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>어휘 세부 분석 결과</h4>
               <p>{deliveryData.wordHabit.detail}</p>
@@ -148,10 +148,6 @@ const ReportDelivery = () => {
           </div>
         </div>
       </div>
-
-      <button className="next-button" onClick={() => navigate('/report/Nonverbal')}>
-        비언어적 커뮤니케이션 분석 결과 보러가기
-      </button>
       <ButtonPair 
         leftText="비언어적 커뮤니케이션 분석 결과 보러가기"
         rightText="답변 구성 분석 결과 보러가기"

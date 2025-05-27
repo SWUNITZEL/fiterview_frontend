@@ -1,4 +1,4 @@
-import './ReportNonverbal.css';
+import './Report.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
@@ -74,7 +74,7 @@ const ReportNonverbal = () => {
     ];
 
     return (
-      <div className="summary-box">
+      <div className="summary-box drop-shadow-large">
         <h3>{title}</h3>
         <ResponsiveContainer width="100%" height={120}>
           <BarChart data={data} layout="vertical">
@@ -85,7 +85,7 @@ const ReportNonverbal = () => {
           </BarChart>
         </ResponsiveContainer>
         <div className="summary-footer">
-          <span className={`tag ${color}`}>{label}</span>
+          <span style={{ whiteSpace: 'nowrap' }} className={`tag ${color}`}>{label}</span>
           <p className="summary-comment">{comment}</p>
         </div>
       </div>
@@ -108,7 +108,7 @@ const ReportNonverbal = () => {
         timestamp="2025-03-15 21:25:41" 
         onDownload={handleDownload}
         />
-      <div className="nonverbal-container">
+      <div className="report-container">
         <h3 className="total-score">총점 <span>{analysisData.totalScore}점</span></h3>
 
         <div className="summary-section">
@@ -121,7 +121,7 @@ const ReportNonverbal = () => {
 
         <div className="detail-section">
           <div className="detail-row">
-            <div className="detail-box">
+            <div className="detail-box drop-shadow-large">
               <div className="detail-left">
                 <h4>자세 세부 분석 결과</h4>
                 <p>{analysisData.posture.detail}</p>
@@ -129,7 +129,7 @@ const ReportNonverbal = () => {
               <div className="detail-right">[도넛 차트]</div>
             </div>
 
-            <div className="detail-box">
+            <div className="detail-box drop-shadow-large">
               <div className="detail-left">
                 <h4>시선 세부 분석 결과</h4>
                 <p>{analysisData.eyes.detail}</p>
@@ -139,7 +139,7 @@ const ReportNonverbal = () => {
           </div>
 
           <div className="detail-row full-width">
-            <div className="detail-box">
+            <div className="detail-box drop-shadow-large">
               <div className="detail-left">
                 <h4>제스처 세부 분석 결과</h4>
                 <p>{analysisData.shoulder.detail}</p>

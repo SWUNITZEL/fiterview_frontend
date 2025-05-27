@@ -1,4 +1,4 @@
-import './ReportAnswer.css';
+import './Report.css';
 import NavbarComponent from '../../components/Navbar'
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
@@ -48,7 +48,7 @@ const ReportAnswer = () => {
         timestamp="2025-03-15 21:25:41" 
         onDownload={handleDownload}
         ></ReportHeader>
-      <div className="answer-container">
+      <div className="report-container">
         
 
         <h2 className="title-24-bold question">Q1. <span className="primary">{answerData.question}</span></h2>
