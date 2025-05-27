@@ -14,12 +14,12 @@ const MainBanner = ({onNavigate}) => {
             width:"100%", 
             minHeight:"707px",
             height:"100vh",
-            backgroundImage: `url("/images/home/banner.png")`,
+            backgroundImage: `url("/images/home/banner/banner.png")`,
             backgroundSize: "cover",
             backgroundPosition: "center center"}} >
-            <h4 className="title-24-medium" style={{marginTop:"70px", marginBottom:"20px"}}>실전처럼, AI 면접으로 완벽 대비!</h4>
-            <h1 className="title-40-bold" style={{marginTop:"0px"}}>AI 면접관과 함께하는 최적의 입시 면접 연습</h1>
-            <h4 className="subtitle-18-medium" style={{marginTop:"30px"}}>맞춤형 질문부터 AI 분석까지, 면접 준비의 새로운 기준</h4>
+            <h4 className="title-24-medium" style={{marginTop:"70px", marginBottom:"4px"}}>실전처럼, AI 면접으로 완벽 대비!</h4>
+            <h1 className="title-40-bold" style={{marginTop:"0px",marginBottom:"0px"}}>AI 면접관과 함께하는 최적의 입시 면접 연습</h1>
+            <h4 className="subtitle-18-medium" style={{marginTop:"24px"}}>맞춤형 질문부터 AI 분석까지, 면접 준비의 새로운 기준</h4>
             <Button 
             onClick={()=>onNavigate()}
             sx={{

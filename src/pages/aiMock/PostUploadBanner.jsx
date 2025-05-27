@@ -22,7 +22,7 @@ const PostUploadBanner = ({ userName }) => {
             padding: "0",
             overflow: "hidden",
             display: "flex",
-            backgroundImage: "url(/images/ai_mock_banner/002.png)",
+            backgroundImage: "url(/images/ai_mock/banner/banner02.png)",
             backgroundSize: "cover",
             backgroundPosition: "center center"
         }}>
