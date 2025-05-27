@@ -4,9 +4,9 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
-import ReportHeader from './ReportHeader';
+import ReportHeader from '../../components/ReportHeader';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
-import ButtonPair from './buttonPair';
+import ButtonPair from '../../components/buttonPair';
 import { PATH } from "../../data/paths";
 
 const ReportDelivery = () => {

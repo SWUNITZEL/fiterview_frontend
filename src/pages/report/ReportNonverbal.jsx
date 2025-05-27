@@ -2,8 +2,8 @@ import './ReportNonverbal.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
-import ReportHeader from './ReportHeader';
-import ButtonPair from './buttonPair';
+import ReportHeader from '../../components/ReportHeader';
+import ButtonPair from '../../components/buttonPair';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 import { Container } from '@mui/material';
 import { PATH } from "../../data/paths";

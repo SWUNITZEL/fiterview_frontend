@@ -1,7 +1,7 @@
 import './ReportAnswer.css';
 import NavbarComponent from '../../components/Navbar'
-import ReportHeader from './ReportHeader';
-import ButtonPair from './buttonPair';
+import ReportHeader from '../../components/ReportHeader';
+import ButtonPair from '../../components/buttonPair';
 import { Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
