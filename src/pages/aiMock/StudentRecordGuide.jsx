@@ -42,7 +42,7 @@ const steps = [
         {
             title: '생활기록부 확인하기',
             description: `발급이 완료되면 자동으로 화면이 넘어갑니다. \n'전자문서 지갑'에서 학교생활기록부를 열어주세요.`,             
-            image: '/images/ai_mock/ai_mock/goverment24/step07.png',
+            image: '/images/ai_mock/goverment24/step07.png',
         },
         {
             title: '생활기록부 다운로드',
