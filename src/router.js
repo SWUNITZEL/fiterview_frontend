@@ -12,14 +12,15 @@ import SelfCheck from "./pages/selfCheck/SelfCheck.jsx";
 import FaceCheck from "./pages/selfCheck/FaceCheck.jsx";
 import SoundCheck from "./pages/selfCheck/SoundCheck.jsx";
 import Interview from "./pages/interview/Interview.jsx";
-import ReportMain from './pages/resultReport/ReportMain';
-import ReportNonverbal from './pages/resultReport/ReportNonverbal';
-import ReportDelivery from './pages/resultReport/ReportDelivery';
-import ReportAnswerAnalysis from './pages/resultReport/ReportAnswerAnalysis';
 
-import ResultNotice from './pages/preResult/ResultNotice';
-import ReportGenerating from './pages/preResult/ReportGenerating';
-import InterviewResultSummary from './pages/preResult/InterviewResultSummary';
+import ReportMain from './pages/report/ReportMain.jsx';
+import ReportNonverbal from './pages/report/ReportNonverbal.jsx';
+import ReportDelivery from './pages/report/ReportDelivery.jsx';
+import ReportAnswer from './pages/report/ReportAnswer.jsx';
+import ReportCompare from './pages/report/ReportCompare.jsx';
+
+import ResultNotice from './pages/preResult/ResultNotice.jsx';
+import ReportGenerating from './pages/preResult/ReportGenerating.jsx';
 
 import { PATH } from './data/paths';
 
@@ -37,14 +38,14 @@ const RouterConfig = () => {
       <Route path={PATH.INTERVIEW_SELF_CHECK_FACE} element={<FaceCheck />} />
       <Route path={PATH.INTERVIEW_SELF_CHECK_SOUND} element={<SoundCheck />} />
 
-      <Route path={PATH.RESULT} element={<ReportMain />} />
-      <Route path={PATH.RESULT_NONVERBAL} element={<ReportNonverbal />} />
-      <Route path={PATH.RESULT_DELIVERY} element={<ReportDelivery />} />
-      <Route path={PATH.RESULT_ANALYSIS_BY_ANSWER} element={<ReportAnswerAnalysis />} />
+      <Route path={PATH.REPORT} element={<ReportMain />} />
+      <Route path={PATH.REPORT_NONVERBAL} element={<ReportNonverbal />} />
+      <Route path={PATH.REPORT_DELIVERY} element={<ReportDelivery />} />
+      <Route path={PATH.REPORT_ANSWER} element={<ReportAnswer />} />
+      <Route path={PATH.REPORT_COMPARE} element={<ReportCompare />} />
 
-      <Route path={PATH.RESULT_NOTICE} element={<ResultNotice />} />
+      <Route path={PATH.REPORT_NOTICE} element={<ResultNotice />} />
       <Route path={PATH.REPORT_GENERATING} element={<ReportGenerating />} />
-      <Route path={PATH.INTERVIEW_SUMMARY} element={<InterviewResultSummary />} />
 
       <Route path={PATH.INTERVIEW_CONFIG_PERSONA} element={<PersonaConfig />} />
       <Route path={PATH.INTERVIEW_CONFIG} element={<InterviewConfig />} />

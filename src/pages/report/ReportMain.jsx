@@ -1,4 +1,3 @@
-import React from "react";
 import {
   RadarChart,
   Radar,
@@ -7,7 +6,8 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
-import "./InterviewResultSummary.css";
+import NavbarComponent from '../../components/Navbar'
+import "./ReportMain.css";
 
 const data = [
   { subject: "전공적합성", A: 4 },
@@ -17,18 +17,10 @@ const data = [
   { subject: "침착함", A: 4 },
 ];
 
-const InterviewResultSummary = () => {
+const ReportMain = () => {
   return (
     <div className="result-page-wrapper">
-      <header className="logo-header">
-        <img src="/logo-placeholder.png" alt="로고" className="logo-img" />
-        <div className="header-right">
-          <span className="login-placeholder">AI 모의면접</span>
-          <span className="login-placeholder">회원가입</span>
-          <button className="outline-button">로그인</button>
-        </div>
-      </header>
-
+      <NavbarComponent />
       <main className="main-report">
         <div className="report-container drop-shadow-medium">
           <h2 className="subtitle-18-bold">XX대학 XX학과 모의면접 결과</h2>
@@ -83,4 +75,4 @@ const InterviewResultSummary = () => {
   );
 };
 
-export default InterviewResultSummary;
+export default ReportMain;
