@@ -2,12 +2,20 @@ import './ReportCompare.css';
 import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
 import ReportHeader from './ReportHeader';
+import ButtonPair from './buttonPair';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
+import { PATH } from "../../data/paths";
+import { useNavigate } from 'react-router-dom';
+
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
 
 const ReportCompare = () => {
+  const navigate = useNavigate();
+  const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
+
   const compareData = {
   previousScore: 720,
   currentScore: 860,
@@ -45,7 +53,7 @@ const ReportCompare = () => {
   } = compareData;
 
   return (
-    <Container maxWidth={false} style={{
+    <Container ref={pageRef} maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
             minHeight: "100vh",
             padding: "0",
@@ -58,7 +66,7 @@ const ReportCompare = () => {
         interviewTitle = "○○대학교 모의면접 결과" 
         reportTitle = "비교 분석 결과"
         timestamp="2025-03-15 21:25:41" 
-        onDownload=""
+        onDownload={handleDownload}
         />
       <div className="compare-container">
         <h2 className="title-24-bold">직전 면접보다 높은 점수를 받았어요</h2>
@@ -126,6 +134,13 @@ const ReportCompare = () => {
             <p className="body-14-regular">{currentSummary}</p>
           </div>
         </div>
+        <ButtonPair 
+        leftText="답변 구성 분석 결과 보러가기"
+        onLeftClick={()=>{
+          navigate(PATH.REPORT_ANSWER)
+          window.scrollTo(0,0)
+        }}
+        />
       </div>
     </Container>
   );

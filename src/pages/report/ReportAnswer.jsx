@@ -1,9 +1,11 @@
 import './ReportAnswer.css';
 import NavbarComponent from '../../components/Navbar'
 import ReportHeader from './ReportHeader';
+import ButtonPair from './buttonPair';
 import { Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import { PATH } from "../../data/paths";
 
 const ReportAnswer = () => {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ const ReportAnswer = () => {
       <NavbarComponent />
       <ReportHeader 
         interviewTitle = "○○대학교 모의면접 결과" 
-        reportTitle = "답변 분석 결과"
+        reportTitle = "답변 구성 분석 결과"
         timestamp="2025-03-15 21:25:41" 
         onDownload={handleDownload}
         ></ReportHeader>
@@ -86,10 +88,18 @@ const ReportAnswer = () => {
           <p className="body-14-regular">{answerData.summary}</p>
         </div>
 
-        <div className="pagination-button-wrap">
-          <button className="secondary-button">전달력 분석 결과 보러가기</button>
-          <button className="primary-button">비교 분석 결과 보러가기</button>
-        </div>
+        <ButtonPair 
+        leftText="전달력 분석 결과 보러가기"
+        rightText="비교 분석 결과 보러가기"
+        onLeftClick={()=>{
+          navigate(PATH.REPORT_DELIVERY)
+          window.scrollTo(0,0)
+        }}
+        onRightClick={()=>{
+          navigate(PATH.REPORT_COMPARE)
+          window.scrollTo(0,0)
+        }}
+        />
       </div>
     </Container>
   );

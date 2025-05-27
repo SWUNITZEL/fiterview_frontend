@@ -6,6 +6,8 @@ import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
 import ReportHeader from './ReportHeader';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import ButtonPair from './buttonPair';
+import { PATH } from "../../data/paths";
 
 const ReportDelivery = () => {
   const navigate = useNavigate();
@@ -150,6 +152,18 @@ const ReportDelivery = () => {
       <button className="next-button" onClick={() => navigate('/report/Nonverbal')}>
         비언어적 커뮤니케이션 분석 결과 보러가기
       </button>
+      <ButtonPair 
+        leftText="비언어적 커뮤니케이션 분석 결과 보러가기"
+        rightText="답변 구성 분석 결과 보러가기"
+        onLeftClick={()=>{
+          navigate(PATH.REPORT_NONVERBAL)
+          window.scrollTo(0,0)
+        }}
+        onRightClick={()=>{
+          navigate(PATH.REPORT_ANSWER)
+          window.scrollTo(0,0)
+        }}
+        />
     </div>
     </Container>
   );

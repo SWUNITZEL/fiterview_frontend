@@ -3,9 +3,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
 import ReportHeader from './ReportHeader';
+import ButtonPair from './buttonPair';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 import { Container } from '@mui/material';
-
+import { PATH } from "../../data/paths";
 const ReportNonverbal = () => {
   const navigate = useNavigate();
   const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
@@ -147,8 +148,13 @@ const ReportNonverbal = () => {
             </div>
           </div>
         </div>
-
-        <button className="next-button" onClick={() => navigate('/report/Vocal')}>다음 분석 결과 보러가기</button>
+        <ButtonPair 
+        rightText="전달력 분석 결과 보러가기"
+        onRightClick={() => {
+          navigate(PATH.REPORT_DELIVERY)
+          window.scrollTo(0,0)
+        }}
+        />
       </div>
     </Container>
   );
