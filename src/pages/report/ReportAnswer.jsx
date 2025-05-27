@@ -1,8 +1,14 @@
 import './ReportAnswer.css';
 import NavbarComponent from '../../components/Navbar'
+import ReportHeader from './ReportHeader';
 import { Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
 
 const ReportAnswer = () => {
+  const navigate = useNavigate();
+  const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
+
   const answerData = {
   question: "자신의 강점은 무엇인가요?",
   intent: "지원자의 자기 인식과 강점, 이를 활용한 경험을 파악하기 위함입니다.",
@@ -25,19 +31,23 @@ const ReportAnswer = () => {
   summary: "전반적으로 강점을 잘 설명했으며, 실제 사례로 설득력을 높였습니다. 다만, 사례의 구체성과 표현력에서 약간의 개선 여지가 보입니다."
 };
   return (
-    <Container maxWidth={false} style={{
+    <Container ref={pageRef} maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
             minHeight: "100vh",
             padding: "0",
             overflow: "hidden",
-            display: "flex"
+            display: "flex",
+            flexDirection:"column"
         }}>
       <NavbarComponent />
+      <ReportHeader 
+        interviewTitle = "○○대학교 모의면접 결과" 
+        reportTitle = "답변 분석 결과"
+        timestamp="2025-03-15 21:25:41" 
+        onDownload={handleDownload}
+        ></ReportHeader>
       <div className="answer-container">
-        <p className="caption-14-regular timestamp">
-          ○○대학교 모의면접 결과 (2025-03-15 21:25:41)
-        </p>
-        <p className="caption-14-regular download-link">PDF로 다운 받기</p>
+        
 
         <h2 className="title-24-bold question">Q1. <span className="primary">{answerData.question}</span></h2>
 

@@ -4,9 +4,12 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
+import ReportHeader from './ReportHeader';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
 
 const ReportDelivery = () => {
   const navigate = useNavigate();
+  const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
 
   const getFeedback = (category, value) => {
     if (category === 'pronunciation') {
@@ -83,19 +86,22 @@ const ReportDelivery = () => {
 };
 
   return (
-    <Container maxWidth={false} style={{
+    <Container ref={pageRef} maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
             minHeight: "100vh",
             padding: "0",
             overflow: "hidden",
-            display: "flex"
+            display: "flex",
+            flexDirection:"column"
         }}>
       <NavbarComponent />
+      <ReportHeader 
+        interviewTitle = "○○대학교 모의면접 결과" 
+        reportTitle = "전달력 분석 결과"
+        timestamp="2025-03-15 21:25:41" 
+        onDownload={handleDownload}
+        />
     <div className="delivery-container">
-      <h2>전달력 분석 결과</h2>
-      <p className="timestamp">○○대학교 모의면접 결과 (2025-03-15 21:25:41)</p>
-      <p className="download-link">PDF로 다운 받기</p>
-
       <h3 className="total-score">총점 <span>{deliveryData.totalScore}점</span></h3>
 
       <div className="summary-section">

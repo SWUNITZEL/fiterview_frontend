@@ -1,6 +1,5 @@
 .result-page-wrapper {
   background-color: var(--nuetral-10);
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -65,7 +64,7 @@
 /* 좌우 2열 배치 */
 .report-content {
   display: flex;
-  gap: 40px;
+  gap: 24px;
   margin-bottom: 32px;
 }
 
@@ -104,22 +103,4 @@
 .total-box {
   background-color: white;
   border: 1px solid var(--nuetral-30);
-}
-
-/* 하단 버튼 */
-.center-horizontal {
-  display: flex;
-  justify-content: center;
-}
-
-.filled-button.small-button {
-  background-color: var(--primary-60);
-  color: white;
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: Pretendard;
-  cursor: pointer;
-  border: none;
 }

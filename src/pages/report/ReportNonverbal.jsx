@@ -2,10 +2,13 @@ import './ReportNonverbal.css';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { useNavigate } from 'react-router-dom';
 import NavbarComponent from '../../components/Navbar'
+import ReportHeader from './ReportHeader';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
 import { Container } from '@mui/material';
 
 const ReportNonverbal = () => {
   const navigate = useNavigate();
+  const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
 
   const getFeedback = (category, score, blinkRate, shoulderRatio) => {
     if (category === 'posture') {
@@ -89,61 +92,64 @@ const ReportNonverbal = () => {
   };
 
   return (
-    <Container maxWidth={false} style={{
+    <Container ref={pageRef} maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
             minHeight: "100vh",
             padding: "0",
             overflow: "hidden",
-            display: "flex"
+            display: "flex",
+            flexDirection:"column"
         }}>
       <NavbarComponent />
-    <div className="nonverbal-container">
-      <h2>비언어적 커뮤니케이션 분석 결과</h2>
-      <p className="timestamp">○○대학교 모의면접 결과 (2025-03-15 21:25:41)</p>
-      <p className="download-link">PDF로 다운 받기</p>
+      <ReportHeader 
+        interviewTitle = "○○대학교 모의면접 결과" 
+        reportTitle = "비언어적 커뮤니케이션 분석 결과"
+        timestamp="2025-03-15 21:25:41" 
+        onDownload={handleDownload}
+        />
+      <div className="nonverbal-container">
+        <h3 className="total-score">총점 <span>{analysisData.totalScore}점</span></h3>
 
-      <h3 className="total-score">총점 <span>{analysisData.totalScore}점</span></h3>
+        <div className="summary-section">
+          {renderSummaryBox('자세', 'posture', analysisData.posture.score, analysisData.posture.average)}
+          {renderSummaryBox('시선', 'eyes', analysisData.eyes.score, analysisData.eyes.average, analysisData.eyes.blinkRate)}
+          {renderSummaryBox('제스처', 'shoulder', analysisData.shoulder.score, analysisData.shoulder.average, null, analysisData.shoulder.movementRatio)}
+        </div>
 
-      <div className="summary-section">
-        {renderSummaryBox('자세', 'posture', analysisData.posture.score, analysisData.posture.average)}
-        {renderSummaryBox('시선', 'eyes', analysisData.eyes.score, analysisData.eyes.average, analysisData.eyes.blinkRate)}
-        {renderSummaryBox('제스처', 'shoulder', analysisData.shoulder.score, analysisData.shoulder.average, null, analysisData.shoulder.movementRatio)}
-      </div>
+        <h3 className="detail-title">세부 분석 결과</h3>
 
-      <h3 className="detail-title">세부 분석 결과</h3>
-
-      <div className="detail-section">
-        <div className="detail-row">
-          <div className="detail-box">
-            <div className="detail-left">
-              <h4>자세 세부 분석 결과</h4>
-              <p>{analysisData.posture.detail}</p>
+        <div className="detail-section">
+          <div className="detail-row">
+            <div className="detail-box">
+              <div className="detail-left">
+                <h4>자세 세부 분석 결과</h4>
+                <p>{analysisData.posture.detail}</p>
+              </div>
+              <div className="detail-right">[도넛 차트]</div>
             </div>
-            <div className="detail-right">[도넛 차트]</div>
+
+            <div className="detail-box">
+              <div className="detail-left">
+                <h4>시선 세부 분석 결과</h4>
+                <p>{analysisData.eyes.detail}</p>
+              </div>
+              <div className="detail-right">[시선 분포 시각화]</div>
+            </div>
           </div>
 
-          <div className="detail-box">
-            <div className="detail-left">
-              <h4>시선 세부 분석 결과</h4>
-              <p>{analysisData.eyes.detail}</p>
+          <div className="detail-row full-width">
+            <div className="detail-box">
+              <div className="detail-left">
+                <h4>제스처 세부 분석 결과</h4>
+                <p>{analysisData.shoulder.detail}</p>
+              </div>
+              <div className="detail-right">[제스처 차트]</div>
             </div>
-            <div className="detail-right">[시선 분포 시각화]</div>
           </div>
         </div>
 
-        <div className="detail-row full-width">
-          <div className="detail-box">
-            <div className="detail-left">
-              <h4>제스처 세부 분석 결과</h4>
-              <p>{analysisData.shoulder.detail}</p>
-            </div>
-            <div className="detail-right">[제스처 차트]</div>
-          </div>
-        </div>
+        <button className="next-button" onClick={() => navigate('/report/Vocal')}>다음 분석 결과 보러가기</button>
       </div>
-
-      <button className="next-button" onClick={() => navigate('/report/Vocal')}>다음 분석 결과 보러가기</button>
-    </div>
     </Container>
   );
 };

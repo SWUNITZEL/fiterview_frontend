@@ -1,6 +1,7 @@
 import './ReportCompare.css';
 import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
+import ReportHeader from './ReportHeader';
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
@@ -49,13 +50,17 @@ const ReportCompare = () => {
             minHeight: "100vh",
             padding: "0",
             overflow: "hidden",
-            display: "flex"
+            display: "flex",
+            flexDirection:"column"
         }}>
       <NavbarComponent />
+      <ReportHeader 
+        interviewTitle = "○○대학교 모의면접 결과" 
+        reportTitle = "비교 분석 결과"
+        timestamp="2025-03-15 21:25:41" 
+        onDownload=""
+        />
       <div className="compare-container">
-        <p className="caption-14-regular timestamp">○○대학교 모의면접 결과 (2025-03-15 21:25:41)</p>
-        <p className="caption-14-regular download-link">PDF로 다운 받기</p>
-
         <h2 className="title-24-bold">직전 면접보다 높은 점수를 받았어요</h2>
 
         <div className="score-section drop-shadow-medium">

@@ -7,7 +7,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import NavbarComponent from '../../components/Navbar'
+import { Container, Button } from '@mui/material';
 import "./ReportMain.css";
+import { useNavigate } from 'react-router-dom';
+import { PATH } from "../../data/paths";
 
 const data = [
   { subject: "전공적합성", A: 4 },
@@ -18,20 +21,49 @@ const data = [
 ];
 
 const ReportMain = () => {
+  const navigate = useNavigate()
   return (
-    <div className="result-page-wrapper">
+    <Container maxWidth={false} style={{
+                backgroundColor: "var(--background-color)",
+                minHeight: "100vh",
+                padding: "0",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection:"column",
+                justifyContent:"center",
+                alignItems:"center"
+            }}>
       <NavbarComponent />
-      <main className="main-report">
-        <div className="report-container drop-shadow-medium">
-          <h2 className="subtitle-18-bold">XX대학 XX학과 모의면접 결과</h2>
-
-          <div className="report-content">
-            {/* 왼쪽: 분석 항목 */}
-            <div className="report-left">
-              {["비언어적 커뮤니케이션", "전달력", "답변 구성", "비교 분석"].map((title, idx) => (
-                <div className="feedback-box" key={idx}>
-                  <div className="caption-14-medium feedback-title">{title}</div>
-                  <div className="body-14-regular feedback-content">
+      <main className="drop-shadow-large" 
+      style={{
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "column",
+        marginRight:"240px",
+        marginLeft:"240px",
+        marginTop:"120px",
+        marginBottom:"40px",
+        padding:"45px 56px",
+        borderRadius:"16px",
+        width:"calc(100% - 480px)"
+      }}>
+        <h2 className="subtitle-20-bold" style={{marginTop:"0px",marginBottom:"16px",}}>XX대학 XX학과 모의면접 결과</h2>
+        <div style={{
+          display: "flex",
+          gap: "30px",
+          marginBottom: "32px"
+        }}>
+          {/* 왼쪽: 분석 항목 */}
+          <div className="report-left">
+            {["비언어적 커뮤니케이션", "전달력", "답변 구성", "비교 분석"].map((title, idx) => (
+              <div style={{
+                backgroundColor: 'var(--nuetral-20)',
+                padding: '16px',
+                borderRadius: '8px',
+                width:"600px",
+              }} key={idx}>
+                  <div className="caption-16-medium feedback-title">{title}</div>
+                  <div className="body-16-regular feedback-content">
                     가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이오, 내일 밤이 남은 까닭이오,
                     아직 나의 청춘이 다하지 않은 까닭입니다. 어머님, 그리고 당신은 멀리 북간도에 계십니다.
                   </div>
@@ -56,22 +88,50 @@ const ReportMain = () => {
                 </RadarChart>
               </ResponsiveContainer>
 
-              <div className="feedback-box total-box">
-                <div className="caption-14-medium feedback-title">면접 총평</div>
-                <div className="body-14-regular feedback-content">
+              <div style={{background : "white",
+                border: "1px solid var(--nuetral-30)",
+                padding:"16px",
+                borderRadius: '8px',
+                height:"100%"
+                }}>
+                <div className="caption-16-medium feedback-title">면접 총평</div>
+                <div className="body-16-regular feedback-content">
                   가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이오, 내일 밤이 남은 까닭이오,
                   아직 나의 청춘이 다하지 않은 까닭입니다. 어머님, 그리고 당신은 멀리 북간도에 계십니다.
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="center-horizontal">
-            <button className="filled-button small-button">세부결과 보러가기</button>
-          </div>
-        </div>
       </main>
-    </div>
+      <Button 
+      onClick={() => {
+        navigate(PATH.REPORT_NONVERBAL);
+        window.scrollTo(0, 0);
+      }}
+      sx={{
+        marginLeft:"auto",
+        marginRight:"auto",
+        marginTop:"0px",
+        marginBottom:"120px",
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '8px 24px',
+        gap: '10px',
+        color:"var(--background-color)",
+        fontSize:"18px",
+        fontWeight:400,
+        backgroundColor: 'var(--primary-60)',
+        borderRadius: '8px',
+        '& .MuiButton-label': {
+          fontWeight: 400,
+        },
+        '&:hover': {
+          backgroundColor: 'var(--primary-80)',
+        },
+     }}>세부결과 보러가기</Button>
+    </Container>
   );
 };
 
