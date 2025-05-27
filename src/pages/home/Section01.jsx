@@ -1,17 +1,17 @@
-export default function SectionFeature01() {
+export default function Section01() {
   return (
     <div
       className="center-both child-column-center"
       style={{
         width: "100%",
-        minHeight: "100vh",
+        padding: "120px 240px",
         backgroundColor: "#E7EFFF",
         textAlign: "center",
       }}
     >
       <p
         className="subtitle-18-medium"
-        style={{ marginTop:"0px",marginBottom: "0px", color:"var(--nuetral-60)" }}
+        style={{ marginTop:"0px", marginBottom: "8px", color:"var(--nuetral-60)" }}
       >
         면접 준비, 더 이상 고민하지 마세요.
       </p>
@@ -28,7 +28,7 @@ export default function SectionFeature01() {
       </h2>
       <p
         style={{
-          maxWidth: "calc(100% - 480px)",
+          maxWidth: "calc(100%)",
           margin: "0 auto 40px",
           fontSize: "18px",
           color: "var(--nuetral-70)",
@@ -48,7 +48,7 @@ export default function SectionFeature01() {
         }}
       >
         <FeatureCard
-          iconSrc="/images/home/icons/Dictionary.png"
+          iconSrc="/images/home/icons/dictionary.png"
           title="자동 질문 생성"
           description={
             <>
@@ -58,7 +58,7 @@ export default function SectionFeature01() {
           }
         />
         <FeatureCard
-          iconSrc="/images/home/icons/DigitalLibrary.png"
+          iconSrc="/images/home/icons/digital_library.png"
           title="개인 맞춤 피드백"
           description={
             <>
@@ -68,7 +68,7 @@ export default function SectionFeature01() {
           }
         />
         <FeatureCard
-          iconSrc="/images/home/icons/BookReturn.png"
+          iconSrc="/images/home/icons/book_return.png"
           title="반복 연습 가능"
           description={
             <>
@@ -101,7 +101,7 @@ function FeatureCard({ iconSrc, title, description }) {
       />
       <h3
         style={{
-          fontSize: "20px",
+          fontSize: "18px",
           fontWeight: "600",
           marginTop:"0px",
           marginBottom: "8px",

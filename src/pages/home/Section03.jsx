@@ -1,27 +1,29 @@
-export default function AiReportSection() {
+import { ArrowDownIcon  } from "@heroicons/react/24/outline";
+
+export default function Section03() {
   return (
     <div
       style={{
         width: "100%",
         backgroundColor: "#eaf1ff",
-        padding: "60px 240px",
+        padding: "120px 240px",
         boxSizing: "border-box",
         textAlign: "center",
       }}
     >
-      <h2 style={{ fontSize: "28px", fontWeight: "700", color: "#2979ff", marginBottom: "10px" }}>
+      <h2 style={{ fontSize: "32px", fontWeight: "700", color: "var(--nuetral-80)", marginBottom: "5px" }}>
         AI 기반 면접 분석&면접 리포트 제공
       </h2>
-      <p style={{ fontSize: "16px", color: "#333", marginBottom: "20px" }}>
+      <p style={{ fontSize: "18px", fontWeight: "500", color: "var(--nuetral-80)", marginTop:"0px", marginBottom: "48px" }}>
         나의 강점과 약점을 데이터로 확인하세요!
       </p>
-      <p style={{ fontSize: "14px", color: "#333", marginBottom: "10px" }}>
+      <p style={{ fontSize: "18px", fontWeight: "500", color: "var(--nuetral-80)", marginTop:"0px", marginBottom: "0px" }}>
         면접 후 AI가 답변을 분석하여 논리성, 유창성, 설득력, 태도 등을 평가
-      </p>
-      <p style={{ fontSize: "14px", color: "#333", marginBottom: "10px" }}>
+        <br/>
         최첨단 AI 기술을 활용하여 당신의 답변을 분석하고, 개선 방향을 제시
       </p>
-      <p style={{ fontSize: "14px", color: "#333", marginBottom: "30px" }}>
+      <ArrowDownIcon style={{height:"19px", color:"var(--primary-60)", marginTop:"26.4px", marginBottom: "26.4px"}} strokeWidth={2.5}></ArrowDownIcon>
+      <p style={{ fontSize: "18px", fontWeight: "700", color: "var(--nuetral-80)", marginTop:"0px", marginBottom: "72px" }}>
         객관적인 데이터와 피드백을 통해 실력을 체계적으로 향상시킬 수 있습니다.
       </p>
       <div
@@ -50,10 +52,10 @@ function InfoBox({ text }) {
         flex: "1 1 calc(50% - 10px)",
         backgroundColor: "#fff",
         borderRadius: "12px",
-        padding: "20px",
-        fontSize: "14px",
-        color: "#333",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        padding: "36px",
+        fontSize: "18px",
+        fontWeight:"500",
+        color: "var(--font-body)",
         boxSizing: "border-box",
       }}
     >

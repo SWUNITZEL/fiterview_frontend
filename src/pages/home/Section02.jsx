@@ -1,16 +1,16 @@
 import { CheckCircleIcon  } from "@heroicons/react/24/solid";
 
-export default function SectionPersona() {
+export default function Section02() {
   return (
     <div
       style={{
         width: "100%",
         backgroundColor: "var(--background-color)",
-        padding: "60px 20px",
+        padding: "120px 240px",
         textAlign: "center",
       }}
     >
-      <h2 style={{ fontSize: "40px", marginBottom: "10px", color: "var(--primary-60)" }}>
+      <h2 style={{ fontSize: "32px", marginBottom: "10px", color: "var(--primary-60)" }}>
         다양한 면접관 페르소나
       </h2>
       <p style={{ fontSize: "18px", marginTop:"0px", marginBottom: "30px", color: "var(--nuetral-60)" }}>
@@ -37,7 +37,7 @@ export default function SectionPersona() {
           />
           <FeatureItem
             icon={<CheckCircleIcon style={{ height: "20px", marginRight:"10px", color:"var(--primary-60)" }} />}
-            text=" 면접관 성향에 대비 가능 – 논리형, 압박형, 칭찬형 등"
+            text=" 면접관 성향에 대비 가능 – 논리형, 창의형, 친절형 등"
           />
           <FeatureItem
             icon={<CheckCircleIcon style={{ height: "20px", marginRight:"10px", color:"var(--primary-60)" }} />}
@@ -56,25 +56,25 @@ export default function SectionPersona() {
         }}
       >
         <PersonaChat1
-          imgSrc="/images/home/personas/persona1.png"
+          imgSrc="/images/home/personas/persona01.png"
           text="이 개념을 다시 설명해보세요. 본인이 이해한 방식이 있을까요?"
         />
         <PersonaChat2
-          imgSrc="/images/home/personas/persona2.png"
+          imgSrc="/images/home/personas/persona02.png"
           text="좋아요, 그렇다면 이런 상황에서는 어떻게 대답하시겠어요?"
         />
         <PersonaChat1
-          imgSrc="/images/home/personas/persona3.png"
+          imgSrc="/images/home/personas/persona03.png"
           text="글쎄요? 그렇게 생각한 이유가 있나요?"
         />
         <PersonaChat2
-          imgSrc="/images/home/personas/persona4.png"
+          imgSrc="/images/home/personas/persona04.png"
           text="이 문제를 새로운 시각에서 접근해본다면 어떤 해결책이 있을까요?"
         />
       </div>
 
-      <p className="subtitle-20-medium" style={{ color: "var(--primary-60)" }}>
-        AI 면접관의 다양한 성격과 질문 스타일을 시뮬 구동! <br />
+      <p className="subtitle-20-medium" style={{ color: "var(--primary-40)" }}>
+        최상위 대학 면접관의 다양한 성격과 질문 스타일을 AI로 구현! <br />
         논리적인 교수부터 까다로운 교수까지, 실제 면접장에서 마주할 수 있는 면접관들을 경험해보세요.
       </p>
     </div>
@@ -108,18 +108,18 @@ function PersonaChat1({ imgSrc, text }) {
         color: "#000",
         borderRadius: "16px",
         padding: "20px",
-        maxWidth: "calc(100% - 480px)",
+        maxWidth: "calc(100% - 20px)",
         width: "100%",
       }}
     >
       <img
         src={imgSrc}
         alt="Persona"
-        style={{ width: "70px", height: "70px", borderRadius: "50%", marginRight: "20px" }}
+        style={{ width: "120px", height: "auto", borderRadius: "50%", marginRight: "20px" }}
       />
       <div className="yours">
         <div className="message last">
-         <p style={{ margin: "8px 20px", fontSize: "20px", lineHeight: "1.5" }}>{text}</p>
+         <p style={{ margin: "20px 40px", fontSize: "18px", lineHeight: "1.5" }}>{text}</p>
         </div>
       </div>
       
@@ -137,20 +137,20 @@ function PersonaChat2({ imgSrc, text }) {
         color: "#000",
         borderRadius: "16px",
         padding: "20px",
-        maxWidth: "calc(100% - 480px)",
+        maxWidth: "calc(100% - 20px)",
         width: "100%",
       }}
     >
       
       <div className="mine">
         <div className="message last">
-         <p style={{ margin: "8px 20px", fontSize: "20px", lineHeight: "1.5" }}>{text}</p>
+         <p style={{ margin: "20px 40px", fontSize: "18px", lineHeight: "1.5" }}>{text}</p>
         </div>
       </div>
       <img
         src={imgSrc}
         alt="Persona"
-        style={{ width: "70px", height: "70px", borderRadius: "50%", marginLeft: "20px" }}
+        style={{ width: "120px", height: "auto", borderRadius: "50%", marginLeft: "20px" }}
       />
     </div>
   );

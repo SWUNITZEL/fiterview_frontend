@@ -3,15 +3,25 @@ import { Container } from "@mui/material";
 import NavbarComponent from '../../components/Navbar';
 import "./Home.css";
 import MainBanner from "./MainBanner";
-import SectionIntro from "./SectionIntro";
-import SectionFeature01 from "./SectionFeature01";
-import SectionFeature02 from "./SectionFeature02";
-import SectionFeature03 from "./SectionFeature03";
+import Section00 from "./Section00";
+import Section01 from "./Section01";
+import Section02 from "./Section02";
+import Section03 from "./Section03";
+import Section04 from "./Section04";
+import { PATH } from "../../data/paths";
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [activeSection, setActiveSection] = useState(-1);
+  const FRONT_AI_MOCK_URL = PATH.AI_MOCK
+  const navigate = useNavigate()
+  const handleNavigate = () => {
+    navigate(FRONT_AI_MOCK_URL);
+    window.scrollTo(0, 0);
+  };
 
   const sectionRefs = [
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -73,31 +83,37 @@ function Home() {
         ref={sectionRefs[0]}
         className={`section ${activeSection === 0 ? 'visible' : ''}`}
       >
-        <MainBanner />
+        <MainBanner onNavigate={handleNavigate} />
       </div>
       <div
         ref={sectionRefs[1]}
         className={`section ${activeSection === 1 ? 'visible' : ''}`}
       >
-        <SectionIntro />
+        <Section00 />
       </div>
       <div
         ref={sectionRefs[2]}
         className={`section ${activeSection === 2 ? 'visible' : ''}`}
       >
-        <SectionFeature01 />
+        <Section01 />
       </div>
       <div
         ref={sectionRefs[3]}
         className={`section ${activeSection === 3 ? 'visible' : ''}`}
       >
-        <SectionFeature02 />
+        <Section02 />
       </div>
       <div
         ref={sectionRefs[4]}
         className={`section ${activeSection === 4 ? 'visible' : ''}`}
       >
-        <SectionFeature03 />
+        <Section03 />
+      </div>
+      <div
+        ref={sectionRefs[5]}
+        className={`section ${activeSection === 5 ? 'visible' : ''}`}
+      >
+        <Section04 onNavigate={handleNavigate} />
       </div>
     </Container>
   );

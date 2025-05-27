@@ -1,20 +1,20 @@
 /**
- * @file InterviewConditionSelection.jsx
+ * @file InterviewConfig.jsx
  * @description 면접 전 선택 페이지
  * @author 김하은
  * @created 2025-05-17
 **/
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container } from "@mui/material";
 import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/react/24/outline";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
-import "./InterviewConditionSelection.css";
+import "./InterviewConfig.css";
 import { PATH } from "../../data/paths"
 
-const InterviewConditionSelection = () => {
+const InterviewConfig = () => {
   const navigate = useNavigate();
 
   const [university, setUniversity] = useState("");
@@ -159,4 +159,4 @@ const InterviewConditionSelection = () => {
   );
 };
 
-export default InterviewConditionSelection;
+export default InterviewConfig;

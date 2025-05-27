@@ -1,9 +1,3 @@
-/**
- * @file SectionIntro.jsx
- * @description 첫번째 섹션
- * @author 이찬우
-**/
-
 const buttonStyle = {
   width:"300px",
   padding: '20px 60px',
@@ -16,12 +10,12 @@ const buttonStyle = {
   fontWeight:"500"
 };
 
-export default function SectionIntro() {
+export default function Section00() {
   return (
     <div className="center-both child-column-center" 
         style={{
             width:"100%", 
-            minHeight:"100vh",
+            padding: "120px 240px",
             backgroundColor: "var(--background-color)"}} >
       <img 
       src="/images/default/logo.png" 
@@ -36,7 +30,7 @@ export default function SectionIntro() {
         <div style={buttonStyle}>AI 분석</div>
       </div>
 
-      <p className="title-24-medium" style={{ marginTop: '64px'}}>이 모든걸 한 번에!</p>
+      <p className="subtitle-20-medium" style={{ marginTop: '64px'}}>이 모든걸 한 번에!</p>
     </div>
   );
 }
