@@ -1,14 +1,17 @@
-import './Report.css';
-import NavbarComponent from '../../components/Navbar'
+import { Container } from '@mui/material';
+
+import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { PATH } from '../../data/paths';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
+
+import NavbarComponent from '../../components/Navbar';
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
-import { Container } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { usePdfDownload } from '../../hooks/usePdfDownload';
-import { PATH } from "../../data/paths";
+
+import './Report.css';
 
 const ReportAnswer = () => {
-  const navigate = useNavigate();
+  const navigateAndScrollTop = useNavigateWithScrollTop()
   const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
 
   const answerData = {
@@ -91,14 +94,8 @@ const ReportAnswer = () => {
         <ButtonPair 
         leftText="전달력 분석 결과 보러가기"
         rightText="비교 분석 결과 보러가기"
-        onLeftClick={()=>{
-          navigate(PATH.REPORT_DELIVERY)
-          window.scrollTo(0,0)
-        }}
-        onRightClick={()=>{
-          navigate(PATH.REPORT_COMPARE)
-          window.scrollTo(0,0)
-        }}
+        onLeftClick={()=> navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+        onRightClick={()=>navigateAndScrollTop(PATH.REPORT_COMPARE)}
         />
       </div>
     </Container>

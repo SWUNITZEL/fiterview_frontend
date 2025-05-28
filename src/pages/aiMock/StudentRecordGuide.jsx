@@ -101,7 +101,7 @@ const StudentRecordGuide = ({stepsIdx}) => {
       {steps[Number(stepsIdx)].map((step, idx) => (
         <div className="timeline-step" key={idx}>
           <div className="circle-line-wrapper">
-            <div className="circle subtitle-18-medium">{String(idx + 1).padStart(2, '0')}</div>
+            <div className="circle">{String(idx + 1).padStart(2, '0')}</div>
           </div>
           <div className="step-detail" style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             <div style={{width: "400px"}}>

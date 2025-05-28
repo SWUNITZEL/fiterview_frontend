@@ -1,19 +1,19 @@
-import './Report.css';
-import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
+
+import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { PATH } from '../../data/paths';
+import { usePdfDownload } from '../../hooks/usePdfDownload';
+
+import NavbarComponent from '../../components/Navbar';
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
-import { usePdfDownload } from '../../hooks/usePdfDownload';
-import { PATH } from "../../data/paths";
-import { useNavigate } from 'react-router-dom';
-
 
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
 
 const ReportCompare = () => {
-  const navigate = useNavigate();
+  const navigateAndScrollTop = useNavigateWithScrollTop()
   const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
 
   const compareData = {
@@ -136,10 +136,7 @@ const ReportCompare = () => {
         </div>
         <ButtonPair 
         leftText="답변 구성 분석 결과 보러가기"
-        onLeftClick={()=>{
-          navigate(PATH.REPORT_ANSWER)
-          window.scrollTo(0,0)
-        }}
+        onLeftClick={()=>navigateAndScrollTop(PATH.REPORT_ANSWER)}
         />
       </div>
     </Container>

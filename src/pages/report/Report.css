@@ -3,14 +3,8 @@
   margin-right: 240px;
 }
 
-.timestamp {
-  color: #999;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
 .total-score {
-  color: #0056ff;
+  color: var(--primary-60);
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 30px;
@@ -49,18 +43,18 @@
 }
 
 .tag.green {
-  background: #e8f5e9;
-  color: #4CAF50;
+  background: var(--success-10);
+  color: var(--success-40);
 }
 
 .tag.yellow {
-  background: #fff8e1;
-  color: #FFB300;
+  background: var(--warning-10);
+  color: var(--warning-40);
 }
 
 .summary-comment {
   font-size: 14px;
-  color: #333;
+  color: var(--font-body);
 }
 
 .detail-title {
@@ -217,12 +211,12 @@
 }
 
 .score-bar.previous > div {
-  background: #FF82A1;
+  background: var(--secondary-40);
   height: 100%;
 }
 
 .score-bar.current > div {
-  background: #4285F4;
+  background: var(--primary-40);
   height: 100%;
 }
 
@@ -264,7 +258,7 @@
 }
 
 .pink {
-  color: #FF82A1;
+  color: var(--secondary-40);
 }
 
 .primary {
