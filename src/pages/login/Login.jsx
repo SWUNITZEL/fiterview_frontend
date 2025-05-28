@@ -1,83 +1,154 @@
-import { useState } from "react";
-import "./Login.css";
-import { login as loginAPI } from "../../api/auth"; // auth.js 위치에 맞게 조정하세요
+import { Container, TextField, Button } from "@mui/material";
+
+import { useLogin } from "../../hooks/useLogin";
+import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { PATH } from "../../data/paths";
+
+import NavbarComponent from '../../components/Navbar';
 
 function Login() {
-  const [email, setEmail] = useState("");  // username -> email 변경
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loginAttempts, setLoginAttempts] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
+  const navigateAndScrollTop = useNavigateWithScrollTop();
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    error,
+    isLocked,
+    handleLogin
+  } = useLogin();
 
-  const handleLogin = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-
-    if (isLocked) return;
-
-    try {
-      const data = await loginAPI({ email, password });
-      setError("");
+    await handleLogin((data) => {
       alert("로그인 성공! 토큰:\n" + JSON.stringify(data, null, 2));
-    } catch (err) {
-      const newAttempts = loginAttempts + 1;
-      setLoginAttempts(newAttempts);
-
-      if (newAttempts >= 5) {
-        setIsLocked(true);
-        setError("로그인 시도 횟수를 초과했습니다. 계정이 잠겼습니다.");
-      } else {
-        setError(err.response?.data?.message || "아이디와 비밀번호를 다시 확인해주세요.");
-      }
-    }
+    });
   };
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <h1 className="app-title">FITERVIEW</h1>
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        minHeight: "100vh",
+        padding: "120px 240px",
+        overflow: "hidden"
+      }}>
+      <NavbarComponent />
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+        <h2 className="title-32-bold" style={{ marginTop: "0px", marginBottom: "50px" }}>로그인</h2>
 
-        <div className="login-form-container">
-          <h2 className="login-title">로그인</h2>
-
-          <form onSubmit={handleLogin} className="login-form">
-            <div className="input-group">
-              <label htmlFor="email">이메일</label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLocked}
-                required
-              />
+        <form onSubmit={onSubmit} style={{ width: "400px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <TextField
+            type="email"
+            id="email"
+            placeholder="email을 입력하세요."
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            variant="outlined"
+            required
+            fullWidth
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              height: '56px',
+              fontSize: "16px",
+              '& .MuiInputBase-root': {
+                height: '100%',
+                boxSizing: 'border-box',
+                p: '16px 8px',
+                borderRadius: "8px"
+              }
+            }}
+          />
+          <TextField
+            type="password"
+            id="password"
+            placeholder="비밀번호를 입력하세요."
+            disabled={isLocked}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="outlined"
+            required
+            fullWidth
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              height: '56px',
+              fontSize: "18px",
+              '& .MuiInputBase-root': {
+                height: '100%',
+                boxSizing: 'border-box',
+                p: '16px 8px',
+                borderRadius: "8px"
+              }
+            }}
+          />
+          <div style={{ height: "30px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {error && <span style={{ color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
+            <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}>
+              <span
+                style={{ marginRight: "10px", cursor: 'pointer' }}
+                onClick={() => navigateAndScrollTop('/find-id')}
+              >
+                아이디 찾기
+              </span>
+              |
+              <span
+                style={{ marginLeft: "10px", cursor: 'pointer' }}
+                onClick={() => navigateAndScrollTop('/find-password')}
+              >
+                비밀번호 찾기
+              </span>
             </div>
-
-            <div className="input-group">
-              <label htmlFor="password">비밀번호</label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={isLocked}
-                required
-              />
-            </div>
-
-            {error && <p className="error-message">{error}</p>}
-
-            <button type="submit" className="login-button" disabled={isLocked}>
-              로그인
-            </button>
-          </form>
-
-          <div className="signup-prompt">
-            <p>계정이 없으신가요?</p>
-            <button className="signup-button">회원가입</button>
           </div>
+          <Button
+            type="submit"
+            disabled={isLocked}
+            fullWidth
+            sx={{
+              height: '56px',
+              borderRadius: '8px',
+              mt: 6,
+              fontSize: "18px",
+              borderRadius:"8px",
+              backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
+              color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
+              '&:hover': {
+                backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-80)',
+              }
+            }}
+          >
+            로그인
+          </Button>
+        </form>
+        <div style={{ width: "400px" }}>
+          <Button
+            fullWidth
+            onClick={()=>navigateAndScrollTop(PATH.JOIN)}
+            sx={{
+              height: '56px',
+              borderRadius: '8px',
+              mt: "12px",
+              fontSize: "18px",
+              borderRadius:"8px",
+              border: "1px solid var(--nuetral-50)",
+              backgroundColor: 'var(--nuetral-10)',
+              color: 'var(--font-body)',
+              '&:hover': {
+                backgroundColor: 'var(--nuetral-20)',
+              }
+            }}
+          >
+            회원가입
+          </Button>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

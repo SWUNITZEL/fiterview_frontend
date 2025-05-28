@@ -1,16 +1,18 @@
-import React from 'react';
-import './Report.css';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { useNavigate } from 'react-router-dom';
-import NavbarComponent from '../../components/Navbar'
 import { Container } from '@mui/material';
-import ReportHeader from '../../components/ReportHeader';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+
+import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+
+import NavbarComponent from '../../components/Navbar';
+import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
-import { PATH } from "../../data/paths";
+
+import './Report.css';
 
 const ReportDelivery = () => {
-  const navigate = useNavigate();
+  const navigateAndScrollTop = useNavigateWithScrollTop()
   const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
 
   const getFeedback = (category, value) => {
@@ -151,14 +153,8 @@ const ReportDelivery = () => {
       <ButtonPair 
         leftText="비언어적 커뮤니케이션 분석 결과 보러가기"
         rightText="답변 구성 분석 결과 보러가기"
-        onLeftClick={()=>{
-          navigate(PATH.REPORT_NONVERBAL)
-          window.scrollTo(0,0)
-        }}
-        onRightClick={()=>{
-          navigate(PATH.REPORT_ANSWER)
-          window.scrollTo(0,0)
-        }}
+        onLeftClick={()=>navigateAndScrollTop(PATH.REPORT_NONVERBAL)}
+        onRightClick={()=>navigateAndScrollTop(PATH.REPORT_ANSWER)}
         />
     </div>
     </Container>

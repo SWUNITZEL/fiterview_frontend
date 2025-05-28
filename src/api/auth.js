@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { saveAccessToken } from '../utils/token';
 
-const api = axios.create({
+export const api = axios.create({
+  baseURL: process.env.REACT_APP_SRIPING_API_URL,
+  withCredentials: true,
+});
+
+export const loginApi = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
 });
@@ -51,11 +56,13 @@ export const getCurrentUser = async () => {
 // 로그인 요청
 export const login = async (credentials) => {
   try {
-    const response = await api.post('/api/user/login', credentials);
+    const response = await loginApi.post(
+      '/api/user/login',
+      credentials
+      );
     const { accessToken } = response.data;
-
-    if (accessToken) saveAccessToken(accessToken);
-
+    console.log(response.data)
+    // if (accessToken) saveAccessToken(accessToken);
     return response.data;
   } catch (error) {
     console.error('❌ login error:', error);
@@ -76,12 +83,11 @@ export const logout = async () => {
 // 회원가입 요청
 export const join = async (signupData) => {
   try {
+    console.log("회원가입 요청중")
     const response = await api.post('/api/user/join', signupData);
     return response.data;
   } catch (error) {
-    console.error('❌ signup error:', error);
+    console.error('❌ error:', error);
     throw error;
   }
-};
-
-export default api;  // 필요하면 다른 API도 여기서 import해서 사용 가능
+};  // 필요하면 다른 API도 여기서 import해서 사용 가능
