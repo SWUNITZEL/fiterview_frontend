@@ -88,7 +88,7 @@ function Login() {
               }
             }}
           />
-          <div style={{ height: "120px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
+          <div style={{ height: "70px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
             <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}>
               <span
                 style={{ marginRight: "10px", cursor: 'pointer' }}

@@ -4,7 +4,7 @@ import { usePdfUpload } from '../../hooks/usePdfUpload'; // 경로 주의!
 
 const PreUploadBanner = () => {
 
-    const { getRootProps, getInputProps, isLoading } = usePdfUpload({
+    const { getRootProps, getInputProps, isUploading } = usePdfUpload({
         onSuccess: (data) => {
             console.log('업로드 성공!', data);
         },
@@ -15,7 +15,7 @@ const PreUploadBanner = () => {
 
     return (
         <div className="center-both child-row preupload-banner">
-            {isLoading && <LoadingModal />}
+            {isUploading && <LoadingModal />}
             <div className='preupload-banner-container'>
                 <h1 className='title-32-bold' style={{ textAlign: "center", color: "var(--nuetral-10)" }}>
                     생기부 문서업로드

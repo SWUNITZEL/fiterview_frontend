@@ -5,7 +5,7 @@ export const uploadPdfFile = async (file) => {
     formData.append('file', file);
 
     const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/school-records/upload`,
+        `${process.env.REACT_APP_API_URL}school-records/upload`,
         formData,
         {
             headers: {
