@@ -18,6 +18,10 @@ export const useMediaRecorder = (stream, onStop) => {
             }
         };
 
+        console.log("stream tracks:", stream.getTracks());
+        console.log("audio tracks:", stream.getAudioTracks());
+        console.log("video tracks:", stream.getVideoTracks());
+
         mediaRecorder.current.onstop = () => {
             const blob = new Blob(recordedChunks.current, { type: 'video/webm' });
             recordedChunks.current = [];

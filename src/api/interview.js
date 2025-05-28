@@ -41,9 +41,9 @@ export const startInterview = async (payload) => {
  * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
  * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { interviewId: string })
  */
-const INTERVIEW_INIT_URL = `${process.env.REACT_APP_API_URL}interview/waiting-room`;
 
 export const sendCaptureImage = async (base64Image) => {
+    const INTERVIEW_INIT_URL = `${process.env.REACT_APP_API_URL}interview/waiting-room`;
     const blob = await (await fetch(base64Image)).blob();
     const formData = new FormData();
     formData.append('image', blob, 'capture.png');
@@ -56,3 +56,26 @@ export const sendCaptureImage = async (base64Image) => {
 
     return response.data;
 };
+
+
+/**
+ * 비디오 Blob을 서버에 POST 전송하는 함수
+ * @param {Blob} videoBlob 
+ * @returns {Promise<object>} 서버 응답 JSON
+ */
+export async function uploadVideoApi(videoBlob, interviewID) {
+    const VIDEO_UPLOAD_URL = `${process.env.REACT_APP_API_URL}api/video-upload`;
+    const formData = new FormData();
+    formData.append('file', videoBlob, 'video.webm');
+    formData.append('interview_id', interviewID);
+
+    const response = await fetch(VIDEO_UPLOAD_URL, {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (!response.ok) {
+        throw new Error(`서버 오류: ${response.status}`);
+    }
+    return response.json();
+}

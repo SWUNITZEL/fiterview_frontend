@@ -88,8 +88,7 @@ function Login() {
               }
             }}
           />
-          <div style={{ height: "30px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {error && <span style={{ color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
+          <div style={{ height: "120px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
             <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}>
               <span
                 style={{ marginRight: "10px", cursor: 'pointer' }}
@@ -105,6 +104,7 @@ function Login() {
                 비밀번호 찾기
               </span>
             </div>
+            {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
           </div>
           <Button
             type="submit"
@@ -113,7 +113,6 @@ function Login() {
             sx={{
               height: '56px',
               borderRadius: '8px',
-              mt: 6,
               fontSize: "18px",
               borderRadius:"8px",
               backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',

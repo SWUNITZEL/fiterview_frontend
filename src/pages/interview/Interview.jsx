@@ -6,11 +6,12 @@
  * @lastModified 2025-04-02
 **/
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
 import { useMediaRecorder } from '../../hooks/useMediaRecorder';
+import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
 import { PATH } from "../../data/paths"
@@ -38,7 +39,8 @@ function Interview() {
         speechSynthesis.speak(utterance);
     };
 
-    const { sendVideo, isConnected } = useInterviewWebSocket({
+
+    const { sendAudio, isConnected } = useInterviewWebSocket({
         interviewId: "1",
         onReceiveQuestion: (text) => {
             setQuestion(text);
@@ -50,9 +52,13 @@ function Interview() {
         }
     });
 
+    const uploadVideo = useVideoUpload()
+
 
     const { start, stop } = useMediaRecorder(stream, (blob) => {
-        sendVideo(blob);
+        sendAudio(blob);
+        uploadVideo(blob);
+
     });
 
     const handleButtonClick = () => {
