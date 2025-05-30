@@ -1,12 +1,13 @@
 // utils/token.js
-export function saveAccessToken(token) {
-  localStorage.setItem('accessToken', token);
+export function saveAccessToken(token, user) {
+  sessionStorage.setItem('accessToken', token);
+  sessionStorage.setItem('user', JSON.stringify(user));
 }
 
 export function getAccessToken() {
-  return localStorage.getItem('accessToken');
+  return sessionStorage.getItem('accessToken');
 }
 
 export function removeAccessToken() {
-  localStorage.removeItem('accessToken');
+  sessionStorage.removeItem('accessToken');
 }

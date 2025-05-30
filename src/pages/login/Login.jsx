@@ -1,10 +1,11 @@
 import { Container, TextField, Button } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
-import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
@@ -114,7 +115,6 @@ function Login() {
               height: '56px',
               borderRadius: '8px',
               fontSize: "18px",
-              borderRadius:"8px",
               backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
               color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
               '&:hover': {
@@ -147,6 +147,7 @@ function Login() {
           </Button>
         </div>
       </div>
+      <Footer />
     </Container>
   );
 }

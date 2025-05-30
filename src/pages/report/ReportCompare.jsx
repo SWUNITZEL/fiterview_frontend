@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 
-import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 
