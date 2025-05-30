@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList } from 'recharts';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
@@ -40,7 +40,6 @@ const ReportDelivery = () => {
 
   const renderSummaryBox = (title, category, myScore, average) => {
     const feedback = getFeedback(category, myScore);
-    const color = feedback.label === '장점' ? 'var(--success-40)' : 'var(--warning-40)'; // green or yellow
     const scoreValue = category === 'tone' ? myScore.hz : myScore;
 
     const data = [
