@@ -1,4 +1,4 @@
-import { Container, TextField, Button, MenuItem, Select, InputLabel, FormControl, Typography, Box } from '@mui/material';
+import { Container, TextField, Button, MenuItem, Select, InputLabel, OutlinedInput, FormControl, Typography, Box } from '@mui/material';
 import { useJoin } from '../../hooks/useJoin';
 
 import "./Join.css";
@@ -147,21 +147,29 @@ function Step02({ onNext, toLogin }) {
                 }
               }}
             />
-            <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)}>
+            <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)} sx={{
+              borderRadius:"8px",
+            }}>
               <InputLabel>성별</InputLabel>
               <Select
                 name="gender"
                 value={formData.gender}
                 label="성별"
                 onChange={handleChange}
+                input={<OutlinedInput label="성별" />}
                 sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px',
+                  },
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderRadius: '8px',
+                  }
+                }}
               >
                 {genders.map((gender) => (
-                  <MenuItem key={gender.value} value={gender.value}>{gender.label}</MenuItem>
+                  <MenuItem key={gender.value} value={gender.value}>
+                    {gender.label}
+                  </MenuItem>
                 ))}
               </Select>
               {errors.gender && <Typography variant="caption" color="error">{errors.gender}</Typography>}

@@ -59,7 +59,7 @@ const Join = () => {
       {/* 조건부 렌더링 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
       {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
-      {currentStep === 3 && <Step03 />}
+      {currentStep === 3 && <Step03 onNext = {() => navigate(PATH.LOGIN)} />}
     </Container>
   );
 };

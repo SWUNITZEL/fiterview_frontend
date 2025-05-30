@@ -29,6 +29,7 @@ const Step03 = ({onNext}) => {
             borderRadius:"8px",
             marginTop: '48px',
             height: '48px',
+            width: '200px',
             backgroundColor: 'var(--primary-60)',
             color: 'white'
         }}

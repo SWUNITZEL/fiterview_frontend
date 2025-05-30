@@ -1,6 +1,7 @@
 // useJoinForm.js
 import { useState } from 'react';
 import { join } from '../api/auth';
+import { BIRTH } from '../data/join';
 
 export const useJoin = (onSuccess) => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ export const useJoin = (onSuccess) => {
     password: '',
     confirmPassword: '',
     name: '',
-    birth: '',
+    birth: BIRTH,
     gender: '',
     promotion_code: '',
   });
