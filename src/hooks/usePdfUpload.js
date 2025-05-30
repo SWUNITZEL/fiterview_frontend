@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { uploadPdfFile } from '../api/pdfUpload';
+import { setSchoolRecords } from '../api/schoolRecords';
 
 export const usePdfUpload = ({ onSuccess, onError }) => {
     const [isUploading, setIsUploading] = useState(false);
@@ -19,7 +19,7 @@ export const usePdfUpload = ({ onSuccess, onError }) => {
 
             try {
                 setIsUploading(true);
-                const data = await uploadPdfFile(file);
+                const data = await setSchoolRecords(file);
                 setUploadedData(data); 
                 if (onSuccess) onSuccess(data);
             } catch (err) {
