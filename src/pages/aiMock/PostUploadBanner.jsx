@@ -3,18 +3,9 @@ import {
     Container 
 } from "@mui/material";
 import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { usePdfUpload } from '../../hooks/usePdfUpload'; // ⬅️ 경로는 맞게 수정
+import LoadingModal from '../../components/LoadingModal';
 
-const PostUploadBanner = ({ userName }) => {
-    const { getRootProps, getInputProps } = usePdfUpload({
-        onSuccess: (data) => {
-            console.log('업로드 성공!', data);
-        },
-        onError: (err) => {
-            console.log('업로드 에러', err);
-        }
-    });
-
+const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, navigate }) => {
     return (
         <Container maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
@@ -26,6 +17,7 @@ const PostUploadBanner = ({ userName }) => {
             backgroundSize: "cover",
             backgroundPosition: "center center"
         }}>
+            {isUploading && <LoadingModal />}
             <div className='side-margin'></div>
             <div style={{
                 position: "relative",
@@ -40,7 +32,9 @@ const PostUploadBanner = ({ userName }) => {
                 <div className="child-column">
                     <h1 className='title-32-bold'>등록한 생기부로
                         <br />모의면접 하러가기</h1>
-                    <span style={{
+                    <span 
+                    onClick={() => {navigate()}}
+                    style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         color: "var(--primary-60)",

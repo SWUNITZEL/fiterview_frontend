@@ -4,6 +4,7 @@ import { uploadPdfFile } from '../api/pdfUpload';
 
 export const usePdfUpload = ({ onSuccess, onError }) => {
     const [isUploading, setIsUploading] = useState(false);
+    const [uploadedData, setUploadedData] = useState(null);  // ✅ 업로드된 데이터 상태 추가
     const maxSize = 40 * 1024 * 1024; // 40MB
 
     const onDrop = useCallback(
@@ -17,16 +18,16 @@ export const usePdfUpload = ({ onSuccess, onError }) => {
             const file = acceptedFiles[0];
 
             try {
-                setIsUploading(true)
+                setIsUploading(true);
                 const data = await uploadPdfFile(file);
-                alert('업로드 성공: ' + JSON.stringify(data));
+                setUploadedData(data); 
                 if (onSuccess) onSuccess(data);
             } catch (err) {
                 console.error('업로드 실패', err);
                 alert('업로드 중 오류 발생');
                 if (onError) onError(err);
             } finally {
-                setIsUploading(false)
+                setIsUploading(false);
             }
         },
         [onSuccess, onError]
@@ -39,5 +40,9 @@ export const usePdfUpload = ({ onSuccess, onError }) => {
         maxSize,
     });
 
-    return { ...dropzone, isUploading };
+    return {
+        ...dropzone,
+        isUploading,
+        uploadedData,  // ✅ 외부로 내보내줌
+    };
 };

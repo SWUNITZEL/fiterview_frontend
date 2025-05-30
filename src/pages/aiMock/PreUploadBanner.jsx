@@ -1,18 +1,7 @@
 import { FolderPlusIcon } from "@heroicons/react/24/solid";
 import LoadingModal from '../../components/LoadingModal';
-import { usePdfUpload } from '../../hooks/usePdfUpload'; // 경로 주의!
 
-const PreUploadBanner = () => {
-
-    const { getRootProps, getInputProps, isUploading } = usePdfUpload({
-        onSuccess: (data) => {
-            console.log('업로드 성공!', data);
-        },
-        onError: (err) => {
-            console.log('업로드 실패', err);
-        }
-    });
-
+const PreUploadBanner = ({ getRootProps, getInputProps, isUploading }) => {
     return (
         <div className="center-both child-row preupload-banner">
             {isUploading && <LoadingModal />}

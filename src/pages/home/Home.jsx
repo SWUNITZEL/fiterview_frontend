@@ -9,12 +9,12 @@ import Section02 from "./Section02";
 import Section03 from "./Section03";
 import Section04 from "./Section04";
 import { PATH } from "../../data/paths";
-import { useNavigate } from 'react-router-dom';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 
 function Home() {
   const [activeSection, setActiveSection] = useState(-1);
   const FRONT_AI_MOCK_URL = PATH.AI_MOCK
-  const navigate = useNavigate()
+  const navigate = useNavigateWithScrollTop()
   const handleNavigate = () => {
     navigate(FRONT_AI_MOCK_URL);
     window.scrollTo(0, 0);
