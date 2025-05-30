@@ -114,7 +114,7 @@ function Login() {
             sx={{
               height: '56px',
               borderRadius: '8px',
-              fontSize: "18px",
+              fontSize: "16px",
               backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
               color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
               '&:hover': {
@@ -133,7 +133,7 @@ function Login() {
               height: '56px',
               borderRadius: '8px',
               mt: "12px",
-              fontSize: "18px",
+              fontSize: "16px",
               borderRadius:"8px",
               border: "1px solid var(--nuetral-50)",
               backgroundColor: 'var(--nuetral-10)',

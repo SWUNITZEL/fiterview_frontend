@@ -191,7 +191,7 @@ function Step02({ onNext, toLogin }) {
               mt: 3,
               borderRadius:"8px",
               height: '56px',
-              fontSize: "18px",
+              fontSize: "16px",
               backgroundColor: 'var(--primary-60)',
               color: 'var(--nuetral-10)',
               '&:hover': {
