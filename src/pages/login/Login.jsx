@@ -59,8 +59,12 @@ function Login() {
               '& .MuiInputBase-root': {
                 height: '100%',
                 boxSizing: 'border-box',
-                p: '16px 8px',
-                borderRadius: "8px"
+                borderRadius: "8px",
+                padding: 0,
+                '& input': {
+                  padding: '16px 12px',
+                  fontSize: '18px'
+                }
               }
             }}
           />
@@ -84,8 +88,13 @@ function Login() {
               '& .MuiInputBase-root': {
                 height: '100%',
                 boxSizing: 'border-box',
-                p: '16px 8px',
-                borderRadius: "8px"
+                borderRadius: "8px",
+                padding: 0,
+                '& input': {
+                  padding: '16px 12px',
+                  fontSize: '18px'
+                }
+    
               }
             }}
           />
