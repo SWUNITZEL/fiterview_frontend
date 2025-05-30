@@ -14,7 +14,7 @@ const ButtonPair = ({
         justifyContent: 'flex-end',  
         alignItems: 'center',
         gap: '24px',  
-        marginTop: '0px',
+        marginTop: '120px',
         marginBottom: '120px',
       }}
     >
