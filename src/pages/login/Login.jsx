@@ -5,7 +5,7 @@ import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import AbsoluteFooter from '../../components/AbsoluteFooter';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
@@ -31,7 +31,7 @@ function Login() {
       maxWidth={false}
       style={{
         backgroundColor: "var(--background-color)",
-        minHeight: "100vh",
+        height: "100vh",
         padding: "120px 240px",
         overflow: "hidden"
       }}>
@@ -155,7 +155,7 @@ function Login() {
           </Button>
         </div>
       </div>
-      <Footer />
+      <AbsoluteFooter />
     </Container>
   );
 }
