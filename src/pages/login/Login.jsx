@@ -5,7 +5,7 @@ import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
-import AbsoluteFooter from '../../components/AbsoluteFooter';
+import Footer from '../../components/Footer';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
@@ -30,13 +30,14 @@ function Login() {
     <Container
       maxWidth={false}
       style={{
+        position:"relative",
         backgroundColor: "var(--background-color)",
-        height: "100vh",
-        padding: "120px 240px",
+        height: "auto",
+        paddingTop: "120px",
         overflow: "hidden"
       }}>
       <NavbarComponent />
-      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom:"120px"}}>
         <h2 className="title-32-bold" style={{ marginTop: "0px", marginBottom: "50px" }}>로그인</h2>
 
         <form onSubmit={onSubmit} style={{ width: "400px", display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -155,7 +156,7 @@ function Login() {
           </Button>
         </div>
       </div>
-      <AbsoluteFooter />
+      <Footer />
     </Container>
   );
 }
