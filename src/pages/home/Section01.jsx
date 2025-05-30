@@ -44,7 +44,8 @@ export default function Section01() {
           display: "flex",
           justifyContent: "center",
           gap: "20px",
-          flexWrap: "wrap",
+          flexWrap: "nowrap",
+          width:"100%"
         }}
       >
         <FeatureCard
@@ -90,7 +91,10 @@ function FeatureCard({ iconSrc, title, description }) {
         backgroundColor: "var(--background-color)",
         borderRadius: "16px",
         padding: "30px 20px",
-        width: "300px",
+        // flex: "1 1 300px", 
+        width:"100%",
+        minWidth: "200px",
+        maxWidth: "300px",
         textAlign: "center",
       }}
     >
