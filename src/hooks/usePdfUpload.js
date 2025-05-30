@@ -4,7 +4,6 @@ import { setSchoolRecords } from '../api/schoolRecords';
 
 export const usePdfUpload = ({ onSuccess, onError }) => {
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadedData, setUploadedData] = useState(null);  // ✅ 업로드된 데이터 상태 추가
     const maxSize = 40 * 1024 * 1024; // 40MB
 
     const onDrop = useCallback(
@@ -20,7 +19,6 @@ export const usePdfUpload = ({ onSuccess, onError }) => {
             try {
                 setIsUploading(true);
                 const data = await setSchoolRecords(file);
-                setUploadedData(data); 
                 if (onSuccess) onSuccess(data);
             } catch (err) {
                 console.error('업로드 실패', err);
@@ -43,6 +41,5 @@ export const usePdfUpload = ({ onSuccess, onError }) => {
     return {
         ...dropzone,
         isUploading,
-        uploadedData,  // ✅ 외부로 내보내줌
     };
 };

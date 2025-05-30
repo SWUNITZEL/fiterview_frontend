@@ -5,7 +5,7 @@
  * @created 2025-05-07
 **/
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./AIMock.css";
 import { useUser } from '../../contexts/UserContext';
 import NavbarComponent from '../../components/Navbar'
@@ -24,7 +24,7 @@ const AIMock = () => {
   const [uploadData, setUploadData] = useState();
   const { user, loading } = useUser();
 
-  const { getRootProps, getInputProps, isUploading, uploadedData } = usePdfUpload({
+  const { getRootProps, getInputProps, isUploading } = usePdfUpload({
         onSuccess: (data) => {
           setUploadData(data);  // 부모 상태 업데이트 -> 리렌더링 발생
           console.log(data)

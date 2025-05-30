@@ -5,8 +5,6 @@
  * @created 2025-05-07
  **/
 
-import { useState } from 'react';
-
 import {
   Container,
   Table,
@@ -23,7 +21,7 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
+  // Legend,
   Line,
 } from "recharts";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
@@ -231,21 +229,21 @@ const PostUploadContents = ({ userName, result, navigate }) => {
           </div>
           <div style={{ display:"flex", flexDirection:"row", justifyContent: "space-around", gap: "16px", width:"100%" }}>
             <div className='criterion-card'>
-              <img src='/images/ai_mock/criterion/icon01.png' style={{height:"120px", marginBottom:"28px"}}></img>
+              <img src='/images/ai_mock/criterion/icon01.png' style={{height:"120px", marginBottom:"28px"}} alt='icon'></img>
               <h4 style={{marginTop:"0", marginBottom:"0", fontSize:"18px", fontWeight:"600"}}>학업역량</h4>
               <span style={{marginTop:"16px", marginBottom:"0", fontSize:"16px", fontWeight:"400", wordBreak: "keep-all",textAlign: "center", color:"var(--nuetral-70)"}}>
                 {CRITERIONS.ACADEMIC_COMPETENCY}
               </span>
             </div>
             <div className='criterion-card'>
-              <img src='/images/ai_mock/criterion/icon02.png' style={{height:"120px", marginBottom:"28px"}}></img>
+              <img src='/images/ai_mock/criterion/icon02.png' style={{height:"120px", marginBottom:"28px"}} alt='icon'></img>
               <h4 style={{marginTop:"0", marginBottom:"0", fontSize:"18px", fontWeight:"600"}}>진로역량</h4>
               <span style={{marginTop:"16px", marginBottom:"0", fontSize:"16px", fontWeight:"400", wordBreak: "keep-all",textAlign: "center", color:"var(--nuetral-70)"}}>
                 {CRITERIONS.CAREER_COMPETENCY}
               </span>
             </div>
             <div className='criterion-card'>
-              <img src='/images/ai_mock/criterion/icon03.png' style={{height:"120px", marginBottom:"28px"}}></img>
+              <img src='/images/ai_mock/criterion/icon03.png' style={{height:"120px", marginBottom:"28px"}} alt='icon'></img>
               <h4 style={{marginTop:"0", marginBottom:"0", fontSize:"18px", fontWeight:"600"}}>공동체역량</h4>
               <span style={{marginTop:"16px", marginBottom:"0", fontSize:"16px", fontWeight:"400", wordBreak: "keep-all",textAlign: "center", color:"var(--nuetral-70)"}}>
                 {CRITERIONS.COMMUNITY_COMPETENCY}

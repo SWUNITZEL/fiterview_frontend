@@ -51,13 +51,15 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                         <h4 className='subtitle-20-semibold' style={{ marginTop: "0", marginBottom: "0" }}>{userName}님의 생기부</h4>
                         <p className="body-16-regular" style={{ marginTop: "0" }}>업로드</p>
                         <div style={{
+                            display: "block",
                             width: "100%",
                             height: "82px",
                             background: "var(--error-10)",
                             borderRadius: "8px",
                             padding: "18px 24px"
                         }}>
-                            <p className="subtitle-16-semibold" style={{
+                            <p className="subtitle-16-semibold" 
+                            style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 color: "var(--error-40)",
@@ -72,10 +74,9 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                         </div>
                         <Button
                             sx={{
-                                width: "calc(100% - 48px)",
+                                width: "calc(100% - 80px)",
                                 padding: '12px',
                                 position: 'absolute',
-                                width: '464px',
                                 height: '48px',
                                 bottom: '34px',
                                 backgroundColor: 'var(--primary-60)',

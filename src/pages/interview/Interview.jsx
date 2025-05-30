@@ -52,7 +52,7 @@ function Interview() {
         }
     });
 
-    const uploadVideo = useVideoUpload()
+    const { uploadVideo, isUploading } = useVideoUpload()
 
 
     const { start, stop } = useMediaRecorder(stream, (blob) => {
@@ -89,6 +89,18 @@ function Interview() {
                 <div className='loading' style={{ display: readyForChainQuestion ? "flex" : "none" }}>
                     <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
                         AI 면접관이 꼬리질문을<br />출제하고 있어요
+                    </h4>
+                    <LinearProgress sx={{
+                        width: "400px",
+                        borderRadius: "16px",
+                        '& .MuiLinearProgress-bar1Determinate': {
+                            backgroundColor: 'var(--primary-60)',
+                        }
+                    }} />
+                </div>
+                <div className='loading' style={{ display: isUploading ? "flex" : "none" }}>
+                    <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
+                        비디오를<br />보내고 있어요
                     </h4>
                     <LinearProgress sx={{
                         width: "400px",

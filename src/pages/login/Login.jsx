@@ -134,7 +134,6 @@ function Login() {
               borderRadius: '8px',
               mt: "12px",
               fontSize: "16px",
-              borderRadius:"8px",
               border: "1px solid var(--nuetral-50)",
               backgroundColor: 'var(--nuetral-10)',
               color: 'var(--font-body)',

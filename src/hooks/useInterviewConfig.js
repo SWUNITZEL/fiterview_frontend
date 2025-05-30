@@ -8,7 +8,7 @@ export const useInterviewConfig = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
   const location = useLocation();
   const userId = user.email

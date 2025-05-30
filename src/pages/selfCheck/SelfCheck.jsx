@@ -23,18 +23,19 @@ const SelfCheck = () => {
   } = useMediaSetup(setSelectedMic, setSelectedCam);
 
   useEffect(() => {
-    if (audioDevices.length > 0 && !selectedMic) {
-      setSelectedMic(audioDevices[0].deviceId);
+    if (audioDevices.length > 0) {
+      setSelectedMic((prev) => prev || audioDevices[0].deviceId);
     }
-    if (videoDevices.length > 0 && !selectedCam) {
-      setSelectedCam(videoDevices[0].deviceId);
+    if (videoDevices.length > 0) {
+      setSelectedCam((prev) => prev || videoDevices[0].deviceId);
     }
-  }, [audioDevices, videoDevices]);
+  }, [audioDevices, videoDevices]);;
 
   // 장치 선택 기반 stream
   const { stream, videoRef } = useMediaStream(selectedMic, selectedCam);
 
   // stream이 바뀔 때 canvas 그리기
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     if (!stream || !videoRef.current || !canvasRef.current) return;
 

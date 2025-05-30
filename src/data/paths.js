@@ -18,4 +18,5 @@ export const PATH = {
   REPORT_ANSWER:"/report/answer",
   REPORT_COMPARE:"/report/compare",
   REPORT_ANALYSIS_BY_ANSWER: "/report/analysis-by-an-answer",
+  HISTORY: "/history",
 };
