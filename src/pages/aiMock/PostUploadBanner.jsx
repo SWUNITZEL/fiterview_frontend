@@ -3,18 +3,9 @@ import {
     Container 
 } from "@mui/material";
 import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
-import { usePdfUpload } from '../../hooks/usePdfUpload'; // ⬅️ 경로는 맞게 수정
+import LoadingModal from '../../components/LoadingModal';
 
-const PostUploadBanner = ({ userName }) => {
-    const { getRootProps, getInputProps } = usePdfUpload({
-        onSuccess: (data) => {
-            console.log('업로드 성공!', data);
-        },
-        onError: (err) => {
-            console.log('업로드 에러', err);
-        }
-    });
-
+const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, navigate }) => {
     return (
         <Container maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
@@ -26,6 +17,7 @@ const PostUploadBanner = ({ userName }) => {
             backgroundSize: "cover",
             backgroundPosition: "center center"
         }}>
+            {isUploading && <LoadingModal />}
             <div className='side-margin'></div>
             <div style={{
                 position: "relative",
@@ -40,7 +32,9 @@ const PostUploadBanner = ({ userName }) => {
                 <div className="child-column">
                     <h1 className='title-32-bold'>등록한 생기부로
                         <br />모의면접 하러가기</h1>
-                    <span style={{
+                    <span 
+                    onClick={() => {navigate()}}
+                    style={{
                         display: 'inline-flex',
                         alignItems: 'center',
                         color: "var(--primary-60)",
@@ -57,13 +51,15 @@ const PostUploadBanner = ({ userName }) => {
                         <h4 className='subtitle-20-semibold' style={{ marginTop: "0", marginBottom: "0" }}>{userName}님의 생기부</h4>
                         <p className="body-16-regular" style={{ marginTop: "0" }}>업로드</p>
                         <div style={{
+                            display: "block",
                             width: "100%",
                             height: "82px",
                             background: "var(--error-10)",
                             borderRadius: "8px",
                             padding: "18px 24px"
                         }}>
-                            <p className="subtitle-16-semibold" style={{
+                            <p className="subtitle-16-semibold" 
+                            style={{
                                 display: 'inline-flex',
                                 alignItems: 'center',
                                 color: "var(--error-40)",
@@ -78,10 +74,9 @@ const PostUploadBanner = ({ userName }) => {
                         </div>
                         <Button
                             sx={{
-                                width: "calc(100% - 48px)",
+                                width: "calc(100% - 80px)",
                                 padding: '12px',
                                 position: 'absolute',
-                                width: '464px',
                                 height: '48px',
                                 bottom: '34px',
                                 backgroundColor: 'var(--primary-60)',

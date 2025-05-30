@@ -6,11 +6,12 @@
  * @lastModified 2025-04-02
 **/
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
 import { useMediaRecorder } from '../../hooks/useMediaRecorder';
+import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
 import { PATH } from "../../data/paths"
@@ -38,7 +39,8 @@ function Interview() {
         speechSynthesis.speak(utterance);
     };
 
-    const { sendVideo, isConnected } = useInterviewWebSocket({
+
+    const { sendAudio, isConnected } = useInterviewWebSocket({
         interviewId: "1",
         onReceiveQuestion: (text) => {
             setQuestion(text);
@@ -50,9 +52,13 @@ function Interview() {
         }
     });
 
+    const { uploadVideo, isUploading } = useVideoUpload()
+
 
     const { start, stop } = useMediaRecorder(stream, (blob) => {
-        sendVideo(blob);
+        sendAudio(blob);
+        uploadVideo(blob);
+
     });
 
     const handleButtonClick = () => {
@@ -83,6 +89,18 @@ function Interview() {
                 <div className='loading' style={{ display: readyForChainQuestion ? "flex" : "none" }}>
                     <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
                         AI 면접관이 꼬리질문을<br />출제하고 있어요
+                    </h4>
+                    <LinearProgress sx={{
+                        width: "400px",
+                        borderRadius: "16px",
+                        '& .MuiLinearProgress-bar1Determinate': {
+                            backgroundColor: 'var(--primary-60)',
+                        }
+                    }} />
+                </div>
+                <div className='loading' style={{ display: isUploading ? "flex" : "none" }}>
+                    <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
+                        비디오를<br />보내고 있어요
                     </h4>
                     <LinearProgress sx={{
                         width: "400px",

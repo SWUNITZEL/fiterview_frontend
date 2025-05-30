@@ -1,18 +1,13 @@
 import { Container, TextField, Button, MenuItem, Select, InputLabel, FormControl, Typography, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../data/paths';
 import { useJoin } from '../../hooks/useJoin';
 
 import "./Join.css";
 
-function Step02({ onNext }) {
-  const navigate = useNavigate();
+function Step02({ onNext, toLogin }) {
   const handleSuccess = () => {
     if (onNext) {
       onNext();
-    } else {
-      navigate(PATH.LOGIN);
-    }
+    } 
   };
   const { formData, errors, loading, handleChange, handleSubmit } = useJoin(handleSuccess);
 
@@ -195,6 +190,13 @@ function Step02({ onNext }) {
             sx={{ 
               mt: 3,
               borderRadius:"8px",
+              height: '56px',
+              fontSize: "16px",
+              backgroundColor: 'var(--primary-60)',
+              color: 'var(--nuetral-10)',
+              '&:hover': {
+                backgroundColor: 'var(--primary-80)',
+              }
             }}
             disabled={loading}
           >
@@ -205,7 +207,7 @@ function Step02({ onNext }) {
           <h4
             className="body-16-medium"
             style={{ marginTop: "10px", cursor: "pointer", textAlign: "center" }}
-            onClick={() => { navigate(PATH.LOGIN) }}
+            onClick={() => toLogin()}
           >
             로그인 페이지로 돌아가기
           </h4>

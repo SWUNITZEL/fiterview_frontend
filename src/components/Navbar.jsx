@@ -3,7 +3,7 @@
  * @description 상단 네비게이션 바
  * @author 이찬우
 **/
-import { useNavigate } from 'react-router-dom';
+import { useNavigateWithScrollTop } from '../hooks/useNavigateWithScrollTop';
 import { useUser } from '../contexts/UserContext';
 import { PATH } from '../data/paths';
 import {
@@ -31,7 +31,7 @@ function HideOnScroll({ children }) {
 }
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithScrollTop();
   const user = useUser().user;
 
   return (

@@ -20,6 +20,7 @@ export default function Section00() {
       <img 
       src="/images/default/logo.png" 
       style={{ height: '36px', width: 'auto', marginBottom: '20px' }}
+      alt="Logo"
       />
       <p className="subtitle-18-regular" style={{ marginTop:"0px", marginBottom: '48px', textAlign: "center", color:"var(--nuetral-60)" }}>Ai 면접관과 함께하는 실전 면접 훈련
       <br />실제 대학 면접과 유사한 환경에서 맞춤형 질문을 받고, 즉각적인 피드백을 받아보세요</p>

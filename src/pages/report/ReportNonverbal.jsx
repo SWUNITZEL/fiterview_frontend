@@ -1,7 +1,7 @@
 import { Container } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 

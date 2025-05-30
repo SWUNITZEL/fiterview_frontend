@@ -1,10 +1,11 @@
 import { Container, TextField, Button } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
-import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
@@ -88,8 +89,7 @@ function Login() {
               }
             }}
           />
-          <div style={{ height: "30px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {error && <span style={{ color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
+          <div style={{ height: "70px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
             <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}>
               <span
                 style={{ marginRight: "10px", cursor: 'pointer' }}
@@ -105,6 +105,7 @@ function Login() {
                 비밀번호 찾기
               </span>
             </div>
+            {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
           </div>
           <Button
             type="submit"
@@ -113,9 +114,7 @@ function Login() {
             sx={{
               height: '56px',
               borderRadius: '8px',
-              mt: 6,
-              fontSize: "18px",
-              borderRadius:"8px",
+              fontSize: "16px",
               backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
               color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
               '&:hover': {
@@ -134,8 +133,7 @@ function Login() {
               height: '56px',
               borderRadius: '8px',
               mt: "12px",
-              fontSize: "18px",
-              borderRadius:"8px",
+              fontSize: "16px",
               border: "1px solid var(--nuetral-50)",
               backgroundColor: 'var(--nuetral-10)',
               color: 'var(--font-body)',
@@ -148,6 +146,7 @@ function Login() {
           </Button>
         </div>
       </div>
+      <Footer />
     </Container>
   );
 }

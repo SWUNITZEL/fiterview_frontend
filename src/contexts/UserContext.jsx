@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { getCurrentUser } from '../api/auth';
 
 const UserContext = createContext(null);
 
@@ -8,17 +7,19 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);  // ⭐ 로딩 상태 추가
 
   useEffect(() => {
-    getCurrentUser()
-      .then((data) => {
-        setUser(data);
-      })
-      .catch(() => {
-        console.warn('⚠️ 유저 정보 fetch 실패, 더미데이터 상태로 처리합니다.');
+    try {
+      const storedUser = sessionStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      } else {
         setUser(null);
-      })
-      .finally(() => {
-        setLoading(false);  // ⭐ 로딩 끝
-      });
+      }
+    } catch (error) {
+      console.warn('⚠️ sessionStorage에서 유저 데이터 불러오기 실패:', error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return (

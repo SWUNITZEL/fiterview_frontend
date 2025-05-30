@@ -42,17 +42,6 @@ api.interceptors.response.use(
   }
 );
 
-// 현재 로그인된 유저 정보 가져오기
-export const getCurrentUser = async () => {
-  try {
-    const response = await api.get('/auth/me');
-    return response.data;
-  } catch (error) {
-    console.error('❌ getCurrentUser error:', error);
-    throw error;
-  }
-};
-
 // 로그인 요청
 export const login = async (credentials) => {
   try {
@@ -60,9 +49,9 @@ export const login = async (credentials) => {
       '/api/user/login',
       credentials
       );
-    const { accessToken } = response.data;
+    const { accessToken, user } = response.data;
     console.log(response.data)
-    // if (accessToken) saveAccessToken(accessToken);
+    if (accessToken) saveAccessToken(accessToken, user);
     return response.data;
   } catch (error) {
     console.error('❌ login error:', error);
@@ -83,7 +72,7 @@ export const logout = async () => {
 // 회원가입 요청
 export const join = async (signupData) => {
   try {
-    console.log("회원가입 요청중")
+    console.log("회원가입 요청 중")
     const response = await api.post('/api/user/join', signupData);
     return response.data;
   } catch (error) {

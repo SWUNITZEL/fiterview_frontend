@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container } from "@mui/material";
 
-import { useNavigateWithScrollTop } from '../../utils/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
@@ -13,6 +13,7 @@ import './Join.css';
 
 const Join = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const navigate = useNavigateWithScrollTop()
 
   const steps = [
     { number: 1, label: '약관 동의' },
@@ -57,7 +58,7 @@ const Join = () => {
 
       {/* 조건부 렌더링 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
-      {currentStep === 2 && <Step02 onNext={handleNext} />}
+      {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
       {currentStep === 3 && <Step03 />}
     </Container>
   );

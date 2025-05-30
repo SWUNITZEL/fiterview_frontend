@@ -33,10 +33,10 @@ const MainBanner = ({onNavigate}) => {
                 alignItems: 'center',
                 padding: '10px',
                 gap: '10px',
-                width: '320px',
-                height: '64px',
+                width: '300px',
+                height: '60px',
                 color:"var(--background-color)",
-                fontSize:"18px",
+                fontSize:"16px",
                 fontWeight:500,
                 backgroundColor: 'var(--primary-60)',
                 borderRadius: '8px',
@@ -48,7 +48,7 @@ const MainBanner = ({onNavigate}) => {
                 },
             }}><span style={{
                 color:"var(--background-color)",
-                fontSize:"18px",
+                fontSize:"16px",
                 fontWeight:500,
             }}>지금 바로 AI 면접 시작하기</span></Button>
         </div>
