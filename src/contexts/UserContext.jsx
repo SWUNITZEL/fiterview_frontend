@@ -1,25 +1,33 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { getAccessToken } from '../utils/token';
+import { fetchUserInfo } from '../api/auth';
 
 const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);  // ⭐ 로딩 상태 추가
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const storedUser = sessionStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      } else {
+    const initializeUser = async () => {
+      try {
+        const accessToken = getAccessToken();
+        if (accessToken) {
+          const userInfo = await fetchUserInfo();
+          setUser(userInfo);
+          sessionStorage.setItem('user', JSON.stringify(userInfo));  // 선택사항
+        } else {
+          setUser(null);
+        }
+      } catch (error) {
+        console.warn('⚠️ 유저 정보 불러오기 실패:', error.response || error);
         setUser(null);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.warn('⚠️ sessionStorage에서 유저 데이터 불러오기 실패:', error);
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    initializeUser();
   }, []);
 
   return (

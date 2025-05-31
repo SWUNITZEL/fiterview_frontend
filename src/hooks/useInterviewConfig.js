@@ -2,16 +2,13 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PATH } from "../data/paths";
 import { startInterview } from "../api/interview";
-import { useUser } from '../contexts/UserContext';
 
 export const useInterviewConfig = () => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { user } = useUser();
 
   const location = useLocation();
-  const userId = user.email
   const query = new URLSearchParams(location.search);
   const university = query.get("university");
   const department = query.get("department");
@@ -37,7 +34,6 @@ export const useInterviewConfig = () => {
     }
 
     const payload = {
-      userId,
       university,
       department,
       questionCount,

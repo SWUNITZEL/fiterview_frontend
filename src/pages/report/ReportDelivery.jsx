@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList, AreaChart, Area, ResponsiveContainer } from 'recharts';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
@@ -15,6 +15,31 @@ import './Report.css';
 const ReportDelivery = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop()
   const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
+
+  const waveformData = [
+    { time: 0, amplitude: 0 },
+    { time: 0.1, amplitude: 0.3 },
+    { time: 0.2, amplitude: 0.6 },
+    { time: 0.3, amplitude: 0.4 },
+    { time: 0.4, amplitude: 0.1 },
+    { time: 0.5, amplitude: -0.2 },
+    { time: 0.6, amplitude: -0.5 },
+    { time: 0.7, amplitude: -0.3 },
+    { time: 0.8, amplitude: 0 },
+    { time: 0.9, amplitude: 0.3 },
+    { time: 1.0, amplitude: 0.5 },
+    { time: 1.1, amplitude: 0.2 },
+    { time: 1.2, amplitude: -0.1 },
+    { time: 1.3, amplitude: -0.4 },
+    { time: 1.4, amplitude: -0.6 },
+    { time: 1.5, amplitude: -0.3 },
+    { time: 1.6, amplitude: 0 },
+    { time: 1.7, amplitude: 0.4 },
+    { time: 1.8, amplitude: 0.7 },
+    { time: 1.9, amplitude: 0.5 },
+    { time: 2.0, amplitude: 0.2 },
+  ];
+
 
   const getFeedback = (category, value) => {
     if (category === 'pronunciation') {
@@ -159,7 +184,30 @@ const ReportDelivery = () => {
               <h4>톤 세부 분석 결과</h4>
               <p style={{wordBreak:"keep-all"}}>{deliveryData.tone.detail}</p>
             </div>
-            <div className="detail-right">[톤 파형]</div>
+            <div className="detail-right" style={{ border: '1px solid var(--nuetral-40)', borderRadius: '8px' }}>
+              <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={waveformData}>
+                <XAxis
+                  height={0}
+                  padding={{ left: 0, right: 0 }}
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={false}
+                  tickMargin={0}
+                />
+                <YAxis 
+                    width={0}
+                    padding={{ left: 0, right: 0 }}
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={false}
+                    tickMargin={0}
+                  />
+                <Tooltip />
+                <Area type="monotone" dataKey="amplitude" stroke="var(--primary-60)" fill="var(--primary-40)" />
+              </AreaChart>
+            </ResponsiveContainer>
+            </div>
           </div>
         </div>
 

@@ -21,8 +21,8 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin((data) => {
-      alert("로그인 성공! 토큰:\n" + JSON.stringify(data, null, 2));
+    await handleLogin(() => {
+      alert("로그인 성공!");
     });
   };
 

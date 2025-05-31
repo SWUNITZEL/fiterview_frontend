@@ -11,6 +11,7 @@ import { Button, Container } from "@mui/material";
 import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/react/24/outline";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
+import Footer from '../../components/Footer'
 import "./InterviewConfig.css";
 import { PATH } from "../../data/paths"
 
@@ -147,14 +148,41 @@ const InterviewConfig = () => {
 
           
         </div>
-        <div className="form-group child-column-center" style={{marginTop:"96px"}}>
-            <Button onClick={()=> handleSelectPersona()} variant="contained" className="start-button" endIcon={<ChevronRightIcon />}>
-              면접관 선택하기
+        <div className="form-group child-column-center" style={{marginTop:"0px"}}>
+            <Button 
+              onClick={()=> handleSelectPersona()}
+              sx={{
+                marginLeft:"auto",
+                marginRight:"auto",
+                marginTop:"80px",
+                marginBottom:"120px",
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px',
+                gap: '10px',
+                width: '300px',
+                height: '50px',
+                color:"var(--background-color)",
+                fontSize:"16px",
+                fontWeight:500,
+                backgroundColor: 'var(--primary-60)',
+                borderRadius: '8px',
+                '& .MuiButton-label': {
+                  fontWeight: 500,
+                },
+                '&:hover': {
+                  backgroundColor: 'var(--primary-80)',
+                },
+            }}>
+              다음으로
             </Button>
           </div>
       </main>
       <div className="side-margin"></div>
       </div>
+      <Footer/>
     </Container>
   );
 };

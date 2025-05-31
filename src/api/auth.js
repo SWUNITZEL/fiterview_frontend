@@ -1,26 +1,48 @@
 import axios from 'axios';
-import { saveAccessToken } from '../utils/token';
+import { saveAccessToken, saveRefreshToken, getAccessToken, getRefreshToken } from '../utils/token';
 
 export const api = axios.create({
   baseURL: process.env.REACT_APP_SRIPING_API_URL,
   withCredentials: true,
 });
 
-export const loginApi = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+// 재발급 전용 API (인터셉터 X)
+const authApi = axios.create({
+  baseURL: process.env.REACT_APP_SRIPING_API_URL,
   withCredentials: true,
 });
 
-// 토큰 재발급 함수 (refresh token은 쿠키에 저장돼 있다고 가정)
-async function refreshAccessToken() {
+export async function refreshAccessToken() {
   try {
-    await api.post('/api/user/reissue');
+    const oriRefreshToken = getRefreshToken();
+    const response = await authApi.post('/api/user/reissue', null, {
+      headers: {
+        Authorization: `Bearer ${oriRefreshToken}`,
+      },
+    });
+    const { accessToken, refreshToken } = response.data;
+    console.log('🔑 reissue 응답:', response.data);
+    if (accessToken) saveAccessToken(accessToken);
+    if (refreshToken) saveRefreshToken(refreshToken);
+
     return true;
   } catch (error) {
-    console.error('❌ 토큰 재발급 실패:', error);
+    console.error('❌ 토큰 재발급 실패:', error.response || error);
     return false;
   }
 }
+
+// 요청 인터셉터: accessToken 자동 추가
+api.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 // 응답 인터셉터 등록 (토큰 만료 시 재발급 시도)
 api.interceptors.response.use(
@@ -45,13 +67,14 @@ api.interceptors.response.use(
 // 로그인 요청
 export const login = async (credentials) => {
   try {
-    const response = await loginApi.post(
+    const response = await api.post(
       '/api/user/login',
       credentials
       );
-    const { accessToken, user } = response.data;
-    console.log(response.data)
-    if (accessToken) saveAccessToken(accessToken, user);
+    const { accessToken, refreshToken } = response.data;
+    // console.log(response.data)
+    if (accessToken) saveAccessToken(accessToken);
+    if (refreshToken) saveRefreshToken(refreshToken);
     return response.data;
   } catch (error) {
     console.error('❌ login error:', error);
@@ -80,3 +103,8 @@ export const join = async (signupData) => {
     throw error;
   }
 };  // 필요하면 다른 API도 여기서 import해서 사용 가능
+
+export async function fetchUserInfo() {
+  const response = await api.get('/user/me');  
+  return response.data;
+}
