@@ -38,7 +38,6 @@ export const useMediaRecorder = (stream, onStop) => {
             if (shouldStopTracks) {
                 mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
             }
-            mediaRecorder.current = null;
             console.log('녹화 종료');
         }
     };
