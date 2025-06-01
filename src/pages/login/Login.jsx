@@ -6,9 +6,11 @@ import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { useUser } from '../../contexts/UserContext';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
+  const { refreshUser } = useUser();
   const {
     email,
     setEmail,
@@ -21,22 +23,27 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin((data) => {
-      alert("로그인 성공! 토큰:\n" + JSON.stringify(data, null, 2));
+    const success = await handleLogin(() => {
+      alert("로그인 성공!");
     });
+    if (success) {
+      await refreshUser();   // 🔥 추가: 로그인 성공 후 유저 정보 새로고침
+      navigateAndScrollTop(PATH.HOME);  // 🔥 홈이나 원하는 페이지로 이동
+    }
   };
 
   return (
     <Container
       maxWidth={false}
       style={{
+        position:"relative",
         backgroundColor: "var(--background-color)",
-        minHeight: "100vh",
-        padding: "120px 240px",
+        height: "auto",
+        paddingTop: "120px",
         overflow: "hidden"
       }}>
       <NavbarComponent />
-      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom:"120px"}}>
         <h2 className="title-32-bold" style={{ marginTop: "0px", marginBottom: "50px" }}>로그인</h2>
 
         <form onSubmit={onSubmit} style={{ width: "400px", display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -59,8 +66,12 @@ function Login() {
               '& .MuiInputBase-root': {
                 height: '100%',
                 boxSizing: 'border-box',
-                p: '16px 8px',
-                borderRadius: "8px"
+                borderRadius: "8px",
+                padding: 0,
+                '& input': {
+                  padding: '16px 12px',
+                  fontSize: '18px'
+                }
               }
             }}
           />
@@ -84,8 +95,13 @@ function Login() {
               '& .MuiInputBase-root': {
                 height: '100%',
                 boxSizing: 'border-box',
-                p: '16px 8px',
-                borderRadius: "8px"
+                borderRadius: "8px",
+                padding: 0,
+                '& input': {
+                  padding: '16px 12px',
+                  fontSize: '18px'
+                }
+    
               }
             }}
           />

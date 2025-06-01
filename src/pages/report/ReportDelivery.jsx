@@ -1,11 +1,12 @@
 import { Container } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList, AreaChart, Area, ResponsiveContainer } from 'recharts';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 
 import NavbarComponent from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
 
@@ -14,6 +15,31 @@ import './Report.css';
 const ReportDelivery = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop()
   const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
+
+  const waveformData = [
+    { time: 0, amplitude: 0 },
+    { time: 0.1, amplitude: 0.3 },
+    { time: 0.2, amplitude: 0.6 },
+    { time: 0.3, amplitude: 0.4 },
+    { time: 0.4, amplitude: 0.1 },
+    { time: 0.5, amplitude: -0.2 },
+    { time: 0.6, amplitude: -0.5 },
+    { time: 0.7, amplitude: -0.3 },
+    { time: 0.8, amplitude: 0 },
+    { time: 0.9, amplitude: 0.3 },
+    { time: 1.0, amplitude: 0.5 },
+    { time: 1.1, amplitude: 0.2 },
+    { time: 1.2, amplitude: -0.1 },
+    { time: 1.3, amplitude: -0.4 },
+    { time: 1.4, amplitude: -0.6 },
+    { time: 1.5, amplitude: -0.3 },
+    { time: 1.6, amplitude: 0 },
+    { time: 1.7, amplitude: 0.4 },
+    { time: 1.8, amplitude: 0.7 },
+    { time: 1.9, amplitude: 0.5 },
+    { time: 2.0, amplitude: 0.2 },
+  ];
+
 
   const getFeedback = (category, value) => {
     if (category === 'pronunciation') {
@@ -40,31 +66,61 @@ const ReportDelivery = () => {
 
   const renderSummaryBox = (title, category, myScore, average) => {
     const feedback = getFeedback(category, myScore);
-    const color = feedback.label === '장점' ? 'green' : 'yellow';
     const scoreValue = category === 'tone' ? myScore.hz : myScore;
+
     const data = [
-      { name: '응시자 평균', score: average },
-      { name: '내 점수', score: scoreValue },
+        { name: '응시자 평균', score: average },
+        { name: '내 점수', score: scoreValue },
     ];
 
     return (
-      <div className="summary-box drop-shadow-large">
-        <h3>{title}</h3>
-        <ResponsiveContainer width="100%" height={120}>
-          <BarChart data={data} layout="vertical">
-            <XAxis type="number" hide />
-            <YAxis type="category" dataKey="name" />
-            <Tooltip />
-            <Bar dataKey="score" radius={[10, 10, 10, 10]} fill={color === 'green' ? '#4CAF50' : '#FFCA28'} />
-          </BarChart>
-        </ResponsiveContainer>
-        <div className="summary-footer">
-          <span className={`tag ${color}`}>{feedback.label}</span>
-          <p className="summary-comment">{feedback.comment}</p>
+        <div style={{padding:"32px 40px", background: "white", borderRadius:"16px", flex:"1"}} className="drop-shadow-large">
+            <h3 style={{fontSize:"20px"}}>
+                {title} <span style={{ color: scoreValue>average? 'var(--success-40)' : 'var(--warning-40)' }}>
+                  {scoreValue>average? "평균 이상":"평균 이하"}
+                </span>
+            </h3>
+            <div style={{ width: 200, margin: '0 auto' }}>
+                <BarChart data={data} layout="horizontal" margin={{ top: 20, right: 0, bottom: 0, left: 0 }} width={200} height={180}>
+                    <XAxis 
+                      type="category" 
+                      dataKey="name" 
+                      padding={{ left: 0, right: 0 }}
+                      axisLine={false} 
+                      tickLine={false} 
+                      tickMargin={0}
+                    />
+                    <YAxis 
+                      type="number" 
+                      domain={[0, Math.max(average, scoreValue) + 20]} 
+                      width={0}
+                      padding={{ left: 0, right: 0 }}
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={false}
+                      tickMargin={0}
+                    />
+                    <Tooltip />
+                    <ReferenceLine y={average} stroke="#888" strokeDasharray="4 4" />
+                    <Bar dataKey="score" barSize={60} radius={[10, 10, 0, 0]}>
+                        <LabelList dataKey="score" position="top" />
+                        {data.map((entry, index) => (
+                            <Cell
+                                key={`cell-${index}`}
+                                fill={entry.name === '응시자 평균' ? 'var(--nuetral-40)' : scoreValue>average? 'var(--success-40)' : 'var(--warning-40)'}
+                                margin={{ top: 20, right: 0, bottom: 0, left: 0 }}
+                            />
+                        ))}
+                    </Bar>
+                </BarChart>
+              </div>
+            <div style={{display:"flex", justifyContent:"center", marginTop:"36px"}}>
+                <span style={{ backgroundColor: scoreValue>average? "var(--success-40)" : "var(--warning-40)", whiteSpace: "nowrap", color:"white", height:"fit-content", fontSize:"16px", padding:"2px 12px" , borderRadius:"16px"}}>{feedback.label}</span>
+                <p style={{marginTop:"0px", marginLeft:"8px", fontSize:"16px", fontWeight:"400"}}>{feedback.comment}</p>
+            </div>
         </div>
-      </div>
     );
-  };
+};
 
   const deliveryData = {
   totalScore: 85,
@@ -109,7 +165,7 @@ const ReportDelivery = () => {
       <h3 className="total-score">총점 <span>{deliveryData.totalScore}점</span></h3>
 
       <div className="summary-section">
-        {renderSummaryBox('발음', 'pronunciation', deliveryData.pronunciation.score, deliveryData.pronunciation.average)}
+        {renderSummaryBox('어미', 'pronunciation', deliveryData.pronunciation.score, deliveryData.pronunciation.average)}
         {renderSummaryBox('톤', 'tone', deliveryData.tone, deliveryData.tone.average)}
         {renderSummaryBox('속도', 'speed', deliveryData.speed.score, deliveryData.speed.average)}
       </div>
@@ -117,19 +173,41 @@ const ReportDelivery = () => {
       <h3 className="detail-title">세부 분석 결과</h3>
       <div className="detail-section">
         <div className="detail-row">
-          <div className="detail-box drop-shadow-large">
+          <div className="detail-box drop-shadow-large" style={{ flex: '1 1 40%' }}>
             <div className="detail-left">
-              <h4>발음 세부 분석 결과</h4>
-              <p>{deliveryData.pronunciation.detail}</p>
+              <h4>어미 세부 분석 결과</h4>
+              <p style={{wordBreak:"keep-all"}}>{deliveryData.pronunciation.detail}</p>
             </div>
-            <div className="detail-right">[발음 분석]</div>
           </div>
-          <div className="detail-box drop-shadow-large">
+          <div className="detail-box drop-shadow-large" style={{ flex: '1 1 60%' }}>
             <div className="detail-left">
               <h4>톤 세부 분석 결과</h4>
-              <p>{deliveryData.tone.detail}</p>
+              <p style={{wordBreak:"keep-all"}}>{deliveryData.tone.detail}</p>
             </div>
-            <div className="detail-right">[톤 파형]</div>
+            <div className="detail-right" style={{ border: '1px solid var(--nuetral-40)', borderRadius: '8px' }}>
+              <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={waveformData}>
+                <XAxis
+                  height={0}
+                  padding={{ left: 0, right: 0 }}
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={false}
+                  tickMargin={0}
+                />
+                <YAxis 
+                    width={0}
+                    padding={{ left: 0, right: 0 }}
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={false}
+                    tickMargin={0}
+                  />
+                <Tooltip />
+                <Area type="monotone" dataKey="amplitude" stroke="var(--primary-60)" fill="var(--primary-40)" />
+              </AreaChart>
+            </ResponsiveContainer>
+            </div>
           </div>
         </div>
 
@@ -137,14 +215,14 @@ const ReportDelivery = () => {
           <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>속도 세부 분석 결과</h4>
-              <p>{deliveryData.speed.detail}</p>
+              <p style={{wordBreak:"keep-all"}}>{deliveryData.speed.detail}</p>
             </div>
             <div className="detail-right">[속도 그래프]</div>
           </div>
           <div className="detail-box drop-shadow-large">
             <div className="detail-left">
               <h4>어휘 세부 분석 결과</h4>
-              <p>{deliveryData.wordHabit.detail}</p>
+              <p style={{wordBreak:"keep-all"}}>{deliveryData.wordHabit.detail}</p>
             </div>
             <div className="detail-right">[워드 클라우드]</div>
           </div>
@@ -157,6 +235,7 @@ const ReportDelivery = () => {
         onRightClick={()=>navigateAndScrollTop(PATH.REPORT_ANSWER)}
         />
     </div>
+    <Footer/>
     </Container>
   );
 };

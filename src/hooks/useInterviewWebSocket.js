@@ -11,11 +11,6 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         websocket.current.onopen = () => {
             console.log('WebSocket 연결 열림');
             setIsConnected(true);
-            websocket.current.send(JSON.stringify({
-                type: "init",
-                interviewId,
-                source: "interview"
-            }));
         };
 
         websocket.current.onmessage = (event) => {
@@ -25,6 +20,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             } else if (data.type === 'complete') {
                 onComplete();
             }
+            console.log("받아온 메세지: "+data)
         };
 
         websocket.current.onerror = (error) => {
@@ -38,7 +34,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         return () => {
             websocket.current?.close();
         };
-    }, [interviewId, onReceiveQuestion, onComplete]);
+    }, [interviewId]);
 
     const sendAudio = async (videoBlob) => {
         try {

@@ -32,11 +32,12 @@ export const useMediaRecorder = (stream, onStop) => {
         console.log('녹화 시작');
     };
 
-    const stop = () => {
+    const stop = (shouldStopTracks = false) => {
         if (mediaRecorder.current) {
             mediaRecorder.current.stop();
-            mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
-            mediaRecorder.current = null;
+            if (shouldStopTracks) {
+                mediaRecorder.current.stream.getTracks().forEach(track => track.stop());
+            }
             console.log('녹화 종료');
         }
     };

@@ -1,7 +1,8 @@
-import { Container } from "@mui/material";
+import { Container, Button } from "@mui/material";
 import "./PersonaConfig.css";
 import { personas } from "../../data/personas";
 import NavbarComponent from "../../components/Navbar";
+import Footer from "../../components/Footer";
 import LoadingModal from "../../components/LoadingModal";
 import { useInterviewConfig } from "../../hooks/useInterviewConfig";
 
@@ -17,16 +18,15 @@ const PersonaConfig = () => {
         padding: "0 0",
         overflow: "hidden",
         display: "flex",
+        flexDirection:"column"
       }}
     >
       <NavbarComponent />
       {isLoading && <LoadingModal />}
-      <div className="side-margin"></div>
-
-      <main className="child-column-center content-box move-down">
+      <main className="child-column-center content-box move-down" style={{margin:"120px 240px"}}>
         <h2
           className="title-32-bold title-center"
-          style={{ marginTop: "80px", marginBottom: "0", textAlign: "center" }}
+          style={{ marginTop: "0px", marginBottom: "0", textAlign: "center" }}
         >
           어떤 면접관과 연습 면접을 진행할까요?
         </h2>
@@ -67,12 +67,37 @@ const PersonaConfig = () => {
         </div>
 
         <div className="form-group center-horizontal">
-          <button className="start-button small-button" onClick={handleStartInterview}>
-            면접 시작하기
-          </button>
+          <Button 
+            onClick={handleStartInterview}
+            sx={{
+              marginLeft:"auto",
+              marginRight:"auto",
+              marginTop:"80px",
+              marginBottom:"0px",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '10px',
+              gap: '10px',
+              width: '300px',
+              height: '50px',
+              color:"var(--background-color)",
+              fontSize:"16px",
+              fontWeight:500,
+              backgroundColor: 'var(--primary-60)',
+              borderRadius: '8px',
+              '& .MuiButton-label': {
+                fontWeight: 500,
+              },
+              '&:hover': {
+                backgroundColor: 'var(--primary-80)',
+              },
+          }}>
+            면접 시작하기</Button>
         </div>
       </main>
-      <div className="side-margin"></div>
+      <Footer/>
     </Container>
   );
 };

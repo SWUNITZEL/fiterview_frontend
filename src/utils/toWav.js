@@ -1,11 +1,16 @@
 export async function convertWebmToWav(blob) {
     const arrayBuffer = await blob.arrayBuffer();
     const audioContext = new AudioContext();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-    const wavBuffer = audioBufferToWav(audioBuffer);
-    return new Blob([wavBuffer], { type: 'audio/wav' });
+    try {
+        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+        const wavBuffer = audioBufferToWav(audioBuffer);
+        return new Blob([wavBuffer], { type: 'audio/wav' });
+    } catch (error) {
+        console.error('❌ Audio decode error:', error);
+        throw error;
+    }
 }
+
 
 function audioBufferToWav(buffer, opt) {
     opt = opt || {};

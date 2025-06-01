@@ -5,6 +5,7 @@ import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import Step01 from './Step01';
 import Step02 from './Step02';
 import Step03 from './Step03';
@@ -32,7 +33,7 @@ const Join = () => {
       style={{
         backgroundColor: "var(--background-color)",
         minHeight: "100vh",
-        padding: "120px 240px",
+        padding: "120px 0px 0px 0px",
         overflow: "hidden"
       }}
     >
@@ -59,7 +60,9 @@ const Join = () => {
       {/* 조건부 렌더링 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
       {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
-      {currentStep === 3 && <Step03 />}
+      {currentStep === 3 && <Step03 onNext = {() => navigate(PATH.LOGIN)} />}
+      <div style={{height:"120px"}}></div>
+      <Footer/>
     </Container>
   );
 };
