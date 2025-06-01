@@ -101,6 +101,7 @@ export const login = async (credentials) => {
     console.log(response.data)
     if (accessToken) saveAccessToken(accessToken);
     if (refreshToken) saveRefreshToken(refreshToken);
+    fetchUserInfo()
     return response.data;
   } catch (error) {
     console.error('❌ login error:', error);

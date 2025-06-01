@@ -31,8 +31,9 @@ function HideOnScroll({ children }) {
 }
 
 const Navbar = () => {
+  const { user } = useUser();
+
   const navigate = useNavigateWithScrollTop();
-  const user = useUser().user;
 
   return (
     <HideOnScroll>

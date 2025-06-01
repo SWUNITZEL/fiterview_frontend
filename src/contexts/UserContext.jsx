@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getAccessToken } from '../utils/token';
 import { fetchUserInfo } from '../api/auth';
 
@@ -8,30 +8,31 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const initializeUser = async () => {
-      try {
-        const accessToken = getAccessToken();
-        if (accessToken) {
-          const userInfo = await fetchUserInfo();
-          setUser(userInfo);
-          sessionStorage.setItem('user', JSON.stringify(userInfo));  // 선택사항
-        } else {
-          setUser(null);
-        }
-      } catch (error) {
-        console.warn('⚠️ 유저 정보 불러오기 실패:', error.response || error);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadUser = useCallback(async () => {
+    const token = getAccessToken();
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
 
-    initializeUser();
-  }, [user]);
+    try {
+      const userInfo = await fetchUserInfo(token);
+      setUser(userInfo);
+    } catch (err) {
+      console.error('사용자 정보 불러오기 실패:', err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
 
   return (
-    <UserContext.Provider value={{ user, loading }}>
+    <UserContext.Provider value={{ user, loading, refreshUser: loadUser }}>
       {children}
     </UserContext.Provider>
   );

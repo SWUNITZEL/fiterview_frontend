@@ -6,9 +6,11 @@ import { PATH } from "../../data/paths";
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { useUser } from '../../contexts/UserContext';
 
 function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
+  const { refreshUser } = useUser();
   const {
     email,
     setEmail,
@@ -21,9 +23,13 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await handleLogin(() => {
+    const success = await handleLogin(() => {
       alert("로그인 성공!");
     });
+    if (success) {
+      await refreshUser();   // 🔥 추가: 로그인 성공 후 유저 정보 새로고침
+      navigateAndScrollTop(PATH.HOME);  // 🔥 홈이나 원하는 페이지로 이동
+    }
   };
 
   return (
