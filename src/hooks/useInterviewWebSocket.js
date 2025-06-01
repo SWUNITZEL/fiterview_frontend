@@ -11,11 +11,6 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         websocket.current.onopen = () => {
             console.log('WebSocket 연결 열림');
             setIsConnected(true);
-            websocket.current.send(JSON.stringify({
-                type: "init",
-                interviewId,
-                source: "interview"
-            }));
         };
 
         websocket.current.onmessage = (event) => {
@@ -25,6 +20,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             } else if (data.type === 'complete') {
                 onComplete();
             }
+            console.log(data)
         };
 
         websocket.current.onerror = (error) => {

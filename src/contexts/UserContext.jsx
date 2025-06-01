@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     };
 
     initializeUser();
-  }, []);
+  }, [user]);
 
   return (
     <UserContext.Provider value={{ user, loading }}>

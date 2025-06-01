@@ -8,7 +8,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container } from "@mui/material";
-import { PlusCircleIcon , MinusCircleIcon , ChevronRightIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon , MinusCircleIcon } from "@heroicons/react/24/outline";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
 import Footer from '../../components/Footer'

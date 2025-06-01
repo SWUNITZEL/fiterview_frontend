@@ -58,7 +58,6 @@ function Interview() {
     const { start, stop } = useMediaRecorder(stream, (blob) => {
         sendAudio(blob);
         uploadVideo(blob);
-
     });
 
     const handleButtonClick = () => {
