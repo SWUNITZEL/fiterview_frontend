@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import CaptureModal from './CaptureCheckModal';
 import useMediaStream from '../../hooks/useMediaStream';
@@ -8,6 +8,10 @@ import useMediaStream from '../../hooks/useMediaStream';
 const FaceCheck = () => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
+
+  const [searchParams] = useSearchParams();
+  const combineId = searchParams.get('combineId');
+
   const location = useLocation();
   const { selectedMic, selectedCam } = location.state || {};
 
@@ -80,6 +84,7 @@ const FaceCheck = () => {
           disabled={!canProceed}
           className="complete-btn"
           size="large"
+          combineId={combineId}
           sx={{ borderRadius: '8px', padding: '8px 16px', marginTop: '20px' }}
         >
           촬영하기

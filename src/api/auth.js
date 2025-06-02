@@ -78,9 +78,12 @@ api.interceptors.response.use(
 // 회원 정보 fetch 요청
 export async function fetchUserInfo() {
  try {
-    const response = await api.get('/api/user/navigation_data');  
-    const userData = response.data;
     console.log("fetchUserInfo 요청중")
+    console.log("AccessToken:", getAccessToken())
+    const response = await api.get('/api/user/navigation_data');    
+    const userData = response.data;
+    
+    
     sessionStorage.setItem('user', JSON.stringify(userData));
     return userData;
   } catch (error) {
