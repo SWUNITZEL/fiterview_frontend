@@ -80,7 +80,7 @@ export async function fetchUserInfo() {
  try {
     const response = await api.get('/api/user/navigation_data');  
     const userData = response.data;
-
+    console.log("fetchUserInfo 요청중")
     sessionStorage.setItem('user', JSON.stringify(userData));
     return userData;
   } catch (error) {
@@ -93,15 +93,16 @@ export async function fetchUserInfo() {
 // 로그인 요청
 export const login = async (credentials) => {
   try {
+    console.log("로그인 요청 중")
     const response = await api.post(
       '/api/user/login',
       credentials
       );
+    
     const { accessToken, refreshToken } = response.data;
     console.log(response.data)
     if (accessToken) saveAccessToken(accessToken);
     if (refreshToken) saveRefreshToken(refreshToken);
-    fetchUserInfo()
     return response.data;
   } catch (error) {
     console.error('❌ login error:', error);

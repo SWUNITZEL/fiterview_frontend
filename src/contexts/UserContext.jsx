@@ -15,8 +15,8 @@ export const UserProvider = ({ children }) => {
       setLoading(false);
       return;
     }
-
     try {
+      console.log('사용자 정보 불러오기');
       const userInfo = await fetchUserInfo(token);
       setUser(userInfo);
     } catch (err) {

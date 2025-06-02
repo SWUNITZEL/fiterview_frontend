@@ -17,6 +17,7 @@ import {
   Slide,
   Avatar
 } from '@mui/material';
+import { useEffect } from 'react';
 
 // 스크롤 내릴 때 숨기고, 올릴 때 보여주는 Slide 애니메이션
 function HideOnScroll({ children }) {
@@ -32,6 +33,14 @@ function HideOnScroll({ children }) {
 
 const Navbar = () => {
   const { user } = useUser();
+
+  useEffect(() => {
+    if (user) {
+      console.log('✅ user가 로그인됨:', user);
+    } else {
+      console.log('⚠️ user가 로그아웃 상태임');
+    }
+  }, [user]);
 
   const navigate = useNavigateWithScrollTop();
 

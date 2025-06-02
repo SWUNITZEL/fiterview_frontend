@@ -16,6 +16,7 @@ export function useLogin(maxAttempts = 5) {
       setError("");
       setLoginAttempts(0);
       if (onSuccess) onSuccess(data);
+      return true
     } catch (err) {
       const newAttempts = loginAttempts + 1;
       setLoginAttempts(newAttempts);
@@ -26,6 +27,7 @@ export function useLogin(maxAttempts = 5) {
       } else {
         setError(err.response?.data?.message || "아이디와 비밀번호를 다시 확인해주세요.");
       }
+      return false
     }
   };
 
