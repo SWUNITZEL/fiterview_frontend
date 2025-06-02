@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import CaptureModal from './CaptureCheckModal';
 import useMediaStream from '../../hooks/useMediaStream';

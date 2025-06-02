@@ -36,7 +36,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (user) {
-      console.log('✅ user가 로그인됨:', user);
+      console.log('✅ user가 로그인됨:');
     } else {
       console.log('⚠️ user가 로그아웃 상태임');
     }
