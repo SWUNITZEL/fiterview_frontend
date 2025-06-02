@@ -5,7 +5,7 @@ import { useCaptureConfirm } from '../../hooks/useCaptureConfirm';
 import './SelfCheck.css';
 
 const CaptureModal = ({ capturedImage, open, onClose, onError, combineId }) => {
-  const { loading, onConfirm } = useCaptureConfirm({ capturedImage, combineId, onError });
+  const { loading, onConfirm } = useCaptureConfirm({ capturedImage, onError, combineId });
 
   if (!open) return null;
 

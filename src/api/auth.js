@@ -60,11 +60,11 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (
       error.response?.status === 401 &&
       !originalRequest._retry
     ) {
+      console.log("토큰 만료 재발급 시도")
       originalRequest._retry = true;
       const refreshed = await refreshAccessToken();
       if (refreshed) {
@@ -82,7 +82,7 @@ export async function fetchUserInfo() {
     console.log("AccessToken:", getAccessToken())
     const response = await api.get('/api/user/navigation_data');    
     const userData = response.data;
-    
+    console.log(response.data)
     
     sessionStorage.setItem('user', JSON.stringify(userData));
     return userData;

@@ -65,13 +65,12 @@ export const startInterview = async (payload) => {
  */
 
 export const sendCaptureAndCombination = async (base64Image, combineId) => {
-    const INTERVIEW_INIT_URL = `${process.env.REACT_APP_API_URL}interview/waiting-room`;
+    console.log("combineId", combineId)
     const blob = await (await fetch(base64Image)).blob();
     const formData = new FormData();
-    formData.append('file', blob, 'capture.png');
-    formData.append('combineId', blob, combineId);
-
-    const response = await axios.post(INTERVIEW_INIT_URL, formData, {
+    formData.append('file', blob, 'file.png');
+    formData.append('combineId', combineId); 
+    const response = await fastapi_api.post('/interview/waiting-room', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -79,6 +78,7 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
 
     return response.data;
 };
+
 
 
 /**

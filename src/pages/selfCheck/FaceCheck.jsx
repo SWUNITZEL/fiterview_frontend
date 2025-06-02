@@ -65,6 +65,7 @@ const FaceCheck = () => {
       <div className="side-margin"></div>
       <CaptureModal
           capturedImage={capturedImage}
+          combineId={combineId}
           open={modalOpen}
           onClose={() => setModalOpen(false)}
         />
