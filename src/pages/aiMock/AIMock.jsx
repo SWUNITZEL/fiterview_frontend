@@ -75,6 +75,7 @@ const AIMock = () => {
         getRootProps={getRootProps}
         getInputProps={getInputProps}
         isUploading={isUploading}
+        grades={uploadData.result.grades}
         navigate ={()=>navigate(PATH.INTERVIEW_CONFIG)}
         />
       ) : (

@@ -5,7 +5,10 @@ import {
 import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/solid";
 import LoadingModal from '../../components/LoadingModal';
 
-const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, navigate }) => {
+const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, navigate, grades }) => {
+    const firstKey = Object.keys(grades)[0];
+    const firstValue = grades[firstKey];
+
     return (
         <Container maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
@@ -51,7 +54,7 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                         <h4 className='subtitle-20-semibold' style={{ marginTop: "0", marginBottom: "0" }}>{userName}님의 생기부</h4>
                         <p className="body-16-regular" style={{ marginTop: "0" }}>업로드</p>
                         <div style={{
-                            display: "block",
+                            display: firstValue.length<5?"block":"none",
                             width: "100%",
                             height: "82px",
                             background: "var(--error-10)",
@@ -69,7 +72,7 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                                 <ExclamationCircleIcon style={{ height: "20px" }} />&nbsp;FITERVIEW 제안
                             </p>
                             <p className="body-16-regular" style={{ color: "var(--error-40)", marginTop: "0", marginBottom: "0" }}>
-                                파일당 최대 40MB
+                                {firstValue.length<3?"1":firstValue.length<5?"2":"3"}학년 {firstValue.length % 2 === 0?"2":"1"}학기까지의 정보만 들어있어요!
                             </p>
                         </div>
                         <Button
