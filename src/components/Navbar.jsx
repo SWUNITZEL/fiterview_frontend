@@ -1,9 +1,6 @@
-/**
- * @file Navbar.jsx
- * @description 상단 네비게이션 바
- * @author 이찬우
-**/
 import { useNavigateWithScrollTop } from '../hooks/useNavigateWithScrollTop';
+import { removeAccessToken, removeRefreshToken } from "../utils/token"
+import { removeItem } from "../utils/sessions"
 import { useUser } from '../contexts/UserContext';
 import { PATH } from '../data/paths';
 import {
@@ -15,11 +12,12 @@ import {
   Divider,
   useScrollTrigger,
   Slide,
-  Avatar
+  Avatar,
+  Menu,
+  MenuItem
 } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-// 스크롤 내릴 때 숨기고, 올릴 때 보여주는 Slide 애니메이션
 function HideOnScroll({ children }) {
   const trigger = useScrollTrigger({
     target: typeof window !== 'undefined' ? window : undefined
@@ -33,6 +31,33 @@ function HideOnScroll({ children }) {
 
 const Navbar = () => {
   const { user } = useUser();
+  const navigate = useNavigateWithScrollTop();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleAvatarClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleGoToMyPage = () => {
+    handleMenuClose();
+    navigate(PATH.MYPAGE);
+  };
+
+  const handleLogout = () => {
+    handleMenuClose();
+    // TODO: 로그아웃 로직 추가
+    removeAccessToken()
+    removeRefreshToken()
+    removeItem("user")
+    console.log('🚪 로그아웃 클릭됨');
+    window.location.href = PATH.HOME
+  };
 
   useEffect(() => {
     if (user) {
@@ -42,50 +67,79 @@ const Navbar = () => {
     }
   }, [user]);
 
-  const navigate = useNavigateWithScrollTop();
-
   return (
     <HideOnScroll>
-      <AppBar position="fixed" color="transparent" elevation={0} sx={{ maxHeight: '50px', minHeight: '50px'}}>
+      <AppBar position="fixed" color="transparent" elevation={0} sx={{ maxHeight: '50px', minHeight: '50px' }}>
         <Toolbar
           disableGutters
           sx={(theme) => ({
-                minHeight: 50,
-                [theme.breakpoints.up('sm')]: {
-                  minHeight: 50,
-                },
-                px: '240px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                backgroundColor: 'var(--background-color)',
-              })}
+            minHeight: 50,
+            [theme.breakpoints.up('sm')]: { minHeight: 50 },
+            px: '240px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            backgroundColor: 'var(--background-color)',
+          })}
         >
-          {/* 왼쪽 로고 */}
           <Box onClick={() => navigate(PATH.HOME)} sx={{ display: 'flex', alignItems: 'center' }}>
             <img src="/images/default/logo.png" alt="Logo" style={{ cursor: 'pointer', height: 18 }} />
           </Box>
 
-          {/* 오른쪽 메뉴 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Typography onClick={() => navigate(PATH.AI_MOCK)} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+            <Typography
+              onClick={() => navigate(PATH.AI_MOCK)}
+              variant="body2"
+              sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
+              className='body-14-medium'
+            >
               AI 모의면접
             </Typography>
             <Divider orientation="vertical" flexItem sx={{ height: '24px', margin: 'auto', borderBottomWidth: '2px' }} />
 
             {user ? (
-              <Box
-                sx={{ cursor: 'pointer' }}
-                onClick={() => navigate(PATH.MYPAGE)}
-              >
-                <Avatar
-                  alt={user.name}
-                  src={user.profile? user.profile : '/images/default/profile.png'} // 프로필 이미지 없으면 기본 이미지
-                  sx={{ width: 32, height: 32 }}
-                />
-              </Box>
+              <>
+                <Box
+                  sx={{ cursor: 'pointer' }}
+                  onClick={handleAvatarClick}
+                >
+                  <Avatar
+                    alt={user.name}
+                    src={user.profile || '/images/default/profile.png'}
+                    sx={{ width: 32, height: 32 }}
+                  />
+                </Box>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleMenuClose}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  PaperProps={{
+                    elevation: 0, // 기본 그림자 제거
+                    sx: {
+                      boxShadow: 'none', // 추가적인 box-shadow 제거 (혹시 elevation 외 설정 있을 경우 대비)
+                    },
+                    className: 'drop-shadow-large' // 원하는 클래스 적용
+                  }}
+                >
+                  {/* <MenuItem onClick={handleGoToMyPage}>마이페이지</MenuItem> */}
+                  <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
+                </Menu>
+              </>
             ) : (
               <>
-                <Typography onClick={() => navigate(PATH.JOIN)} variant="body2" sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }} className='body-14-medium'>
+                <Typography
+                  onClick={() => navigate(PATH.JOIN)}
+                  variant="body2"
+                  sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
+                  className='body-14-medium'
+                >
                   회원가입
                 </Typography>
                 <Button

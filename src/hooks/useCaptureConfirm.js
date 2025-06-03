@@ -16,7 +16,7 @@ export const useCaptureConfirm = ({ capturedImage, onError, combineId }) => {
             setLoading(true);
             const result = await sendCaptureAndCombination(capturedImage, combineId);
 
-            if (!result.interviewId) {
+            if (!result.result.interviewId) {
                 throw new Error('interviewId가 응답에 없습니다.');
             }
 

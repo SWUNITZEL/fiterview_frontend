@@ -70,13 +70,15 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
     const formData = new FormData();
     formData.append('file', blob, 'file.png');
     formData.append('combineId', combineId); 
-    const response = await fastapi_api.post('/interview/waiting-room', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    try {
+      const response = await fastapi_api.post('/interview/waiting-room', formData);
+      console.log('면접 정보 받아오기 성공:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ 면접 정보 받아오기 실패:', error);
 
-    return response.data;
+    throw error;  // 상위에서 또 처리할 수 있도록 재던짐
+    }
 };
 
 
