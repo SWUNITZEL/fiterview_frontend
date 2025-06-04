@@ -6,7 +6,7 @@ export function useGetSchoolRecord() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRecord = async () => {
       try {
         const result = await getSchoolRecords();
         setData(result);
@@ -14,7 +14,7 @@ export function useGetSchoolRecord() {
         setError(err);
       }
     };
-    fetchData();
+    fetchRecord();
   }, []);
 
   return { data, error };

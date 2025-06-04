@@ -15,19 +15,21 @@ import { Skeleton, Container } from "@mui/material";
 
 const AIMock = () => {
   const navigate = useNavigateWithScrollTop();
-  const [uploadData, setUploadData] = useState();
-  const { user, loading } = useUser();
+  const { user } = useUser();
 
   const { data: schoolRecordData, error: schoolRecordError } = useGetSchoolRecord();
-
+  const [uploadData, setUploadData] = useState();
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
-    if (schoolRecordData) {
-      setUploadData(schoolRecordData);
+    if (schoolRecordData || schoolRecordError) {
+      if (schoolRecordData && !uploadData) {
+        setUploadData(schoolRecordData);
+      }
+      setLoading(false);
     }
-    if (schoolRecordError) {
-      console.error("학교 기록 조회 실패:", schoolRecordError);
-    }
-  }, [schoolRecordData]);
+  }, [schoolRecordData, schoolRecordError]);
+
 
   const { getRootProps, getInputProps, isUploading } = usePdfUpload({
     onSuccess: (data) => {
@@ -73,7 +75,7 @@ const AIMock = () => {
       <NavbarComponent />
       {uploadData ? (
         <PostUploadBanner 
-          userName={user ? user.name : "더미"}
+          userName={user??user.name}
           getRootProps={getRootProps}
           getInputProps={getInputProps}
           isUploading={isUploading}
