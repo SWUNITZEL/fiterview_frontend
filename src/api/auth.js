@@ -6,7 +6,7 @@ import { saveAccessToken, saveRefreshToken, getAccessToken, getRefreshToken } fr
  * - 401 에러 발생시 refreshAccessToken가 무한 요청되어 api를 두개로 나눔
  * - authApi는 재발급 전용 API (인터셉터 X)
  * */
-const api = axios.create({
+const springApi = axios.create({
   baseURL: process.env.REACT_APP_SRIPING_API_URL,
   withCredentials: true,
 });
@@ -42,7 +42,7 @@ export async function refreshAccessToken() {
 /**
  * @description 요청 인터셉터: accessToken 자동 추가
  * */
-api.interceptors.request.use(
+springApi.interceptors.request.use(
   (config) => {
     const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
     if (accessToken) {
@@ -56,7 +56,7 @@ api.interceptors.request.use(
 /**
  * @description 응답 인터셉터: 토큰 만료 시 재발급 시도
  * */
-api.interceptors.response.use(
+springApi.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
@@ -68,7 +68,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       const refreshed = await refreshAccessToken();
       if (refreshed) {
-        return api(originalRequest);
+        return springApi(originalRequest);
       }
     }
     return Promise.reject(error);
@@ -80,7 +80,7 @@ export async function fetchUserInfo() {
  try {
     console.log("fetchUserInfo 요청중")
     console.log("AccessToken:", getAccessToken())
-    const response = await api.get('/api/user/navigation_data');    
+    const response = await springApi.get('/api/user/navigation_data');    
     const userData = response.data;
     console.log(response.data)
     
@@ -97,7 +97,7 @@ export async function fetchUserInfo() {
 export const login = async (credentials) => {
   try {
     console.log("로그인 요청 중")
-    const response = await api.post(
+    const response = await springApi.post(
       '/api/user/login',
       credentials
       );
@@ -116,7 +116,7 @@ export const login = async (credentials) => {
 // 로그아웃 요청
 export const logout = async () => {
   try {
-    await api.post('/api/user/logout');
+    await springApi.post('/api/user/logout');
   } catch (error) {
     console.error('❌ logout error:', error);
     throw error;
@@ -127,7 +127,7 @@ export const logout = async () => {
 export const join = async (signupData) => {
   try {
     console.log("회원가입 요청 중")
-    const response = await api.post('/api/user/join', signupData);
+    const response = await springApi.post('/api/user/join', signupData);
     return response.data;
   } catch (error) {
     console.error('❌ error:', error);

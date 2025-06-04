@@ -17,14 +17,14 @@ import { getAccessToken } from '../utils/token';
  * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { interviewId: string, ... })
  */
 
-const fastapi_api = axios.create({
+const fastapiApi = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
 /**
  * @description 요청 인터셉터: accessToken 자동 추가
  * */
-fastapi_api.interceptors.request.use(
+fastapiApi.interceptors.request.use(
   (config) => {
     const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
     if (accessToken) {
@@ -37,7 +37,7 @@ fastapi_api.interceptors.request.use(
 
 export const startInterview = async (payload) => {
   try {
-    const response = await fastapi_api.post(
+    const response = await fastapiApi.post(
       'interview/start',
       payload
     );
@@ -71,7 +71,7 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
     formData.append('file', blob, 'file.png');
     formData.append('combineId', combineId); 
     try {
-      const response = await fastapi_api.post('/interview/waiting-room', formData);
+      const response = await fastapiApi.post('/interview/waiting-room', formData);
       console.log('면접 정보 받아오기 성공:', response.data);
       return response.data;
     } catch (error) {
@@ -94,7 +94,7 @@ export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     formData.append('questionID', questionID);
 
     try {
-        const response = await fastapi_api.post(`interview/${interviewID}/analysis-video`, formData);
+        const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
 
         return response.data;
     } catch (error) {
