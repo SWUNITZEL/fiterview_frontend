@@ -42,6 +42,13 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
                 setReadyForChainQuestion(false)
             }
 
+            // 메시지가 '수고하셨습니다'일 경우 WebSocket 종료
+            if (data.question_text === '수고하셨습니다') {
+                websocket.current?.close();
+                setIsConnected(false);
+                return; 
+            }
+
         };
 
         websocket.current.onerror = (error) => {
