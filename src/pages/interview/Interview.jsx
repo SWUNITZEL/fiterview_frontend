@@ -111,8 +111,8 @@ function Interview() {
                         }
                     }} />
                 </div>
-                <video autoPlay muted loop playsInline className="bg-video">
-                    <source src="/videos/interviewer.mp4" type="video/mp4" />
+                <video key={recording ? "stand" : "idle"} autoPlay muted loop playsInline className="bg-video">
+                    <source src={recording?"/videos/interviewer_stand.mp4":"/videos/interviewer.mp4"} type="video/mp4" />
                     브라우저가 동영상을 지원하지 않습니다.
                 </video>
                 <Chip className="recording" label="녹화 중" sx={{ backgroundColor: "var(--error-20)", display: recording ? "flex" : "none" }} />
