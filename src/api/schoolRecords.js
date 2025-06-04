@@ -1,15 +1,29 @@
 import axios from 'axios';
 import { getAccessToken } from '../utils/token';
 
-const api = axios.create({
+const fastapi_api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+  // withCredentials: true,
+});
+const spring_api = axios.create({
+  baseURL: process.env.REACT_APP_SRIPING_API_URL,
   // withCredentials: true,
 });
 
 /**
  * @description 요청 인터셉터: accessToken 자동 추가
  * */
-api.interceptors.request.use(
+fastapi_api.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+spring_api.interceptors.request.use(
   (config) => {
     const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
     if (accessToken) {
@@ -20,11 +34,14 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+
+
+
 export const setSchoolRecords = async (file) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await api.post(
+    const response = await fastapi_api.post(
         `school-records/upload`,
         formData
     );
@@ -35,15 +52,10 @@ export const setSchoolRecords = async (file) => {
 };
 
 export const getSchoolRecords = async () => {
-    const url = `${process.env.REACT_APP_API_URL}school-records/analyze`
-    const response = await fetch(url.toString(), {
-        method: 'GET',
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
+  try {
+    const response = await spring_api.get('school-records/analyze');
+    return response.data;
+  } catch (error) {
+    throw new Error(`HTTP error! status: ${error.response?.status || error.message}`);
+  }
 };

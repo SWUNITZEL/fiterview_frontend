@@ -88,19 +88,16 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
  * @param {Blob} videoBlob 
  * @returns {Promise<object>} 서버 응답 JSON
  */
-export async function uploadVideoApi(videoBlob, interviewID) {
-    const VIDEO_UPLOAD_URL = `${process.env.REACT_APP_API_URL}api/video-upload`;
+export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     const formData = new FormData();
     formData.append('file', videoBlob, 'video.webm');
-    formData.append('interview_id', interviewID);
+    formData.append('questionID', questionID);
 
-    const response = await fetch(VIDEO_UPLOAD_URL, {
-        method: 'POST',
-        body: formData,
-    });
+    try {
+        const response = await fastapi_api.post(`interview/${interviewID}/analysis-video`, formData);
 
-    if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(`서버 오류: ${error.response?.status || error.message}`);
     }
-    return response.json();
 }

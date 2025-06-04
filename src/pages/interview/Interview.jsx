@@ -21,14 +21,16 @@ import "./Interview.css";
 function Interview() {
     const location = useLocation();
     const { interviewId, selectedMic, selectedCam } = location.state || {};
+    // const { selectedMic, selectedCam } = location.state || {};
     const { stream } = useMediaStream(selectedMic, selectedCam);
     const [recording, setRecording] = useState(false);
-
     const playTTS = (text) => {
+        console.log("tts 실행", text)
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'ko-KR';
         utterance.onend = () => {
             if (text !== "수고하셨습니다.") {
+                setRecording(true)
                 start();
             }
         };
@@ -36,7 +38,7 @@ function Interview() {
     };
 
 
-    const { sendAudio, isConnected, question, totalQuestions, questionIndex, hasFollowUp, readyForChainQuestion } = useInterviewWebSocket({
+    const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } = useInterviewWebSocket({
         interviewId: interviewId,
         onReceiveQuestion: (text) => {
             playTTS(text);
@@ -52,7 +54,7 @@ function Interview() {
 
     const { start, stop } = useMediaRecorder(stream, (blob) => {
         sendAudio(blob);
-        uploadVideo(blob);
+        uploadVideo(blob, interviewId, questionID);
     });
 
     const handleButtonClick = () => {
@@ -65,9 +67,9 @@ function Interview() {
         }
     };
     
-    // if (!isConnected) {
-    // return <LoadingScreen message="면접 준비 중입니다" />;
-    // }
+    if (!isConnected) {
+    return <LoadingScreen message="면접 준비 중입니다" />;
+    }
     
     return (
         <Container maxWidth={false} style={{

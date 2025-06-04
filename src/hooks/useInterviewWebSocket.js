@@ -6,6 +6,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
 
     const [isConnected, setIsConnected] = useState(false);
     const [question, setQuestion] = useState('');
+    const [questionID, setQuestionID] = useState('');
     const [totalQuestions, setTotalQuestions] = useState(null);
     const [questionIndex, setQustionIndex] = useState(null);
     const [hasFollowUp, setHasFollowUp]=useState(false);
@@ -16,18 +17,23 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
 
         websocket.current.onopen = () => {
             console.log('WebSocket 연결 열림');
-            setIsConnected(true);
         };
 
         websocket.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log("받아온 메세지: ",data)
+
             if (data.type === 'question') {
                 onReceiveQuestion(data.question_text);
             } else if (data.type === 'complete') {
                 onComplete();
             }
-            console.log("받아온 메세지: ",data)
 
+            if (!isConnected) {
+                setIsConnected(true);
+            }
+
+            setQuestionID(data.question_id)
             setTotalQuestions(data.total_questions)
             setQustionIndex(data.question_index)
             setQuestion(data.question_text)
@@ -75,5 +81,5 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
     // const [hasFollowUp, setHasFollowUp]=useState(false);
 
 
-    return { sendAudio, isConnected, question, totalQuestions, questionIndex, hasFollowUp, readyForChainQuestion };
+    return { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion };
 }
