@@ -48,8 +48,9 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             console.error('WebSocket error:', error);
         };
 
-        websocket.current.onclose = () => {
+        websocket.current.onclose = (event) => {
             console.log('WebSocket 연결 종료됨');
+            console.log('Code:', event.code)
         };
 
         return () => {
@@ -61,6 +62,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         try {
             const wavBlob = await convertWebmToWav(videoBlob);
             if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+                console.log(wavBlob.type)
                 websocket.current.send(wavBlob);
                 console.log("WAV audio blob 전송 완료");
                 if (hasFollowUp) {

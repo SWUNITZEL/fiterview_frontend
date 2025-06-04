@@ -3,10 +3,10 @@
  * @description 모의면접 실행 페이지
  * @author 이찬우
  * @created 2025-03-27
- * @lastModified 2025-04-02
+ * @lastModified 2025-06-04
 **/
 
-import { useState, } from 'react';
+import { useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
@@ -14,48 +14,54 @@ import { useMediaRecorder } from '../../hooks/useMediaRecorder';
 import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
-import { PATH } from "../../data/paths"
+import { PATH } from "../../data/paths";
 
 import "./Interview.css";
 
 function Interview() {
     const location = useLocation();
-    const { interviewId, selectedMic, selectedCam } = location.state || {};
-    // const { selectedMic, selectedCam } = location.state || {};
+    // const { interviewId, selectedMic, selectedCam } = location.state || {};
+    const { selectedMic, selectedCam } = location.state || {};
+    const interviewId = "683a97e79caeb7463df2fdf3";
+
     const { stream } = useMediaStream(selectedMic, selectedCam);
+
     const [recording, setRecording] = useState(false);
-    const playTTS = (text) => {
-        console.log("tts 실행", text)
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ko-KR';
-        utterance.onend = () => {
-            if (text !== "수고하셨습니다.") {
-                setRecording(true)
-                start();
-            }
-        };
-        speechSynthesis.speak(utterance);
-    };
 
-
-    const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } = useInterviewWebSocket({
-        interviewId: interviewId,
-        onReceiveQuestion: (text) => {
-            playTTS(text);
-        },
-        onComplete: () => {
-            alert('면접이 완료되었습니다.');
-            window.location.replace(PATH.HOME);
-        }
-    });
-
-    const { uploadVideo, isUploading } = useVideoUpload()
-
-
+    // useMediaRecorder 훅에서 start, stop 함수 받음
     const { start, stop } = useMediaRecorder(stream, (blob) => {
         sendAudio(blob);
         uploadVideo(blob, interviewId, questionID);
     });
+
+    // playTTS를 useCallback으로 만들고, start 함수를 의존성으로 넣음
+    const playTTS = useCallback((text) => {
+        console.log("tts 실행", text);
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ko-KR';
+        utterance.onend = () => {
+            console.log("TTS 완료");
+            // if (text !== "수고하셨습니다.") {
+            //     setRecording(true);
+            //     start();  // 녹화 시작
+            // }
+        };
+        speechSynthesis.speak(utterance);
+    }, [start]);
+
+    // useInterviewWebSocket 훅 호출할 때 onReceiveQuestion을 useCallback으로 묶고 playTTS를 의존성으로 넣음
+    const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } = useInterviewWebSocket({
+        interviewId,
+        onReceiveQuestion: useCallback((text) => {
+            playTTS(text);
+        }, [playTTS]),
+        onComplete: useCallback(() => {
+            alert('면접이 완료되었습니다.');
+            window.location.replace(PATH.HOME);
+        }, [])
+    });
+
+    const { uploadVideo, isUploading } = useVideoUpload();
 
     const handleButtonClick = () => {
         if (recording) {
@@ -66,11 +72,11 @@ function Interview() {
             start();
         }
     };
-    
+
     if (!isConnected) {
-    return <LoadingScreen message="면접 준비 중입니다" />;
+        return <LoadingScreen message="면접 준비 중입니다" />;
     }
-    
+
     return (
         <Container maxWidth={false} style={{
             backgroundColor: "var(--background-color)",
@@ -79,7 +85,6 @@ function Interview() {
             overflow: "hidden",
             display: "flex"
         }}>
-            
             <div className='side-margin'></div>
             <div className='interview-container'>
                 <div className='loading' style={{ display: readyForChainQuestion ? "flex" : "none" }}>
