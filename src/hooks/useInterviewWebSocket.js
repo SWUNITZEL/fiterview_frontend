@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import {convertWebmToWav} from "../utils/toWav"
+import {LASTMENT} from "../data/interview"
 
 export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComplete }) {
     const websocket = useRef(null);
@@ -43,7 +44,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             }
 
             // 메시지가 '수고하셨습니다'일 경우 WebSocket 종료
-            if (data.question_text === '수고하셨습니다') {
+            if (data.question_text === LASTMENT ) {
                 websocket.current?.close();
                 setIsConnected(false);
                 return; 

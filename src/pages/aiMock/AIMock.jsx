@@ -75,7 +75,7 @@ const AIMock = () => {
       <NavbarComponent />
       {uploadData ? (
         <PostUploadBanner 
-          userName={user??user.name}
+          userName={user?user.name:"더미"}
           getRootProps={getRootProps}
           getInputProps={getInputProps}
           isUploading={isUploading}
