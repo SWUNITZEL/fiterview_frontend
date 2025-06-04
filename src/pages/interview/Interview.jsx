@@ -23,10 +23,6 @@ function Interview() {
     const { interviewId, selectedMic, selectedCam } = location.state || {};
     const { stream } = useMediaStream(selectedMic, selectedCam);
     const [recording, setRecording] = useState(false);
-    const [question, setQuestion] = useState('');
-    const [totalQustions, setTotalQustions] = useState(4);
-    const [completedQustions, setCompletedQustions] = useState(1);
-    const [readyForChainQuestion, setReadyForChainQuestion] = useState(false);
 
     const playTTS = (text) => {
         const utterance = new SpeechSynthesisUtterance(text);
@@ -40,10 +36,9 @@ function Interview() {
     };
 
 
-    const { sendAudio, isConnected } = useInterviewWebSocket({
-        interviewId: "1",
+    const { sendAudio, isConnected, question, totalQuestions, questionIndex, hasFollowUp, readyForChainQuestion } = useInterviewWebSocket({
+        interviewId: interviewId,
         onReceiveQuestion: (text) => {
-            setQuestion(text);
             playTTS(text);
         },
         onComplete: () => {
@@ -116,7 +111,7 @@ function Interview() {
                 <Chip className="recording" label="녹화 중" sx={{ backgroundColor: "var(--error-20)", display: recording ? "flex" : "none" }} />
                 <div className='contents-container' style={{ boxShadow: recording ? "0 0 0 2px var(--error-60) inset" : "none" }}>
                     <div className='text-container'>
-                        <Chip className="progress" label={`${completedQustions}/${totalQustions}`} sx={{ backgroundColor: "var(--background-color)" }} />
+                        <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
                         <div className='question-container subtitle-20-bold'>
                             Q. {question}
                         </div>

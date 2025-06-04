@@ -6,9 +6,9 @@
 **/
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button, Container } from "@mui/material";
 import { PlusCircleIcon , MinusCircleIcon } from "@heroicons/react/24/outline";
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
 import Footer from '../../components/Footer'
@@ -16,7 +16,7 @@ import "./InterviewConfig.css";
 import { PATH } from "../../data/paths"
 
 const InterviewConfig = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigateWithScrollTop();
 
   const [university, setUniversity] = useState("");
   const [department, setDepartment] = useState("");

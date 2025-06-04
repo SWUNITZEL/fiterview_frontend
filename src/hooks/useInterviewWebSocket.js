@@ -3,7 +3,13 @@ import {convertWebmToWav} from "../utils/toWav"
 
 export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComplete }) {
     const websocket = useRef(null);
+
     const [isConnected, setIsConnected] = useState(false);
+    const [question, setQuestion] = useState('');
+    const [totalQuestions, setTotalQuestions] = useState(null);
+    const [questionIndex, setQustionIndex] = useState(null);
+    const [hasFollowUp, setHasFollowUp]=useState(false);
+    const [readyForChainQuestion, setReadyForChainQuestion] = useState(false);
 
     useEffect(() => {
         websocket.current = new WebSocket(`${process.env.REACT_APP_WS_URL}interview/${interviewId}`);
@@ -16,11 +22,20 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         websocket.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === 'question') {
-                onReceiveQuestion(data.text);
+                onReceiveQuestion(data.question_text);
             } else if (data.type === 'complete') {
                 onComplete();
             }
-            console.log("받아온 메세지: "+data)
+            console.log("받아온 메세지: ",data)
+
+            setTotalQuestions(data.total_questions)
+            setQustionIndex(data.question_index)
+            setQuestion(data.question_text)
+            setHasFollowUp(data.has_follow_up)
+            if(readyForChainQuestion){
+                setReadyForChainQuestion(false)
+            }
+
         };
 
         websocket.current.onerror = (error) => {
@@ -42,6 +57,10 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
                 websocket.current.send(wavBlob);
                 console.log("WAV audio blob 전송 완료");
+                if (hasFollowUp) {
+                    setReadyForChainQuestion(true)
+                    setHasFollowUp(false)
+                }
             } else {
                 console.warn("WebSocket이 열려있지 않음");
             }
@@ -50,5 +69,11 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         }
     };
 
-    return { sendAudio, isConnected };
+    //    const [question, setQuestion] = useState('');
+    // const [totalQustions, setTotalQustions] = useState(null);
+    // const [questionIndex, setQustionIndex] = useState(null);
+    // const [hasFollowUp, setHasFollowUp]=useState(false);
+
+
+    return { sendAudio, isConnected, question, totalQuestions, questionIndex, hasFollowUp, readyForChainQuestion };
 }
