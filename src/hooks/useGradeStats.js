@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { SEMESTERS } from "../data/schoolRecords";
-
 export const useGradeStats = (grades) => {
-  // 학기별 전체 성적 (예시 값: pv)
-  const baseData = SEMESTERS.map((name, idx) => ({
-    name,
-    pv: Object.values(grades).reduce((acc, arr) => {
-      if (arr[idx] != null) return acc + arr[idx];
-      return acc;
-    }, 0),
-  })).filter((entry, idx) =>
+  const baseData = SEMESTERS.map((name, idx) => {
+    let sum = 0;
+    let count = 0;
+
+    Object.values(grades).forEach(arr => {
+      const val = arr[idx];
+      if (val != null && val !== 0) {
+        sum += val;
+        count += 1;
+      }
+    });
+
+    return {
+      name,
+      pv: count > 0 ? +(sum / count).toFixed(2) : null,  // 학기별 평균
+    };
+  }).filter((entry, idx) =>
     Object.values(grades).some(arr => arr[idx] != null)
   );
 
@@ -18,7 +26,6 @@ export const useGradeStats = (grades) => {
   const [mergedData, setMergedData] = useState(baseData);
   const [searched, setSearched] = useState(false);
 
-  // 선택 과목 평균, 최저, 최고 상태
   const [selectedStats, setSelectedStats] = useState({
     avg: null,
     min: null,
@@ -34,27 +41,28 @@ export const useGradeStats = (grades) => {
   };
 
   const handleSearch = () => {
-    const newMerged = baseData.map((entry, idx) => {
-      const updated = { ...entry };
+    const newMerged = SEMESTERS.map((name, idx) => {
       const selectedValues = selectedCategories
         .map(cat => grades[cat]?.[idx])
-        .filter(v => v != null);
+        .filter(v => v != null && v !== 0);
 
-      if (selectedValues.length > 0) {
-        const sum = selectedValues.reduce((acc, cur) => acc + cur, 0);
-        const avg = sum / selectedValues.length;
-        updated["선택과목 평균"] = +avg.toFixed(2);
-      } else {
-        updated["선택과목 평균"] = null;
-      }
-      return updated;
-    });
+      const sum = selectedValues.reduce((acc, cur) => acc + cur, 0);
+      const avg = selectedValues.length > 0 ? sum / selectedValues.length : null;
+
+      return {
+        name,
+        pv: baseData[idx]?.pv || 0,
+        "선택과목 평균": avg !== null ? +avg.toFixed(2) : null,
+      };
+    }).filter((entry, idx) =>
+      Object.values(grades).some(arr => arr[idx] != null)
+    );
 
     const allSelectedScores = [];
     SEMESTERS.forEach((sem, idx) => {
       selectedCategories.forEach(cat => {
         const val = grades[cat]?.[idx];
-        if (val != null) allSelectedScores.push(val);
+        if (val != null && val !== 0) allSelectedScores.push(val);
       });
     });
 
@@ -80,12 +88,12 @@ export const useGradeStats = (grades) => {
     setSearched(true);
   };
 
-  // 전체 성적 통계
   const allScores = [];
   Object.values(grades).forEach(arr => {
-    arr.forEach(v => { if (v != null) allScores.push(v); });
+    arr.forEach(v => { if (v != null && v !== 0) allScores.push(v); });
   });
-  const overallAvg = allScores.length ? (allScores.reduce((a,c)=>a+c,0)/allScores.length).toFixed(2) : '-';
+
+  const overallAvg = allScores.length ? (allScores.reduce((a, c) => a + c, 0) / allScores.length).toFixed(2) : '-';
   const overallMin = allScores.length ? Math.min(...allScores) : '-';
   const overallMax = allScores.length ? Math.max(...allScores) : '-';
 

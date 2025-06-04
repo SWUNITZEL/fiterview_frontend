@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import useMediaStream from '../../hooks/useMediaStream';
 import CustomAudioPlayer from '../../components/CustomAudioPlayer';
@@ -9,6 +9,9 @@ import { PATH } from '../../data/paths';
 
 const SoundCheck = () => {
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const combineId = searchParams.get('combineId');
 
     const location = useLocation();
     const { selectedMic, selectedCam } = location.state || {};
@@ -111,7 +114,7 @@ const SoundCheck = () => {
                 {recordedAudioURL && (
                 <Button
                 onClick={() =>
-                navigate(PATH.INTERVIEW_SELF_CHECK_FACE, {
+                navigate(`${PATH.INTERVIEW_SELF_CHECK_FACE}?combineId=${combineId}`, {
                     state: {
                     selectedMic,
                     selectedCam,

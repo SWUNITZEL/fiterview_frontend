@@ -27,8 +27,10 @@ function Login() {
       alert("로그인 성공!");
     });
     if (success) {
+      
       await refreshUser();   // 🔥 추가: 로그인 성공 후 유저 정보 새로고침
-      navigateAndScrollTop(PATH.HOME);  // 🔥 홈이나 원하는 페이지로 이동
+      console.log("유저 정보 새로고침 완료")
+      navigateAndScrollTop(PATH.HOME);  
     }
   };
 

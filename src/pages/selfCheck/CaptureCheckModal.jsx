@@ -4,8 +4,8 @@ import LoadingModal from '../../components/LoadingModal';
 import { useCaptureConfirm } from '../../hooks/useCaptureConfirm';
 import './SelfCheck.css';
 
-const CaptureModal = ({ capturedImage, open, onClose, onError }) => {
-  const { loading, onConfirm } = useCaptureConfirm({ capturedImage, onError });
+const CaptureModal = ({ capturedImage, open, onClose, onError, combineId }) => {
+  const { loading, onConfirm } = useCaptureConfirm({ capturedImage, onError, combineId });
 
   if (!open) return null;
 

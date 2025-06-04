@@ -4,11 +4,11 @@ import { uploadVideoApi } from '../api/interview';
 export function useVideoUpload() {
     const [isUploading, setIsUploading] = useState(false);
 
-    const uploadVideo = async (videoBlob, interviewID) => {
+    const uploadVideo = async (videoBlob, interviewID, questionID) => {
         setIsUploading(true);
 
         try {
-            const result = await uploadVideoApi(videoBlob, interviewID);
+            const result = await uploadVideoApi(videoBlob, interviewID, questionID);
             console.log('비디오 업로드 성공:', result);
             return result;
         } catch (err) {

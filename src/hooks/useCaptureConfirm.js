@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { sendCaptureImage } from '../api/interview';
+import { sendCaptureAndCombination } from '../api/interview';
 import { PATH } from '../data/paths';
 
-export const useCaptureConfirm = ({ capturedImage, onError }) => {
+export const useCaptureConfirm = ({ capturedImage, onError, combineId }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,9 +14,9 @@ export const useCaptureConfirm = ({ capturedImage, onError }) => {
 
         try {
             setLoading(true);
-            const result = await sendCaptureImage(capturedImage);
+            const result = await sendCaptureAndCombination(capturedImage, combineId);
 
-            if (!result.interviewId) {
+            if (!result.result.interviewId) {
                 throw new Error('interviewId가 응답에 없습니다.');
             }
 

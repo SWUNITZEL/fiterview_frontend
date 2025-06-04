@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { Button } from '@mui/material';
 import useMediaSetup from '../../hooks/useMediaSetup';
@@ -10,6 +10,9 @@ import { PATH } from '../../data/paths';
 const SelfCheck = () => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
+  const [searchParams] = useSearchParams();
+  const combineId = searchParams.get('combineId');
+
   // 선택된 장치 ID 상태
   const [selectedMic, setSelectedMic] = useState('');
   const [selectedCam, setSelectedCam] = useState('');
@@ -131,7 +134,7 @@ const SelfCheck = () => {
 
           <Button
             onClick={() =>
-              navigate(PATH.INTERVIEW_SELF_CHECK_SOUND, {
+              navigate(`${PATH.INTERVIEW_SELF_CHECK_SOUND}?combineId=${combineId}`, {
                 state: {
                   selectedMic,
                   selectedCam,

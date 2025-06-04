@@ -49,8 +49,8 @@ export const useInterviewConfig = () => {
 
       console.log("서버 응답:", result);
 
-      if (result.interviewId) {
-        navigate(PATH.INTERVIEW_SELF_CHECK);
+      if (result.combineId) {
+        navigate(`${PATH.INTERVIEW_SELF_CHECK}?combineId=${result.combineId}`);
       } else {
         alert("면접 ID를 받아올 수 없습니다.");
       }

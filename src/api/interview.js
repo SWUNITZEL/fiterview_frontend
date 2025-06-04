@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getAccessToken } from '../utils/token';
 
 /**
  * @description 면접 설정 정보를 백엔드에 저장하고 면접 세션을 시작합니다.
@@ -15,47 +16,71 @@ import axios from 'axios';
  * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
  * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { interviewId: string, ... })
  */
+
+const fastapiApi = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+});
+
+/**
+ * @description 요청 인터셉터: accessToken 자동 추가
+ * */
+fastapiApi.interceptors.request.use(
+  (config) => {
+    const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 export const startInterview = async (payload) => {
-  const INTERVIEW_CONFIG_URL = `${process.env.REACT_APP_API_URL}interview/start`;
+  try {
+    const response = await fastapiApi.post(
+      'interview/start',
+      payload
+    );
 
-  const response = await fetch(INTERVIEW_CONFIG_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
+    console.log('저장 완료!', response.data);
 
-  if (!response.ok) {
-    throw new Error("서버에 설정을 저장하는 데 실패했습니다.");
+    return response.data.result;
+  } catch (error) {
+    console.error('❌ startInterview error:', error);
+
+    throw error;  // 상위에서 또 처리할 수 있도록 재던짐
   }
-
-  return response.json();
 };
 
 
+
 /**
- * @description 캡처된 이미지를 면접 대기실 API에 전송하여 면접 세션 ID를 요청합니다.
+ * @description 캡처된 이미지와 면접 조합을 면접 대기실 API에 전송하여 면접 세션 ID를 요청합니다.
  * 
  * @async
- * @function sendCaptureImage
+ * @function sendCaptureAndCombination
  * @param {string} base64Image - base64 형식의 캡처 이미지 데이터 (data URL)
  * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
  * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { interviewId: string })
  */
 
-export const sendCaptureImage = async (base64Image) => {
-    const INTERVIEW_INIT_URL = `${process.env.REACT_APP_API_URL}interview/waiting-room`;
+export const sendCaptureAndCombination = async (base64Image, combineId) => {
+    console.log("combineId", combineId)
     const blob = await (await fetch(base64Image)).blob();
     const formData = new FormData();
-    formData.append('image', blob, 'capture.png');
+    formData.append('file', blob, 'file.png');
+    formData.append('combineId', combineId); 
+    try {
+      const response = await fastapiApi.post('/interview/waiting-room', formData);
+      console.log('면접 정보 받아오기 성공:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ 면접 정보 받아오기 실패:', error);
 
-    const response = await axios.post(INTERVIEW_INIT_URL, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-
-    return response.data;
+    throw error;  // 상위에서 또 처리할 수 있도록 재던짐
+    }
 };
+
 
 
 /**
@@ -63,19 +88,16 @@ export const sendCaptureImage = async (base64Image) => {
  * @param {Blob} videoBlob 
  * @returns {Promise<object>} 서버 응답 JSON
  */
-export async function uploadVideoApi(videoBlob, interviewID) {
-    const VIDEO_UPLOAD_URL = `${process.env.REACT_APP_API_URL}api/video-upload`;
+export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     const formData = new FormData();
     formData.append('file', videoBlob, 'video.webm');
-    formData.append('interview_id', interviewID);
+    formData.append('questionID', questionID);
 
-    const response = await fetch(VIDEO_UPLOAD_URL, {
-        method: 'POST',
-        body: formData,
-    });
+    try {
+        const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
 
-    if (!response.ok) {
-        throw new Error(`서버 오류: ${response.status}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(`서버 오류: ${error.response?.status || error.message}`);
     }
-    return response.json();
 }
