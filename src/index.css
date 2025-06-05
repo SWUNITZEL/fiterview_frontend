@@ -64,6 +64,7 @@
 body, div, button, input, select, textarea {
   margin: 0;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont;
+  color: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

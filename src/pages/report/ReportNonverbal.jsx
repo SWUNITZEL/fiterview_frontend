@@ -11,6 +11,7 @@ import { usePdfDownload } from '../../hooks/usePdfDownload';
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ReportHeader from '../../components/ReportHeader';
+import FeedbackSummaryBox from '../../components/FeedbackSummaryBox';
 import ButtonPair from '../../components/buttonPair';
 
 import './Report.css';
@@ -31,103 +32,6 @@ const ReportNonverbal = () => {
     z: 100,
   }));
 
-  const getFeedback = (category, value) => {
-    if (category === 'posture') {
-      return value >= 60
-        ? { label: '장점', comment: '자세를 안정적으로 유지했습니다.' }
-        : { label: '개선점', comment: '자세가 불안정하여 개선이 필요합니다.' };
-    }
-    if (category === 'eye') {
-      return value >= 60
-        ? { label: '장점', comment: '시선이 적절하게 분산되어 자연스러웠습니다.' }
-        : { label: '개선점', comment: '시선의 집중도가 낮아 개선이 필요합니다.' };
-    }
-    if (category === 'gesture') {
-      return value >= 60
-        ? { label: '장점', comment: '적절한 제스처로 전달력이 향상되었습니다.' }
-        : { label: '개선점', comment: '제스처가 부족하거나 부자연스러웠습니다.' };
-    }
-  };
-
-  const renderSummaryBox = (title, category, myScore, average) => {
-    const feedback = getFeedback(category, myScore);
-    const data = [
-      { name: '응시자 평균', score: average },
-      { name: '내 점수', score: myScore },
-    ];
-
-    return (
-      <div className="summary-box drop-shadow-large">
-        <h3>
-          {title}{' '}
-          <span style={{ color: myScore >= average ? 'var(--success-40)' : 'var(--warning-40)' }}>
-            {myScore >= average ? '평균 이상' : '평균 이하'}
-          </span>
-        </h3>
-        <div style={{ width: 200, margin: '0 auto' }}>
-          <BarChart data={data} layout="horizontal" width={200} height={160} barSize={60}>
-            <XAxis
-              type="category"
-              dataKey="name"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fontSize: 13 }}
-            />
-            <YAxis
-              type="number"
-              domain={[0, Math.max(myScore, average) + 20]}
-              width={0}
-              axisLine={false}
-              tick={false}
-            />
-            <Tooltip />
-            <ReferenceLine y={average} stroke="#ccc" strokeDasharray="4 4" />
-            <Bar dataKey="score" radius={[6, 6, 0, 0]}>
-              <LabelList dataKey="score" position="top" />
-              {data.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={
-                    entry.name === '응시자 평균'
-                      ? '#D9D9D9'
-                      : myScore >= average
-                      ? 'var(--success-40)'
-                      : 'var(--warning-40)'
-                  }
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '36px' }}>
-          <span
-            style={{
-              backgroundColor: myScore >= average ? 'var(--success-40)' : 'var(--warning-40)',
-              whiteSpace: 'nowrap',
-              color: 'white',
-              height: 'fit-content',
-              fontSize: '16px',
-              padding: '2px 12px',
-              borderRadius: '16px',
-            }}
-          >
-            {feedback.label}
-          </span>
-          <p
-            style={{
-              marginTop: '0px',
-              marginLeft: '8px',
-              fontSize: '16px',
-              fontWeight: '400',
-            }}
-          >
-            {feedback.comment}
-          </p>
-        </div>
-      </div>
-    );
-  };
-
   const nonverbalData = {
     totalScore: 58,
     posture: {
@@ -138,7 +42,7 @@ const ReportNonverbal = () => {
     eye: {
       score: 58,
       average: 64,
-      detail: '시선 분포의 흩어짐 정도를 줄이는 연습이 필요합니다.\n\n화면의 중앙을 응시하도록 하세요.',
+      detail: '시선 분포의 흩어짐 정도를 줄이는 연습이 필요합니다.\n화면의 중앙을 응시하도록 하세요.',
     },
     gesture: {
       score: 68,
@@ -172,17 +76,32 @@ const ReportNonverbal = () => {
         </h3>
 
         <div className="summary-section">
-          {renderSummaryBox('자세', 'posture', nonverbalData.posture.score, nonverbalData.posture.average)}
-          {renderSummaryBox('시선', 'eye', nonverbalData.eye.score, nonverbalData.eye.average)}
-          {renderSummaryBox('제스처', 'gesture', nonverbalData.gesture.score, nonverbalData.gesture.average)}
+          <FeedbackSummaryBox
+            title="자세"
+            category="posture"
+            myScore={nonverbalData.posture.score}
+            average={nonverbalData.posture.average}
+          />
+          <FeedbackSummaryBox
+            title="긴장도"
+            category="eye"
+            myScore={nonverbalData.eye.score}
+            average={65}
+          />
+          <FeedbackSummaryBox
+            title="시선처리"
+            category="gesture"
+            myScore={nonverbalData.gesture.score}
+            average={nonverbalData.gesture.average}
+          />
         </div>
 
         <h3 className="detail-title">세부 분석 결과</h3>
         <div className="detail-section">
           <div className="detail-row" style={{ justifyContent: 'flex-start' }}>
-            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left" style={{ paddingRight: '64px' }}>
-                <h4>자세 세부 분석 결과</h4>
+                <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>자세 세부 분석 결과</h4>
                 <p>{nonverbalData.posture.detail}</p>
               </div>
               <div
@@ -216,9 +135,9 @@ const ReportNonverbal = () => {
           </div>
 
           <div className="detail-row" style={{ justifyContent: 'flex-start'}}>
-            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left" style={{ paddingRight: '64px'}}>
-                <h4>시선 세부 분석 결과</h4>
+                <h4 style={{fontSize:"20px",  marginTop:"0px", marginBottom:"40px"}}>시선 세부 분석 결과</h4>
                 <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.eye.detail}</p>
               </div>
               <div className="detail-right" style={{ marginLeft: '60px' }}>
@@ -258,9 +177,9 @@ const ReportNonverbal = () => {
           </div>
 
           <div className="detail-row">
-            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left">
-                <h4>표정 세부 분석 결과</h4>
+                <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>표정 세부 분석 결과</h4>
                 <p>{nonverbalData.gesture.detail}</p>
               </div>
             </div>

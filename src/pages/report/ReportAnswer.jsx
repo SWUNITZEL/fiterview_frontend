@@ -112,7 +112,7 @@ const ReportAnswer = () => {
           style={{
             backgroundColor: 'white',
             borderRadius: '16px',
-            padding: '24px',
+            padding: '32px 28px',
             display: 'flex',
             gap: '32px',
             alignItems: 'flex-start',
@@ -160,12 +160,12 @@ const ReportAnswer = () => {
               style={{
                 background: "white",
                 borderRadius: "16px",
-                padding: "20px 24px",
+                padding: "32px 28px",
                 overflowY: "auto",
                 border: 'none'
               }}
             >
-              <h4 className="subtitle-18-bold" style={{ marginBottom: "32px", paddingBottom:"8px"}}>답변 세부 분석 결과</h4>
+              <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 세부 분석 결과</h4>
               {currentData.evaluation.map((evalTitle, idx) => (
                 <Accordion key={idx} disableGutters elevation={0} square={false}
                   style={{
@@ -193,11 +193,11 @@ const ReportAnswer = () => {
               style={{
                 background: 'white',
                 borderRadius: '16px',
-                padding: '20px 24px',
+                padding: '32px 28px',
                 border: 'none'
               }}
             >
-              <h4 className="subtitle-18-bold">답변 총평</h4>
+              <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 총평</h4>
               <p className="body-14-regular">{currentData.summary}</p>
             </div>
           </div>
@@ -244,7 +244,7 @@ const ReportAnswer = () => {
                     // width: '150px',
                     height: 'auto',
                     top: "16px",
-                    right:"32px",
+                    right:"28px",
                     textAlign:"end",
                     padding:"0px"
                   }}
@@ -258,7 +258,7 @@ const ReportAnswer = () => {
               </div>
             </div>
 
-            <div style={{ padding: '20px 24px' }}>
+            <div style={{ padding: '32px 28px' }}>
               <span className="body-14-regular" style={{ lineHeight: '1.6', color: '#333' }}>
                 {currentData.goodExample}
               </span>
