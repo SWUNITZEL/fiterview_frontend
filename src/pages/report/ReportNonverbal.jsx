@@ -1,162 +1,265 @@
 import { Container } from '@mui/material';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList,
+  ResponsiveContainer, ScatterChart, Scatter, ZAxis
+} from 'recharts';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 
 import NavbarComponent from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
 
 import './Report.css';
-const ReportNonverbal = () => {
-  const navigateAndScrollTop = useNavigateWithScrollTop()
 
+const ReportNonverbal = () => {
+  const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
 
-  const getFeedback = (category, score, blinkRate, shoulderRatio) => {
+  const movementData = [
+    { name: '왼쪽 어깨 움직임 횟수', value: 30 },
+    { name: '오른쪽 어깨 움직임 횟수', value: 45 },
+    { name: '고개 움직임 횟수', value: 25 },
+  ];
+
+  const gazeData = new Array(50).fill(null).map((_, i) => ({
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    z: 100,
+  }));
+
+  const getFeedback = (category, value) => {
     if (category === 'posture') {
-      return {
-        label: score >= analysisData.posture.average ? '장점' : '개선점',
-        comment: score >= analysisData.posture.average
-          ? '안정적인 자세를 유지하고 있어요. 이대로 유지하세요.'
-          : '어깨와 상체의 움직임이 자주 보입니다. 안정적인 자세를 연습해보세요.'
-      };
+      return value >= 60
+        ? { label: '장점', comment: '자세를 안정적으로 유지했습니다.' }
+        : { label: '개선점', comment: '자세가 불안정하여 개선이 필요합니다.' };
     }
-
-    if (category === 'eyes') {
-      let label = blinkRate <= 20 ? '장점' : '개선점';
-      let comment = '';
-
-      if (blinkRate <= 20) comment = '눈 깜빡임이 자연스럽고 안정적인 표정을 유지하셨습니다.';
-      else if (blinkRate <= 30) comment = '눈 깜박임이 비교적 자주 나타났습니다. 시선 집중을 유지하도록 연습해보세요.';
-      else comment = '눈 깜빡임이 지나치게 많아 불안하거나 산만해 보일 수 있습니다. 시선 집중을 유지하도록 해보세요.';
-
-      return { label, comment };
+    if (category === 'eye') {
+      return value >= 60
+        ? { label: '장점', comment: '시선이 적절하게 분산되어 자연스러웠습니다.' }
+        : { label: '개선점', comment: '시선의 집중도가 낮아 개선이 필요합니다.' };
     }
-
-    if (category === 'shoulder') {
-      let label = shoulderRatio <= 15 ? '장점' : '개선점';
-      let comment = '';
-
-      if (shoulderRatio > 30) comment = '어깨 움직임이 잦아 긴장감이 전달됩니다. 상체의 안정성을 유지하는 자세 연습이 필요합니다.';
-      else if (shoulderRatio > 15) comment = '어깨 움직임이 비교적 자주 나타났습니다. 필요 시 정적인 자세를 의식해보세요.';
-      else comment = '어깨 움직임이 적절하며 안정적인 자세를 유지하셨습니다.';
-
-      return { label, comment };
+    if (category === 'gesture') {
+      return value >= 60
+        ? { label: '장점', comment: '적절한 제스처로 전달력이 향상되었습니다.' }
+        : { label: '개선점', comment: '제스처가 부족하거나 부자연스러웠습니다.' };
     }
   };
 
-  const analysisData = {
-  totalScore: 82,
-  posture: {
-    score: 85,
-    average: 78,
-    detail: '면접 중 안정적인 자세를 유지했으며, 상체의 흔들림이 적었습니다. 긴장 상황에서도 자연스러운 움직임을 보여주었습니다.',
-  },
-  eyes: {
-    score: 80,
-    average: 75,
-    blinkRate: 18,
-    detail: '눈 깜박임 빈도가 적절하며, 시선이 정면을 잘 유지되었습니다. 일부 질문에서 약간의 시선 회피가 있었지만 전반적으로 양호했습니다.',
-  },
-  shoulder: {
-    score: 78,
-    average: 74,
-    movementRatio: 12,
-    detail: '어깨 움직임이 적고, 불필요한 제스처 없이 안정적인 자세로 임했습니다. 면접관에게 자신감 있는 인상을 주었습니다.',
-  },
-};
-
-  const renderSummaryBox = (title, category, myScore, averageScore, blinkRate, shoulderRatio) => {
-    const { label, comment } = getFeedback(category, myScore, blinkRate, shoulderRatio);
-    const color = label === '장점' ? 'green' : 'yellow';
+  const renderSummaryBox = (title, category, myScore, average) => {
+    const feedback = getFeedback(category, myScore);
     const data = [
-      { name: '응시자 평균', score: averageScore },
+      { name: '응시자 평균', score: average },
       { name: '내 점수', score: myScore },
     ];
 
     return (
       <div className="summary-box drop-shadow-large">
-        <h3>{title}</h3>
-        <ResponsiveContainer width="100%" height={120}>
-          <BarChart data={data} layout="vertical">
-            <XAxis type="number" hide />
-            <YAxis type="category" dataKey="name" />
+        <h3>
+          {title}{' '}
+          <span style={{ color: myScore >= average ? 'var(--success-40)' : 'var(--warning-40)' }}>
+            {myScore >= average ? '평균 이상' : '평균 이하'}
+          </span>
+        </h3>
+        <div style={{ width: 200, margin: '0 auto' }}>
+          <BarChart data={data} layout="horizontal" width={200} height={160} barSize={60}>
+            <XAxis
+              type="category"
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 13 }}
+            />
+            <YAxis
+              type="number"
+              domain={[0, Math.max(myScore, average) + 20]}
+              width={0}
+              axisLine={false}
+              tick={false}
+            />
             <Tooltip />
-            <Bar dataKey="score" radius={[10, 10, 10, 10]} fill={color === 'green' ? '#4CAF50' : '#FFCA28'} />
+            <ReferenceLine y={average} stroke="#ccc" strokeDasharray="4 4" />
+            <Bar dataKey="score" radius={[6, 6, 0, 0]}>
+              <LabelList dataKey="score" position="top" />
+              {data.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={
+                    entry.name === '응시자 평균'
+                      ? '#D9D9D9'
+                      : myScore >= average
+                      ? 'var(--success-40)'
+                      : 'var(--warning-40)'
+                  }
+                />
+              ))}
+            </Bar>
           </BarChart>
-        </ResponsiveContainer>
-        <div className="summary-footer">
-          <span style={{ whiteSpace: 'nowrap' }} className={`tag ${color}`}>{label}</span>
-          <p className="summary-comment">{comment}</p>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '36px' }}>
+          <span
+            style={{
+              backgroundColor: myScore >= average ? 'var(--success-40)' : 'var(--warning-40)',
+              whiteSpace: 'nowrap',
+              color: 'white',
+              height: 'fit-content',
+              fontSize: '16px',
+              padding: '2px 12px',
+              borderRadius: '16px',
+            }}
+          >
+            {feedback.label}
+          </span>
+          <p
+            style={{
+              marginTop: '0px',
+              marginLeft: '8px',
+              fontSize: '16px',
+              fontWeight: '400',
+            }}
+          >
+            {feedback.comment}
+          </p>
         </div>
       </div>
     );
   };
 
+  const nonverbalData = {
+    totalScore: 58,
+    posture: {
+      score: 66,
+      average: 56,
+      detail: '전체적으로 자세를 유지하며 안정적인 인상을 주었습니다.',
+    },
+    eye: {
+      score: 58,
+      average: 64,
+      detail: '시선 분포의 흩어짐 정도를 줄이는 연습이 필요합니다.\n\n화면의 중앙을 응시하도록 하세요.',
+    },
+    gesture: {
+      score: 68,
+      average: 43,
+      detail: '이완 움직임이 적절하여 안정적인 제스처를 유지했습니다.',
+    },
+  };
+
   return (
-    <Container ref={pageRef} maxWidth={false} style={{
-            backgroundColor: "var(--background-color)",
-            minHeight: "100vh",
-            padding: "0",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection:"column"
-        }}>
+    <Container
+      ref={pageRef}
+      maxWidth={false}
+      style={{
+        backgroundColor: 'var(--background-color)',
+        minHeight: '100vh',
+        padding: 0,
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
       <NavbarComponent />
-      <ReportHeader 
-        interviewTitle = "○○대학교 모의면접 결과" 
-        reportTitle = "비언어적 커뮤니케이션 분석 결과"
-        timestamp="2025-03-15 21:25:41" 
+      <ReportHeader
+        interviewTitle="○○대학교 모의면접 결과"
+        reportTitle="비언어적 커뮤니케이션 분석 결과"
+        timestamp="2025-03-15 21:25:41"
         onDownload={handleDownload}
-        />
+      />
       <div className="report-container">
-        <h3 className="total-score">총점 <span>{analysisData.totalScore}점</span></h3>
+        <h3 className="total-score">
+          총점 <span>{nonverbalData.totalScore}점</span>
+        </h3>
 
         <div className="summary-section">
-          {renderSummaryBox('자세', 'posture', analysisData.posture.score, analysisData.posture.average)}
-          {renderSummaryBox('시선', 'eyes', analysisData.eyes.score, analysisData.eyes.average, analysisData.eyes.blinkRate)}
-          {renderSummaryBox('제스처', 'shoulder', analysisData.shoulder.score, analysisData.shoulder.average, null, analysisData.shoulder.movementRatio)}
+          {renderSummaryBox('자세', 'posture', nonverbalData.posture.score, nonverbalData.posture.average)}
+          {renderSummaryBox('시선', 'eye', nonverbalData.eye.score, nonverbalData.eye.average)}
+          {renderSummaryBox('제스처', 'gesture', nonverbalData.gesture.score, nonverbalData.gesture.average)}
         </div>
 
         <h3 className="detail-title">세부 분석 결과</h3>
-
         <div className="detail-section">
-          <div className="detail-row">
-            <div className="detail-box drop-shadow-large">
-              <div className="detail-left">
+          <div className="detail-row" style={{ justifyContent: 'flex-start' }}>
+            <div className="detail-box drop-shadow-large full-width">
+              <div className="detail-left" style={{ paddingRight: '64px' }}>
                 <h4>자세 세부 분석 결과</h4>
-                <p>{analysisData.posture.detail}</p>
+                <p>{nonverbalData.posture.detail}</p>
               </div>
-              <div className="detail-right">[도넛 차트]</div>
-            </div>
-
-            <div className="detail-box drop-shadow-large">
-              <div className="detail-left">
-                <h4>시선 세부 분석 결과</h4>
-                <p>{analysisData.eyes.detail}</p>
+              <div
+                className="detail-right"
+                style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}
+              >
+                <ResponsiveContainer width={400} height={200}>
+                  <BarChart data={movementData} barCategoryGap={40} barSize={60}>
+                    <XAxis
+                      dataKey="name"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12 }}
+                      interval={0}
+                    />
+                    <YAxis hide domain={[0, 50]} />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="var(--primary-60)" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
-              <div className="detail-right">[시선 분포 시각화]</div>
             </div>
           </div>
 
-          <div className="detail-row full-width">
-            <div className="detail-box drop-shadow-large">
-              <div className="detail-left">
-                <h4>제스처 세부 분석 결과</h4>
-                <p>{analysisData.shoulder.detail}</p>
+          <div className="detail-row" style={{ justifyContent: 'flex-start' }}>
+            <div className="detail-box drop-shadow-large full-width">
+              <div className="detail-left" style={{ paddingRight: '64px' }}>
+                <h4>시선 세부 분석 결과</h4>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.eye.detail}</p>
               </div>
-              <div className="detail-right">[제스처 차트]</div>
+              <div className="detail-right" style={{ marginLeft: '60px' }}>
+                <ResponsiveContainer width={200} height={200}>
+                  <ScatterChart>
+                    <XAxis
+                      type="number"
+                      dataKey="x"
+                      domain={[0, 100]}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={false}
+                    />
+                    <YAxis
+                      type="number"
+                      dataKey="y"
+                      domain={[0, 100]}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={false}
+                    />
+                    <ReferenceLine x={50} stroke="#ccc" strokeWidth={1} />
+                    <ReferenceLine y={50} stroke="#ccc" strokeWidth={1} />
+                    <ZAxis type="number" dataKey="z" range={[60]} />
+                    <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" />
+                  </ScatterChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          <div className="detail-row">
+            <div className="detail-box drop-shadow-large full-width">
+              <div className="detail-left">
+                <h4>표정 세부 분석 결과</h4>
+                <p>{nonverbalData.gesture.detail}</p>
+              </div>
             </div>
           </div>
         </div>
-        <ButtonPair 
-        rightText="전달력 분석 결과 보러가기"
-        onRightClick={() =>navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+
+        <ButtonPair
+          leftText="전달력 분석 결과 보러가기"
+          rightText=""
+          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+          onRightClick={undefined}
         />
       </div>
+      <Footer />
     </Container>
   );
 };
