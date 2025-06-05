@@ -31,21 +31,28 @@ const ReportDelivery = () => {
     ['경험', 10], ['문제해결', 8], ['의사소통', 6], ['팀워크', 4],
     ['전달력', 7], ['리더십', 5], ['노력', 4], ['성장', 3], ['역량', 6], ['지원동기', 3]
   ];
-
   useEffect(() => {
     if (typeof window !== 'undefined' && wordList.length > 0) {
+      const getColorByWeight = (weight) => {
+        if (weight >= 15) return 'var(--primary-60)';
+        if (weight >= 10) return 'var(--primary-40)';
+        if (weight >= 5) return 'var(--primary-20)';
+        return 'var(--primary-10)';
+      };
+
       WordCloud(document.getElementById('wordcloud'), {
         list: wordList,
         gridSize: 6,
         weightFactor: 6,
         fontFamily: 'Pretendard',
-        color: 'var(--primary-60)',
+        color: (word, weight) => getColorByWeight(weight),
         backgroundColor: 'white',
         rotateRatio: 0,
-        rotationSteps: 1
+        rotationSteps: 1,
       });
     }
-  }, []);
+  }, [wordList]);
+
 
   const getFeedback = (category, value) => {
     if (category === 'pronunciation') {
@@ -197,13 +204,13 @@ const ReportDelivery = () => {
           </div>
 
           <div className="detail-row">
-            <div className="detail-box drop-shadow-large">
+            <div className="detail-box drop-shadow-large" style={{padding:"24px 20px"}}>
               <div className="detail-left">
                 <h4>어휘 세부 분석 결과</h4>
                 <p>{deliveryData.wordHabit.detail}</p>
               </div>
               <div className="detail-right">
-                <div id="wordcloud" style={{ width: 400, height: 200 }}></div>
+                <div id="wordcloud" style={{ width: 400, height: 180 }}></div>
               </div>
             </div>
           </div>
