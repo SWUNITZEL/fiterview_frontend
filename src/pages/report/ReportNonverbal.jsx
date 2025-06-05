@@ -180,7 +180,7 @@ const ReportNonverbal = () => {
         <h3 className="detail-title">세부 분석 결과</h3>
         <div className="detail-section">
           <div className="detail-row" style={{ justifyContent: 'flex-start' }}>
-            <div className="detail-box drop-shadow-large full-width">
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
               <div className="detail-left" style={{ paddingRight: '64px' }}>
                 <h4>자세 세부 분석 결과</h4>
                 <p>{nonverbalData.posture.detail}</p>
@@ -200,21 +200,29 @@ const ReportNonverbal = () => {
                     />
                     <YAxis hide domain={[0, 50]} />
                     <Tooltip />
-                    <Bar dataKey="value" fill="var(--primary-60)" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                      {movementData.map((entry, index) => {
+                        const value = entry.value;
+                        let fillColor = 'var(--success-40)'; // 초록
+                        if (value >= 40) fillColor = 'var(--warning-40)'; // 노랑
+
+                        return <Cell key={`cell-${index}`} fill={fillColor} />;
+                      })}
+                    </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
           </div>
 
-          <div className="detail-row" style={{ justifyContent: 'flex-start' }}>
-            <div className="detail-box drop-shadow-large full-width">
-              <div className="detail-left" style={{ paddingRight: '64px' }}>
+          <div className="detail-row" style={{ justifyContent: 'flex-start'}}>
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
+              <div className="detail-left" style={{ paddingRight: '64px'}}>
                 <h4>시선 세부 분석 결과</h4>
                 <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.eye.detail}</p>
               </div>
               <div className="detail-right" style={{ marginLeft: '60px' }}>
-                <ResponsiveContainer width={200} height={200}>
+                <ResponsiveContainer width={400} height={200}>
                   <ScatterChart>
                     <XAxis
                       type="number"
@@ -223,6 +231,7 @@ const ReportNonverbal = () => {
                       axisLine={false}
                       tickLine={false}
                       tick={false}
+                      height={0}
                     />
                     <YAxis
                       type="number"
@@ -231,10 +240,16 @@ const ReportNonverbal = () => {
                       axisLine={false}
                       tickLine={false}
                       tick={false}
+                      width={0}
                     />
-                    <ReferenceLine x={50} stroke="#ccc" strokeWidth={1} />
-                    <ReferenceLine y={50} stroke="#ccc" strokeWidth={1} />
-                    <ZAxis type="number" dataKey="z" range={[60]} />
+                    <ReferenceLine x={50} stroke="var(--nuetral-50)" strokeWidth={1} />
+                    <ReferenceLine y={50} stroke="var(--nuetral-50)" strokeWidth={1} />
+                    <ZAxis 
+                      type="number" 
+                      dataKey="z" 
+                      range={[60]} 
+                      tick={false}
+                    />
                     <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" />
                   </ScatterChart>
                 </ResponsiveContainer>
@@ -243,7 +258,7 @@ const ReportNonverbal = () => {
           </div>
 
           <div className="detail-row">
-            <div className="detail-box drop-shadow-large full-width">
+            <div className="detail-box drop-shadow-large full-width" style={{padding:"24px 20px"}}>
               <div className="detail-left">
                 <h4>표정 세부 분석 결과</h4>
                 <p>{nonverbalData.gesture.detail}</p>
@@ -253,10 +268,10 @@ const ReportNonverbal = () => {
         </div>
 
         <ButtonPair
-          leftText="전달력 분석 결과 보러가기"
-          rightText=""
-          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
-          onRightClick={undefined}
+          leftText=""
+          rightText="전달력 분석 결과 보러가기"
+          onLeftClick={undefined}
+          onRightClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
         />
       </div>
       <Footer />
