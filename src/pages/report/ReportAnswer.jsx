@@ -2,7 +2,7 @@ import { Container } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
@@ -87,7 +87,7 @@ const ReportAnswer = () => {
       ref={pageRef}
       maxWidth={false}
       style={{
-        backgroundColor: "transparent",
+        backgroundColor: "var(--background-color)",
         minHeight: "100vh",
         padding: "0",
         overflow: "hidden",
@@ -108,16 +108,16 @@ const ReportAnswer = () => {
         </h2>
 
         <div
-          className="answer-visual-box drop-shadow-medium"
+          className="answer-visual-box drop-shadow-large"
           style={{
-            backgroundColor: '#fff',
+            backgroundColor: 'white',
             borderRadius: '16px',
             padding: '24px',
             display: 'flex',
             gap: '32px',
             alignItems: 'flex-start',
-            marginBottom: '32px',
-            border: '1px solid var(--nuetral-40)'
+            marginBottom: '60px',
+            border: 'none'
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -150,40 +150,38 @@ const ReportAnswer = () => {
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: '24px',
-            alignItems: 'flex-start',
+            alignItems: 'stretch',
             marginBottom: '32px'
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding:"0px", margin:"0px" }}>
             <div
-              className="analysis-box"
+              className="drop-shadow-large"
               style={{
-                background: "#fff",
+                background: "white",
                 borderRadius: "16px",
-                padding: "20px 16px 16px 16px",
-                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.05)",
-                minHeight: "370px",
+                padding: "20px 24px",
                 overflowY: "auto",
-                border: '1px solid var(--nuetral-40)'
+                border: 'none'
               }}
             >
-              <h4 className="subtitle-18-bold" style={{ marginBottom: "12px" }}>답변 세부 분석 결과</h4>
+              <h4 className="subtitle-18-bold" style={{ marginBottom: "32px", paddingBottom:"8px"}}>답변 세부 분석 결과</h4>
               {currentData.evaluation.map((evalTitle, idx) => (
-                <Accordion key={idx} disableGutters elevation={0} square
+                <Accordion key={idx} disableGutters elevation={0} square={false}
                   style={{
-                    border: "1px solid #ddd",
-                    borderRadius: "12px",
-                    marginBottom: "8px",
-                    overflow: "hidden"
+                    // border: "1px solid #ddd",
+                    borderRadius: "16px",
+                    marginBottom: "12px",
+                    overflow: "hidden",
                   }}>
                   <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
+                    expandIcon={<ChevronDownIcon style={{color:"var(--primary-20)", height:"20px"}} />}
                     className="subtitle-16-semibold"
-                    style={{ backgroundColor: '#f0f6ff', padding: '12px' }}
+                    style={{ backgroundColor: '#f0f6ff', padding: '8px 16px' }}
                   >
                     {evalTitle}
                   </AccordionSummary>
-                  <AccordionDetails className="body-14-regular" style={{ padding: '12px' }}>
+                  <AccordionDetails className="body-14-regular" style={{ padding: '12px 16px', backgroundColor:"var(--nuetral-20)" }}>
                     {accordionContent[evalTitle]}
                   </AccordionDetails>
                 </Accordion>
@@ -191,12 +189,12 @@ const ReportAnswer = () => {
             </div>
 
             <div
-              className="answer-summary-box drop-shadow-medium"
+              className="drop-shadow-large"
               style={{
-                background: '#fff',
+                background: 'white',
                 borderRadius: '16px',
                 padding: '20px 24px',
-                border: '1px solid var(--nuetral-40)'
+                border: 'none'
               }}
             >
               <h4 className="subtitle-18-bold">답변 총평</h4>
@@ -205,41 +203,56 @@ const ReportAnswer = () => {
           </div>
 
           <div
-            className="feedback-box drop-shadow-medium"
+            className="feedback-box drop-shadow-large"
             style={{
-              backgroundColor: '#f0f6ff',
+              position:"relative",
+              backgroundColor: 'white',
               borderRadius: '16px',
               padding: '0',
-              height: '570px',
               display: 'flex',
               flexDirection: 'column',
-              overflow: 'hidden'
+              overflowY:"visible"
             }}
           >
             <div
               style={{
                 backgroundColor: '#4D8EFF',
+                position:"relative",
                 display: 'flex',
                 alignItems: 'flex-end',
                 padding: '12px 24px',
-                height: '120px'
+                height: '80px',
+                overflowY:"visible",
+                borderRadius: "16px 16px 0px 0px  "
               }}
             >
               <img
                 src="/thumb-feedback.png"
                 alt="thumbs up"
                 style={{
-                  width: '150px',
-                  height: 'auto',
+                  position:"absolute",
+                  height: '120px',
+                  width: 'auto',
                   marginRight: '16px',
-                  marginBottom: '-8px'
+                  // marginBottom: '-8px',
+                  bottom:"0px"
                 }}
               />
-              <div>
-                <h4 className="subtitle-18-bold" style={{ color: '#fff', marginBottom: '6px', marginTop: '4px' }}>
+              <div
+                style={{
+                    position:"absolute",
+                    // width: '150px',
+                    height: 'auto',
+                    top: "16px",
+                    right:"32px",
+                    textAlign:"end",
+                    padding:"0px"
+                  }}
+              >
+                <h4 className="subtitle-18-bold" style={{ color: 'white', marginBottom: '4px', marginTop:"4px" }}>
                   이렇게 답변하면 좋아요!
                 </h4>
-                <p className="body-14-regular" style={{ color: '#d9e7ff' }}>
+                <p className="body-14-regular" style={{ color: '#d9e7ff', marginTop:"0px" }}>
                   전공과 연관된 단어를 추가해 답변을 개선했어요
                 </p>
               </div>
