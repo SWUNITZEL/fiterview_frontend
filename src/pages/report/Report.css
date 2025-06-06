@@ -79,7 +79,6 @@
 .detail-box {
   background: white;
   border-radius: 16px;
-  padding: 20px;
   flex: 1;
   display: flex;
   justify-content: space-between;
@@ -234,27 +233,25 @@
 .compare-charts {
   display: flex;
   gap: 20px;
-  margin-bottom: 40px;
 }
 
 .chart-box {
   flex: 1;
   background: white;
   border-radius: 16px;
-  padding: 24px;
+  padding: 32px 28px;
+  margin-top: calc(60px - 24px);
 }
 
 .compare-summary {
   display: flex;
   gap: 20px;
-  margin-bottom: 40px;
 }
 
 .summary-box {
   flex: 1;
   background: white;
   border-radius: 16px;
-  padding: 24px;
 }
 
 .pink {

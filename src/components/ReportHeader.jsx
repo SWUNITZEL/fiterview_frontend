@@ -3,11 +3,11 @@ const ReportHeader = ({ interviewTitle, reportTitle, timestamp, onDownload }) =>
   return (
     <div style={{ 
         width:"100%",
-        padding:"0px 240px",
+        padding:"120px 240px 0px",
         display: 'flex', 
         flexDirection: 'column', 
         alignItems: 'flex-start', 
-        marginTop:"120px",
+        // marginTop:"120px",
         marginBottom: '16px' }}>
       <p className="caption-14-regular" style={{marginTop:"0px", marginBottom:"8px"}}>{interviewTitle}({timestamp})</p>
       <h1 className="title-32-bold" style={{marginTop:"0px", marginBottom:"16px"}}>{reportTitle}</h1>
