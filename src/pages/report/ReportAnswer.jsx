@@ -121,7 +121,7 @@ const ReportAnswer = () => {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <span className="subtitle-18-bold" style={{ marginBottom: '16px', color: '#000' }}>
+            <span className="subtitle-18-bold" style={{ marginBottom: '16px' }}>
               질문 의도 & 사용자 답변
             </span>
             <img

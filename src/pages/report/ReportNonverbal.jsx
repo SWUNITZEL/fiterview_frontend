@@ -21,9 +21,9 @@ const ReportNonverbal = () => {
   const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
 
   const movementData = [
-    { name: '왼쪽 어깨 움직임 횟수', value: 30 },
-    { name: '오른쪽 어깨 움직임 횟수', value: 45 },
-    { name: '고개 움직임 횟수', value: 25 },
+    { name: '왼쪽 어깨 움직임', value: 30 },
+    { name: '오른쪽 어깨 움직임', value: 45 },
+    { name: '고개 움직임', value: 25 },
   ];
 
   const gazeData = new Array(50).fill(null).map((_, i) => ({
@@ -39,15 +39,15 @@ const ReportNonverbal = () => {
       average: 56,
       detail: '전체적으로 자세를 유지하며 안정적인 인상을 주었습니다.',
     },
-    eye: {
+    blink: {
+      score: 68,
+      average: 43,
+      detail: '눈 깜빡임이 잦습니다. 면접 전 이완 운동을 통해 긴장을 해소해보아요.',
+    },
+    gaze: {
       score: 58,
       average: 64,
       detail: '시선 분포의 흩어짐 정도를 줄이는 연습이 필요합니다.\n화면의 중앙을 응시하도록 하세요.',
-    },
-    gesture: {
-      score: 68,
-      average: 43,
-      detail: '이완 움직임이 적절하여 안정적인 제스처를 유지했습니다.',
     },
   };
 
@@ -84,15 +84,15 @@ const ReportNonverbal = () => {
           />
           <FeedbackSummaryBox
             title="긴장도"
-            category="eye"
-            myScore={nonverbalData.eye.score}
-            average={65}
+            category="blink"
+            myScore={nonverbalData.blink.score}
+            average={nonverbalData.blink.average}
           />
           <FeedbackSummaryBox
             title="시선처리"
-            category="gesture"
-            myScore={nonverbalData.gesture.score}
-            average={nonverbalData.gesture.average}
+            category="gaze"
+            myScore={nonverbalData.gaze.score}
+            average={nonverbalData.gaze.average}
           />
         </div>
 
@@ -118,7 +118,7 @@ const ReportNonverbal = () => {
                       interval={0}
                     />
                     <YAxis hide domain={[0, 50]} />
-                    <Tooltip />
+                    <Tooltip cursor={{ fill: 'transparent' }}/>
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                       {movementData.map((entry, index) => {
                         const value = entry.value;
@@ -138,9 +138,9 @@ const ReportNonverbal = () => {
             <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left" style={{ paddingRight: '64px'}}>
                 <h4 style={{fontSize:"20px",  marginTop:"0px", marginBottom:"40px"}}>시선 세부 분석 결과</h4>
-                <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.eye.detail}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.gaze.detail}</p>
               </div>
-              <div className="detail-right" style={{ marginLeft: '60px' }}>
+              <div className="detail-right" style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}>
                 <ResponsiveContainer width={400} height={200}>
                   <ScatterChart>
                     <XAxis
@@ -161,8 +161,51 @@ const ReportNonverbal = () => {
                       tick={false}
                       width={0}
                     />
-                    <ReferenceLine x={50} stroke="var(--nuetral-50)" strokeWidth={1} />
-                    <ReferenceLine y={50} stroke="var(--nuetral-50)" strokeWidth={1} />
+                    <ReferenceLine 
+                      x={50} 
+                      stroke="var(--nuetral-50)" 
+                      strokeWidth={1}
+                      label={{
+                        position: 'insideTopRight',
+                        value: '상단 응시', 
+                        fill: 'var(--nuetral-50)', 
+                        fontSize: 14
+                      }}
+                    />
+                    <ReferenceLine 
+                      x={50} 
+                      stroke="var(--nuetral-50)" 
+                      strokeWidth={0} // 선 안 겹치게 표시 안함
+                      label={{
+                        position: 'insideBottomLeft', 
+                        value: '하단 응시', 
+                        fill: 'var(--nuetral-50)', 
+                        fontSize: 14
+                      }}
+                    />
+                    <ReferenceLine 
+                      y={50} 
+                      stroke="var(--nuetral-50)" 
+                      strokeWidth={1}
+                      label={{
+                        position: 'insideBottomRight', 
+                        value: '우측 응시', 
+                        fill: 'var(--nuetral-50)', 
+                        fontSize: 14
+                      }}
+                    />
+                    <ReferenceLine 
+                      y={50} 
+                      stroke="var(--nuetral-50)" 
+                      strokeWidth={0}
+                      label={{
+                        position: 'insideTopLeft',
+                        value: '좌측 응시', 
+                        fill: 'var(--nuetral-50)', 
+                        fontSize: 14
+                      }}
+                    />
+
                     <ZAxis 
                       type="number" 
                       dataKey="z" 
@@ -180,7 +223,7 @@ const ReportNonverbal = () => {
             <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left">
                 <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>표정 세부 분석 결과</h4>
-                <p>{nonverbalData.gesture.detail}</p>
+                <p>{nonverbalData.blink.detail}</p>
               </div>
             </div>
           </div>

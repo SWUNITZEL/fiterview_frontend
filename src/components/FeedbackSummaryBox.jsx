@@ -1,48 +1,16 @@
-import React from 'react';
 import {
   BarChart, XAxis, YAxis, Tooltip, Bar, Cell, LabelList, ReferenceLine
 } from 'recharts';
+import { FEEDBACK_RULES } from "../data/report"
 
 const getFeedback = (category, value) => {
-    if (category === 'pronunciation') {
-        if (value >= 90) return { label: '장점', comment: '또박또박 잘 전달했어요.' };
-        if (value >= 80) return { label: '개선점', comment: '또박또박 전달하는 연습이 필요해요.' };
-        return { label: '개선점', comment: '전달력이 좋지 않아요. 발음 연습이 많이 필요해요.' };
-    }
+    const rules = FEEDBACK_RULES[category];
+    if (!rules) return { label: '', comment: '' };
 
-    else if (category === 'tone') {
-        const { hz, std } = value;
-        if (hz <= 220 && hz >= 160) return { label: '장점', comment: '음역대가 또렷하고 안정적입니다.' };
-        if (hz > 220 && std <= 55) return { label: '장점', comment: '다소 높은 톤이지만 안정적으로 들립니다.' };
-        if (hz < 160) return { label: '개선점', comment: '음성이 다소 단조롭게 들릴 수 있습니다.' };
-        if (hz > 220 && std <= 45) return { label: '개선점', comment: '톤이 높고 변화가 적어 단조롭거나 부자연스럽게 들릴 수 있습니다.' };
-        if (hz > 250 && std > 700) return { label: '개선점', comment: '높은 음역과 변화가 많아 산만하게 들릴 수 있습니다.' };
-    }
-
-    else if (category === 'speed') {
-        return value < 65
-        ? { label: '장점', comment: '발화 속도가 일정합니다.' }
-        : { label: '개선점', comment: '발화 속도가 빠릅니다.' };
-    }
-
-    else if (category === 'posture') {
-        return value >= 60
-            ? { label: '장점', comment: '자세를 안정적으로 유지했습니다.' }
-            : { label: '개선점', comment: '자세가 불안정하여 개선이 필요합니다.' };
-        }
-    else if (category === 'eye') {
-        return value >= 60
-            ? { label: '장점', comment: '시선이 적절하게 분산되어 자연스러웠습니다.' }
-            : { label: '개선점', comment: '시선의 집중도가 낮아 개선이 필요합니다.' };
-        }
-    else if (category === 'gesture') {
-        return value >= 60
-            ? { label: '장점', comment: '적절한 제스처로 전달력이 향상되었습니다.' }
-            : { label: '개선점', comment: '제스처가 부족하거나 부자연스러웠습니다.' };
-        }
+    return rules.find(rule => rule.condition(value)) || { label: '', comment: '' };
 };
 
-const FeedbackSummaryBox = ({ title, category, myScore, average }) => {
+export default function FeedbackSummaryBox({ title, category, myScore, average }) {
   const feedback = getFeedback(category, myScore);
   const scoreValue = category === 'tone' ? myScore.hz : myScore;
 
@@ -51,8 +19,8 @@ const FeedbackSummaryBox = ({ title, category, myScore, average }) => {
     { name: '내 점수', score: scoreValue },
   ];
 
-  const isAboveAverage = scoreValue > average;
-  const barColor = isAboveAverage ? 'var(--success-40)' : 'var(--warning-40)';
+  const isBetterThanAverage = (category === "blink")? (scoreValue < average): (scoreValue > average);
+  const barColor = isBetterThanAverage ? 'var(--success-40)' : 'var(--warning-40)';
 
   return (
     <div
@@ -67,7 +35,7 @@ const FeedbackSummaryBox = ({ title, category, myScore, average }) => {
       <h3 style={{ fontSize: '20px', margin:"0", padding:"0" }}>
         {title}{' '}
         <span style={{ color: barColor }}>
-          {isAboveAverage ? '평균 이상' : '평균 이하'}
+          {(category === "blink")&&isBetterThanAverage ? '평균 이하': (category === "blink")||((category !== "blink")&&isBetterThanAverage) ?'평균 이상' : '평균 이하'}
         </span>
       </h3>
       <div style={{ width: 200, margin: '0 auto' }}>
@@ -95,7 +63,7 @@ const FeedbackSummaryBox = ({ title, category, myScore, average }) => {
             tickLine={false}
             tick={false}
           />
-          <Tooltip />
+          <Tooltip cursor={{ fill: 'transparent' }} />
           <ReferenceLine y={average} stroke="var(--nuetral-50)" strokeDasharray="6 4" strokeWidth={2}/>
           <Bar dataKey="score" barSize={60} radius={[10, 10, 0, 0]}>
             <LabelList dataKey="score" position="top" />
@@ -147,5 +115,3 @@ const FeedbackSummaryBox = ({ title, category, myScore, average }) => {
     </div>
   );
 };
-
-export default FeedbackSummaryBox;

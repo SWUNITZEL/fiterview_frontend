@@ -56,8 +56,8 @@ const ReportCompare = () => {
         onDownload={handleDownload}
       />
 
-      <div className="report-container">
-        <div className="score-section drop-shadow-medium" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '32px' }}>
+      <div className="report-container" style={{display:"flex", flexDirection:"column", gap:"24px"}}>
+        <div className="detail-box drop-shadow-large" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', padding: '32px 28px' }}>
           <div style={{ flex: 1, marginRight: '32px' }}>
             <h2 className="title-24-bold" style={{ marginBottom: '24px' }}>직전 면접보다 높은 점수를 받았어요</h2>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
@@ -103,8 +103,8 @@ const ReportCompare = () => {
         </div>
 
         <div className="compare-charts">
-          <div className="chart-box">
-            <h3 className="subtitle-18-bold">비언어적 커뮤니케이션 비교 결과</h3>
+          <div className="chart-box drop-shadow-large">
+            <h3 className="subtitle-18-bold" style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>비언어적 커뮤니케이션 비교 결과</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={[{ name: "표정", previous: 43, current: 58 }, { name: "자세", previous: 43, current: 58 }, { name: "제스처", previous: 43, current: 58 }]} barCategoryGap={32}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} />
@@ -121,13 +121,13 @@ const ReportCompare = () => {
             <p className="body-12-regular" style={{ marginTop: '8px' }}>지난 면접보다 평균 점수가 높았어요. 작은 변화는 면접관에게 매력을 줄 수 있으므로 큰 준비보단 작은 습관을 개선해 보세요.</p>
           </div>
 
-          <div className="chart-box">
-            <h3 className="subtitle-18-bold">전달력 비교 결과</h3>
+          <div className="chart-box drop-shadow-large">
+            <h3 className="subtitle-18-bold" style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>전달력 비교 결과</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={[{ name: "발음", previous: 43, current: 58 }, { name: "톤", previous: 43, current: 58 }, { name: "속도", previous: 43, current: 58 }]} barCategoryGap={32}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} />
                 <YAxis hide domain={[0, 100]} />
-                <Tooltip />
+                <Tooltip cursor={{ fill: 'transparent' }}/>
                 <Bar dataKey="previous" fill="#FF82A1" radius={[8, 8, 0, 0]}>
                   <LabelList dataKey="previous" position="top" style={{ fontSize: 12 }} />
                 </Bar>
@@ -141,13 +141,13 @@ const ReportCompare = () => {
         </div>
 
         <div className="compare-summary">
-          <div className="summary-box">
-            <h4 className="subtitle-18-bold pink">지난 면접 결과 총평</h4>
+          <div className="summary-box drop-shadow-large">
+            <h4 className="subtitle-18-bold pink" style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>지난 면접 결과 총평</h4>
             <p className="body-14-regular">목소리 톤이 360.7Hz으로 평균인 260.3Hz보다 높습니다. 높은 목소리는 안정감과 신뢰감을 주기 어려우므로 톤을 낮추는 연습이 필요합니다.</p>
           </div>
 
-          <div className="summary-box">
-            <h4 className="subtitle-18-bold primary">이번 면접 결과 총평</h4>
+          <div className="summary-box drop-shadow-large">
+            <h4 className="subtitle-18-bold primary" style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>이번 면접 결과 총평</h4>
             <p className="body-14-regular">문장 앞에 "어떤, 그다음" 어휘를 반복적으로 사용했어요. 습관적인 어휘 사용을 줄이기 위해 다음 문장을 말하기 전에 한 템포 쉬고 얘기해보세요.</p>
           </div>
         </div>
@@ -155,6 +155,8 @@ const ReportCompare = () => {
         <ButtonPair
           leftText="답변 구성 분석 결과 보러가기"
           onLeftClick={() => navigateAndScrollTop(PATH.REPORT_ANSWER)}
+          rightText="메인으로"
+          onRightClick={() => navigateAndScrollTop(PATH.HOME)}
         />
       </div>
       <Footer />
