@@ -21,6 +21,8 @@ const SoundCheck = ({stream, videoRef}) => {
 
     // 비디오 스트리밍 → 캔버스에 그림
     useEffect(() => {
+        console.log("stream",stream)
+        console.log("videoRef", videoRef.current)
         const video = videoRef.current;
         const canvas = canvasRef.current;
         if (!video || !canvas || !stream) return;
@@ -40,11 +42,13 @@ const SoundCheck = ({stream, videoRef}) => {
         };
 
         video.addEventListener('loadedmetadata', startDrawing);
-        video.play().catch((err) => console.warn('Video play error:', err));
+        video.srcObject = stream
+        // video.play().catch((err) => console.warn('Video play error:', err));
 
         return () => {
         video.removeEventListener('loadedmetadata', startDrawing);
         cancelAnimationFrame(animationId);
+        video.srcObject = null
         };
     }, [stream]);
 
@@ -97,7 +101,7 @@ const SoundCheck = ({stream, videoRef}) => {
                 계절이 지나가는 가을 하늘에는 가을로 가득 차 있습니다.
             </div>
             <canvas ref={canvasRef} style={{ width: '600px', height: 'auto', borderRadius: '16px', border: isRecording?"2px soild var(--primary-60)":"none"}} />
-            <video ref={videoRef} style={{ display: 'none' }} autoPlay muted playsInline />
+            <video ref={videoRef} style={{ position: "absolute", opacity:"0", width:"1px", height:"1px" }} autoPlay muted playsInline />
             </div>
             {recordedAudioURL && (
             <div style={{ marginTop: '20px' }}>

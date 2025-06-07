@@ -34,11 +34,13 @@ const FaceCheck = ({stream, videoRef}) => {
     };
 
     video.addEventListener('loadedmetadata', startDrawing);
+    video.srcObject = stream
     video.play().catch((err) => console.warn('Video play error:', err));
 
     return () => {
       video.removeEventListener('loadedmetadata', startDrawing);
       cancelAnimationFrame(animationId);
+      video.srcObject = null
     };
   }, [stream]);
 
@@ -54,7 +56,7 @@ const FaceCheck = ({stream, videoRef}) => {
   const canProceed = !!stream;
 
   return (
-    <div className="full-screen center-both overflow-hidden">
+    <div className="full-screen center-both overflow-hidden" style={{overflow:"hidden"}}>
       <div className="side-margin"></div>
       <CaptureModal
           capturedImage={capturedImage}
@@ -71,7 +73,7 @@ const FaceCheck = ({stream, videoRef}) => {
         </h4>
         <div>
           <canvas ref={canvasRef} style={{ width: '600px', height: 'auto', borderRadius: '16px' }} />
-          <video ref={videoRef} style={{ display: 'none' }} autoPlay muted playsInline />
+          <video ref={videoRef} style={{ position: "absolute", opacity:"0", width:"1px", height:"1px" }} autoPlay muted playsInline />
         </div>
         <Button
           onClick={handleCapture}

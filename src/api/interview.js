@@ -93,6 +93,10 @@ export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     formData.append('file', videoBlob, 'video.webm');
     formData.append('questionID', questionID);
 
+    console.log("file:",URL.createObjectURL(videoBlob))
+    console.log("questionID:",questionID)
+
+
     try {
         const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
 
