@@ -6,7 +6,7 @@
  * @lastModified 2025-06-04
 **/
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
@@ -27,6 +27,9 @@ function Interview() {
     const { stream } = useMediaStream(selectedMic, selectedCam);
 
     const [recording, setRecording] = useState(false);
+    const [isTTSPlaying, setIsTTSPlaying] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(0)
+    const timerRef = useRef(null);
 
     // useMediaRecorder 훅에서 start, stop 함수 받음
     const { start, stop } = useMediaRecorder(stream, (blob) => {
@@ -34,20 +37,51 @@ function Interview() {
         uploadVideo(blob, interviewId, questionID);
     });
 
+    const handleButtonClick = () => {
+        if (timerRef.current) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+            setTimeLeft(0);  // UI 타이머도 리셋
+        }
+        if (recording) {
+            setRecording(false);
+            stop();
+        } else {
+            setRecording(true);
+            start();
+        }
+    };
+
     // playTTS를 useCallback으로 만들고, start 함수를 의존성으로 넣음
     const playTTS = useCallback((text) => {
         console.log("tts 실행", text);
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'ko-KR';
+        utterance.onstart = () => {
+            setIsTTSPlaying(true)
+        }
         utterance.onend = () => {
+            setIsTTSPlaying(false);
             console.log("TTS 완료");
-            // if (text !== "수고하셨습니다.") {
-            //     setRecording(true);
-            //     start();  // 녹화 시작
-            // }
+
+            setTimeLeft(10);
+            timerRef.current = setInterval(() => {
+                setTimeLeft(prev => {
+                    if (prev <= 1) {
+                        clearInterval(timerRef.current);
+                        timerRef.current = null;
+                        console.log("타이머 끝");
+
+                        if (!recording) handleButtonClick();  // 이미 수동 시작했으면 중복 호출 안 됨
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
         };
+
         speechSynthesis.speak(utterance);
-    }, [start]);
+    }, [start, recording]);
 
     // useInterviewWebSocket 훅 호출할 때 onReceiveQuestion을 useCallback으로 묶고 playTTS를 의존성으로 넣음
     const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } = useInterviewWebSocket({
@@ -63,15 +97,7 @@ function Interview() {
 
     const { uploadVideo, isUploading } = useVideoUpload();
 
-    const handleButtonClick = () => {
-        if (recording) {
-            setRecording(false);
-            stop();
-        } else {
-            setRecording(true);
-            start();
-        }
-    };
+
 
     if (!isConnected) {
         return <LoadingScreen message="면접 준비 중입니다" />;
@@ -87,6 +113,14 @@ function Interview() {
         }}>
             <div className='side-margin'></div>
             <div className='interview-container'>
+                <div className='loading' style={{ display: (isTTSPlaying || recording) ? "none" : "flex" }}>
+                    <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
+                        00:{timeLeft===10?timeLeft:`0${timeLeft}`}
+                    </h4>
+                    <h4 className='subtitle-20-medium' style={{ color: "var(--background-color)", marginTop: "0px", textAlign: "center" }}>
+                        답변 준비시간이에요.
+                    </h4>
+                </div>
                 <div className='loading' style={{ display: readyForChainQuestion ? "flex" : "none" }}>
                     <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
                         AI 면접관이 꼬리질문을<br />출제하고 있어요
@@ -124,6 +158,7 @@ function Interview() {
                         </div>
                         <Button
                             onClick={handleButtonClick}
+                            
                             className="complete-btn"
                             size="large"
                             sx={{ borderRadius: '8px', padding: '8px 16px', marginTop: '20px' }}

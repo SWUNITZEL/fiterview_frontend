@@ -24,12 +24,17 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             const data = JSON.parse(event.data);
             console.log("받아온 메세지: ",data)
 
-            if (data.type === 'question') {
-                onReceiveQuestion(data.question_text);
-            } else if (data.type === 'complete') {
+            // 메시지가 '수고하셨습니다'일 경우 WebSocket 종료
+            if (data.question_text === LASTMENT ) {
+                websocket.current?.close();
+                setIsConnected(false);
                 onComplete();
+                return; 
             }
 
+            if (data.type === 'question') {
+                onReceiveQuestion(data.question_text);
+            }
             if (!isConnected) {
                 setIsConnected(true);
             }
@@ -39,16 +44,10 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             setQustionIndex(data.question_index)
             setQuestion(data.question_text)
             setHasFollowUp(data.has_follow_up)
-            if(readyForChainQuestion){
-                setReadyForChainQuestion(false)
-            }
+            console.log("readyForChainQuestion false로 변경")
+            setReadyForChainQuestion(false)
 
-            // 메시지가 '수고하셨습니다'일 경우 WebSocket 종료
-            if (data.question_text === LASTMENT ) {
-                websocket.current?.close();
-                setIsConnected(false);
-                return; 
-            }
+            
 
         };
 
