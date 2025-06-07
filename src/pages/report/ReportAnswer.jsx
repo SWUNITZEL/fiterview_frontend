@@ -1,4 +1,9 @@
 import { Container } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
+import { useState } from 'react';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
@@ -7,97 +12,300 @@ import { usePdfDownload } from '../../hooks/usePdfDownload';
 import NavbarComponent from '../../components/Navbar';
 import ReportHeader from '../../components/ReportHeader';
 import ButtonPair from '../../components/buttonPair';
+import Footer from '../../components/Footer';
 
 import './Report.css';
 
-const ReportAnswer = () => {
-  const navigateAndScrollTop = useNavigateWithScrollTop()
-  const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
+const answerList = [
+  {
+    question: "자기소개 해주세요.",
+    intent: "답변자를 잘 파악하고 싶어요.",
+    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
+    evaluation: [
+      "답변이 맥락과 일치해요",
+      "두괄식으로 말하는 연습이 필요해요",
+      "답변의 질이 좋아요"
+    ],
+    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
+    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
+  },
+  {
+    question: "지원동기는 무엇인가요?",
+    intent: "답변자를 잘 파악하고 싶어요.",
+    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
+    evaluation: [
+      "답변이 맥락과 일치해요",
+      "두괄식으로 말하는 연습이 필요해요",
+      "답변의 질이 좋아요"
+    ],
+    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
+    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
+  },
+  {
+    question: "더미질문",
+    intent: "답변자를 잘 파악하고 싶어요.",
+    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
+    evaluation: [
+      "답변이 맥락과 일치해요",
+      "두괄식으로 말하는 연습이 필요해요",
+      "답변의 질이 좋아요"
+    ],
+    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
+    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
+  },
+  {
+    question: "더미질문",
+    intent: "답변자를 잘 파악하고 싶어요.",
+    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
+    evaluation: [
+      "답변이 맥락과 일치해요",
+      "두괄식으로 말하는 연습이 필요해요",
+      "답변의 질이 좋아요"
+    ],
+    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
+    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
+  }
+];
 
-  const answerData = {
-  question: "자신의 강점은 무엇인가요?",
-  intent: "지원자의 자기 인식과 강점, 이를 활용한 경험을 파악하기 위함입니다.",
-  answerText: "저의 강점은 문제 해결 능력입니다. 예를 들어, 팀 프로젝트에서 발생한 갈등을 중재하며 최종 목표에 집중할 수 있도록 조율한 경험이 있습니다.",
-  evaluation: [
-    {
-      title: "구체성",
-      detail: "경험 사례가 비교적 구체적이지만, 추가적인 수치나 결과가 있으면 더 좋습니다."
-    },
-    {
-      title: "논리성",
-      detail: "질문 의도에 맞게 강점과 사례를 연결했으며, 전반적으로 논리적인 흐름을 보였습니다."
-    },
-    {
-      title: "자신감",
-      detail: "목소리 톤과 표정에서 자신감이 느껴졌으나, 제스처를 조금 더 활용하면 좋겠습니다."
-    }
-  ],
-  goodExample: "강점을 설명할 때 단순한 나열보다는 구체적인 행동과 결과를 강조하면 면접관에게 더 강한 인상을 줄 수 있습니다.",
-  summary: "전반적으로 강점을 잘 설명했으며, 실제 사례로 설득력을 높였습니다. 다만, 사례의 구체성과 표현력에서 약간의 개선 여지가 보입니다."
+const accordionContent = {
+  "답변이 맥락과 일치해요": "답변은 질문의 의도를 잘 반영하고 있으며, 주제가 명확하게 전달되고 있어요.",
+  "답변이 맥락과 일치하지 않아요": "질문과 다소 엇나간 답변으로, 핵심을 짚는 훈련이 더 필요해 보여요.",
+  "두괄식으로 잘 전달하고 있어요": "핵심 내용을 앞에 두고 말해주어 이해하기 쉬운 답변이에요.",
+  "두괄식으로 말하는 연습이 필요해요": "전반적인 답변은 좋았으나 결정적 부분이 다소 아쉬워요. ○○대학교의 인재상 ○○, ○○, ○○와 어울리지 않아요.",
+  "답변의 질이 좋아요": "경험과 논리가 잘 담긴, 설득력 있는 답변이에요.",
+  "답변의 질이 아쉬워요": "추상적인 표현이 많아 설득력이 부족해 보여요. 구체적인 사례를 곁들여보세요."
 };
+
+const ReportAnswer = () => {
+  const navigateAndScrollTop = useNavigateWithScrollTop();
+  const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
+  const [page, setPage] = useState(1);
+  const currentData = answerList[page - 1];
+
   return (
-    <Container ref={pageRef} maxWidth={false} style={{
-            backgroundColor: "var(--background-color)",
-            minHeight: "100vh",
-            padding: "0",
-            overflow: "hidden",
-            display: "flex",
-            flexDirection:"column"
-        }}>
+    <Container
+      ref={pageRef}
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        minHeight: "100vh",
+        padding: "0",
+        overflow: "hidden",
+        display: "flex",
+        flexDirection: "column"
+      }}
+    >
       <NavbarComponent />
-      <ReportHeader 
-        interviewTitle = "○○대학교 모의면접 결과" 
-        reportTitle = "답변 구성 분석 결과"
-        timestamp="2025-03-15 21:25:41" 
+      <ReportHeader
+        interviewTitle="○○대학교 모의면접 결과"
+        reportTitle="답변 구성 분석 결과"
+        timestamp="2025-03-15 21:25:41"
         onDownload={handleDownload}
-        ></ReportHeader>
+      />
       <div className="report-container">
-        
+        <h2 className="title-24-bold question">
+          <span className="primary">Q{page}.</span> <span className="primary">{currentData.question}</span>
+        </h2>
 
-        <h2 className="title-24-bold question">Q1. <span className="primary">{answerData.question}</span></h2>
+        <div
+          className="answer-visual-box drop-shadow-large"
+          style={{
+            backgroundColor: 'white',
+            borderRadius: '16px',
+            padding: '32px 28px',
+            display: 'flex',
+            gap: '32px',
+            alignItems: 'flex-start',
+            marginBottom: '60px',
+            border: 'none'
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <span className="subtitle-18-bold" style={{ marginBottom: '16px' }}>
+              질문 의도 & 사용자 답변
+            </span>
+            <img
+              src="/images/user-video-thumbnail.png"
+              alt="user video"
+              style={{
+                width: '540px',
+                height: '340px',
+                borderRadius: '12px',
+                objectFit: 'cover'
+              }}
+            />
+          </div>
 
-        <div className="answer-visual-box drop-shadow-medium">
-          <div className="video-box">[영상 placeholder 또는 영상 컴포넌트]</div>
-          <div className="question-intent">
-            <h3 className="subtitle-18-bold">질문 의도</h3>
-            <p className="body-14-regular">{answerData.intent}</p>
-            <h3 className="subtitle-18-bold">답변 내용</h3>
-            <p className="body-14-regular">{answerData.answerText}</p>
+          <div style={{ flex: 1 }}>
+            <h4 className="subtitle-18-bold primary" style={{ marginBottom: '8px' }}>질문 의도</h4>
+            <p className="body-14-regular" style={{ marginBottom: '16px' }}>{currentData.intent}</p>
+            <h4 className="subtitle-18-bold primary" style={{ marginBottom: '8px' }}>답변 내용</h4>
+            <p className="body-14-regular" style={{ whiteSpace: 'pre-line' }}>{currentData.answerText}</p>
           </div>
         </div>
 
-        <div className="answer-detail-section">
-          <div className="analysis-box">
-            <h4 className="subtitle-18-bold">답변 세부 분석 결과</h4>
-            <ul className="accordion-list">
-              {answerData.evaluation.map((item, idx) => (
-                <li key={idx} className="accordion-item">
-                  <button className="accordion-title subtitle-16-semibold">{item.title}</button>
-                  <p className="accordion-detail body-14-regular">{item.detail}</p>
-                </li>
+        <div
+          className="answer-detail-section"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '24px',
+            alignItems: 'stretch',
+            marginBottom: '32px'
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', padding:"0px", margin:"0px" }}>
+            <div
+              className="drop-shadow-large"
+              style={{
+                background: "white",
+                borderRadius: "16px",
+                padding: "32px 28px",
+                overflowY: "auto",
+                border: 'none'
+              }}
+            >
+              <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 세부 분석 결과</h4>
+              {currentData.evaluation.map((evalTitle, idx) => (
+                <Accordion key={idx} disableGutters elevation={0} square={false}
+                  style={{
+                    // border: "1px solid #ddd",
+                    borderRadius: "16px",
+                    marginBottom: "12px",
+                    overflow: "hidden",
+                  }}>
+                  <AccordionSummary
+                    expandIcon={<ChevronDownIcon style={{color:"var(--primary-20)", height:"20px"}} />}
+                    className="subtitle-16-semibold"
+                    style={{ backgroundColor: '#f0f6ff', padding: '8px 16px' }}
+                  >
+                    {evalTitle}
+                  </AccordionSummary>
+                  <AccordionDetails className="body-14-regular" style={{ padding: '12px 16px', backgroundColor:"var(--nuetral-20)" }}>
+                    {accordionContent[evalTitle]}
+                  </AccordionDetails>
+                </Accordion>
               ))}
-            </ul>
+            </div>
+
+            <div
+              className="drop-shadow-large"
+              style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: '32px 28px',
+                border: 'none'
+              }}
+            >
+              <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 총평</h4>
+              <p className="body-14-regular">{currentData.summary}</p>
+            </div>
           </div>
 
-          <div className="feedback-box drop-shadow-medium">
-            <img className="emoji" src="/icons/thumb-up.png" alt="thumbs up" />
-            <h4 className="subtitle-18-bold primary">이렇게 답변하면 좋아요!</h4>
-            <p className="body-14-regular">{answerData.goodExample}</p>
+          <div
+            className="feedback-box drop-shadow-large"
+            style={{
+              position:"relative",
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '0',
+              display: 'flex',
+              flexDirection: 'column',
+              overflowY:"visible"
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: '#4D8EFF',
+                position:"relative",
+                display: 'flex',
+                alignItems: 'flex-end',
+                padding: '12px 24px',
+                height: '80px',
+                overflowY:"visible",
+                borderRadius: "16px 16px 0px 0px  "
+              }}
+            >
+              <img
+                src="/thumb-feedback.png"
+                alt="thumbs up"
+                style={{
+                  position:"absolute",
+                  height: '120px',
+                  width: 'auto',
+                  marginRight: '16px',
+                  // marginBottom: '-8px',
+                  bottom:"0px"
+                }}
+              />
+              <div
+                style={{
+                    position:"absolute",
+                    // width: '150px',
+                    height: 'auto',
+                    top: "16px",
+                    right:"28px",
+                    textAlign:"end",
+                    padding:"0px"
+                  }}
+              >
+                <h4 className="subtitle-18-bold" style={{ color: 'white', marginBottom: '4px', marginTop:"4px" }}>
+                  이렇게 답변하면 좋아요!
+                </h4>
+                <p className="body-14-regular" style={{ color: '#d9e7ff', marginTop:"0px" }}>
+                  전공과 연관된 단어를 추가해 답변을 개선했어요
+                </p>
+              </div>
+            </div>
+
+            <div style={{ padding: '32px 28px' }}>
+              <span className="body-14-regular" style={{ lineHeight: '1.6', color: '#333' }}>
+                {currentData.goodExample}
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="answer-summary-box drop-shadow-medium">
-          <h4 className="subtitle-18-bold">답변 총평</h4>
-          <p className="body-14-regular">{answerData.summary}</p>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '24px', gap: '12px' }}>
+          <button
+            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '24px',
+              color: '#888',
+              cursor: page === 1 ? 'default' : 'pointer'
+            }}
+          >
+            &#8249;
+          </button>
+          <span style={{ fontSize: '18px', color: '#888' }}>
+            {page} / {answerList.length}
+          </span>
+          <button
+            onClick={() => setPage(prev => Math.min(prev + 1, answerList.length))}
+            disabled={page === answerList.length}
+            style={{
+              background: 'none',
+              border: 'none',
+              fontSize: '24px',
+              color: '#888',
+              cursor: page === answerList.length ? 'default' : 'pointer'
+            }}
+          >
+            &#8250;
+          </button>
         </div>
 
-        <ButtonPair 
-        leftText="전달력 분석 결과 보러가기"
-        rightText="비교 분석 결과 보러가기"
-        onLeftClick={()=> navigateAndScrollTop(PATH.REPORT_DELIVERY)}
-        onRightClick={()=>navigateAndScrollTop(PATH.REPORT_COMPARE)}
+        <ButtonPair
+          leftText="전달력 분석 결과 보러가기"
+          rightText="비교 분석 결과 보러가기"
+          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+          onRightClick={() => navigateAndScrollTop(PATH.REPORT_COMPARE)}
         />
       </div>
+      <Footer />
     </Container>
   );
 };
