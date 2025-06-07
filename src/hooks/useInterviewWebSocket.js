@@ -44,10 +44,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             setQustionIndex(data.question_index)
             setQuestion(data.question_text)
             setHasFollowUp(data.has_follow_up)
-            console.log("readyForChainQuestion false로 변경")
             setReadyForChainQuestion(false)
-
-            
 
         };
 
