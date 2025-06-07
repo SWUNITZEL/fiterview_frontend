@@ -16,7 +16,7 @@ const InterviewSessionWrapper = () => {
 
   return (
     <Routes>
-      <Route path={PATH.INTERVIEW_SELF_CHECK} element={
+      <Route path={PATH.INTERVIEW_SELF_CHECK_REL} element={
         <SelfCheck
           setSelectedMic={setSelectedMic}
           selectedMic={selectedMic}
@@ -26,19 +26,19 @@ const InterviewSessionWrapper = () => {
           videoRef={videoRef}
         />
       } />
-      <Route path={PATH.INTERVIEW_SELF_CHECK_FACE} element={
+      <Route path={PATH.INTERVIEW_SELF_CHECK_FACE_REL} element={
         <FaceCheck
           stream={stream}
           videoRef={videoRef}
         />
       } />
-      <Route path={PATH.INTERVIEW_SELF_CHECK_SOUND} element={
+      <Route path={PATH.INTERVIEW_SELF_CHECK_SOUND_REL} element={
         <SoundCheck
           stream={stream}
           videoRef={videoRef}
         />
       } />
-      <Route path={PATH.INTERVIEW} element={
+      <Route path={PATH.INTERVIEW_REL} element={
         <Interview stream={stream} videoRef={videoRef} />
       } />
     </Routes>
