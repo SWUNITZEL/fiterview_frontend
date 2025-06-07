@@ -195,7 +195,7 @@ function Interview({stream, videoRef}) {
       <div className='side-margin'></div>
       <div className='interview-container'>
         <div className='loading' style={{ display: ((isTTSReady) && (isTTSPlaying || recording)) ? "none" : "flex" }}>
-          <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
+          <h4 className='title-40-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>
           <h4 className='subtitle-20-medium' style={{ color: "var(--background-color)", marginTop: "0px", textAlign: "center" }}>
