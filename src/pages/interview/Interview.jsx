@@ -24,12 +24,12 @@ const modalStyle = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    outline: 'none',     // outline 제거
+    outline: 'none',   
     border: 'none', 
     '&:hover': {
-    boxShadow: 'none',   // hover시 박스 그림자 제거
-    outline: 'none',     // outline 제거
-    border: 'none',      // 혹시 보더가 있다면 제거
+    boxShadow: 'none',   
+    outline: 'none',    
+    border: 'none',      
   },
 };
 
@@ -233,9 +233,9 @@ function Interview() {
                 padding: '8px 16px', 
                 marginTop: '20px', 
                 '&.Mui-disabled': {
-                backgroundColor: 'var(--nuetral-30)',     // 비활성화 상태 배경색
+                backgroundColor: 'var(--nuetral-30)',  
                 color: 'var(--nuetral-50)',
-                opacity: 0.7,                // 투명도 조절
+                opacity: 0.7,     
                 }}}>
               {recording ? '답변 완료' : '답변 시작'}
             </Button>
