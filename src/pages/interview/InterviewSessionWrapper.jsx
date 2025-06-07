@@ -1,0 +1,48 @@
+// InterviewSessionWrapper.jsx
+import {useState} from "react";
+import { Routes, Route } from "react-router-dom";
+import SelfCheck from "../selfCheck/SelfCheck";
+import FaceCheck from "../selfCheck/FaceCheck";
+import SoundCheck from "../selfCheck/SoundCheck";
+import Interview from "./Interview";
+import useMediaStream from "../../hooks/useMediaStream";
+import { PATH } from '../../data/paths';
+
+
+const InterviewSessionWrapper = () => {
+  const [selectedMic, setSelectedMic] = useState(null);
+  const [selectedCam, setSelectedCam] = useState(null);
+  const { stream, videoRef } = useMediaStream(selectedMic, selectedCam);
+
+  return (
+    <Routes>
+      <Route path={PATH.INTERVIEW_SELF_CHECK} element={
+        <SelfCheck
+          setSelectedMic={setSelectedMic}
+          selectedMic={selectedMic}
+          setSelectedCam={setSelectedCam}
+          selectedCam={selectedCam}
+          stream={stream}
+          videoRef={videoRef}
+        />
+      } />
+      <Route path={PATH.INTERVIEW_SELF_CHECK_FACE} element={
+        <FaceCheck
+          stream={stream}
+          videoRef={videoRef}
+        />
+      } />
+      <Route path={PATH.INTERVIEW_SELF_CHECK_SOUND} element={
+        <SoundCheck
+          stream={stream}
+          videoRef={videoRef}
+        />
+      } />
+      <Route path={PATH.INTERVIEW} element={
+        <Interview stream={stream} videoRef={videoRef} />
+      } />
+    </Routes>
+  );
+};
+
+export default InterviewSessionWrapper;

@@ -1,24 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import CaptureModal from './CaptureCheckModal';
-import useMediaStream from '../../hooks/useMediaStream';
 
-const FaceCheck = () => {
-  const videoRef = useRef(null);
+const FaceCheck = ({stream, videoRef}) => {
   const canvasRef = useRef(null);
 
   const [searchParams] = useSearchParams();
   const combineId = searchParams.get('combineId');
 
-  const location = useLocation();
-  const { selectedMic, selectedCam } = location.state || {};
-
   const [modalOpen, setModalOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-
-  const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
 
 
   useEffect(() => {
@@ -58,7 +51,7 @@ const FaceCheck = () => {
     }
   };
 
-  const canProceed = !!selectedMic && !!selectedCam && !!stream;
+  const canProceed = !!stream;
 
   return (
     <div className="full-screen center-both overflow-hidden">

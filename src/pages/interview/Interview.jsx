@@ -33,12 +33,10 @@ const modalStyle = {
   },
 };
 
-function Interview() {
+function Interview({stream, videoRef}) {
   const location = useLocation();
   const { selectedMic, selectedCam } = location.state || {};
   const interviewId = "683a97e79caeb7463df2fdf3";
-
-  const { stream } = useMediaStream(selectedMic, selectedCam);
 
   const [recording, setRecording] = useState(false);
   const [isTTSReady, setIsTTSReady] = useState(false);

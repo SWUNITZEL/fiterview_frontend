@@ -1,22 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
-import useMediaStream from '../../hooks/useMediaStream';
 import CustomAudioPlayer from '../../components/CustomAudioPlayer';
 import { PATH } from '../../data/paths';
 
 
-const SoundCheck = () => {
+const SoundCheck = ({stream, videoRef}) => {
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
     const combineId = searchParams.get('combineId');
-
-    const location = useLocation();
-    const { selectedMic, selectedCam } = location.state || {};
-    const videoRef = useRef(null);
-    const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
 
     const [isRecording, setIsRecording] = useState(false);
     const [recordedAudioURL, setRecordedAudioURL] = useState(null);
@@ -86,7 +80,7 @@ const SoundCheck = () => {
         }
     };
 
-    const canProceed = !!selectedMic && !!selectedCam && !!stream;
+    const canProceed = !!stream;
 
     return (
         <div className="full-screen center-both overflow-hidden">
@@ -114,12 +108,8 @@ const SoundCheck = () => {
                 {recordedAudioURL && (
                 <Button
                 onClick={() =>
-                navigate(`${PATH.INTERVIEW_SELF_CHECK_FACE}?combineId=${combineId}`, {
-                    state: {
-                    selectedMic,
-                    selectedCam,
-                    },
-                })}
+                navigate(`${PATH.INTERVIEW_SELF_CHECK_FACE}?combineId=${combineId}`)
+                }
                 disabled={!canProceed}
                 size="large"
                 sx={{ backgroundColor: "var(--primary-60)", color:"var(--background-color)", borderRadius: '8px', padding: '8px 16px', marginTop: '20px', width:"150px",  '&:hover': {
