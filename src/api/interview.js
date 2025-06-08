@@ -68,6 +68,8 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
     console.log("combineId", combineId)
     const blob = await (await fetch(base64Image)).blob();
     const formData = new FormData();
+    console.log("file:",URL.createObjectURL(blob))
+
     formData.append('file', blob, 'file.png');
     formData.append('combineId', combineId); 
     try {
