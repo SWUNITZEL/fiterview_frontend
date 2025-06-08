@@ -1,22 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
-import useMediaStream from '../../hooks/useMediaStream';
 import CustomAudioPlayer from '../../components/CustomAudioPlayer';
 import { PATH } from '../../data/paths';
 
 
-const SoundCheck = () => {
+const SoundCheck = ({stream, videoRef}) => {
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
     const combineId = searchParams.get('combineId');
-
-    const location = useLocation();
-    const { selectedMic, selectedCam } = location.state || {};
-    const videoRef = useRef(null);
-    const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
 
     const [isRecording, setIsRecording] = useState(false);
     const [recordedAudioURL, setRecordedAudioURL] = useState(null);
@@ -27,6 +21,8 @@ const SoundCheck = () => {
 
     // 비디오 스트리밍 → 캔버스에 그림
     useEffect(() => {
+        console.log("stream",stream)
+        console.log("videoRef", videoRef.current)
         const video = videoRef.current;
         const canvas = canvasRef.current;
         if (!video || !canvas || !stream) return;
@@ -46,11 +42,13 @@ const SoundCheck = () => {
         };
 
         video.addEventListener('loadedmetadata', startDrawing);
-        video.play().catch((err) => console.warn('Video play error:', err));
+        video.srcObject = stream
+        // video.play().catch((err) => console.warn('Video play error:', err));
 
         return () => {
         video.removeEventListener('loadedmetadata', startDrawing);
         cancelAnimationFrame(animationId);
+        video.srcObject = null
         };
     }, [stream]);
 
@@ -86,7 +84,7 @@ const SoundCheck = () => {
         }
     };
 
-    const canProceed = !!selectedMic && !!selectedCam && !!stream;
+    const canProceed = !!stream;
 
     return (
         <div className="full-screen center-both overflow-hidden">
@@ -103,7 +101,7 @@ const SoundCheck = () => {
                 계절이 지나가는 가을 하늘에는 가을로 가득 차 있습니다.
             </div>
             <canvas ref={canvasRef} style={{ width: '600px', height: 'auto', borderRadius: '16px', border: isRecording?"2px soild var(--primary-60)":"none"}} />
-            <video ref={videoRef} style={{ display: 'none' }} autoPlay muted playsInline />
+            <video ref={videoRef} style={{ position: "absolute", opacity:"0", width:"1px", height:"1px" }} autoPlay muted playsInline />
             </div>
             {recordedAudioURL && (
             <div style={{ marginTop: '20px' }}>
@@ -114,12 +112,8 @@ const SoundCheck = () => {
                 {recordedAudioURL && (
                 <Button
                 onClick={() =>
-                navigate(`${PATH.INTERVIEW_SELF_CHECK_FACE}?combineId=${combineId}`, {
-                    state: {
-                    selectedMic,
-                    selectedCam,
-                    },
-                })}
+                navigate(`${PATH.INTERVIEW_SELF_CHECK_FACE}?combineId=${combineId}`)
+                }
                 disabled={!canProceed}
                 size="large"
                 sx={{ backgroundColor: "var(--primary-60)", color:"var(--background-color)", borderRadius: '8px', padding: '8px 16px', marginTop: '20px', width:"150px",  '&:hover': {

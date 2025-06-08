@@ -9,6 +9,7 @@ const useMediaStream = (selectedMic, selectedCam, externalVideoRef = null) => {
   const internalVideoRef = useRef(null);
   const videoRef = externalVideoRef || internalVideoRef;
   const [stream, setStream] = useState(null);
+  const streamRef = useRef(null); // 최신 스트림 참조용
 
   useEffect(() => {
     const getStream = async () => {
@@ -18,7 +19,15 @@ const useMediaStream = (selectedMic, selectedCam, externalVideoRef = null) => {
           video: selectedCam ? { deviceId: { exact: selectedCam } } : true,
         };
         const newStream = await navigator.mediaDevices.getUserMedia(constraints);
+
+        // 이전 스트림 정리
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach(track => track.stop());
+        }
+
+        streamRef.current = newStream;
         setStream(newStream);
+
         if (videoRef.current) {
           videoRef.current.srcObject = newStream;
         }
@@ -30,9 +39,9 @@ const useMediaStream = (selectedMic, selectedCam, externalVideoRef = null) => {
     getStream();
 
     return () => {
-      // 컴포넌트 언마운트 시 트랙 정리
-      if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
       }
     };
   }, [selectedMic, selectedCam]);

@@ -91,7 +91,11 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
 export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     const formData = new FormData();
     formData.append('file', videoBlob, 'video.webm');
-    formData.append('questionID', questionID);
+    formData.append('questionId', questionID);
+
+    console.log("file:",URL.createObjectURL(videoBlob))
+    console.log("questionId:",questionID)
+
 
     try {
         const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);

@@ -4,18 +4,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { Button } from '@mui/material';
 import useMediaSetup from '../../hooks/useMediaSetup';
-import useMediaStream from '../../hooks/useMediaStream';
 import { PATH } from '../../data/paths';
 
-const SelfCheck = () => {
+const SelfCheck = ({setSelectedMic, selectedMic, setSelectedCam, selectedCam, stream, videoRef}) => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const [searchParams] = useSearchParams();
   const combineId = searchParams.get('combineId');
-
-  // 선택된 장치 ID 상태
-  const [selectedMic, setSelectedMic] = useState('');
-  const [selectedCam, setSelectedCam] = useState('');
 
   // 장치 목록 및 권한 확인
   const {
@@ -33,9 +28,6 @@ const SelfCheck = () => {
       setSelectedCam((prev) => prev || videoDevices[0].deviceId);
     }
   }, [audioDevices, videoDevices]);;
-
-  // 장치 선택 기반 stream
-  const { stream, videoRef } = useMediaStream(selectedMic, selectedCam);
 
   // stream이 바뀔 때 canvas 그리기
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -134,12 +126,7 @@ const SelfCheck = () => {
 
           <Button
             onClick={() =>
-              navigate(`${PATH.INTERVIEW_SELF_CHECK_SOUND}?combineId=${combineId}`, {
-                state: {
-                  selectedMic,
-                  selectedCam,
-                },
-              })
+              navigate(`${PATH.INTERVIEW_SELF_CHECK_SOUND}?combineId=${combineId}`)
             }
             className="complete-btn"
             disabled={!canProceed}

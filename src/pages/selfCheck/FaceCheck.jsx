@@ -1,24 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import './SelfCheck.css';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Button } from '@mui/material';
 import CaptureModal from './CaptureCheckModal';
-import useMediaStream from '../../hooks/useMediaStream';
 
-const FaceCheck = () => {
-  const videoRef = useRef(null);
+const FaceCheck = ({stream, videoRef}) => {
   const canvasRef = useRef(null);
 
   const [searchParams] = useSearchParams();
   const combineId = searchParams.get('combineId');
 
-  const location = useLocation();
-  const { selectedMic, selectedCam } = location.state || {};
-
   const [modalOpen, setModalOpen] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-
-  const { stream } = useMediaStream(selectedMic, selectedCam, videoRef);
 
 
   useEffect(() => {
@@ -41,11 +34,13 @@ const FaceCheck = () => {
     };
 
     video.addEventListener('loadedmetadata', startDrawing);
+    video.srcObject = stream
     video.play().catch((err) => console.warn('Video play error:', err));
 
     return () => {
       video.removeEventListener('loadedmetadata', startDrawing);
       cancelAnimationFrame(animationId);
+      video.srcObject = null
     };
   }, [stream]);
 
@@ -58,10 +53,10 @@ const FaceCheck = () => {
     }
   };
 
-  const canProceed = !!selectedMic && !!selectedCam && !!stream;
+  const canProceed = !!stream;
 
   return (
-    <div className="full-screen center-both overflow-hidden">
+    <div className="full-screen center-both overflow-hidden" style={{overflow:"hidden"}}>
       <div className="side-margin"></div>
       <CaptureModal
           capturedImage={capturedImage}
@@ -78,7 +73,7 @@ const FaceCheck = () => {
         </h4>
         <div>
           <canvas ref={canvasRef} style={{ width: '600px', height: 'auto', borderRadius: '16px' }} />
-          <video ref={videoRef} style={{ display: 'none' }} autoPlay muted playsInline />
+          <video ref={videoRef} style={{ position: "absolute", opacity:"0", width:"1px", height:"1px" }} autoPlay muted playsInline />
         </div>
         <Button
           onClick={handleCapture}

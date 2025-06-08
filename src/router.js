@@ -8,10 +8,7 @@ import AIMock from "./pages/aiMock/AIMock.jsx";
 import InterviewConfig from './pages/config/InterviewConfig.jsx';
 import PersonaConfig from './pages/config/PersonaConfig.jsx';
 
-import SelfCheck from "./pages/selfCheck/SelfCheck.jsx";
-import FaceCheck from "./pages/selfCheck/FaceCheck.jsx";
-import SoundCheck from "./pages/selfCheck/SoundCheck.jsx";
-import Interview from "./pages/interview/Interview.jsx";
+import InterviewSessionWrapper from "./pages/interview/InterviewSessionWrapper.jsx";
 
 import ReportMain from './pages/report/ReportMain.jsx';
 import ReportNonverbal from './pages/report/ReportNonverbal.jsx';
@@ -32,11 +29,8 @@ const RouterConfig = () => {
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.JOIN} element={<Join />} />
       <Route path={PATH.AI_MOCK} element={<AIMock />} />
-      <Route path={PATH.INTERVIEW} element={<Interview />} />
 
-      <Route path={PATH.INTERVIEW_SELF_CHECK} element={<SelfCheck />} />
-      <Route path={PATH.INTERVIEW_SELF_CHECK_FACE} element={<FaceCheck />} />
-      <Route path={PATH.INTERVIEW_SELF_CHECK_SOUND} element={<SoundCheck />} />
+      <Route path={PATH.INTERVIEW_ALL} element={<InterviewSessionWrapper />} />
 
       <Route path={PATH.REPORT} element={<ReportMain />} />
       <Route path={PATH.REPORT_NONVERBAL} element={<ReportNonverbal />} />
