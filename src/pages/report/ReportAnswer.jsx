@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
+import { ACCORDION_CONTENTS } from '../../data/report';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
 
 import NavbarComponent from '../../components/Navbar';
@@ -22,9 +23,7 @@ const answerList = [
     intent: "답변자를 잘 파악하고 싶어요.",
     answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
     evaluation: [
-      "답변이 맥락과 일치해요",
-      "두괄식으로 말하는 연습이 필요해요",
-      "답변의 질이 좋아요"
+      "1", "2", "3"
     ],
     goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
     summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
@@ -34,9 +33,7 @@ const answerList = [
     intent: "답변자를 잘 파악하고 싶어요.",
     answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
     evaluation: [
-      "답변이 맥락과 일치해요",
-      "두괄식으로 말하는 연습이 필요해요",
-      "답변의 질이 좋아요"
+      "1","2","3"
     ],
     goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
     summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
@@ -46,9 +43,7 @@ const answerList = [
     intent: "답변자를 잘 파악하고 싶어요.",
     answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
     evaluation: [
-      "답변이 맥락과 일치해요",
-      "두괄식으로 말하는 연습이 필요해요",
-      "답변의 질이 좋아요"
+      "1","2","3"
     ],
     goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
     summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
@@ -58,23 +53,12 @@ const answerList = [
     intent: "답변자를 잘 파악하고 싶어요.",
     answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
     evaluation: [
-      "답변이 맥락과 일치해요",
-      "두괄식으로 말하는 연습이 필요해요",
-      "답변의 질이 좋아요"
+      "1","2","3"
     ],
     goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
     summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
   }
 ];
-
-const accordionContent = {
-  "답변이 맥락과 일치해요": "답변은 질문의 의도를 잘 반영하고 있으며, 주제가 명확하게 전달되고 있어요.",
-  "답변이 맥락과 일치하지 않아요": "질문과 다소 엇나간 답변으로, 핵심을 짚는 훈련이 더 필요해 보여요.",
-  "두괄식으로 잘 전달하고 있어요": "핵심 내용을 앞에 두고 말해주어 이해하기 쉬운 답변이에요.",
-  "두괄식으로 말하는 연습이 필요해요": "전반적인 답변은 좋았으나 결정적 부분이 다소 아쉬워요. ○○대학교의 인재상 ○○, ○○, ○○와 어울리지 않아요.",
-  "답변의 질이 좋아요": "경험과 논리가 잘 담긴, 설득력 있는 답변이에요.",
-  "답변의 질이 아쉬워요": "추상적인 표현이 많아 설득력이 부족해 보여요. 구체적인 사례를 곁들여보세요."
-};
 
 const ReportAnswer = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop();
@@ -166,7 +150,7 @@ const ReportAnswer = () => {
               }}
             >
               <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 세부 분석 결과</h4>
-              {currentData.evaluation.map((evalTitle, idx) => (
+              {currentData.evaluation.map((evalKey, idx) => (
                 <Accordion key={idx} disableGutters elevation={0} square={false}
                   style={{
                     // border: "1px solid #ddd",
@@ -179,10 +163,10 @@ const ReportAnswer = () => {
                     className="subtitle-16-semibold"
                     style={{ backgroundColor: '#f0f6ff', padding: '8px 16px' }}
                   >
-                    {evalTitle}
+                    {ACCORDION_CONTENTS[evalKey]["title"]}
                   </AccordionSummary>
                   <AccordionDetails className="body-14-regular" style={{ padding: '12px 16px', backgroundColor:"var(--nuetral-20)" }}>
-                    {accordionContent[evalTitle]}
+                    {ACCORDION_CONTENTS[evalKey]["detail"]}
                   </AccordionDetails>
                 </Accordion>
               ))}

@@ -44,7 +44,7 @@ export async function refreshAccessToken() {
  * */
 springApi.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
+    const accessToken = getAccessToken(); 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }

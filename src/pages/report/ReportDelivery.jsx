@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Container } from '@mui/material';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, LabelList,
+  XAxis, YAxis, Tooltip,
   AreaChart, Area, ResponsiveContainer
 } from 'recharts';
 import WordCloud from 'wordcloud';
