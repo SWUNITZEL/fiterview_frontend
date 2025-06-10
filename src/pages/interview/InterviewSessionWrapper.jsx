@@ -14,6 +14,14 @@ const InterviewSessionWrapper = () => {
   const [selectedCam, setSelectedCam] = useState(null);
   const { stream, videoRef } = useMediaStream(selectedMic, selectedCam);
 
+  useEffect(() => {
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [stream]);
+
   return (
     <Routes>
       <Route path={PATH.INTERVIEW_SELF_CHECK_REL} element={

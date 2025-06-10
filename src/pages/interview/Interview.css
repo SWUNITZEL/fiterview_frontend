@@ -89,12 +89,23 @@
   z-index: 2;
   left: 16px;
   top: 16px;
-
+  line-height: 1;
   height: 28px;            
   text-align: center;
 
   justify-content: center;
   align-items: center;
+}
+.recording > span{
+  position: relative;
+  line-height: 1;
+  text-align: center;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  margin-top: 2px;
+  font-weight: 600;
+  color: var(--error-60);
 }
 /* 인터뷰어 사진 */
 .bg-video {

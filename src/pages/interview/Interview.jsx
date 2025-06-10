@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import useMediaStream from '../../hooks/useMediaStream';
 import { useInterviewWebSocket } from '../../hooks/useInterviewWebSocket';
 import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress, Modal, Box, Typography } from '@mui/material';
@@ -15,7 +14,7 @@ const modalStyle = {
     transform: 'translate(-50%, -50%)',
     width: 500,
     height: 300,
-    bgcolor: 'background.paper',
+    bgcolor: 'var(--background-color)',
     borderRadius: "16px",
     boxShadow: 'none',
     p: 4,
@@ -27,10 +26,10 @@ const modalStyle = {
     outline: 'none',   
     border: 'none', 
     '&:hover': {
-    boxShadow: 'none',   
-    outline: 'none',    
-    border: 'none',      
-  },
+      boxShadow: 'none',   
+      outline: 'none',    
+      border: 'none',      
+    },
 };
 
 function Interview({stream, videoRef}) {
@@ -39,16 +38,19 @@ function Interview({stream, videoRef}) {
   const interviewId = "683a97e79caeb7463df2fdf3";
 
   const [recording, setRecording] = useState(false);
-  const [isTTSReady, setIsTTSReady] = useState(false);
   const [isTTSPlaying, setIsTTSPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [interviewStarted, setInterviewStarted] = useState(false);
+  const [isInterviewComplete, setIsInterviewComplete] = useState(false);
   const [pendingQuestion, setPendingQuestion] = useState(null);
 
   const timerRef = useRef(null);
   const interviewStartedRef = useRef(interviewStarted);
   const streamRef = useRef(null);
   const questionIDRef = useRef(null);
+
+  const { uploadVideo, isUploading } = useVideoUpload();
+  const showLoading = interviewStarted && !isUploading && !(isTTSPlaying || recording);
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -58,44 +60,33 @@ function Interview({stream, videoRef}) {
     streamRef.current = stream;
   }, [stream]);
 
-  const { uploadVideo, isUploading } = useVideoUpload();
-
-  const onReceiveQuestion = useCallback((text) => {
-    if (!interviewStartedRef.current) {
-      setPendingQuestion(text);
-      return;
-    }
-    playTTS(text);
-  }, []);
+  useEffect(() => {
+  if (isInterviewComplete && !isUploading) {
+    alert('면접이 완료되었습니다.');
+    window.location.replace(PATH.REPORT_NOTICE);
+  }
+}, [isInterviewComplete, isUploading]);
 
   const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } =
     useInterviewWebSocket({
       interviewId,
-      onReceiveQuestion,
+      onReceiveQuestion: useCallback((text) => {
+        if (!interviewStartedRef.current) {
+          setPendingQuestion(text);
+          return;
+        }
+        if (isUploading) {
+          setPendingQuestion(text); 
+          return;
+        }
+        playTTS(text);
+      }, [isUploading, playTTS]),
       onComplete: useCallback(() => {
-        alert('면접이 완료되었습니다.');
-        window.location.replace(PATH.HOME);
+        setIsInterviewComplete(true)
       }, [])
     });
 
   questionIDRef.current = questionID;
-
-  const handleStop = useCallback(() => {
-    if (!streamRef.current) return;
-
-    const recorder = new MediaRecorder(streamRef.current);
-    const chunks = [];
-
-    recorder.ondataavailable = (e) => chunks.push(e.data);
-    recorder.onstop = () => {
-      const blob = new Blob(chunks, { type: 'video/webm' });
-      sendAudio(blob);
-      uploadVideo(blob, interviewId, questionIDRef.current);
-    };
-
-    recorder.start();
-    setTimeout(() => recorder.stop(), 100); // stop recording very quickly to finalize
-  }, [sendAudio, uploadVideo]);
 
   const handleStart = useCallback(() => {
     if (!streamRef.current) return;
@@ -130,8 +121,7 @@ function Interview({stream, videoRef}) {
 
     if (recording) {
       setRecording(false);
-      if (questionIndex === totalQuestions) stopRecording();
-      else stopRecording();
+      stopRecording();
     } else {
       setRecording(true);
       handleStart();
@@ -143,7 +133,6 @@ function Interview({stream, videoRef}) {
     utterance.lang = 'ko-KR';
     utterance.onstart = () => {
       setIsTTSPlaying(true);
-      setIsTTSReady(true);
     };
     utterance.onend = () => {
       setIsTTSPlaying(false);
@@ -165,14 +154,23 @@ function Interview({stream, videoRef}) {
 
   const handleStartInterview = () => {
     setInterviewStarted(true);
-    if (pendingQuestion) {
-      playTTS(pendingQuestion);
-      setPendingQuestion(null);
-    }
   };
 
-  if (!isConnected) {
-    return <LoadingScreen message="면접 준비 중입니다" />;
+  useEffect(() => {
+    if (!isUploading && pendingQuestion && interviewStarted) {
+      if (pendingQuestion) {
+        playTTS(pendingQuestion);
+        setPendingQuestion(null);
+      }
+    }
+  }, [interviewStarted, isUploading, pendingQuestion, playTTS]);
+
+  if (!isConnected&&!isInterviewComplete) {
+    return <LoadingScreen message="면접을 준비하고 있습니다." />;
+  }
+
+  else if (isInterviewComplete) {
+    return <LoadingScreen message="페이지를 벗어나지 말고 잠시 대기해주세요" />;
   }
 
   return (
@@ -183,7 +181,15 @@ function Interview({stream, videoRef}) {
       overflow: "hidden",
       display: "flex"
     }}>
-      <Modal open={!interviewStarted}>
+      <Modal 
+        open={!interviewStarted}
+        BackdropProps={{
+          sx: {
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(10px)',
+          },
+        }
+      }>
         <Box sx={modalStyle}>
           <Typography variant="h6" sx={{marginBottom:"40px", fontWeight:"600"}} gutterBottom>면접을 시작하시겠습니까?</Typography>
             <Button onClick={handleStartInterview} className="complete-btn" size="large" sx={{ borderRadius: '8px', padding: '8px 16px', marginTop: '20px' }}>
@@ -194,7 +200,7 @@ function Interview({stream, videoRef}) {
 
       <div className='side-margin'></div>
       <div className='interview-container'>
-        <div className='loading' style={{ display: ((isTTSReady) && (isTTSPlaying || recording)) ? "none" : "flex" }}>
+        <div className='loading' style={{ display: showLoading? "none" : "flex" }}>
           <h4 className='title-40-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>
@@ -202,7 +208,7 @@ function Interview({stream, videoRef}) {
             답변 준비시간이에요.
           </h4>
         </div>
-        <div className='loading' style={{ display: readyForChainQuestion ? "flex" : "none" }}>
+        <div className='loading' style={{ display: (!isUploading)&&(readyForChainQuestion) ? "flex" : "none" }}>
           <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
             AI 면접관이 꼬리질문을<br />출제하고 있어요
           </h4>
@@ -218,8 +224,9 @@ function Interview({stream, videoRef}) {
           <source src={recording ? "/videos/interviewer_stand.mp4" : "/videos/interviewer.mp4"} type="video/mp4" />
           브라우저가 동영상을 지원하지 않습니다.
         </video>
-        <Chip className="recording" label="녹화 중" sx={{ backgroundColor: "var(--error-20)", display: recording ? "flex" : "none" }} />
-        <div className='contents-container' style={{ boxShadow: recording ? "0 0 0 2px var(--error-60) inset" : "none" }}>
+        <Chip className="recording" label="녹화 중" sx={{ backgroundColor: "var(--error-10)", display: recording ? "flex" : "none" }} />
+        {/* <div className='contents-container' style={{ boxShadow: recording ? "0 0 0 2px var(--error-60) inset" : "none" }}> */}
+        <div className='contents-container' style={{ boxShadow: "none" }}>
           <div className='text-container'>
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold'>

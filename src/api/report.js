@@ -1,15 +1,12 @@
 import axios from 'axios';
 import { getAccessToken } from '../utils/token';
 
-
-const springApi = axios.create({
-  baseURL: process.env.REACT_APP_SRIPING_API_URL,
-  withCredentials: true,
-});
 const fastapiApi = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
-
+const springApi = axios.create({
+  baseURL: process.env.REACT_APP_SRIPING_API_URL,
+});
 
 /**
  * @description 요청 인터셉터: accessToken 자동 추가
@@ -24,10 +21,9 @@ fastapiApi.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 springApi.interceptors.request.use(
   (config) => {
-    const accessToken = getAccessToken();  
+    const accessToken = getAccessToken(); 
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -35,13 +31,6 @@ springApi.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
-
-export const fetchNonverbalReport = async (interviewId) => {
-  const response = await axios.get(`/api/report/nonverbal/${interviewId}`);
-  return response.data;
-};
-
 
 /**
  * @description 인터뷰 ID를 전달해 전달력 분석 결과를 요청합니다.

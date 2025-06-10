@@ -1,4 +1,4 @@
-import { CircularProgress } from '@mui/material';
+import { LinearProgress } from '@mui/material';
 
 /**
  * @component LoadingScreen
@@ -28,12 +28,8 @@ const LoadingScreen = ({ message }) => {
 
   return (
     <div style={overlayStyle} className='full-screen overflow-hidden'>
-      <CircularProgress 
-        size={60} 
-        thickness={4} 
-        sx={{ color: 'var(--primary-60)', marginBottom: '16px' }} 
-      />
-      <p className='subtitle-18-medium'>{message}...</p>
+      <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"0px", padding:"0px"}}>{message}...</h4>
+      <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
     </div>
   );
 };
