@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { sendCaptureAndCombination } from '../api/interview';
 import { PATH } from '../data/paths';
 
 export const useCaptureConfirm = ({ capturedImage, onError, combineId }) => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation();
-    const { selectedMic, selectedCam } = location.state || {};
 
     const onConfirm = async () => {
         if (!capturedImage) return;
@@ -22,9 +20,7 @@ export const useCaptureConfirm = ({ capturedImage, onError, combineId }) => {
 
             navigate(PATH.INTERVIEW, {
                 state: {
-                    interviewId: result.interviewId,
-                    selectedMic,
-                    selectedCam,
+                    interviewId: result.interviewId
                 },
             });
 
