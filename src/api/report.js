@@ -33,25 +33,22 @@ springApi.interceptors.request.use(
 );
 
 /**
- * @description 각 보고서에 대한 결과값 반환 요청
- * */
-export const fetchNonverbalReport = async (interviewId) => {
-  const response = await springApi.get(`/report/${interviewId}/result`);
-  console.log("response: ", response)
+ * @description 인터뷰 ID를 전달해 전달력 분석 결과를 요청합니다.
+ * 
+ * @async
+ * @function getReportExpressiveness
+ * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
+ * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { word_list: list, ... })
+ */
+export const getReportExpressiveness = async (interviewID) => {
 
-  return response.data;
-};
+  try{
+      const response = await springApi.get(`report/${interviewID}/result`,null);
+      console.log(response.data)
 
-export const fetchDeliveryReport = async (interviewId) => {
-  const response = await springApi.get(`/report/${interviewId}/`);
-  console.log("response: ", response)
-
-  return response.data;
-};
-
-export const fetchAnswerReport = async (interviewId) => {
-  const response = await springApi.get(`/report/${interviewId}/answer_result`);
-  console.log("response: ", response)
-
-  return response.data;
+      return response.data;
+  } catch (error) {
+  throw new Error(`HTTP error! status: ${error.response?.status || error.message}`);
+  }
+    
 };
