@@ -1,91 +1,112 @@
 import { useEffect, useRef, useState } from 'react';
-import {convertWebmToWav} from "../utils/toWav"
-import {LASTMENT} from "../data/interview"
+import { convertWebmToWav } from "../utils/toWav";
+import { LASTMENT } from "../data/interview";
+import { reqQuestions } from "../api/interview"; // 이 부분도 상대경로 맞게 조정
 
 export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComplete }) {
-    const websocket = useRef(null);
+  const websocket = useRef(null);
 
-    const [isConnected, setIsConnected] = useState(false);
-    const [question, setQuestion] = useState('');
-    const [questionID, setQuestionID] = useState('');
-    const [totalQuestions, setTotalQuestions] = useState(null);
-    const [questionIndex, setQustionIndex] = useState(null);
-    const [hasFollowUp, setHasFollowUp]=useState(false);
-    const [readyForChainQuestion, setReadyForChainQuestion] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
+  const [question, setQuestion] = useState('');
+  const [questionID, setQuestionID] = useState('');
+  const [totalQuestions, setTotalQuestions] = useState(null);
+  const [questionIndex, setQustionIndex] = useState(null);
+  const [hasFollowUp, setHasFollowUp] = useState(false);
+  const [readyForChainQuestion, setReadyForChainQuestion] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false); // reqQuestions 완료 여부
 
-    useEffect(() => {
+  // 🧠 초기화: 질문 요청 후 WebSocket 연결
+  useEffect(() => {
+    if (!interviewId) return;
+
+    const init = async () => {
+      try {
+        const data = await reqQuestions(interviewId);
+        console.log("질문생성: ",data)
+        setIsInitialized(true);
+
+        // 🔌 WebSocket 연결
         websocket.current = new WebSocket(`${process.env.REACT_APP_WS_URL}interview/${interviewId}`);
 
         websocket.current.onopen = () => {
-            console.log('WebSocket 연결 열림');
+          console.log('WebSocket 연결 열림');
         };
 
         websocket.current.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            console.log("받아온 메세지: ",data)
+          const data = JSON.parse(event.data);
+          console.log("받아온 메시지:", data);
 
-            // 메시지가 '수고하셨습니다'일 경우 WebSocket 종료
-            if (data.question_text === LASTMENT ) {
-                websocket.current?.close();
-                setIsConnected(false);
-                onComplete();
-                return; 
-            }
+          if (data.question_text === LASTMENT) {
+            websocket.current?.close();
+            setIsConnected(false);
+            onComplete?.();
+            return;
+          }
 
-            if (data.type === 'question') {
-                onReceiveQuestion(data.question_text);
-            }
-            if (!isConnected) {
-                setIsConnected(true);
-            }
+          if (data.type === 'question') {
+            onReceiveQuestion?.(data.question_text);
+          }
 
-            setQuestionID(data.question_id)
-            setTotalQuestions(data.total_questions)
-            setQustionIndex(data.question_index)
-            setQuestion(data.question_text)
-            setHasFollowUp(data.has_follow_up)
-            setReadyForChainQuestion(false)
+          if (!isConnected) {
+            setIsConnected(true);
+          }
 
+          setQuestionID(data.question_id);
+          setTotalQuestions(data.total_questions);
+          setQustionIndex(data.question_index);
+          setQuestion(data.question_text);
+          setHasFollowUp(data.has_follow_up);
+          setReadyForChainQuestion(false);
         };
 
         websocket.current.onerror = (error) => {
-            console.error('WebSocket error:', error);
+          console.error('WebSocket error:', error);
         };
 
         websocket.current.onclose = (event) => {
-            console.log('WebSocket 연결 종료됨');
-            console.log('Code:', event.code)
+          console.log('WebSocket 연결 종료됨', event.code);
         };
-
-        return () => {
-            websocket.current?.close();
-        };
-    }, [interviewId]);
-
-    const sendAudio = async (videoBlob) => {
-        try {
-            const wavBlob = await convertWebmToWav(videoBlob);
-            if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
-                console.log(wavBlob.type)
-                websocket.current.send(wavBlob);
-                console.log("WAV audio blob 전송 완료");
-                if (hasFollowUp) {
-                    setReadyForChainQuestion(true)
-                    setHasFollowUp(false)
-                }
-            } else {
-                console.warn("WebSocket이 열려있지 않음");
-            }
-        } catch (err) {
-            console.error("audio 변환 또는 전송 실패:", err);
-        }
+      } catch (error) {
+        console.error("초기 질문 요청 실패:", error);
+      }
     };
 
-    //    const [question, setQuestion] = useState('');
-    // const [totalQustions, setTotalQustions] = useState(null);
-    // const [questionIndex, setQustionIndex] = useState(null);
-    // const [hasFollowUp, setHasFollowUp]=useState(false);
+    init();
 
+    return () => {
+      websocket.current?.close();
+    };
+  }, [interviewId]);
 
-    return { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion };
+  // 🎙️ 오디오 전송
+  const sendAudio = async (videoBlob) => {
+    try {
+      const wavBlob = await convertWebmToWav(videoBlob);
+      if (websocket.current && websocket.current.readyState === WebSocket.OPEN) {
+        websocket.current.send(wavBlob);
+        console.log("WAV audio blob 전송 완료");
+
+        if (hasFollowUp) {
+          setReadyForChainQuestion(true);
+          setHasFollowUp(false);
+        }
+      } else {
+        console.warn("WebSocket이 열려있지 않음");
+      }
+    } catch (err) {
+      console.error("audio 변환 또는 전송 실패:", err);
+    }
+  };
+
+  return {
+    sendAudio,
+    isConnected,
+    questionID,
+    question,
+    totalQuestions,
+    questionIndex,
+    readyForChainQuestion,
+    isInitialized,
+    initialQuestions, // 필요 없다면 제거해도 됨
+  };
 }

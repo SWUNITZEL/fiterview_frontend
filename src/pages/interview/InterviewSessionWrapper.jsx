@@ -1,5 +1,5 @@
 // InterviewSessionWrapper.jsx
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Routes, Route } from "react-router-dom";
 import SelfCheck from "../selfCheck/SelfCheck";
 import FaceCheck from "../selfCheck/FaceCheck";

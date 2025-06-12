@@ -84,6 +84,23 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
 };
 
 
+/**
+ * 질문 생성 요청
+ * @param {string} interviewID 
+ * @returns {Promise<object>} 서버 응답 JSON
+ */
+export async function reqQuestions(interviewID) {
+    const formData = new FormData();
+    formData.append('interviewId', interviewID);
+    console.log("interviewId:",interviewID)
+
+    try {
+        const response = await fastapiApi.post(`interview/persona/question`, formData);
+        return response.data;
+    } catch (error) {
+        throw new Error(`서버 오류: ${error.response?.status || error.message}`);
+    }
+}
 
 /**
  * 비디오 Blob을 서버에 POST 전송하는 함수

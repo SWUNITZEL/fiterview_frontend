@@ -34,8 +34,7 @@ const modalStyle = {
 
 function Interview({stream, videoRef}) {
   const location = useLocation();
-  const { selectedMic, selectedCam } = location.state || {};
-  const interviewId = "683a97e79caeb7463df2fdf3";
+  const { interviewId } = location.state || {};
 
   const [recording, setRecording] = useState(false);
   const [isTTSPlaying, setIsTTSPlaying] = useState(false);
@@ -61,11 +60,37 @@ function Interview({stream, videoRef}) {
   }, [stream]);
 
   useEffect(() => {
-  if (isInterviewComplete && !isUploading) {
-    alert('면접이 완료되었습니다.');
-    window.location.replace(PATH.REPORT_NOTICE);
-  }
-}, [isInterviewComplete, isUploading]);
+    if (isInterviewComplete && !isUploading) {
+      alert('면접이 완료되었습니다.');
+      window.location.replace(PATH.REPORT_NOTICE);
+    }
+  }, [isInterviewComplete, isUploading]);
+
+  const handleButtonClickRef = useRef();
+
+  const playTTS = useCallback((text) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ko-KR';
+    utterance.onstart = () => {
+      setIsTTSPlaying(true);
+    };
+    utterance.onend = () => {
+      setIsTTSPlaying(false);
+      setTimeLeft(10);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            clearInterval(timerRef.current);
+            timerRef.current = null;
+            if (!recording) handleButtonClickRef.current?.();
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    };
+    speechSynthesis.speak(utterance);
+  }, [recording]);
 
   const { sendAudio, isConnected, questionID, question, totalQuestions, questionIndex, readyForChainQuestion } =
     useInterviewWebSocket({
@@ -128,29 +153,7 @@ function Interview({stream, videoRef}) {
     }
   };
 
-  const playTTS = useCallback((text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'ko-KR';
-    utterance.onstart = () => {
-      setIsTTSPlaying(true);
-    };
-    utterance.onend = () => {
-      setIsTTSPlaying(false);
-      setTimeLeft(10);
-      timerRef.current = setInterval(() => {
-        setTimeLeft((prev) => {
-          if (prev <= 1) {
-            clearInterval(timerRef.current);
-            timerRef.current = null;
-            if (!recording) handleButtonClick();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    };
-    speechSynthesis.speak(utterance);
-  }, [recording]);
+  handleButtonClickRef.current = handleButtonClick;  
 
   const handleStartInterview = () => {
     setInterviewStarted(true);
