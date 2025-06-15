@@ -69,7 +69,8 @@ function Interview({stream, videoRef}) {
   const handleButtonClickRef = useRef();
 
   const playTTS = useCallback((text) => {
-    const utterance = new SpeechSynthesisUtterance(text);
+    const cleanedText = text.replace(/^\s*\d{1,2}[\.\)]\s*/, '');
+    const utterance = new SpeechSynthesisUtterance(cleanedText);
     utterance.lang = 'ko-KR';
     utterance.onstart = () => {
       setIsTTSPlaying(true);
@@ -203,7 +204,7 @@ function Interview({stream, videoRef}) {
 
       <div className='side-margin'></div>
       <div className='interview-container'>
-        <div className='loading' style={{ display: !showLoading? "none" : "flex" }}>
+        <div className='loading' style={{ display: showLoading? "flex" : "none" }}>
           <h4 className='title-40-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>
