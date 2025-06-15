@@ -1,4 +1,5 @@
 .result-page-wrapper {
+  position: relative;
   min-height: 100vh;
   background-color: var(--nuetral-10);
   display: flex;
