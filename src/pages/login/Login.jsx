@@ -65,15 +65,23 @@ function Login() {
               alignItems: 'flex-start',
               height: '56px',
               fontSize: "16px",
-              '& .MuiInputBase-root': {
+              '& .MuiOutlinedInput-root': {
                 height: '100%',
                 boxSizing: 'border-box',
                 borderRadius: "8px",
                 padding: 0,
+                outline: 'none',
+                boxShadow: 'none',
                 '& input': {
                   padding: '16px 12px',
                   fontSize: '18px'
-                }
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-60)',
+                },
+                '&.MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'transparent',
+                },
               }
             }}
           />
@@ -102,8 +110,13 @@ function Login() {
                 '& input': {
                   padding: '16px 12px',
                   fontSize: '18px'
-                }
-    
+                },
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-60)',
+                },
+                '&.MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'transparent',
+                },
               }
             }}
           />

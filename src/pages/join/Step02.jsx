@@ -61,6 +61,9 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60)',
+                  }
                 }
               }}
             />
@@ -78,6 +81,9 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60)',
+                  }
                 }
               }}
             />
@@ -95,6 +101,9 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60)',
+                  }
                 }
               }}
             />
@@ -126,6 +135,9 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60)',
+                  }
                 }
               }}
             />
@@ -144,6 +156,9 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60)',
+                  }
                 }
               }}
             />
@@ -158,11 +173,11 @@ function Step02({ onNext, toLogin }) {
                 onChange={handleChange}
                 input={<OutlinedInput label="성별" />}
                 sx={{
-                  '& .MuiOutlinedInput-root': {
-                    borderRadius: '8px',
-                  },
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    borderRadius: '8px',
+                  '&.MuiOutlinedInput-root': {
+                    borderRadius: '8px !important',
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-60) !important',
+                    },
                   }
                 }}
               >
@@ -184,6 +199,12 @@ function Step02({ onNext, toLogin }) {
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-60)',
+                  },
+                  '&.MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'transparent',
+                  },
                 }
               }}
             />
