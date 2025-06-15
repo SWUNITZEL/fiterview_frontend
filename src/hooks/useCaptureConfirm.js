@@ -20,7 +20,7 @@ export const useCaptureConfirm = ({ capturedImage, onError, combineId }) => {
 
             navigate(PATH.INTERVIEW, {
                 state: {
-                    interviewId: result.interviewId
+                    interviewId: result.result.interviewId
                 },
             });
 

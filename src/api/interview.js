@@ -86,16 +86,14 @@ export const sendCaptureAndCombination = async (base64Image, combineId) => {
 
 /**
  * 질문 생성 요청
- * @param {string} interviewID 
+ * @param {string} interviewId 
  * @returns {Promise<object>} 서버 응답 JSON
  */
-export async function reqQuestions(interviewID) {
-    const formData = new FormData();
-    formData.append('interviewId', interviewID);
-    console.log("interviewId:",interviewID)
+export async function reqQuestions(interviewId) {
+    console.log("interviewId:",interviewId)
 
     try {
-        const response = await fastapiApi.post(`interview/persona/question`, formData);
+        const response = await fastapiApi.post(`interview/${interviewId}/persona/question`);
         return response.data;
     } catch (error) {
         throw new Error(`서버 오류: ${error.response?.status || error.message}`);
