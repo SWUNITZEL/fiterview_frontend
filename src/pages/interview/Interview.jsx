@@ -62,7 +62,7 @@ function Interview({stream, videoRef}) {
   useEffect(() => {
     if (isInterviewComplete && !isUploading) {
       alert('면접이 완료되었습니다.');
-      window.location.replace(PATH.REPORT_NOTICE);
+      window.location.replace(`${PATH.REPORT_NOTICE}?interviewId=${interviewId}`);
     }
   }, [isInterviewComplete, isUploading]);
 
@@ -203,7 +203,7 @@ function Interview({stream, videoRef}) {
 
       <div className='side-margin'></div>
       <div className='interview-container'>
-        <div className='loading' style={{ display: showLoading? "none" : "flex" }}>
+        <div className='loading' style={{ display: !showLoading? "none" : "flex" }}>
           <h4 className='title-40-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>

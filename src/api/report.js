@@ -52,3 +52,26 @@ export const getReportExpressiveness = async (interviewID) => {
   }
     
 };
+
+/**
+ * @description 인터뷰 ID를 전달해 답변 분석 결과를 요청합니다.
+ * 
+ * @async
+ * @function getReportAnswers
+ * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
+ * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { word_list: list, ... })
+ */
+export const getReportAnswers = async (interviewID) => {
+
+  try{
+      const response = await fastapiApi.get(`report/${interviewID}/answer_result`,
+        {"interview_id":interviewID}
+      );
+      console.log(response.data)
+
+      return response.data;
+  } catch (error) {
+  throw new Error(`HTTP error! status: ${error.response?.status || error.message}`);
+  }
+}
+    

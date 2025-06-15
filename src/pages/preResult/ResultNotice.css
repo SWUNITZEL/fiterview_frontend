@@ -1,4 +1,5 @@
 .result-page-wrapper {
+  position: relative;
   min-height: 100vh;
   background-color: var(--nuetral-10);
   display: flex;
@@ -38,7 +39,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 16px;
+  padding: 30vh 16px;
+  min-height: 100vh;
   text-align: center;
 }
 
@@ -52,7 +54,7 @@
 }
 
 /* 버튼 그룹 수평 정렬 */
-.button-group {
+.button-group-02 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +62,7 @@
   margin-top: 12px;
 }
 
-.button-group button {
+.button-group-02 button {
   white-space: nowrap;
   height: 40px;
   padding: 10px 24px;

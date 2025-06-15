@@ -15,7 +15,6 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
   const [readyForChainQuestion, setReadyForChainQuestion] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false); // reqQuestions 완료 여부
 
-  // 🧠 초기화: 질문 요청 후 WebSocket 연결
   useEffect(() => {
     if (!interviewId) return;
 
@@ -107,6 +106,5 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
     questionIndex,
     readyForChainQuestion,
     isInitialized,
-    initialQuestions, // 필요 없다면 제거해도 됨
   };
 }
