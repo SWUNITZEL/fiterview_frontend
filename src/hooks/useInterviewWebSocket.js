@@ -107,6 +107,5 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
     questionIndex,
     readyForChainQuestion,
     isInitialized,
-    initialQuestions, // 필요 없다면 제거해도 됨
   };
 }

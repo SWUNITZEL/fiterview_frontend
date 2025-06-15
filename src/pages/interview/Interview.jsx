@@ -62,7 +62,7 @@ function Interview({stream, videoRef}) {
   useEffect(() => {
     if (isInterviewComplete && !isUploading) {
       alert('면접이 완료되었습니다.');
-      window.location.replace(PATH.REPORT_NOTICE);
+      window.location.replace(`${PATH.REPORT_NOTICE}?interviewId=${interviewId}`);
     }
   }, [isInterviewComplete, isUploading]);
 
