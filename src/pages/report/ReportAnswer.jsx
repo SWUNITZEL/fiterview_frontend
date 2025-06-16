@@ -51,7 +51,7 @@ const ReportAnswer = () => {
       {Array.isArray(answerList) && answerList.length > 0 &&(
         <div className="report-container">
         <h2 className="title-24-bold question">
-          <span className="primary">Q{page}.</span> <span className="primary">{currentData.question}</span>
+          <span className="primary">Q{page}.</span> <span className="primary">{currentData.question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}</span>
         </h2>
 
         <div
