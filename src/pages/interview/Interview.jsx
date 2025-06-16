@@ -49,7 +49,13 @@ function Interview({stream, videoRef}) {
   const questionIDRef = useRef(null);
 
   const { uploadVideo, isUploading } = useVideoUpload();
-  const showLoading = interviewStarted && !isUploading && !(isTTSPlaying || recording);
+  const isUploadingRef = useRef(isUploading);
+  
+  useEffect(() => {
+    isUploadingRef.current = isUploading;
+  }, [isUploading]);
+
+  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording);
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -101,12 +107,12 @@ function Interview({stream, videoRef}) {
           setPendingQuestion(text);
           return;
         }
-        if (isUploading) {
+        if (isUploadingRef.current) {
           setPendingQuestion(text); 
           return;
         }
         playTTS(text);
-      }, [isUploading, playTTS]),
+      }, [isUploadingRef.current, playTTS]),
       onComplete: useCallback(() => {
         setIsInterviewComplete(true)
       }, [])
@@ -234,7 +240,7 @@ function Interview({stream, videoRef}) {
           <div className='text-container'>
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold'>
-              Q. {question}
+              Q. {question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}
             </div>
             <Button disabled={(!interviewStarted)||isTTSPlaying} onClick={handleButtonClick} className="complete-btn" size="large" 
             sx={{ 
