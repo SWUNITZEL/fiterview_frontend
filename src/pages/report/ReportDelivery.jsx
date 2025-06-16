@@ -9,6 +9,8 @@ import WordCloud from 'wordcloud';
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import useReportDelivery from '../../hooks/useReportDelivery';
+import useInterviewId from '../../hooks/useInterviewId';
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -21,6 +23,9 @@ import './Report.css';
 const ReportDelivery = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
+  const interviewId = useInterviewId();
+
+  const { deliveryData, loading, error } = useReportDelivery(interviewId);
 
   const waveformData = Array.from({ length: 200 }, (_, i) => ({
     time: i * 0.1,
@@ -32,6 +37,7 @@ const ReportDelivery = () => {
     ['경험', 10], ['문제해결', 8], ['의사소통', 6], ['팀워크', 4],
     ['전달력', 7], ['리더십', 5], ['노력', 4], ['성장', 3], ['역량', 6], ['지원동기', 3]
   ];
+
   useEffect(() => {
     if (typeof window !== 'undefined' && wordList.length > 0) {
       const getColorByWeight = (weight) => {
@@ -54,30 +60,6 @@ const ReportDelivery = () => {
     }
   }, [wordList]);
 
-
-  const deliveryData = {
-    totalScore: 85,
-    pronunciation: {
-      score: 88,
-      average: 82,
-      detail: '발음은 전체적으로 또박또박 전달되었으나, 일부 단어에서 발음이 뭉개지는 경향이 있었습니다. 모음 발음을 명확히 하는 연습을 권장합니다.'
-    },
-    tone: {
-      hz: 210,
-      std: 50,
-      average: 200,
-      detail: '톤은 비교적 안정적이고 자연스러웠습니다. 다만 일부 질문에서 음역대가 높아지며 긴장감이 드러나는 부분이 있었습니다.'
-    },
-    speed: {
-      score: 60,
-      average: 65,
-      detail: '발화 속도가 전체적으로 안정적이었으나, 질문에 따라 다소 빠르게 말하는 경향이 보였습니다. 일정한 속도를 유지하도록 연습하면 좋겠습니다.'
-    },
-    wordHabit: {
-      detail: '발화 중 "어", "음"과 같은 군더더기 말이 자주 사용되었습니다. 이러한 습관어를 줄이는 연습을 통해 전달력을 높일 수 있습니다.'
-    }
-  };
-
   return (
     <Container ref={pageRef} maxWidth={false} style={{ backgroundColor: "var(--background-color)", minHeight: '100vh', padding: 0 }}>
       <NavbarComponent />
@@ -87,7 +69,8 @@ const ReportDelivery = () => {
         timestamp="2025-03-15 21:25:41"
         onDownload={handleDownload}
       />
-      <div className="report-container">
+      {deliveryData&&(
+        <div className="report-container">
         <h3 className="total-score">총점 <span>{deliveryData.totalScore}점</span></h3>
 
         <div className="summary-section">
@@ -154,10 +137,11 @@ const ReportDelivery = () => {
         <ButtonPair
           leftText="비언어적 커뮤니케이션 분석 결과 보러가기"
           rightText="답변 구성 분석 결과 보러가기"
-          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_NONVERBAL)}
-          onRightClick={() => navigateAndScrollTop(PATH.REPORT_ANSWER)}
+          onLeftClick={() => navigateAndScrollTop(`${PATH.REPORT_NONVERBAL}?interviewId=${interviewId}`)}
+          onRightClick={() => navigateAndScrollTop(`${PATH.REPORT_ANSWER}?interviewId=${interviewId}`)}
         />
-      </div>
+        </div>
+      )}
       <Footer />
     </Container>
   );

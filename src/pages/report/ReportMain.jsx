@@ -6,9 +6,12 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from "recharts";
-import NavbarComponent from '../../components/Navbar'
 import { Container, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+
+import useInterviewId from '../../hooks/useInterviewId';
+import NavbarComponent from '../../components/Navbar'
+
 import { PATH } from "../../data/paths";
 import Footer from '../../components/Footer';
 
@@ -21,7 +24,9 @@ const data = [
 ];
 
 const ReportMain = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate()  
+  const interviewId = useInterviewId();
+  
   return (
     <Container maxWidth={false} style={{
                 backgroundColor: "var(--background-color)",
@@ -119,7 +124,7 @@ const ReportMain = () => {
       </main>
       <Button 
       onClick={() => {
-        navigate(PATH.REPORT_NONVERBAL);
+        navigate(`${PATH.REPORT_NONVERBAL}?interviewId=${interviewId}`);
         window.scrollTo(0, 0);
       }}
       sx={{

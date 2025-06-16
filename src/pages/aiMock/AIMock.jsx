@@ -20,6 +20,7 @@ const AIMock = () => {
   const { data: schoolRecordData, error: schoolRecordError } = useGetSchoolRecord();
   const [uploadData, setUploadData] = useState();
   const [loading, setLoading] = useState(true);
+  const [redirected, setRedirected] = useState(false);
   
   useEffect(() => {
     if (schoolRecordData || schoolRecordError) {
@@ -29,6 +30,20 @@ const AIMock = () => {
       setLoading(false);
     }
   }, [schoolRecordData, schoolRecordError]);
+
+  
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!user && !redirected) {
+        alert("로그인 후 이용해주세요.");
+        navigate(PATH.LOGIN);
+        setRedirected(true);
+      }
+    }, 500); // 0.5초 대기
+
+    return () => clearTimeout(timeout); // cleanup
+  }, [user, redirected]);
 
 
   const { getRootProps, getInputProps, isUploading } = usePdfUpload({

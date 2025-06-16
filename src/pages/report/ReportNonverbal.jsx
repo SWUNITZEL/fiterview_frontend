@@ -7,6 +7,8 @@ import {
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import useInterviewId from '../../hooks/useInterviewId';
+import useReportNonverbal from '../../hooks/useReportNonverbal';
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -19,37 +21,9 @@ import './Report.css';
 const ReportNonverbal = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
+  const interviewId = useInterviewId();
 
-  const movementData = [
-    { name: '왼쪽 어깨 움직임', value: 30 },
-    { name: '오른쪽 어깨 움직임', value: 45 },
-    { name: '고개 움직임', value: 25 },
-  ];
-
-  const gazeData = new Array(50).fill(null).map((_, i) => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    z: 100,
-  }));
-
-  const nonverbalData = {
-    totalScore: 58,
-    posture: {
-      score: 66,
-      average: 56,
-      detail: '전체적으로 자세를 유지하며 안정적인 인상을 주었습니다.',
-    },
-    blink: {
-      score: 68,
-      average: 43,
-      detail: '눈 깜빡임이 잦습니다. 면접 전 이완 운동을 통해 긴장을 해소해보아요.',
-    },
-    gaze: {
-      score: 58,
-      average: 64,
-      detail: '시선 분포의 흩어짐 정도를 줄이는 연습이 필요합니다.\n화면의 중앙을 응시하도록 하세요.',
-    },
-  };
+  const { nonverbalData, loading, error } = useReportNonverbal(interviewId);
 
   return (
     <Container
@@ -70,7 +44,7 @@ const ReportNonverbal = () => {
         timestamp="2025-03-15 21:25:41"
         onDownload={handleDownload}
       />
-      <div className="report-container">
+      {nonverbalData&&(<div className="report-container">
         <h3 className="total-score">
           총점 <span>{nonverbalData.totalScore}점</span>
         </h3>
@@ -109,7 +83,7 @@ const ReportNonverbal = () => {
                 style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}
               >
                 <ResponsiveContainer width={400} height={200}>
-                  <BarChart data={movementData} barCategoryGap={40} barSize={60}>
+                  <BarChart data={nonverbalData.movementData} barCategoryGap={40} barSize={60}>
                     <XAxis
                       dataKey="name"
                       axisLine={false}
@@ -120,7 +94,7 @@ const ReportNonverbal = () => {
                     <YAxis hide domain={[0, 50]} />
                     <Tooltip cursor={{ fill: 'transparent' }}/>
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                      {movementData.map((entry, index) => {
+                      {nonverbalData.movementData.map((entry, index) => {
                         const value = entry.value;
                         let fillColor = 'var(--success-40)'; // 초록
                         if (value >= 40) fillColor = 'var(--warning-40)'; // 노랑
@@ -212,7 +186,7 @@ const ReportNonverbal = () => {
                       range={[60]} 
                       tick={false}
                     />
-                    <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" />
+                    <Scatter name="Gaze" data={nonverbalData.gazeData} fill="var(--primary-60)" />
                   </ScatterChart>
                 </ResponsiveContainer>
               </div>
@@ -233,9 +207,9 @@ const ReportNonverbal = () => {
           leftText=""
           rightText="전달력 분석 결과 보러가기"
           onLeftClick={undefined}
-          onRightClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+          onRightClick={() => navigateAndScrollTop(`${PATH.REPORT_DELIVERY}?interviewId=${interviewId}`)}
         />
-      </div>
+      </div>)}
       <Footer />
     </Container>
   );
