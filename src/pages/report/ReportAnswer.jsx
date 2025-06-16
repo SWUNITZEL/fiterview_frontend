@@ -9,6 +9,8 @@ import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { ACCORDION_CONTENTS } from '../../data/report';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import useReportAnswers from '../../hooks/useReportAnswers';
+import useInterviewId from '../../hooks/useInterviewId';
 
 import NavbarComponent from '../../components/Navbar';
 import ReportHeader from '../../components/ReportHeader';
@@ -17,50 +19,10 @@ import Footer from '../../components/Footer';
 
 import './Report.css';
 
-const answerList = [
-  {
-    question: "자기소개 해주세요.",
-    intent: "답변자를 잘 파악하고 싶어요.",
-    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
-    evaluation: [
-      "1", "2", "3"
-    ],
-    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
-    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
-  },
-  {
-    question: "지원동기는 무엇인가요?",
-    intent: "답변자를 잘 파악하고 싶어요.",
-    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
-    evaluation: [
-      "1","2","3"
-    ],
-    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
-    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
-  },
-  {
-    question: "더미질문",
-    intent: "답변자를 잘 파악하고 싶어요.",
-    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
-    evaluation: [
-      "1","2","3"
-    ],
-    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
-    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
-  },
-  {
-    question: "더미질문",
-    intent: "답변자를 잘 파악하고 싶어요.",
-    answerText: "저는 프로젝트 수업 중 팀 내 기획과 운영을 맡으며...",
-    evaluation: [
-      "1","2","3"
-    ],
-    goodExample: "지원자는 학교 프로젝트를 수행 중 외부 기관과 협업하여 이벤트를 진행하였다...",
-    summary: "질 높은 답변은 정확한 정보와 함께 명확한 구조를 갖추고 있어 듣는 사람이 쉽게 이해하고 신뢰할 수 있습니다..."
-  }
-];
-
 const ReportAnswer = () => {
+  const interviewId = useInterviewId();
+  const { answerList, loading, error } = useReportAnswers(interviewId);
+  
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('answer_report.pdf');
   const [page, setPage] = useState(1);
@@ -86,7 +48,8 @@ const ReportAnswer = () => {
         timestamp="2025-03-15 21:25:41"
         onDownload={handleDownload}
       />
-      <div className="report-container">
+      {Array.isArray(answerList) && answerList.length > 0 &&(
+        <div className="report-container">
         <h2 className="title-24-bold question">
           <span className="primary">Q{page}.</span> <span className="primary">{currentData.question}</span>
         </h2>
@@ -284,11 +247,14 @@ const ReportAnswer = () => {
 
         <ButtonPair
           leftText="전달력 분석 결과 보러가기"
-          rightText="비교 분석 결과 보러가기"
-          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
-          onRightClick={() => navigateAndScrollTop(PATH.REPORT_COMPARE)}
+          rightText="나가기"
+          // rightText="비교 분석 결과 보러가기"
+          onLeftClick={() => navigateAndScrollTop(`${PATH.REPORT_DELIVERY}?interviewId=${interviewId}`)}
+          // onRightClick={() => navigateAndScrollTop(PATH.REPORT_COMPARE)}
+          onRightClick={() => navigateAndScrollTop(PATH.HOME)}
         />
-      </div>
+        </div>
+      )}
       <Footer />
     </Container>
   );

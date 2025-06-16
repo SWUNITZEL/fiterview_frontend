@@ -7,6 +7,7 @@ import {
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import useInterviewId from '../../hooks/useInterviewId';
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -19,6 +20,7 @@ import './Report.css';
 const ReportNonverbal = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('nonverbal_report.pdf');
+  const interviewId = useInterviewId();
 
   const movementData = [
     { name: '왼쪽 어깨 움직임', value: 30 },
@@ -233,7 +235,7 @@ const ReportNonverbal = () => {
           leftText=""
           rightText="전달력 분석 결과 보러가기"
           onLeftClick={undefined}
-          onRightClick={() => navigateAndScrollTop(PATH.REPORT_DELIVERY)}
+          onRightClick={() => navigateAndScrollTop(`${PATH.REPORT_DELIVERY}?interviewId=${interviewId}`)}
         />
       </div>
       <Footer />

@@ -9,6 +9,7 @@ import WordCloud from 'wordcloud';
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from '../../data/paths';
 import { usePdfDownload } from '../../hooks/usePdfDownload';
+import useInterviewId from '../../hooks/useInterviewId';
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
@@ -21,6 +22,7 @@ import './Report.css';
 const ReportDelivery = () => {
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { pageRef, handleDownload } = usePdfDownload('delivery_report.pdf');
+  const interviewId = useInterviewId();
 
   const waveformData = Array.from({ length: 200 }, (_, i) => ({
     time: i * 0.1,
@@ -154,8 +156,8 @@ const ReportDelivery = () => {
         <ButtonPair
           leftText="비언어적 커뮤니케이션 분석 결과 보러가기"
           rightText="답변 구성 분석 결과 보러가기"
-          onLeftClick={() => navigateAndScrollTop(PATH.REPORT_NONVERBAL)}
-          onRightClick={() => navigateAndScrollTop(PATH.REPORT_ANSWER)}
+          onLeftClick={() => navigateAndScrollTop(`${PATH.REPORT_NONVERBAL}?interviewId=${interviewId}`)}
+          onRightClick={() => navigateAndScrollTop(`${PATH.REPORT_ANSWER}?interviewId=${interviewId}`)}
         />
       </div>
       <Footer />
