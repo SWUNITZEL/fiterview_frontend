@@ -12,7 +12,7 @@ const getFeedback = (category, value) => {
 
 export default function FeedbackSummaryBox({ title, category, myScore, average }) {
   const feedback = getFeedback(category, myScore);
-  const scoreValue = category === 'tone' ? myScore.hz : myScore;
+  const scoreValue = category === 'tone' ? myScore : myScore;
 
   const data = [
     { name: '응시자 평균', score: average },

@@ -5,6 +5,7 @@ import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress, Modal, Box, Typography } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
 import { PATH } from "../../data/paths";
+import { LASTMENT } from "../../data/interview";
 import "./Interview.css";
 
 const modalStyle = {
@@ -103,16 +104,19 @@ function Interview({stream, videoRef}) {
     useInterviewWebSocket({
       interviewId,
       onReceiveQuestion: useCallback((text) => {
-        if (!interviewStartedRef.current) {
-          setPendingQuestion(text);
-          return;
-        }
-        if (isUploadingRef.current) {
-          setPendingQuestion(text); 
-          return;
-        }
-        playTTS(text);
-      }, [isUploadingRef.current, playTTS]),
+          const isFinalComment = text.includes(LASTMENT);
+
+          if (!interviewStartedRef.current || isUploadingRef.current) {
+            setPendingQuestion(text);
+            return;
+          }
+
+          if (isFinalComment) {
+            playTTS(text, true);  // 마지막 멘트로 표시
+          } else {
+            playTTS(text, false);
+          }
+        }, [isUploadingRef.current, playTTS]),
       onComplete: useCallback(() => {
         setIsInterviewComplete(true)
       }, [])
@@ -240,7 +244,7 @@ function Interview({stream, videoRef}) {
           <div className='text-container'>
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold'>
-              Q. {question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}
+              Q. {(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}
             </div>
             <Button disabled={(!interviewStarted)||isTTSPlaying} onClick={handleButtonClick} className="complete-btn" size="large" 
             sx={{ 
