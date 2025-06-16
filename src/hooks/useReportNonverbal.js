@@ -12,8 +12,8 @@ const useReportNonverbal = (interviewId) => {
     const fetchNonverbal = async () => {
       try {
         const result = await getReportNonverbal(interviewId);
-        console.error('신체언어 분석 정보 받아오기 성공:', result);
-        setNonverbalData(result);
+        console.error('신체언어 분석 정보 받아오기 성공:', result.result);
+        setNonverbalData(result.result);
       } catch (err) {
         console.error('신체언어 분석 정보 받아오기 실패:', err);
         setError(err);

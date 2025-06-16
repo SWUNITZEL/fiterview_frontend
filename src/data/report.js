@@ -5,11 +5,11 @@ export const FEEDBACK_RULES = {
     { condition: () => true, label: '개선점', comment: '전달력이 좋지 않아요. 발음 연습이 많이 필요해요.' },
   ],
   tone: [
-    { condition: ({ hz, std }) => hz <= 220 && hz >= 160, label: '장점', comment: '음역대가 또렷하고 안정적입니다.' },
-    { condition: ({ hz, std }) => hz > 220 && std <= 55, label: '장점', comment: '다소 높은 톤이지만 안정적으로 들립니다.' },
-    { condition: ({ hz }) => hz < 160, label: '개선점', comment: '음성이 다소 단조롭게 들릴 수 있습니다.' },
-    { condition: ({ hz, std }) => hz > 220 && std <= 45, label: '개선점', comment: '톤이 높고 변화가 적어 단조롭거나 부자연스럽게 들릴 수 있습니다.' },
-    { condition: ({ hz, std }) => hz > 250 && std > 700, label: '개선점', comment: '높은 음역과 변화가 많아 산만하게 들릴 수 있습니다.' },
+    { condition: (v) => v <= 60, label: '장점', comment: '음역대가 또렷하고 안정적입니다.' },
+    { condition: (v) => v > 60, label: '장점', comment: '다소 높은 톤이지만 안정적으로 들립니다.' },
+    { condition: (v) => v < 40, label: '개선점', comment: '음성이 다소 단조롭게 들릴 수 있습니다.' },
+    { condition: (v) => v > 100, label: '개선점', comment: '톤이 높고 변화가 적어 단조롭거나 부자연스럽게 들릴 수 있습니다.' },
+    { condition: (v) => v > 120, label: '개선점', comment: '높은 음역과 변화가 많아 산만하게 들릴 수 있습니다.' },
   ],
   speed: [
     { condition: (v) => v < 65, label: '장점', comment: '발화 속도가 일정합니다.' },

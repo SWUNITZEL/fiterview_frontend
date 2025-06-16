@@ -12,8 +12,8 @@ const useReportDelivery = (interviewId) => {
     const fetchDelivery = async () => {
       try {
         const result = await getReportDelivery(interviewId);
-        console.error('전달력 분석 정보 받아오기 성공:', result);
-        setDeliveryData(result);
+        console.error('전달력 분석 정보 받아오기 성공:', result.result);
+        setDeliveryData(result.result);
       } catch (err) {
         console.error('전달력 분석 정보 받아오기 실패:', err);
         setError(err);

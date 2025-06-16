@@ -24,7 +24,16 @@ const ReportNonverbal = () => {
   const interviewId = useInterviewId();
 
   const { nonverbalData, loading, error } = useReportNonverbal(interviewId);
+  const gazeData = Array.isArray(nonverbalData.gazePointList)
+  ? nonverbalData.gazePointList.flat().map(([x, y]) => ({ x, y }))
+  : [];
 
+  const movementData = Array.isArray(nonverbalData.gazePointList)?[
+    {name:"어깨 움직임", value:nonverbalData.avgShoulderTiltCount},
+    {name:"왼쪽으로 고개 돌림", value:nonverbalData.avgTurnLeftCount},
+    {name:"오른쪽으로 고개 돌림", value:nonverbalData.avgTurnRightCount}
+  ]:[];
+  
   return (
     <Container
       ref={pageRef}
@@ -39,34 +48,34 @@ const ReportNonverbal = () => {
     >
       <NavbarComponent />
       <ReportHeader
-        interviewTitle="○○대학교 모의면접 결과"
+        interviewTitle={`${nonverbalData.university} 모의면접 결과`}
         reportTitle="비언어적 커뮤니케이션 분석 결과"
-        timestamp="2025-03-15 21:25:41"
+        timestamp={`${nonverbalData.createdAt} 모의면접 결과`}
         onDownload={handleDownload}
       />
       {nonverbalData&&(<div className="report-container">
         <h3 className="total-score">
-          총점 <span>{nonverbalData.totalScore}점</span>
+          총점 <span>{nonverbalData.totalScore.avgFacialScore}점</span>
         </h3>
 
         <div className="summary-section">
           <FeedbackSummaryBox
             title="자세"
             category="posture"
-            myScore={nonverbalData.posture.score}
-            average={nonverbalData.posture.average}
+            myScore={nonverbalData.totalScore.avgFacialScore}
+            average={nonverbalData.totalScore.avgFacialScore}
           />
           <FeedbackSummaryBox
             title="긴장도"
             category="blink"
-            myScore={nonverbalData.blink.score}
-            average={nonverbalData.blink.average}
+            myScore={nonverbalData.totalScore.avgGazeScore}
+            average={nonverbalData.totalScore.avgGazeScore}
           />
           <FeedbackSummaryBox
             title="시선처리"
             category="gaze"
-            myScore={nonverbalData.gaze.score}
-            average={nonverbalData.gaze.average}
+            myScore={nonverbalData.totalScore.avgPostureScore}
+            average={nonverbalData.totalScore.avgPostureScore}
           />
         </div>
 
@@ -76,14 +85,14 @@ const ReportNonverbal = () => {
             <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left" style={{ paddingRight: '64px' }}>
                 <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>자세 세부 분석 결과</h4>
-                <p>{nonverbalData.posture.detail}</p>
+                <p>아무거나</p>
               </div>
               <div
                 className="detail-right"
                 style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}
               >
                 <ResponsiveContainer width={400} height={200}>
-                  <BarChart data={nonverbalData.movementData} barCategoryGap={40} barSize={60}>
+                  <BarChart data={movementData} barCategoryGap={40} barSize={60}>
                     <XAxis
                       dataKey="name"
                       axisLine={false}
@@ -94,7 +103,7 @@ const ReportNonverbal = () => {
                     <YAxis hide domain={[0, 50]} />
                     <Tooltip cursor={{ fill: 'transparent' }}/>
                     <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                      {nonverbalData.movementData.map((entry, index) => {
+                      {movementData.map((entry, index) => {
                         const value = entry.value;
                         let fillColor = 'var(--success-40)'; // 초록
                         if (value >= 40) fillColor = 'var(--warning-40)'; // 노랑
@@ -112,7 +121,7 @@ const ReportNonverbal = () => {
             <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left" style={{ paddingRight: '64px'}}>
                 <h4 style={{fontSize:"20px",  marginTop:"0px", marginBottom:"40px"}}>시선 세부 분석 결과</h4>
-                <p style={{ whiteSpace: 'pre-wrap' }}>{nonverbalData.gaze.detail}</p>
+                <p style={{ whiteSpace: 'pre-wrap' }}>아무거나</p>
               </div>
               <div className="detail-right" style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}>
                 <ResponsiveContainer width={400} height={200}>
@@ -186,7 +195,7 @@ const ReportNonverbal = () => {
                       range={[60]} 
                       tick={false}
                     />
-                    <Scatter name="Gaze" data={nonverbalData.gazeData} fill="var(--primary-60)" />
+                    <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" />
                   </ScatterChart>
                 </ResponsiveContainer>
               </div>
@@ -197,7 +206,7 @@ const ReportNonverbal = () => {
             <div className="detail-box drop-shadow-large full-width" style={{padding:"32px 40px"}}>
               <div className="detail-left">
                 <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>표정 세부 분석 결과</h4>
-                <p>{nonverbalData.blink.detail}</p>
+                <p>아무거나</p>
               </div>
             </div>
           </div>
