@@ -36,26 +36,35 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
           console.log("받아온 메시지:", data);
 
           if (data.question_text === LASTMENT) {
+            onReceiveQuestion?.(data.question_text)
+            setQuestion(data.question_text);
             websocket.current?.close();
             setIsConnected(false);
             onComplete?.();
             return;
           }
 
-          if (data.type === 'question') {
+          if (data.question_text === 'done') {
+            onReceiveQuestion?.(data.question_text)
+            setQuestion(data.question_text);
+            return;
+          }
+
+          if (data.type === 'question'||data.type === 'complete') {
             onReceiveQuestion?.(data.question_text);
+            setQuestionID(data.question_id);
+            setTotalQuestions(data.total_questions);
+            setQustionIndex(data.question_index);
+            setQuestion(data.question_text);
+            setHasFollowUp(data.has_follow_up);
+            setReadyForChainQuestion(false);
           }
 
           if (!isConnected) {
             setIsConnected(true);
           }
 
-          setQuestionID(data.question_id);
-          setTotalQuestions(data.total_questions);
-          setQustionIndex(data.question_index);
-          setQuestion(data.question_text);
-          setHasFollowUp(data.has_follow_up);
-          setReadyForChainQuestion(false);
+          
         };
 
         websocket.current.onerror = (error) => {
