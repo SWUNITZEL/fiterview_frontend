@@ -27,7 +27,6 @@ const ReportNonverbal = () => {
   const gazeData = Array.isArray(nonverbalData.gazePointList)
   ? nonverbalData.gazePointList.flat().map(([x, y]) => ({ x, y }))
   : [];
-  console.log(gazeData)
 
   const movementData = Array.isArray(nonverbalData.gazePointList)?[
     {name:"어깨 움직임", value:nonverbalData.avgShoulderTiltCount},
@@ -103,7 +102,7 @@ const ReportNonverbal = () => {
                     />
                     <YAxis hide domain={[0, 50]} />
                     <Tooltip cursor={{ fill: 'transparent' }}/>
-                    <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                    <Bar dataKey="value" radius={[6, 6, 0, 0]} minPointSize={2}>
                       {movementData.map((entry, index) => {
                         const value = entry.value;
                         let fillColor = 'var(--success-40)'; // 초록

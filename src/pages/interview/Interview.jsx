@@ -5,7 +5,7 @@ import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress, Modal, Box, Typography } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
 import { PATH } from "../../data/paths";
-import { LASTMENT } from "../../data/interview";
+import { LASTMENT,VIDEO_UPLOAD_REQ } from "../../data/interview";
 import "./Interview.css";
 
 const modalStyle = {
@@ -38,6 +38,7 @@ function Interview({stream, videoRef}) {
   const { interviewId } = location.state || {};
 
   const [recording, setRecording] = useState(false);
+  const [recordingQuestionId, setRecordingQuestionId] = useState(null);
   const [isTTSPlaying, setIsTTSPlaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
   const [interviewStarted, setInterviewStarted] = useState(false);
@@ -48,6 +49,8 @@ function Interview({stream, videoRef}) {
   const interviewStartedRef = useRef(interviewStarted);
   const streamRef = useRef(null);
   const questionIDRef = useRef(null);
+  const lastRecordedBlobRef = useRef(null);
+  const lastRecordedQuestionIdRef = useRef(null);
 
   const { uploadVideo, isUploading } = useVideoUpload();
   const isUploadingRef = useRef(isUploading);
@@ -56,7 +59,7 @@ function Interview({stream, videoRef}) {
     isUploadingRef.current = isUploading;
   }, [isUploading]);
 
-  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording);
+  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording)&&(timeLeft>0);
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -81,6 +84,7 @@ function Interview({stream, videoRef}) {
     utterance.lang = 'ko-KR';
     utterance.onstart = () => {
       setIsTTSPlaying(true);
+      setRecordingQuestionId(questionIDRef.current)
     };
     utterance.onend = () => {
       setIsTTSPlaying(false);
@@ -105,15 +109,25 @@ function Interview({stream, videoRef}) {
       interviewId,
       onReceiveQuestion: useCallback((text) => {
           const isFinalComment = text.includes(LASTMENT);
+          const isVideoUploadReq = text.includes("done");
 
-          if (!interviewStartedRef.current || isUploadingRef.current) {
+          if (!isVideoUploadReq || !interviewStartedRef.current || isUploadingRef.current) {
             setPendingQuestion(text);
             return;
           }
 
+          if (isVideoUploadReq) {
+            console.log("비디오 전송 시도")
+            uploadVideo(lastRecordedBlobRef.current, interviewId, lastRecordedQuestionIdRef.current);
+
+            // 전송 후 초기화
+            lastRecordedBlobRef.current = null;
+            lastRecordedQuestionIdRef.current = null;
+          }
+
           if (isFinalComment) {
             playTTS(text, true);  // 마지막 멘트로 표시
-          } else {
+          } else if(!isVideoUploadReq) {
             playTTS(text, false);
           }
         }, [isUploadingRef.current, playTTS]),
@@ -134,12 +148,14 @@ function Interview({stream, videoRef}) {
     recorder.onstop = () => {
       const blob = new Blob(chunks, { type: 'video/webm' });
       sendAudio(blob);
-      uploadVideo(blob, interviewId, questionIDRef.current);
+      // uploadVideo(blob, interviewId, recordingQuestionId);
+      lastRecordedBlobRef.current = blob;
+      lastRecordedQuestionIdRef.current = recordingQuestionId;
     };
 
     recorder.start();
     streamRef.current._recorder = recorder;
-  }, [sendAudio, uploadVideo]);
+  }, [sendAudio, uploadVideo, interviewId, questionIDRef]);
 
   const stopRecording = () => {
     if (streamRef.current?._recorder) {
@@ -243,10 +259,10 @@ function Interview({stream, videoRef}) {
         <div className='contents-container' style={{ boxShadow: "none" }}>
           <div className='text-container'>
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
-            <div className='question-container subtitle-20-bold'>
-              Q. {(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}
+            <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
+              {(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":`Q. ${question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`}
             </div>
-            <Button disabled={(!interviewStarted)||isTTSPlaying} onClick={handleButtonClick} className="complete-btn" size="large" 
+            <Button disabled={(!interviewStarted)||isTTSPlaying||isUploading||((!isUploading)&&(readyForChainQuestion))} onClick={handleButtonClick} className="complete-btn" size="large" 
             sx={{ 
                 borderRadius: '8px', 
                 padding: '8px 16px', 
