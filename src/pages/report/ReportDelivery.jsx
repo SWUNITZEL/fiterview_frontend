@@ -65,7 +65,7 @@ const ReportDelivery = () => {
       <ReportHeader
         interviewTitle={`${deliveryData.university} 모의면접 결과`}
         reportTitle="전달력 분석 결과"
-        timestamp={`${deliveryData.createdAt} 모의면접 결과`}
+        timestamp={`${deliveryData.createdAt}`}
         onDownload={handleDownload}
       />
       {deliveryData&&(

@@ -85,9 +85,9 @@ const ReportAnswer = () => {
 
           <div style={{ flex: 1 }}>
             <h4 className="subtitle-18-bold primary" style={{ marginBottom: '8px' }}>질문 의도</h4>
-            <p className="body-14-regular" style={{ marginBottom: '16px' }}>{currentData.intent}</p>
+            <p className="body-16-regular" style={{ marginBottom: '16px' }}>{currentData.intent}</p>
             <h4 className="subtitle-18-bold primary" style={{ marginBottom: '8px' }}>답변 내용</h4>
-            <p className="body-14-regular" style={{ whiteSpace: 'pre-line' }}>{currentData.answerText}</p>
+            <p className="body-16-regular" style={{ whiteSpace: 'pre-line' }}>{currentData.answerText}</p>
           </div>
         </div>
 
@@ -128,7 +128,7 @@ const ReportAnswer = () => {
                   >
                     {ACCORDION_CONTENTS[evalKey]["title"]}
                   </AccordionSummary>
-                  <AccordionDetails className="body-14-regular" style={{ padding: '12px 16px', backgroundColor:"var(--nuetral-20)" }}>
+                  <AccordionDetails className="body-16-regular" style={{ padding: '12px 16px', backgroundColor:"var(--nuetral-20)" }}>
                     {ACCORDION_CONTENTS[evalKey]["detail"]}
                   </AccordionDetails>
                 </Accordion>
@@ -145,7 +145,7 @@ const ReportAnswer = () => {
               }}
             >
               <h4 style={{fontSize:"20px",  marginTop:"0px",  marginBottom:"40px"}}>답변 총평</h4>
-              <p className="body-14-regular">{currentData.summary}</p>
+              <p className="body-16-regular">{currentData.summary}</p>
             </div>
           </div>
 
@@ -199,15 +199,15 @@ const ReportAnswer = () => {
                 <h4 className="subtitle-18-bold" style={{ color: 'white', marginBottom: '4px', marginTop:"4px" }}>
                   이렇게 답변하면 좋아요!
                 </h4>
-                <p className="body-14-regular" style={{ color: '#d9e7ff', marginTop:"0px" }}>
+                <p className="body-16-regular" style={{ color: '#d9e7ff', marginTop:"0px" }}>
                   전공과 연관된 단어를 추가해 답변을 개선했어요
                 </p>
               </div>
             </div>
 
             <div style={{ padding: '32px 28px' }}>
-              <span className="body-14-regular" style={{ lineHeight: '1.6', color: '#333' }}>
-                {currentData.goodExample}
+              <span className="body-16-regular" style={{ lineHeight: '1.6', color: '#333' }}>
+                {(currentData.goodExample.startsWith('"') && currentData.goodExample.endsWith('"'))?currentData.goodExample.slice(1, -1):currentData.goodExample}
               </span>
             </div>
           </div>
