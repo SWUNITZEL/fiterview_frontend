@@ -27,6 +27,7 @@ const ReportNonverbal = () => {
   const gazeData = Array.isArray(nonverbalData.gazePointList)
   ? nonverbalData.gazePointList.flat().map(([x, y]) => ({ x, y }))
   : [];
+  console.log(gazeData)
 
   const movementData = Array.isArray(nonverbalData.gazePointList)?[
     {name:"어깨 움직임", value:nonverbalData.avgShoulderTiltCount},
@@ -50,7 +51,7 @@ const ReportNonverbal = () => {
       <ReportHeader
         interviewTitle={`${nonverbalData.university} 모의면접 결과`}
         reportTitle="비언어적 커뮤니케이션 분석 결과"
-        timestamp={`${nonverbalData.createdAt} 모의면접 결과`}
+        timestamp={`${nonverbalData.createdAt}`}
         onDownload={handleDownload}
       />
       {nonverbalData&&(<div className="report-container">
@@ -125,7 +126,7 @@ const ReportNonverbal = () => {
               </div>
               <div className="detail-right" style={{ marginLeft: '60px', display: 'flex', justifyContent: 'center' }}>
                 <ResponsiveContainer width={400} height={200}>
-                  <ScatterChart>
+                  <ScatterChart >
                     <XAxis
                       type="number"
                       dataKey="x"
@@ -138,7 +139,7 @@ const ReportNonverbal = () => {
                     <YAxis
                       type="number"
                       dataKey="y"
-                      domain={[0, 100]}
+                      domain={[-20, 120]}
                       axisLine={false}
                       tickLine={false}
                       tick={false}
@@ -195,7 +196,7 @@ const ReportNonverbal = () => {
                       range={[60]} 
                       tick={false}
                     />
-                    <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" />
+                    <Scatter name="Gaze" data={gazeData} fill="var(--primary-60)" fillOpacity={0.1} />
                   </ScatterChart>
                 </ResponsiveContainer>
               </div>
