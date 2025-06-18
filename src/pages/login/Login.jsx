@@ -77,10 +77,12 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-60)',
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
                 },
-                '&.MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'transparent',
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
                 },
               }
             }}
@@ -112,10 +114,12 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-60)',
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
                 },
-                '&.MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'transparent',
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
                 },
               }
             }}
