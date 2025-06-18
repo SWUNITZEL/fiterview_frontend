@@ -51,7 +51,7 @@ const PersonaConfig = () => {
               onClick={() => handleSelect(item.id)}
             >
               <div className="persona-box-left">
-                <img src="/logo-placeholder.png" alt="면접관 이미지" className="persona-img" />
+                <img src={`/images/config/persona0${item.id}.png`} alt="면접관 이미지" className="persona-img" />
               </div>
               <div className="persona-box-right">
                 <div className="subtitle-18-bold persona-name">
