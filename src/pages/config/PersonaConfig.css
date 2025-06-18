@@ -36,6 +36,7 @@
 .persona-box {
   display: flex;
   box-sizing: border-box;
+  height: 140px;
   border: 1px solid var(--nuetral-30);
   background-color: white;
   border-radius: 12px;
@@ -55,10 +56,11 @@
 }
 
 .persona-img {
-  width: 80px;
-  height: 80px;
+  width: auto;
+  height: 100px;
   background-color: var(--nuetral-20);
   border-radius: 8px;
+  margin-right: 10px;
 }
 
 /* 우측 설명 */
