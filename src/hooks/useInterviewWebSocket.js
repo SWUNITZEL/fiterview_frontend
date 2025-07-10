@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { convertWebmToWav } from "../utils/toWav";
 import { LASTMENT } from "../data/interview";
-import { reqQuestions } from "../api/interview"; // 이 부분도 상대경로 맞게 조정
+import { reqQuestions, getWebsocketToken } from "../api/interview"; // 이 부분도 상대경로 맞게 조정
 
 export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComplete }) {
   const websocket = useRef(null);
@@ -24,8 +24,11 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         console.log("질문생성: ",data)
         setIsInitialized(true);
 
+        // 웹소켓 전용 인증 토큰 발급
+        const socketToken = await getWebsocketToken()
+
         // 🔌 WebSocket 연결
-        websocket.current = new WebSocket(`${process.env.REACT_APP_WS_URL}interview/${interviewId}`);
+        websocket.current = new WebSocket(`${process.env.REACT_APP_WS_URL}interview/${interviewId}?socket_token=${socketToken}`);
 
         websocket.current.onopen = () => {
           console.log('WebSocket 연결 열림');
