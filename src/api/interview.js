@@ -122,3 +122,18 @@ export async function uploadVideoApi(videoBlob, interviewID, questionID) {
         throw new Error(`서버 오류: ${error.response?.status || error.message}`);
     }
 }
+
+/**
+ * 웹소켓 연결 전, access 토큰으로 웹소켓 인증 전용 토큰을 발급받는 함수
+ * @returns {Promise<string>} 웹소켓 연결에 사용할 짧은 토큰 (socket token)
+ */
+export const getWebsocketToken = async () => {
+  try{
+      const response = await fastapiApi.get(`users/socket-token`);
+      console.log(response.data)
+
+      return response.data.result
+  } catch (error) {
+  throw new Error(`HTTP error! status: ${error.response?.status || error.message}`);
+  }
+}
