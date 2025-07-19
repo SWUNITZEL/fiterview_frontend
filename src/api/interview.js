@@ -113,11 +113,9 @@ export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     console.log("file:",URL.createObjectURL(videoBlob))
     console.log("questionId:",questionID)
 
-
     try {
-        const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
-
-        return response.data;
+      const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
+      return response.data;
     } catch (error) {
         throw new Error(`서버 오류: ${error.response?.status || error.message}`);
     }

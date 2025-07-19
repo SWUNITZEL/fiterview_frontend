@@ -5,7 +5,7 @@ import { useVideoUpload } from '../../hooks/useVideoUpload';
 import { Container, Button, Chip, LinearProgress, Modal, Box, Typography } from '@mui/material';
 import LoadingScreen from '../../components/LoadingScreen';
 import { PATH } from "../../data/paths";
-import { LASTMENT,VIDEO_UPLOAD_REQ } from "../../data/interview";
+import { LASTMENT, STT_ERROR_MESSAGE, VIDEO_UPLOAD_REQ } from "../../data/interview";
 import "./Interview.css";
 
 const modalStyle = {
@@ -33,16 +33,19 @@ const modalStyle = {
     },
 };
 
-function Interview({stream, videoRef}) {
+function Interview({stream}) {
   const location = useLocation();
   const { interviewId } = location.state || {};
 
   const [recording, setRecording] = useState(false);
   const [recordingQuestionId, setRecordingQuestionId] = useState(null);
+  const [prevQuestion, setPrevQuestion] = useState(null)
   const [isTTSPlaying, setIsTTSPlaying] = useState(false);
+  const [isSTTError, setIsSTTError] = useState(false)
   const [timeLeft, setTimeLeft] = useState(0);
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [isInterviewComplete, setIsInterviewComplete] = useState(false);
+
   const [pendingQuestion, setPendingQuestion] = useState(null);
 
   const timerRef = useRef(null);
@@ -109,14 +112,36 @@ function Interview({stream, videoRef}) {
       interviewId,
       onReceiveQuestion: useCallback((text) => {
           const isFinalComment = text.includes(LASTMENT);
-          const isVideoUploadReq = text.includes("done");
+          const isVideoUploadReq = text.includes(VIDEO_UPLOAD_REQ);
+          const isSTTErrorMessage = text.includes(STT_ERROR_MESSAGE)
+
+          console.log((!isVideoUploadReq || !interviewStartedRef.current || isUploadingRef.current))
+          console.log("console.log(isFinalComment)", isFinalComment)
+          console.log("console.log(isVideoUploadReq)", isVideoUploadReq)
+          console.log("console.log(isSTTErrorMessage)", isSTTErrorMessage)
 
           if (!isVideoUploadReq || !interviewStartedRef.current || isUploadingRef.current) {
+            if (isSTTErrorMessage){
+              setIsSTTError(true)
+              
+            } else {
+              setIsSTTError(false)
+              setPrevQuestion(text)
+            }
+            console.log("console.log(isSTTError)", isSTTError)
             setPendingQuestion(text);
             return;
           }
 
-          if (isVideoUploadReq) {
+          else if (isFinalComment) {
+            playTTS(text);  // 마지막 멘트로 표시
+          } 
+
+          else if(!isVideoUploadReq) {
+            playTTS(text);
+          }
+
+          else if (isVideoUploadReq) {
             console.log("비디오 전송 시도")
             uploadVideo(lastRecordedBlobRef.current, interviewId, lastRecordedQuestionIdRef.current);
 
@@ -125,11 +150,8 @@ function Interview({stream, videoRef}) {
             lastRecordedQuestionIdRef.current = null;
           }
 
-          if (isFinalComment) {
-            playTTS(text, true);  // 마지막 멘트로 표시
-          } else if(!isVideoUploadReq) {
-            playTTS(text, false);
-          }
+          
+
         }, [isUploadingRef.current, playTTS]),
       onComplete: useCallback(() => {
         setIsInterviewComplete(true)
@@ -238,7 +260,7 @@ function Interview({stream, videoRef}) {
             답변 준비시간이에요.
           </h4>
         </div>
-        <div className='loading' style={{ display: (!isUploading)&&(readyForChainQuestion) ? "flex" : "none" }}>
+        <div className='loading' style={{ display: (!isUploading)&&(readyForChainQuestion)&&(!isSTTError) ? "flex" : "none" }}>
           <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
             AI 면접관이 꼬리질문을<br />출제하고 있어요
           </h4>
@@ -259,10 +281,11 @@ function Interview({stream, videoRef}) {
         <div className='contents-container' style={{ boxShadow: "none" }}>
           <div className='text-container'>
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
+            <Chip style={{display: (isSTTError)?"flex":"none"}} className="warning" label={`음성이 녹음되지 않았습니다. 다시 녹음해주세요`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
-              {(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":`Q. ${question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`}
+              {(isSTTError)?`Q. ${prevQuestion.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`:(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":`Q. ${question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`}
             </div>
-            <Button disabled={(!interviewStarted)||isTTSPlaying||isUploading||((!isUploading)&&(readyForChainQuestion))} onClick={handleButtonClick} className="complete-btn" size="large" 
+            <Button disabled={(!interviewStarted)||isTTSPlaying||isUploading||((!isUploading)&&(readyForChainQuestion))&&(!isSTTError)} onClick={handleButtonClick} className="complete-btn" size="large" 
             sx={{ 
                 borderRadius: '8px', 
                 padding: '8px 16px', 

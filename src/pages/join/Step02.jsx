@@ -62,8 +62,13 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60)',
-                  }
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
+                },
                 }
               }}
             />
@@ -82,8 +87,13 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60)',
-                  }
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: 'var(--primary-40)',
+                  borderWidth: '2px',
+                },
                 }
               }}
             />
@@ -102,8 +112,13 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60)',
-                  }
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
                 }
               }}
             />
@@ -136,8 +151,13 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60)',
-                  }
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
                 }
               }}
             />
@@ -157,8 +177,13 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60)',
-                  }
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
                 }
               }}
             />
@@ -176,7 +201,12 @@ function Step02({ onNext, toLogin }) {
                   '&.MuiOutlinedInput-root': {
                     borderRadius: '8px !important',
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-60) !important',
+                      borderColor: 'var(--primary-40) !important',
+                      borderWidth: '2px',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: 'var(--primary-40) !important',
+                      borderWidth: '2px',
                     },
                   }
                 }}
@@ -200,10 +230,12 @@ function Step02({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-60)',
+                    borderColor: 'var(--primary-40) !important',
+                    borderWidth: '2px',
                   },
-                  '&.MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'transparent',
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40) !important',
+                    borderWidth: '2px',
                   },
                 }
               }}
