@@ -4,14 +4,17 @@ import { getReportNonverbal } from '../../api/report/reportNonverbal'
 export const useReportNonverbal = (interviewId, token) => {
   const [nonverbalData, setNonverbalData] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
+    if (!interviewId || !token) return
+
     const fetchData = async () => {
       try {
-        const data = await getReportNonverbal(interviewId, token)
-        setNonverbalData(data)
-      } catch (error) {
-        console.error('비언어 리포트 에러:', error)
+        const result = await getReportNonverbal(interviewId, token)
+        setNonverbalData(result)
+      } catch (err) {
+        setError(err.message || '데이터 로드 실패')
       } finally {
         setLoading(false)
       }
@@ -20,5 +23,5 @@ export const useReportNonverbal = (interviewId, token) => {
     fetchData()
   }, [interviewId, token])
 
-  return { nonverbalData, loading }
+  return { nonverbalData, loading, error }
 }
