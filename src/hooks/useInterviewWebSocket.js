@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { convertWebmToWav } from "../utils/toWav";
-import { LASTMENT } from "../data/interview";
+import { LASTMENT, VIDEO_UPLOAD_REQ, STT_ERROR_MESSAGE } from "../data/interview";
 import { reqQuestions, getWebsocketToken } from "../api/interview"; // 이 부분도 상대경로 맞게 조정
 
 export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComplete }) {
@@ -47,7 +47,13 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
             return;
           }
 
-          if (data.question_text === 'done') {
+          if (data.question_text === VIDEO_UPLOAD_REQ) {
+            onReceiveQuestion?.(data.question_text)
+            setQuestion(data.question_text);
+            return;
+          }
+
+          if (data.question_text === STT_ERROR_MESSAGE) {
             onReceiveQuestion?.(data.question_text)
             setQuestion(data.question_text);
             return;

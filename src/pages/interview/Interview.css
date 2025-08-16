@@ -84,6 +84,23 @@
   justify-content: center;
   align-items: center;
 }
+.warning{
+    position: absolute;
+    z-index: 2;
+    top: -34px;
+    right: 50px;
+    height: 24px;  
+    width: fit-content;          
+    text-align: center;
+    /* font-size: 16px; */
+    font-weight: 600;
+    background-color: var(--error-10);
+    color: var(--error-60);
+    padding: 12px;
+
+    justify-content: center;
+    align-items: center;
+}
 .recording {
   position: absolute;
   z-index: 2;

@@ -47,7 +47,7 @@ const InterviewSessionWrapper = () => {
         />
       } />
       <Route path={PATH.INTERVIEW_REL} element={
-        <Interview stream={stream} videoRef={videoRef} />
+        <Interview stream={stream} />
       } />
     </Routes>
   );
