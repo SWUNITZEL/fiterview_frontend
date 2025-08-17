@@ -23,6 +23,11 @@ jobs:
 
     - name: Build project
       run: npm run build
+      env:
+        CI: false
+        REACT_APP_SPRING_API_URL: ${{ secrets.REACT_APP_SPRING_API_URL }}
+        REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+        REACT_APP_WS_API_URL: ${{ secrets.REACT_APP_WS_API_URL }}
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
