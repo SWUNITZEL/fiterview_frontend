@@ -18,7 +18,7 @@ import { getAccessToken } from '../utils/token';
  */
 
 const fastapiApi = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://api.fiterview.site/fastapi/",
 });
 
 /**

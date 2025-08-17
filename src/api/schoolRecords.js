@@ -2,11 +2,11 @@ import axios from 'axios';
 import { getAccessToken } from '../utils/token';
 
 const fastapiApi = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: "https://api.fiterview.site/fastapi/",
   // withCredentials: true,
 });
 const springApi = axios.create({
-  baseURL: process.env.REACT_APP_SRIPING_API_URL,
+  baseURL: "https://api.fiterview.site/springboot/",
   // withCredentials: true,
 });
 

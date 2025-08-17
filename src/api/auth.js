@@ -7,12 +7,12 @@ import { saveAccessToken, saveRefreshToken, getAccessToken, getRefreshToken } fr
  * - authApi는 재발급 전용 API (인터셉터 X)
  * */
 const springApi = axios.create({
-  baseURL: process.env.REACT_APP_SRIPING_API_URL,
+  baseURL: "https://api.fiterview.site/springboot/",
   withCredentials: true,
 });
 
 const authApi = axios.create({
-  baseURL: process.env.REACT_APP_SRIPING_API_URL,
+  baseURL: "https://api.fiterview.site/springboot/",
   withCredentials: true,
 });
 

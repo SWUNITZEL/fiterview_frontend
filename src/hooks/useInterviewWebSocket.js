@@ -28,7 +28,7 @@ export function useInterviewWebSocket({ interviewId, onReceiveQuestion, onComple
         const socketToken = await getWebsocketToken()
 
         // 🔌 WebSocket 연결
-        websocket.current = new WebSocket(`${process.env.REACT_APP_WS_URL}interview/${interviewId}?socket_token=${socketToken}`);
+        websocket.current = new WebSocket(`wss://api.fiterview.site/fastapi/interview/${interviewId}?socket_token=${socketToken}`);
 
         websocket.current.onopen = () => {
           console.log('WebSocket 연결 열림');
