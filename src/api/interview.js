@@ -103,7 +103,10 @@ export async function reqQuestions(interviewId) {
 /**
  * 비디오 Blob을 서버에 POST 전송하는 함수
  * @param {Blob} videoBlob 
+ * @param {string} interviewID 
+ * @param {string} questionID 
  * @returns {Promise<object>} 서버 응답 JSON
+ * @returns {Promise<{success: boolean, message: string, result: {jobId: string, status: string, message: string}}>}
  */
 export async function uploadVideoApi(videoBlob, interviewID, questionID) {
     const formData = new FormData();
@@ -115,8 +118,17 @@ export async function uploadVideoApi(videoBlob, interviewID, questionID) {
 
     try {
       const response = await fastapiApi.post(`interview/${interviewID}/analysis-video`, formData);
-      return response.data;
+      
+      // 응답 구조 검증
+      const responseData = response.data;
+      if (responseData.success && responseData.message === "영상 분석 접수 완료" && responseData.result) {
+        console.log('영상 분석 접수 완료:', responseData);
+        return responseData;
+      } else {
+        throw new Error('예상하지 못한 응답 구조입니다.');
+      }
     } catch (error) {
+        console.error('영상 업로드 실패:', error);
         throw new Error(`서버 오류: ${error.response?.status || error.message}`);
     }
 }

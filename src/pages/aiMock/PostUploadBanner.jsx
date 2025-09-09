@@ -6,8 +6,8 @@ import { ChevronRightIcon, ExclamationCircleIcon } from "@heroicons/react/24/sol
 import LoadingModal from '../../components/LoadingModal';
 
 const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, navigate, grades }) => {
-    const firstKey = Object.keys(grades)[0];
-    const firstValue = grades[firstKey];
+    const firstKey = grades && Object.keys(grades).length > 0 ? Object.keys(grades)[0] : null;
+    const firstValue = firstKey ? grades[firstKey] : null;
 
     return (
         <Container maxWidth={false} style={{
@@ -56,7 +56,7 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                         <h4 className='subtitle-20-semibold' style={{ marginTop: "0", marginBottom: "0" }}>{userName}님의 생기부</h4>
                         <p className="body-16-regular" style={{ marginTop: "0" }}>업로드</p>
                         <div style={{
-                            display: firstValue.length<5?"block":"none",
+                            display: firstValue && firstValue.length<5?"block":"none",
                             width: "100%",
                             height: "82px",
                             background: "var(--error-10)",
@@ -74,7 +74,7 @@ const PostUploadBanner = ({ userName, getRootProps, getInputProps, isUploading, 
                                 <ExclamationCircleIcon style={{ height: "20px" }} />&nbsp;FITERVIEW 제안
                             </p>
                             <p className="body-16-regular" style={{ color: "var(--error-40)", marginTop: "0", marginBottom: "0" }}>
-                                {firstValue.length<3?"1":firstValue.length<5?"2":"3"}학년 {firstValue.length % 2 === 0?"2":"1"}학기까지의 정보만 들어있어요!
+                                {firstValue && firstValue.length<3?"1":firstValue && firstValue.length<5?"2":"3"}학년 {firstValue && firstValue.length % 2 === 0?"2":"1"}학기까지의 정보만 들어있어요!
                             </p>
                         </div>
                         <Button
