@@ -5,7 +5,7 @@ import { saveAccessToken, saveRefreshToken, getRefreshToken } from '../utils/tok
 export async function refreshAccessToken() {
   try {
     const oriRefreshToken = getRefreshToken();
-    const response = await authApi.post('/api/user/reissue', null, {
+    const response = await authApi.post('api/user/reissue', null, {
       headers: {
         Authorization: `Bearer ${oriRefreshToken}`,
       },
