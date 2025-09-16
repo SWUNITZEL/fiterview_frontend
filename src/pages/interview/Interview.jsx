@@ -297,7 +297,9 @@ function Interview({stream}) {
                 pendingTTS ||
                 ((!isUploading && readyForChainQuestion) && !isSTTError)
               }
-            onClick={handleButtonClick} className="complete-btn" size="large" 
+            onClick={handleButtonClick} 
+            className={recording ? 'recording-complete-btn' : 'complete-btn'} 
+            size="large" 
             sx={{ 
                 borderRadius: '8px', 
                 padding: '8px 16px', 
