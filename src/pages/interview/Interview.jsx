@@ -137,12 +137,10 @@ function Interview({stream}) {
 
           else if (isFinalComment) {
             playTTS(text); 
-            setPendingTTS(true); 
           } 
 
           else if(!isVideoUploadReq) {
             playTTS(text);
-            setPendingTTS(true); 
           }
 
           else if (isVideoUploadReq) {
@@ -177,6 +175,7 @@ function Interview({stream}) {
       // uploadVideo(blob, interviewId, recordingQuestionId);
       lastRecordedBlobRef.current = blob;
       lastRecordedQuestionIdRef.current = recordingQuestionId;
+      setPendingTTS(true); 
     };
 
     recorder.start();
