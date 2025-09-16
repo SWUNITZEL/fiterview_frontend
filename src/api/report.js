@@ -1,36 +1,4 @@
-import axios from 'axios';
-import { getAccessToken } from '../utils/token';
-
-const fastapiApi = axios.create({
-  baseURL: "https://api.fiterview.site/fastapi/",
-});
-const springApi = axios.create({
-  baseURL: "https://api.fiterview.site/springboot/",
-});
-
-/**
- * @description 요청 인터셉터: accessToken 자동 추가
- * */
-fastapiApi.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken(); 
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-springApi.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken(); 
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+import { fastapiApi, springApi } from './client';
 
 /**
  * @description 인터뷰 ID를 전달해 신체언어 분석 결과를 요청합니다.

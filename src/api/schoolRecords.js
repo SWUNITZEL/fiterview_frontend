@@ -1,39 +1,4 @@
-import axios from 'axios';
-import { getAccessToken } from '../utils/token';
-
-const fastapiApi = axios.create({
-  baseURL: "https://api.fiterview.site/fastapi/",
-  // withCredentials: true,
-});
-const springApi = axios.create({
-  baseURL: "https://api.fiterview.site/springboot/",
-  // withCredentials: true,
-});
-
-/**
- * @description 요청 인터셉터: accessToken 자동 추가
- * */
-fastapiApi.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken(); 
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-springApi.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken();  
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+import { fastapiApi, springApi } from './client';
 
 export const setSchoolRecords = async (file) => {
     const formData = new FormData();

@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { getAccessToken } from '../utils/token';
+import { fastapiApi } from './client';
 
 /**
  * @description 면접 설정 정보를 백엔드에 저장하고 면접 세션을 시작합니다.
@@ -16,43 +15,15 @@ import { getAccessToken } from '../utils/token';
  * @throws {Error} 서버 응답이 실패했을 경우 에러를 던집니다.
  * @returns {Promise<Object>} 서버에서 반환된 JSON 데이터 (예: { interviewId: string, ... })
  */
-
-const fastapiApi = axios.create({
-  baseURL: "https://api.fiterview.site/fastapi/",
-});
-
-/**
- * @description 요청 인터셉터: accessToken 자동 추가
- * */
-fastapiApi.interceptors.request.use(
-  (config) => {
-    const accessToken = getAccessToken();  // sessionStorage나 localStorage에서 꺼내는 함수
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
 export const startInterview = async (payload) => {
   try {
-    const response = await fastapiApi.post(
-      'interview/start',
-      payload
-    );
-
-    console.log('저장 완료!', response.data);
-
+    const response = await fastapiApi.post('interview/start', payload);
     return response.data.result;
   } catch (error) {
     console.error('❌ startInterview error:', error);
-
-    throw error;  // 상위에서 또 처리할 수 있도록 재던짐
+    throw error;
   }
 };
-
-
 
 /**
  * @description 캡처된 이미지와 면접 조합을 면접 대기실 API에 전송하여 면접 세션 ID를 요청합니다.
