@@ -19,6 +19,10 @@ jobs:
         node-version: 18
 
     - name: Setting .env
+      env:
+        REACT_APP_SPRING_API_URL: ${{ secrets.REACT_APP_SPRING_API_URL }}
+        REACT_APP_FASTAPI_API_URL: ${{ secrets.REACT_APP_FASTAPI_API_URL }}
+        REACT_APP_WS_API_URL: ${{ secrets.REACT_APP_WS_API_URL }}
       run: |
           echo "REACT_APP_SPRING_API_URL=$REACT_APP_SPRING_API_URL" >> .env.production
           echo "REACT_APP_FASTAPI_API_URL=$REACT_APP_FASTAPI_API_URL" >> .env.production
