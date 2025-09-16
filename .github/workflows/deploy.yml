@@ -18,6 +18,12 @@ jobs:
       with:
         node-version: 18
 
+    - name: Setting .env
+      run: |
+          echo "REACT_APP_SPRING_API_URL=$REACT_APP_SPRING_API_URL" >> .env.production
+          echo "REACT_APP_FASTAPI_API_URL=$REACT_APP_FASTAPI_API_URL" >> .env.production
+          echo "REACT_APP_WS_API_URL=$REACT_APP_WS_API_URL" >> .env.production
+          cat .env.production
     - name: Install dependencies
       run: npm install
 
@@ -25,9 +31,6 @@ jobs:
       run: npm run build
       env:
         CI: false
-        REACT_APP_SPRING_API_URL: ${{ secrets.REACT_APP_SPRING_API_URL }}
-        REACT_APP_API_URL: ${{ secrets.REACT_APP_FASTAPI_API_URL }}
-        REACT_APP_WS_API_URL: ${{ secrets.REACT_APP_WS_API_URL }}
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
