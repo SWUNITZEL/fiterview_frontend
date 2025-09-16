@@ -264,7 +264,7 @@ function Interview({stream}) {
             답변 준비시간이에요.
           </h4>
         </div>
-        <div className='loading' style={{ display: (!recording)||(timeLeft === 0) ? "flex" : "none" }}>
+        <div className='loading' style={{ display: (!isTTSPlaying)&&(!recording)&&(timeLeft === 0) ? "flex" : "none" }}>
           <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
             비디오를<br />보내고 있어요
           </h4>
