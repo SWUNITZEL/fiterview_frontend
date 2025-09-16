@@ -63,7 +63,7 @@ function Interview({stream}) {
     isUploadingRef.current = isUploading;
   }, [isUploading]);
 
-  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording);
+  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording) && (timeLeft>0);
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -257,7 +257,7 @@ function Interview({stream}) {
       <div className='side-margin'></div>
       <div className='interview-container'>
         <div className='loading' style={{ display: showLoading? "flex" : "none" }}>
-          <h4 className='title-40-bold' style={{ display: (timeLeft>0) ? "flex" : "none", color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
+          <h4 className='title-40-bold' style={{color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>
           <h4 className='subtitle-20-medium' style={{ color: "var(--background-color)", marginTop: "0px", textAlign: "center" }}>
@@ -283,17 +283,13 @@ function Interview({stream}) {
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
               {(isSTTError ? prevQuestion : question)
                 .replace(/^\s*\d{1,2}[\.\)]\s*/, '') // 앞 숫자 제거
-                .split(/([.?!])\s+/) // 문장 단위로 나누기
-                .reduce((acc, cur, idx, arr) => {
-                  // 마침표나 물음표 뒤에 <br /> 추가
-                  if (/[.?!]/.test(cur) && arr[idx + 1] != null) {
-                    acc.push(cur + ' ');
-                    acc.push(<br key={idx} />);
-                  } else if (!/[.?!]/.test(cur)) {
-                    acc.push(cur);
-                  }
-                  return acc;
-                }, [])
+                .split(/(?<=[.?!])\s+/) // 문장부호 뒤에서 split
+                .map((sentence, idx) => (
+                  <span key={idx}>
+                    {sentence}
+                    <br />
+                  </span>
+                ))
               }
             </div>
             <Button 
