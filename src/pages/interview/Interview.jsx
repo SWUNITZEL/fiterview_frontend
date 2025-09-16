@@ -197,7 +197,7 @@ function Interview({stream}) {
 
     if (recording) {
       setRecording(false);
-      setPendingTTS(false); 
+      setPendingTTS(true); 
       stopRecording();
     } else {
       setRecording(true);
