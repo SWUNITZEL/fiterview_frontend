@@ -197,7 +197,7 @@ function Interview({stream}) {
 
     if (recording) {
       setRecording(false);
-      setPendingTTS(true); 
+      setPendingTTS(false); 
       stopRecording();
     } else {
       setRecording(true);
@@ -295,7 +295,6 @@ function Interview({stream}) {
                 isTTSPlaying || 
                 isUploading || 
                 pendingTTS ||
-                !recording || 
                 ((!isUploading && readyForChainQuestion) && !isSTTError)
               }
             onClick={handleButtonClick} className="complete-btn" size="large" 
