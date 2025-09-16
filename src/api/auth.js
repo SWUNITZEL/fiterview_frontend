@@ -42,7 +42,7 @@ export const login = async (credentials) => {
 // 로그아웃 요청
 export const logout = async () => {
   try {
-    await springApi.post('/api/user/logout');
+    await springApi.post('api/user/logout');
   } catch (error) {
     console.error('❌ logout error:', error);
     throw error;

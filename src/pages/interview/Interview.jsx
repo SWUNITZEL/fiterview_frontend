@@ -285,7 +285,15 @@ function Interview({stream}) {
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
               {(isSTTError)?`Q. ${prevQuestion.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`:(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":`Q. ${question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`}
             </div>
-            <Button disabled={(!interviewStarted)||isTTSPlaying||isUploading||((!isUploading)&&(readyForChainQuestion))&&(!isSTTError)} onClick={handleButtonClick} className="complete-btn" size="large" 
+            <Button 
+            disabled={
+                !interviewStarted || 
+                isTTSPlaying || 
+                isUploading || 
+                recording || 
+                ((!isUploading && readyForChainQuestion) && !isSTTError)
+              }
+            onClick={handleButtonClick} className="complete-btn" size="large" 
             sx={{ 
                 borderRadius: '8px', 
                 padding: '8px 16px', 
