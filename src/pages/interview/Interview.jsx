@@ -47,6 +47,7 @@ function Interview({stream}) {
   const [isInterviewComplete, setIsInterviewComplete] = useState(false);
 
   const [pendingQuestion, setPendingQuestion] = useState(null);
+  const [pendingTTS, setPendingTTS] = useState(false);
 
   const timerRef = useRef(null);
   const interviewStartedRef = useRef(interviewStarted);
@@ -87,6 +88,7 @@ function Interview({stream}) {
     utterance.lang = 'ko-KR';
     utterance.onstart = () => {
       setIsTTSPlaying(true);
+      setPendingTTS(false)
       setRecordingQuestionId(questionIDRef.current)
     };
     utterance.onend = () => {
@@ -134,11 +136,13 @@ function Interview({stream}) {
           }
 
           else if (isFinalComment) {
-            playTTS(text);  // 마지막 멘트로 표시
+            playTTS(text); 
+            setPendingTTS(true); 
           } 
 
           else if(!isVideoUploadReq) {
             playTTS(text);
+            setPendingTTS(true); 
           }
 
           else if (isVideoUploadReq) {
@@ -290,6 +294,7 @@ function Interview({stream}) {
                 !interviewStarted || 
                 isTTSPlaying || 
                 isUploading || 
+                pendingTTS ||
                 recording || 
                 ((!isUploading && readyForChainQuestion) && !isSTTError)
               }
