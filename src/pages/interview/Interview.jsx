@@ -63,7 +63,7 @@ function Interview({stream}) {
     isUploadingRef.current = isUploading;
   }, [isUploading]);
 
-  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording)&&(timeLeft>0);
+  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording) & timeLeft === 0;
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -287,7 +287,20 @@ function Interview({stream}) {
             <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
             <Chip style={{display: (isSTTError)?"flex":"none"}} className="warning" label={`음성이 녹음되지 않았습니다. 다시 녹음해주세요`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
-              {(isSTTError)?`Q. ${prevQuestion.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`:(isUploading|readyForChainQuestion)?"긴장을 풀고 잠시 대기해 주세요.":`Q. ${question.replace(/^\s*\d{1,2}[\.\)]\s*/, '')}`}
+              {(isSTTError ? prevQuestion : question)
+                .replace(/^\s*\d{1,2}[\.\)]\s*/, '')
+                .split(/([.?!])\s+/) // 문장 단위로 나누기
+                .reduce((acc, cur, idx, arr) => {
+                  // 마침표나 물음표 뒤에 <br /> 추가
+                  if (/[.?!]/.test(cur) && arr[idx + 1] != null) {
+                    acc.push(cur + ' ');
+                    acc.push(<br key={idx} />);
+                  } else if (!/[.?!]/.test(cur)) {
+                    acc.push(cur);
+                  }
+                  return acc;
+                }, [])
+              }
             </div>
             <Button 
             disabled={
