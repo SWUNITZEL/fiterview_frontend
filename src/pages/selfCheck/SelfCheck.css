@@ -102,12 +102,6 @@
   cursor: pointer;
 }
 
-.recording-complete-btn {
-  width: 150px;
-  background-color: var(--secondary-60);
-  cursor: pointer;
-}
-
 .complete-btn:enabled {
   background-color: var(--primary-60);
   color: var(--background-color);

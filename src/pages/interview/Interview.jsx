@@ -257,20 +257,14 @@ function Interview({stream}) {
       <div className='side-margin'></div>
       <div className='interview-container'>
         <div className='loading' style={{ display: showLoading? "flex" : "none" }}>
-          <h4 className='title-40-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
+          <h4 className='title-40-bold' style={{ display: !isUploading ? "flex" : "none", color: "var(--background-color)", marginTop: "100px", textAlign: "center", marginBottom:"10px"}}>
             00:{timeLeft === 10 ? timeLeft : `0${timeLeft}`}
           </h4>
           <h4 className='subtitle-20-medium' style={{ color: "var(--background-color)", marginTop: "0px", textAlign: "center" }}>
             답변 준비시간이에요.
           </h4>
         </div>
-        <div className='loading' style={{ display: (!isUploading)&&(readyForChainQuestion)&&(!isSTTError) ? "flex" : "none" }}>
-          <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
-            AI 면접관이 꼬리질문을<br />출제하고 있어요
-          </h4>
-          <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
-        </div>
-        <div className='loading' style={{ display: isUploading ? "flex" : "none" }}>
+        <div className='loading' style={{ display: (!recording)||(timeLeft === 0) ? "flex" : "none" }}>
           <h4 className='title-24-bold' style={{ color: "var(--background-color)", marginTop: "100px", textAlign: "center" }}>
             비디오를<br />보내고 있어요
           </h4>
@@ -311,7 +305,7 @@ function Interview({stream}) {
                 ((!isUploading && readyForChainQuestion) && !isSTTError)
               }
             onClick={handleButtonClick} 
-            className={recording ? 'recording-complete-btn' : 'complete-btn'} 
+            className='complete-btn'
             size="large" 
             sx={{ 
                 borderRadius: '8px', 
