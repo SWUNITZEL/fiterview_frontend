@@ -6,7 +6,7 @@ export async function fetchUserInfo() {
  try {
     console.log("fetchUserInfo 요청중")
     console.log("AccessToken:", getAccessToken())
-    const response = await springApi.get('/api/user/navigation_data');    
+    const response = await springApi.get('api/user/navigation_data');    
     const userData = response.data;
     console.log(response.data)
     
@@ -53,7 +53,7 @@ export const logout = async () => {
 export const join = async (signupData) => {
   try {
     console.log("회원가입 요청 중")
-    const response = await springApi.post('/api/user/join', signupData);
+    const response = await springApi.post('api/user/join', signupData);
     return response.data;
   } catch (error) {
     console.error('❌ error:', error);
