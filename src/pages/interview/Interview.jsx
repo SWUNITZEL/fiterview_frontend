@@ -63,7 +63,7 @@ function Interview({stream}) {
     isUploadingRef.current = isUploading;
   }, [isUploading]);
 
-  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording) & timeLeft === 0;
+  const showLoading = interviewStarted && !isUploadingRef.current && !(isTTSPlaying || recording);
 
   useEffect(() => {
     interviewStartedRef.current = interviewStarted;
@@ -288,7 +288,7 @@ function Interview({stream}) {
             <Chip style={{display: (isSTTError)?"flex":"none"}} className="warning" label={`음성이 녹음되지 않았습니다. 다시 녹음해주세요`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
               {(isSTTError ? prevQuestion : question)
-                .replace(/^\s*\d{1,2}[\.\)]\s*/, '')
+                .replace(/^\s*\d{1,2}[\.\)]\s*/, '') // 앞 숫자 제거
                 .split(/([.?!])\s+/) // 문장 단위로 나누기
                 .reduce((acc, cur, idx, arr) => {
                   // 마침표나 물음표 뒤에 <br /> 추가
