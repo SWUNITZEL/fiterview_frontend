@@ -175,7 +175,6 @@ function Interview({stream}) {
       // uploadVideo(blob, interviewId, recordingQuestionId);
       lastRecordedBlobRef.current = blob;
       lastRecordedQuestionIdRef.current = recordingQuestionId;
-      setPendingTTS(true); 
     };
 
     recorder.start();
@@ -198,9 +197,11 @@ function Interview({stream}) {
 
     if (recording) {
       setRecording(false);
+      setPendingTTS(true); 
       stopRecording();
     } else {
       setRecording(true);
+      setPendingTTS(false); 
       handleStart();
     }
   };
