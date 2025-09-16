@@ -47,7 +47,7 @@ function Interview({stream}) {
   const [isInterviewComplete, setIsInterviewComplete] = useState(false);
 
   const [pendingQuestion, setPendingQuestion] = useState(null);
-  const [pendingTTS, setPendingTTS] = useState(false);
+  const [pendingTTS, setPendingTTS] = useState(true);
 
   const timerRef = useRef(null);
   const interviewStartedRef = useRef(interviewStarted);
@@ -295,7 +295,7 @@ function Interview({stream}) {
                 isTTSPlaying || 
                 isUploading || 
                 pendingTTS ||
-                recording || 
+                !recording || 
                 ((!isUploading && readyForChainQuestion) && !isSTTError)
               }
             onClick={handleButtonClick} className="complete-btn" size="large" 
