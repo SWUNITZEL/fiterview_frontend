@@ -5,11 +5,8 @@ import { saveAccessToken, saveRefreshToken, getAccessToken } from '../utils/toke
 export async function fetchUserInfo() {
  try {
     console.log("fetchUserInfo 요청중")
-    console.log("AccessToken:", getAccessToken())
     const response = await springApi.get('api/user/navigation_data');    
     const userData = response.data;
-    console.log(response.data)
-    
     sessionStorage.setItem('user', JSON.stringify(userData));
     return userData;
   } catch (error) {
