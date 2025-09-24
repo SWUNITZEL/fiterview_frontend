@@ -24,7 +24,7 @@ function Login() {
   const onSubmit = async (e) => {
     e.preventDefault();
     const success = await handleLogin(() => {
-      alert("로그인 성공!");
+      console.log("로그인 성공!");
     });
     if (success) {
       
