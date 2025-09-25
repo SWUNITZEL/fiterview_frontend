@@ -1,5 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
-import { Container, Dialog, DialogTitle, DialogContent } from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent
+} from "@mui/material";
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import "./Home.css";
@@ -13,8 +18,18 @@ import { PATH } from "../../data/paths";
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 
 function Home() {
+  // ✅ 모바일 여부를 처음부터 바로 판별해서 초기값으로 설정
+  const [isMobile] = useState(() => {
+    if (typeof window !== "undefined") {
+      return (
+        window.innerWidth <= 768 ||
+        /Mobi|Android/i.test(navigator.userAgent)
+      );
+    }
+    return false;
+  });
+
   const [activeSection, setActiveSection] = useState(-1);
-  const [isMobile, setIsMobile] = useState(false);
 
   const FRONT_AI_MOCK_URL = PATH.AI_MOCK;
   const navigate = useNavigateWithScrollTop();
@@ -34,48 +49,42 @@ function Home() {
   ];
 
   useEffect(() => {
-    // 📱 모바일 감지
-    const mobileCheck = window.innerWidth <= 768 || /Mobi|Android/i.test(navigator.userAgent);
-    if (mobileCheck) {
-      setIsMobile(true);
-    }
+    if (isMobile) return; // 📱 모바일이면 스크롤 이벤트 무시
 
-    if (!mobileCheck) {
-      const handleScroll = () => {
-        const scrollPos = window.scrollY + window.innerHeight * 0.5;
-        let found = -1;
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + window.innerHeight * 0.5;
+      let found = -1;
 
-        for (let i = 0; i < sectionRefs.length; i++) {
-          const el = sectionRefs[i].current;
-          if (!el) continue;
+      for (let i = 0; i < sectionRefs.length; i++) {
+        const el = sectionRefs[i].current;
+        if (!el) continue;
 
-          const offsetTop = el.offsetTop;
-          const offsetHeight = el.offsetHeight;
-          const nextSection = sectionRefs[i + 1]?.current;
-          const nextOffsetTop = nextSection ? nextSection.offsetTop : 0;
+        const offsetTop = el.offsetTop;
+        const offsetHeight = el.offsetHeight;
+        const nextSection = sectionRefs[i + 1]?.current;
+        const nextOffsetTop = nextSection ? nextSection.offsetTop : 0;
 
-          let threshold = offsetTop + offsetHeight * 0.8;
+        let threshold = offsetTop + offsetHeight * 0.8;
 
-          if (scrollPos >= offsetTop && scrollPos < threshold) {
-            found = i;
-            break;
-          } else if (scrollPos >= threshold && nextOffsetTop !== 0) {
-            found = i + 1;
-          }
+        if (scrollPos >= offsetTop && scrollPos < threshold) {
+          found = i;
+          break;
+        } else if (scrollPos >= threshold && nextOffsetTop !== 0) {
+          found = i + 1;
         }
+      }
 
-        if (found !== activeSection) {
-          setActiveSection(found);
-        }
-      };
+      if (found !== activeSection) {
+        setActiveSection(found);
+      }
+    };
 
-      window.addEventListener("scroll", handleScroll);
-      handleScroll(); // 초기 실행
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
-  }, [activeSection]);
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // 초기 실행
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [activeSection, isMobile]);
 
-  // 📌 모바일일 경우: 모달만 렌더링
+  // 📌 모바일이면 처음부터 메인 콘텐츠 차단 + 모달만 표시
   if (isMobile) {
     return (
       <Dialog open={true} aria-labelledby="mobile-warning-title">
@@ -89,7 +98,7 @@ function Home() {
     );
   }
 
-  // 📌 PC일 경우: 정상 콘텐츠 렌더링
+  // 📌 PC일 경우 정상 콘텐츠 렌더링
   return (
     <Container
       maxWidth={false}
@@ -101,24 +110,31 @@ function Home() {
       }}
     >
       <NavbarComponent />
+
       <div ref={sectionRefs[0]} className={`section ${activeSection === 0 ? 'visible' : ''}`}>
         <MainBanner onNavigate={handleNavigate} />
       </div>
+
       <div ref={sectionRefs[1]} className={`section ${activeSection === 1 ? 'visible' : ''}`}>
         <Section00 />
       </div>
+
       <div ref={sectionRefs[2]} className={`section ${activeSection === 2 ? 'visible' : ''}`}>
         <Section01 />
       </div>
+
       <div ref={sectionRefs[3]} className={`section ${activeSection === 3 ? 'visible' : ''}`}>
         <Section02 />
       </div>
+
       <div ref={sectionRefs[4]} className={`section ${activeSection === 4 ? 'visible' : ''}`}>
         <Section03 />
       </div>
+
       <div ref={sectionRefs[5]} className={`section ${activeSection === 5 ? 'visible' : ''}`}>
         <Section04 onNavigate={handleNavigate} />
       </div>
+
       <Footer />
     </Container>
   );
