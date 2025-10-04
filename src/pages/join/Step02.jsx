@@ -1,21 +1,13 @@
-import { Container, TextField, Button, MenuItem, Select, InputLabel, OutlinedInput, FormControl, Typography, Box } from '@mui/material';
-import { useJoin } from '../../hooks/useJoin';
-
-import "./Join.css";
+// src/pages/join/Step02.jsx
+import { Container, Button } from "@mui/material";
 
 function Step02({ onNext, toLogin }) {
-  const handleSuccess = () => {
-    if (onNext) {
-      onNext();
-    } 
-  };
-  const { formData, errors, loading, handleChange, handleSubmit } = useJoin(handleSuccess);
+  const API_BASE = process.env.REACT_APP_API_BASE;
 
-  const genders = [
-    { label: '남성', value: 'MALE' },
-    { label: '여성', value: 'FEMALE' },
-    { label: '기타', value: 'OTHER' },
-  ];
+  const handleSocialLogin = (provider) => {
+    const redirectUri = encodeURIComponent(`${window.location.origin}/#/auth/callback`);
+    window.location.href = `${API_BASE}/oauth2/authorization/${provider}?redirectUri=${redirectUri}`;
+  };
 
   return (
     <Container
@@ -31,249 +23,39 @@ function Step02({ onNext, toLogin }) {
         alignItems: "center",
       }}
     >
-      <div className="signup-content">
-        <Box
-          component="form"
-          onSubmit={handleSubmit}
+      <h2 className="title-24-bold">소셜 회원가입</h2>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginTop: "40px" }}>
+        <Button
+          variant="contained"
+          onClick={() => handleSocialLogin('kakao')}
           sx={{
-            width: 700,
-            mx: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,  // 여백 넉넉히
+            width: 280, height: 48, borderRadius: 2,
+            backgroundColor: '#FEE500', color: '#000', fontWeight: 600
           }}
-          noValidate
         >
-          {/* 로그인 정보 영역 */}
-          <Box>
-            <h2 className="title-24-bold" style={{ marginTop: "0px" }}>로그인 정보</h2>
-            <TextField
-              fullWidth
-              label="이메일"
-              name="email"
-              type="email"
-              margin="normal"
-              value={formData.email}
-              onChange={handleChange}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                }
-              }}
-            />
-            <TextField
-              fullWidth
-              label="비밀번호"
-              name="password"
-              type="password"
-              margin="normal"
-              value={formData.password}
-              onChange={handleChange}
-              error={Boolean(errors.password)}
-              helperText={errors.password}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                }
-              }}
-            />
-            <TextField
-              fullWidth
-              label="비밀번호 확인"
-              name="confirmPassword"
-              type="password"
-              margin="normal"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              error={Boolean(errors.confirmPassword)}
-              helperText={errors.confirmPassword}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-          </Box>
+          카카오로 시작하기
+        </Button>
 
-          {/* 구분선 */}
-          <hr
-            style={{
-              width: '100%',
-              border: 'none',
-              borderTop: '1px solid var(--neutral-30)',
-              margin: '16px 0'
-            }}
-          />
-
-          {/* 개인 정보 영역 */}
-          <Box>
-            <h2 className="title-24-bold" style={{ marginTop: "0px" }}>개인 정보</h2>
-            <TextField
-              fullWidth
-              label="이름"
-              name="name"
-              margin="normal"
-              value={formData.name}
-              onChange={handleChange}
-              error={Boolean(errors.name)}
-              helperText={errors.name}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-            <TextField
-              fullWidth
-              label="생년월일"
-              name="birth"
-              type="date"
-              margin="normal"
-              value={formData.birth}
-              onChange={handleChange}
-              error={Boolean(errors.birth)}
-              helperText={errors.birth}
-              required
-              InputLabelProps={{ shrink: true }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-            <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)} sx={{
-              borderRadius:"8px",
-            }}>
-              <InputLabel>성별</InputLabel>
-              <Select
-                name="gender"
-                value={formData.gender}
-                label="성별"
-                onChange={handleChange}
-                input={<OutlinedInput label="성별" />}
-                sx={{
-                  '&.MuiOutlinedInput-root': {
-                    borderRadius: '8px !important',
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-40) !important',
-                      borderWidth: '2px',
-                    },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-40) !important',
-                      borderWidth: '2px',
-                    },
-                  }
-                }}
-              >
-                {genders.map((gender) => (
-                  <MenuItem key={gender.value} value={gender.value}>
-                    {gender.label}
-                  </MenuItem>
-                ))}
-              </Select>
-              {errors.gender && <Typography variant="caption" color="error">{errors.gender}</Typography>}
-            </FormControl>
-            <TextField
-              fullWidth
-              label="프로모션 코드 (선택)"
-              name="promotion_code"
-              margin="normal"
-              value={formData.promotion_code}
-              onChange={handleChange}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40) !important',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40) !important',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-          </Box>
-
-          {/* 제출 버튼 */}
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ 
-              mt: 3,
-              borderRadius:"8px",
-              height: '56px',
-              fontSize: "16px",
-              backgroundColor: 'var(--primary-60)',
-              color: 'var(--nuetral-10)',
-              '&:hover': {
-                backgroundColor: 'var(--primary-80)',
-              }
-            }}
-            disabled={loading}
-          >
-            {loading ? '회원가입 중...' : '회원가입'}
-          </Button>
-
-          {/* 로그인 페이지로 돌아가기 */}
-          <h4
-            className="body-16-medium"
-            style={{ marginTop: "10px", cursor: "pointer", textAlign: "center" }}
-            onClick={() => toLogin()}
-          >
-            로그인 페이지로 돌아가기
-          </h4>
-        </Box>
+        <Button
+          variant="contained"
+          onClick={() => handleSocialLogin('google')}
+          sx={{
+            width: 280, height: 48, borderRadius: 2,
+            backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', fontWeight: 600
+          }}
+        >
+          구글로 시작하기
+        </Button>
       </div>
+
+      <h4
+        className="body-16-medium"
+        style={{ marginTop: "48px", cursor: "pointer", textAlign: "center" }}
+        onClick={() => toLogin()}
+      >
+        로그인 페이지로 돌아가기
+      </h4>
     </Container>
   );
 }

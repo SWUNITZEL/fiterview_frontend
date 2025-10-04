@@ -1,23 +1,27 @@
+// App.js
+
 import './App.css';
 import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import CssBaseline from '@mui/material/CssBaseline';
-import { BrowserRouter as Router } from "react-router-dom";
-import Routes from "./router";
+import { BrowserRouter as Router } from "react-router-dom"; // HashRouter -> BrowserRouter로 변경
+import RouterConfig from "./router";
 import MuiTheme from './theme';
-import { UserProvider } from './contexts/UserContext'
+import { UserProvider } from './contexts/UserContext';
 
+// emotion 캐시 설정
 const cache = createCache({ key: 'css', prepend: true });
 
 function App() {
+
   return (
     <CacheProvider value={cache}>
       <ThemeProvider theme={MuiTheme}>
         <CssBaseline />
         <UserProvider>
           <Router>
-            <Routes />
+            <RouterConfig />
           </Router>
         </UserProvider>
       </ThemeProvider>

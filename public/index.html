@@ -24,6 +24,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Graduation Work</title>
+    <script>
+  (function() {
+    if (window.location.pathname === "/auth/callback") {
+      var query = window.location.search || "";
+      window.location.replace("/#"+window.location.pathname + query);
+    }
+  })();
+</script>
+
+
+
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
