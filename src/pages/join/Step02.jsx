@@ -23,7 +23,7 @@ function Step02({ onNext, toLogin }) {
         alignItems: "center",
       }}
     >
-      <h2 className="title-24-bold">소셜 회원가입</h2>
+
 
       <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginTop: "40px" }}>
         <Button
@@ -37,16 +37,7 @@ function Step02({ onNext, toLogin }) {
           카카오로 시작하기
         </Button>
 
-        <Button
-          variant="contained"
-          onClick={() => handleSocialLogin('google')}
-          sx={{
-            width: 280, height: 48, borderRadius: 2,
-            backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', fontWeight: 600
-          }}
-        >
-          구글로 시작하기
-        </Button>
+        
       </div>
 
       <h4
