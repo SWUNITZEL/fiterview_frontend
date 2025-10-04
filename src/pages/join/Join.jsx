@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container } from "@mui/material";
-
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
-
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Step01 from './Step01';
 import Step02 from './Step02';
 import Step03 from './Step03';
-
 import './Join.css';
 
 const Join = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const navigate = useNavigateWithScrollTop()
+  const navigate = useNavigateWithScrollTop();
 
   const steps = [
     { number: 1, label: '약관 동의' },
-    { number: 2, label: '정보 입력' },
-    { number: 3, label: '가입 완료' },
+    { number: 2, label: '소셜 회원가입' },
+    { number: 3, label: '정보 입력' },
+    { number: 4, label: '가입 완료' },
   ];
 
-  // 다음 단계로 이동
-  const handleNext = () => {
-    setCurrentStep(prev => Math.min(prev + 1, steps.length));
-  };
+  const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
+
+  useEffect(() => {
+    const hash = window.location.hash || '';
+    const q = hash.split('?')[1] || '';
+    const s = Number(new URLSearchParams(q).get('step'));
+    if (s >= 1 && s <= 4) setCurrentStep(s);
+  }, []);
 
   return (
     <Container
@@ -33,18 +35,19 @@ const Join = () => {
       style={{
         backgroundColor: "var(--background-color)",
         minHeight: "100vh",
-        padding: "120px 0px 0px 0px",
+        padding: "120px 0 0",
         overflow: "hidden"
       }}
     >
-      <NavbarComponent/>
+      <NavbarComponent />
+
       <div className="join-container">
         <h2 className="join-header">회원가입</h2>
         <div className="join-stepper">
           {steps.map((step, index) => (
             <React.Fragment key={step.number}>
               <div className="join-step-item">
-                <div className="join-circle-line-item">        
+                <div className="join-circle-line-item">
                   <div className={`join-circle ${currentStep === step.number ? 'active' : ''}`}>
                     {step.number}
                     <span className="join-label">{step.label}</span>
@@ -57,12 +60,14 @@ const Join = () => {
         </div>
       </div>
 
-      {/* 조건부 렌더링 */}
+      {/* ✅ Step 분기 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
       {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
-      {currentStep === 3 && <Step03 onNext = {() => navigate(PATH.LOGIN)} />}
-      <div style={{height:"120px"}}></div>
-      <Footer/>
+      {currentStep === 3 && <Step03 onNext={handleNext} />}
+      {currentStep === 4 && <Step03 onNext={() => navigate(PATH.LOGIN)} />}
+
+      <div style={{ height: 120 }} />
+      <Footer />
     </Container>
   );
 };
