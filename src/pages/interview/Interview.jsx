@@ -271,7 +271,7 @@ function Interview({stream}) {
           <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
         </div>
         <video autoPlay muted loop playsInline className="bg-video">
-          <source src={recording ? "/videos/interviewer_stand.mp4" : "/videos/interviewer.mp4"} type="video/mp4" />
+          <source src="/videos/interviewer.mp4" type="video/mp4" />
           브라우저가 동영상을 지원하지 않습니다.
         </video>
         <Chip className="recording" label="녹화 중" sx={{ backgroundColor: "var(--error-10)", display: recording ? "flex" : "none" }} />
