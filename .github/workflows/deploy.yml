@@ -23,10 +23,14 @@ jobs:
         REACT_APP_SPRING_API_URL: ${{ secrets.REACT_APP_SPRING_API_URL }}
         REACT_APP_FASTAPI_API_URL: ${{ secrets.REACT_APP_FASTAPI_API_URL }}
         REACT_APP_WS_API_URL: ${{ secrets.REACT_APP_WS_API_URL }}
+        REACT_APP_KAKAO_REST_KEY: ${{ secrets.REACT_APP_KAKAO_REST_KEY }}
+        REACT_APP_KAKAO_REDIRECT_URI: ${{ secrets.REACT_APP_KAKAO_REDIRECT_URI }}
       run: |
           echo "REACT_APP_SPRING_API_URL=$REACT_APP_SPRING_API_URL" >> .env.production
           echo "REACT_APP_FASTAPI_API_URL=$REACT_APP_FASTAPI_API_URL" >> .env.production
           echo "REACT_APP_WS_API_URL=$REACT_APP_WS_API_URL" >> .env.production
+          echo "REACT_APP_KAKAO_REST_KEY=$REACT_APP_KAKAO_REST_KEY" >> .env.production
+          echo "REACT_APP_KAKAO_REDIRECT_URI=$REACT_APP_KAKAO_REDIRECT_URI" >> .env.production
           cat .env.production
     - name: Install dependencies
       run: npm install
