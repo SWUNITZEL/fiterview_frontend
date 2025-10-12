@@ -278,7 +278,7 @@ function Interview({stream}) {
         {/* <div className='contents-container' style={{ boxShadow: recording ? "0 0 0 2px var(--error-60) inset" : "none" }}> */}
         <div className='contents-container' style={{ boxShadow: "none" }}>
           <div className='text-container'>
-            <Chip className="progress" label={`${questionIndex}/${totalQuestions}`} sx={{ backgroundColor: "var(--background-color)" }} />
+            <Chip className="progress" label={`Q${questionIndex}`} sx={{ backgroundColor: "var(--background-color)" }} />
             <Chip style={{display: (isSTTError)?"flex":"none"}} className="warning" label={`음성이 녹음되지 않았습니다. 다시 녹음해주세요`} sx={{ backgroundColor: "var(--background-color)" }} />
             <div className='question-container subtitle-20-bold' style={{paddingLeft:"30px", paddingRight:"30px"}}>
               {(isSTTError ? prevQuestion : question)

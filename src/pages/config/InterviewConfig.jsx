@@ -118,11 +118,11 @@ const InterviewConfig = () => {
 
           <div className="dual-row">
             <div className="form-group">
-              <label className="form-label">질문 개수</label>
+              <label className="form-label">최소 질문 개수</label>
               <div className="count-box">
                 <MinusCircleIcon style={{color:(questionCount>4)?"var(--primary-40)":"var(--nuetral-50)", width:"32px", height:"auto"}} onClick={() => (questionCount>4)?setQuestionCount((prev) => Math.max(1, prev - 1)):{}} />
                 <span>{questionCount} 개</span>
-                <PlusCircleIcon style={{color:"var(--primary-40)", width:"32px", height:"auto"}} onClick={() => setQuestionCount((prev) => prev + 1)} />
+                <PlusCircleIcon style={{color:(questionCount<6)?"var(--primary-40)":"var(--nuetral-50)", width:"32px", height:"auto"}} onClick={() => (questionCount<6)?setQuestionCount((prev) => prev + 1):{}} />
               </div>
             </div>
 
