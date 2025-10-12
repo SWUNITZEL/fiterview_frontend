@@ -1,49 +1,66 @@
-// src/pages/join/Step02.jsx
 import { Container, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Step02({ onNext, toLogin }) {
-  const API_BASE = process.env.REACT_APP_API_BASE;
+  const navigate = useNavigate();
 
-  const handleSocialLogin = (provider) => {
-    const redirectUri = encodeURIComponent(`${window.location.origin}/#/auth/callback`);
-    window.location.href = `${API_BASE}/oauth2/authorization/${provider}?redirectUri=${redirectUri}`;
+  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_KEY;
+  const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+
+  const authorizeUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+
+  const handleKakaoLogin = () => {
+    window.location.href = authorizeUrl;
   };
+
+  // ✅ 테스트용 (로그인 이후 자동 처리 로직)
+  useEffect(() => {
+    const code = new URL(window.location.href).searchParams.get("code");
+    if (!code) return;
+
+    axios
+      .post(`https://api.fiterview.site/springboot/kakaoLogin?code=${code}`)
+      .then((res) => {
+        const { accessToken, refreshToken, role } = res.data;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+
+        if (role === "GUEST") navigate("/join?step=2");
+        else navigate("/join?step=3");
+      })
+      .catch((err) => {
+        console.error("카카오 로그인 실패:", err);
+      });
+  }, [navigate]);
 
   return (
     <Container
       maxWidth={false}
-      style={{
-        width: "100%",
-        backgroundColor: "var(--background-color)",
-        minHeight: "auto",
-        paddingTop: "120px",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
+      style={{ paddingTop: 120, textAlign: "center" }}
     >
-
-
-      <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginTop: "40px" }}>
+      <div style={{ marginTop: 40 }}>
         <Button
           variant="contained"
-          onClick={() => handleSocialLogin('kakao')}
+          onClick={handleKakaoLogin}
           sx={{
-            width: 280, height: 48, borderRadius: 2,
-            backgroundColor: '#FEE500', color: '#000', fontWeight: 600
+            width: 280,
+            height: 48,
+            borderRadius: 2,
+            backgroundColor: "#FEE500",
+            color: "#000",
+            fontWeight: 600,
           }}
         >
           카카오로 시작하기
         </Button>
-
-        
       </div>
 
       <h4
         className="body-16-medium"
-        style={{ marginTop: "48px", cursor: "pointer", textAlign: "center" }}
-        onClick={() => toLogin()}
+        style={{ marginTop: 48, cursor: "pointer" }}
+        onClick={() => toLogin?.()}
       >
         로그인 페이지로 돌아가기
       </h4>
