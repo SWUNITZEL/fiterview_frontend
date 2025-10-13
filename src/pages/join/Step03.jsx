@@ -7,7 +7,7 @@ function Step03({ onNext, toLogin }) {
   const handleSuccess = () => {
     if (onNext) {
       onNext();
-    } 
+    }
   };
   const { formData, errors, loading, handleChange, handleSubmit } = useJoin(handleSuccess);
 
@@ -44,7 +44,7 @@ function Step03({ onNext, toLogin }) {
           }}
           noValidate
         >
-        {/*
+
           <Box>
             <h2 className="title-24-bold" style={{ marginTop: "0px" }}>로그인 정보</h2>
             <TextField
@@ -62,13 +62,13 @@ function Step03({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
                 }
               }}
             />
@@ -87,13 +87,13 @@ function Step03({ onNext, toLogin }) {
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',
                   '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
-                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
-                  borderWidth: '2px',
-                },
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'var(--primary-40)',
+                    borderWidth: '2px',
+                  },
                 }
               }}
             />
@@ -132,7 +132,7 @@ function Step03({ onNext, toLogin }) {
               margin: '16px 0'
             }}
           />
-          */}
+
 
           {/* 개인 정보 영역 */}
           <Box>
@@ -188,7 +188,7 @@ function Step03({ onNext, toLogin }) {
               }}
             />
             <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)} sx={{
-              borderRadius:"8px",
+              borderRadius: "8px",
             }}>
               <InputLabel>성별</InputLabel>
               <Select
@@ -248,9 +248,9 @@ function Step03({ onNext, toLogin }) {
             variant="contained"
             color="primary"
             fullWidth
-            sx={{ 
+            sx={{
               mt: 3,
-              borderRadius:"8px",
+              borderRadius: "8px",
               height: '56px',
               fontSize: "16px",
               backgroundColor: 'var(--primary-60)',

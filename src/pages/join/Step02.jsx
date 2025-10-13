@@ -1,15 +1,7 @@
 import { Container, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
-import qs from "qs";
 
 function Step02({ onNext, toLogin }) {
-  const navigate = useNavigate();
 
-  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_KEY;
-  const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
-  
   const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
   
 
