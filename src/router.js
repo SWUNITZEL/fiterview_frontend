@@ -23,7 +23,7 @@ const RouterConfig = () => {
     <Routes>
       <Route path="/auth/*" element={<AuthCallback />} />
       
-      <Route path="/auth/callback" element={<AuthCallback />} /> 
+      <Route path={PATH.AUTH_CALLBACK} element={<AuthCallback />} /> 
       <Route path={PATH.ROOT} element={<Navigate to={PATH.HOME} />} />
       <Route path={PATH.HOME} element={<Home />} />
       <Route path={PATH.LOGIN} element={<Login />} />
