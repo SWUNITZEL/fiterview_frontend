@@ -23,11 +23,10 @@ const Join = () => {
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
 
   useEffect(() => {
-    const hash = window.location.hash || '';
-    const q = hash.split('?')[1] || '';
-    const s = Number(new URLSearchParams(q).get('step'));
-    if (s >= 1 && s <= 4) setCurrentStep(s);
-  }, []);
+  const q = window.location.search; // ✅ hash 대신 search 사용
+  const s = Number(new URLSearchParams(q).get('step'));
+  if (s >= 1 && s <= 4) setCurrentStep(s);
+}, []);
 
   return (
     <Container

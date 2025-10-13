@@ -25,26 +25,30 @@ function KakaoCallback() {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
         });
 
-        const { access_token, refresh_token } = res.data;
+        const { accessToken, refreshToken, email, role } = serverRes.data;
 
         if (window.Kakao && !window.Kakao.isInitialized()) {
           window.Kakao.init(REST_API_KEY);
         }
-        window.Kakao.Auth.setAccessToken(access_token);
+        window.Kakao.Auth.setAccessToken(accessToken);
 
         const userInfo = await axios.get("https://kapi.kakao.com/v2/user/me", {
-          headers: { Authorization: `Bearer ${access_token}` },
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
 
         console.log("카카오 사용자 정보:", userInfo.data);
 
-        localStorage.setItem("accessToken", access_token);
-        localStorage.setItem("refreshToken", refresh_token);
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
 
-        navigate("/join?step=3", { replace: true });
+        if (role === "GUEST") {
+          navigate("/join?step=3", { replace: true }); // 신규 가입자 → 정보 입력 단계
+        } else {
+          navigate("/", { replace: true }); // 기존 회원 → 홈으로
+        }
       } catch (err) {
-        console.error("카카오 로그인 실패:", err);
-        navigate("/login", { replace: true });
+        console.error("카카오 회원가입 실패:", err);
+        navigate("/join?step=2", { replace: true });
       }
     };
 
