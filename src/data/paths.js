@@ -3,7 +3,7 @@ export const PATH = {
   HOME: "/home",
   LOGIN: "/login",
   JOIN: "/join",
-  AUTH_CALLBACK: "/login/oauth2/code/kakao",
+  AUTH_CALLBACK: "/auth/callback",
   AI_MOCK: "/ai-mock",
   INTERVIEW_CONFIG: "/config/interview",
   INTERVIEW_CONFIG_PERSONA: "/config/persona",
