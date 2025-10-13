@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import Step01 from './Step01';
 import Step02 from './Step02';
 import Step03 from './Step03';
+import Step04 from './Step04';
 import './Join.css';
 
 const Join = () => {
@@ -63,7 +64,7 @@ const Join = () => {
       {currentStep === 1 && <Step01 onNext={handleNext} />}
       {currentStep === 2 && <Step02 toLogin={() => navigate(PATH.LOGIN)} />}
       {currentStep === 3 && <Step03 />}
-      {currentStep === 4 && <Step03 onNext={() => navigate(PATH.LOGIN)} />}
+      {currentStep === 4 && <Step04 onNext={() => navigate(PATH.LOGIN)} />}
 
       <div style={{ height: 120 }} />
       <Footer />
