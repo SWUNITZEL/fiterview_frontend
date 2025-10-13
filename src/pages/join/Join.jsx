@@ -23,10 +23,10 @@ const Join = () => {
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
 
   useEffect(() => {
-  const q = window.location.search; // ✅ hash 대신 search 사용
-  const s = Number(new URLSearchParams(q).get('step'));
-  if (s >= 1 && s <= 4) setCurrentStep(s);
-}, []);
+    const q = window.location.search; 
+    const s = Number(new URLSearchParams(q).get('step'));
+    if (s >= 1 && s <= 4) setCurrentStep(s);
+  }, []);
 
   return (
     <Container
@@ -59,10 +59,10 @@ const Join = () => {
         </div>
       </div>
 
-      {/* ✅ Step 분기 */}
+      {/* Step 분기 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
-      {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
-      {currentStep === 3 && <Step03 onNext={handleNext} />}
+      {currentStep === 2 && <Step02 toLogin={() => navigate(PATH.LOGIN)} />}
+      {currentStep === 3 && <Step03 />}
       {currentStep === 4 && <Step03 onNext={() => navigate(PATH.LOGIN)} />}
 
       <div style={{ height: 120 }} />

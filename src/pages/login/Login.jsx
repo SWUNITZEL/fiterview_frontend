@@ -1,6 +1,7 @@
 import { Container, TextField, Button } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
+import { handleKakaoLogin } from '../../hooks/useKakaoAuth';
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
 
@@ -20,12 +21,6 @@ function Login() {
     isLocked,
     handleLogin
   } = useLogin();
-
-  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
-  
-  const handleKakaoLogin = () => {
-    window.location.href = authorizeUrl;
-  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -174,16 +169,15 @@ function Login() {
             width: "400px",
             height: "56px",
             borderRadius: "8px",
-            fontSize: "16px",
-            fontWeight: 600,
-            color: "#3A1D1D",
-            backgroundColor: "#FEE500",
-            "&:hover": {
-              backgroundColor: "#FDD835"
+            backgroundImage: 'url(/images/social_login/kakao_login_medium_wide.png)',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#FEE500',
+            '&:hover': {
+              backgroundColor: '#FEE500',
             }
           }}
         >
-          카카오로 로그인
         </Button>
           <Button
             fullWidth

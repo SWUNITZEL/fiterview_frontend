@@ -44,10 +44,10 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  const handleGoToMyPage = () => {
-    handleMenuClose();
-    navigate(PATH.MYPAGE);
-  };
+  // const handleGoToMyPage = () => {
+  //   handleMenuClose();
+  //   navigate(PATH.MYPAGE);
+  // };
 
   const handleLogout = () => {
     handleMenuClose();

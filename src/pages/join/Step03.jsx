@@ -1,17 +1,9 @@
 import { Container, TextField, Button, MenuItem, Select, InputLabel, OutlinedInput, FormControl, Typography, Box } from '@mui/material';
 import { useJoin } from '../../hooks/useJoin';
-import { getItem } from "../../utils/sessions";  // 토큰 저장 유틸 함수
-
-
 import "./Join.css";
 
-function Step03({ onNext, toLogin }) {
-  const handleSuccess = () => {
-    if (onNext) {
-      onNext();
-    }
-  };
-  const { formData, errors, loading, handleChange, handleSubmit } = useJoin(handleSuccess);
+function Step03() {
+  const { formData, errors, loading, handleChange, handleSubmit } = useJoin();
 
   const genders = [
     { label: '남성', value: 'MALE' },
@@ -46,7 +38,6 @@ function Step03({ onNext, toLogin }) {
           }}
           noValidate
         >
-
           <Box>
             <h2 className="title-24-bold" style={{ marginTop: "0px" }}>로그인 정보</h2>
             <TextField
@@ -55,13 +46,13 @@ function Step03({ onNext, toLogin }) {
               name="email"
               type="email"
               margin="normal"
-              value={getItem("email") || formData.email}
+              value={formData.email}
               onChange={handleChange}
               error={Boolean(errors.email)}
               helperText={errors.email}
               required
               InputProps={{
-                readOnly: true,
+                readOnly: true
               }}
               sx={{
                 '& .MuiOutlinedInput-root': {
@@ -269,14 +260,14 @@ function Step03({ onNext, toLogin }) {
             {loading ? '회원가입 중...' : '회원가입'}
           </Button>
 
-          {/* 로그인 페이지로 돌아가기 */}
+          {/* 로그인 페이지로 돌아가기
           <h4
             className="body-16-medium"
             style={{ marginTop: "10px", cursor: "pointer", textAlign: "center" }}
-            onClick={() => toLogin()}
+            onClick={() => navigate(PATH.LOGIN)}
           >
             로그인 페이지로 돌아가기
-          </h4>
+          </h4> */}
         </Box>
       </div>
     </Container>

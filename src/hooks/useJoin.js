@@ -1,11 +1,18 @@
 // useJoinForm.js
 import { useState } from 'react';
 import { join } from '../api/auth';
+import { useNavigateWithScrollTop } from './useNavigateWithScrollTop';
+import { getItem } from "../utils/sessions";
 import { BIRTH } from '../data/join';
 
-export const useJoin = (onSuccess) => {
+export const useJoin = () => {
+  const navigate = useNavigateWithScrollTop();
+  
+  const onSuccess = () => {
+    navigate('/join?step=4');
+  }
   const [formData, setFormData] = useState({
-    email: '',
+    email: getItem("email") || '',
     password: '',
     confirmPassword: '',
     name: '',
@@ -13,6 +20,8 @@ export const useJoin = (onSuccess) => {
     gender: '',
     promotion_code: '',
   });
+
+  console.log("Initial email:", formData.email);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);

@@ -1,5 +1,3 @@
-// AuthCallback.jsx
-
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { saveAccessToken, saveRefreshToken } from "../../utils/token";  // 토큰 저장 유틸 함수
@@ -10,7 +8,6 @@ const AuthCallback = () => {
 
   useEffect(() => {
     const query = window.location.search.substring(1);
-    
     const params = new URLSearchParams(query);
     const accessToken = params.get("accessToken");
     const refreshToken = params.get("refreshToken");

@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import Join from "./pages/join/Join.jsx";
-import AuthCallback from "./pages/join/AuthCallback.jsx";
+import AuthCallback from "./pages/callback/AuthCallback.jsx";
 import AIMock from "./pages/aiMock/AIMock.jsx";
 import InterviewConfig from "./pages/config/InterviewConfig.jsx";
 import PersonaConfig from "./pages/config/PersonaConfig.jsx";

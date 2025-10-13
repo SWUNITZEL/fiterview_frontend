@@ -1,14 +1,7 @@
 import { Container, Button } from "@mui/material";
+import { handleKakaoLogin } from '../../hooks/useKakaoAuth';
 
-function Step02({ onNext, toLogin }) {
-
-  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
-  
-
-  const handleKakaoLogin = () => {
-    window.location.href = authorizeUrl;
-  };
-
+function Step02({ toLogin }) {
   return (
     <Container maxWidth={false} style={{ paddingTop: 120, textAlign: "center" }}>
       <div style={{ marginTop: 40 }}>
@@ -16,15 +9,18 @@ function Step02({ onNext, toLogin }) {
           variant="contained"
           onClick={handleKakaoLogin}
           sx={{
-            width: 280,
-            height: 48,
-            borderRadius: 2,
-            backgroundColor: "#FEE500",
-            color: "#000",
-            fontWeight: 600,
+            width: "300px",
+            height: "45px",
+            borderRadius: "8px",
+            backgroundImage: 'url(/images/social_login/kakao_login_medium_narrow.png)',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: '#FEE500',
+            '&:hover': {
+              backgroundColor: '#FEE500',
+            }
           }}
         >
-          카카오로 시작하기
         </Button>
       </div>
 
