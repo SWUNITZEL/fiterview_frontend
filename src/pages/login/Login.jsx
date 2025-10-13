@@ -21,8 +21,10 @@ function Login() {
     handleLogin
   } = useLogin();
 
+  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
+  
   const handleKakaoLogin = () => {
-    window.location.href = "/";
+    window.location.href = authorizeUrl;
   };
 
   const onSubmit = async (e) => {
