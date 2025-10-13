@@ -169,7 +169,7 @@ function Login() {
             width: "400px",
             height: "56px",
             borderRadius: "8px",
-            backgroundImage: 'url(/images/social_login/kakao_login_medium_wide.png)',
+            backgroundImage: 'url(/images/social_login/kakao_login_medium_narrow.png)',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundColor: '#FEE500',
