@@ -4,6 +4,7 @@ export const PATH = {
   LOGIN: "/login",
   JOIN: "/join",
   AUTH_CALLBACK: "/auth/callback",
+  HASH_AUTH_CALLBACK: "/auth/callback",
   AI_MOCK: "/ai-mock",
   INTERVIEW_CONFIG: "/config/interview",
   INTERVIEW_CONFIG_PERSONA: "/config/persona",
