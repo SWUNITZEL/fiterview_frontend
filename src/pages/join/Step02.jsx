@@ -1,9 +1,9 @@
+// src/pages/join/Step02.jsx
+
 import { Container, Button } from "@mui/material";
 
 function Step02({ onNext, toLogin }) {
-
-  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
-  
+  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`;
 
   const handleKakaoLogin = () => {
     window.location.href = authorizeUrl;

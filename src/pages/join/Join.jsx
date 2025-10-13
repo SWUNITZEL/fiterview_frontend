@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/join/Join.jsx
+
+import React, { useState, useEffect } from "react";
 import { Container } from "@mui/material";
-import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
+import { useNavigateWithScrollTop } from "../../hooks/useNavigateWithScrollTop";
 import { PATH } from "../../data/paths";
-import NavbarComponent from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import Step01 from './Step01';
-import Step02 from './Step02';
-import Step03 from './Step03';
-import './Join.css';
+import NavbarComponent from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import Step01 from "./Step01";
+import Step02 from "./Step02";
+import Step03 from "./Step03";
+import "./Join.css";
 
 const Join = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigateWithScrollTop();
 
   const steps = [
-    { number: 1, label: '약관 동의' },
-    { number: 2, label: '소셜 회원가입' },
-    { number: 3, label: '정보 입력' },
-    { number: 4, label: '가입 완료' },
+    { number: 1, label: "약관 동의" },
+    { number: 2, label: "소셜 회원가입" },
+    { number: 3, label: "정보 입력" },
+    { number: 4, label: "가입 완료" },
   ];
 
-  const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
+  const handleNext = () => setCurrentStep((prev) => Math.min(prev + 1, steps.length));
 
+  // ✅ URL 파라미터 기반 단계 갱신
   useEffect(() => {
-  const q = window.location.search; // ✅ hash 대신 search 사용
-  const s = Number(new URLSearchParams(q).get('step'));
-  if (s >= 1 && s <= 4) setCurrentStep(s);
-}, []);
+    const q = window.location.search;
+    const s = Number(new URLSearchParams(q).get("step"));
+    if (s >= 1 && s <= 4) setCurrentStep(s);
+  }, []);
 
   return (
     <Container
@@ -35,7 +38,7 @@ const Join = () => {
         backgroundColor: "var(--background-color)",
         minHeight: "100vh",
         padding: "120px 0 0",
-        overflow: "hidden"
+        overflow: "hidden",
       }}
     >
       <NavbarComponent />
@@ -47,7 +50,7 @@ const Join = () => {
             <React.Fragment key={step.number}>
               <div className="join-step-item">
                 <div className="join-circle-line-item">
-                  <div className={`join-circle ${currentStep === step.number ? 'active' : ''}`}>
+                  <div className={`join-circle ${currentStep === step.number ? "active" : ""}`}>
                     {step.number}
                     <span className="join-label">{step.label}</span>
                   </div>
@@ -59,7 +62,7 @@ const Join = () => {
         </div>
       </div>
 
-      {/* ✅ Step 분기 */}
+      {/* 단계별 렌더링 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
       {currentStep === 2 && <Step02 onNext={handleNext} toLogin={() => navigate(PATH.LOGIN)} />}
       {currentStep === 3 && <Step03 onNext={handleNext} />}

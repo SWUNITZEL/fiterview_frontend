@@ -1,22 +1,36 @@
-import { Container, TextField, Button, MenuItem, Select, InputLabel, OutlinedInput, FormControl, Typography, Box } from '@mui/material';
-import { useJoin } from '../../hooks/useJoin';
-import { getItem } from "../../utils/sessions";  // 토큰 저장 유틸 함수
+// src/pages/join/Step03.jsx
 
-
+import {
+  Container,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  InputLabel,
+  OutlinedInput,
+  FormControl,
+  Typography,
+  Box,
+  Avatar,
+} from "@mui/material";
+import { useJoin } from "../../hooks/useJoin";
+import { getItem } from "../../utils/sessions";
 import "./Join.css";
 
 function Step03({ onNext, toLogin }) {
   const handleSuccess = () => {
-    if (onNext) {
-      onNext();
-    }
+    if (onNext) onNext();
   };
+
   const { formData, errors, loading, handleChange, handleSubmit } = useJoin(handleSuccess);
 
+  const emailFromSession = getItem("email");
+  const profileImage = sessionStorage.getItem("profile");
+
   const genders = [
-    { label: '남성', value: 'MALE' },
-    { label: '여성', value: 'FEMALE' },
-    { label: '기타', value: 'OTHER' },
+    { label: "남성", value: "MALE" },
+    { label: "여성", value: "FEMALE" },
+    { label: "기타", value: "OTHER" },
   ];
 
   return (
@@ -39,109 +53,20 @@ function Step03({ onNext, toLogin }) {
           onSubmit={handleSubmit}
           sx={{
             width: 700,
-            mx: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 3,  // 여백 넉넉히
+            mx: "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 3,
           }}
           noValidate
         >
-
-          <Box>
-            <h2 className="title-24-bold" style={{ marginTop: "0px" }}>로그인 정보</h2>
-            <TextField
-              fullWidth
-              label="이메일"
-              name="email"
-              type="email"
-              margin="normal"
-              value={getItem("email") || formData.email}
-              onChange={handleChange}
-              error={Boolean(errors.email)}
-              helperText={errors.email}
-              required
-              InputProps={{
-                readOnly: true,
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-            <TextField
-              fullWidth
-              label="비밀번호"
-              name="password"
-              type="password"
-              margin="normal"
-              value={formData.password}
-              onChange={handleChange}
-              error={Boolean(errors.password)}
-              helperText={errors.password}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-            <TextField
-              fullWidth
-              label="비밀번호 확인"
-              name="confirmPassword"
-              type="password"
-              margin="normal"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              error={Boolean(errors.confirmPassword)}
-              helperText={errors.confirmPassword}
-              required
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
-                  },
-                }
-              }}
-            />
-          </Box>
-
-          <hr
-            style={{
-              width: '100%',
-              border: 'none',
-              borderTop: '1px solid var(--neutral-30)',
-              margin: '16px 0'
-            }}
-          />
-
+          
 
           {/* 개인 정보 영역 */}
           <Box>
-            <h2 className="title-24-bold" style={{ marginTop: "0px" }}>개인 정보</h2>
+            <h2 className="title-24-bold" style={{ marginTop: "0px" }}>
+              개인 정보
+            </h2>
             <TextField
               fullWidth
               label="이름"
@@ -153,17 +78,17 @@ function Step03({ onNext, toLogin }) {
               helperText={errors.name}
               required
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40)",
+                    borderWidth: "2px",
                   },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40)",
+                    borderWidth: "2px",
                   },
-                }
+                },
               }}
             />
             <TextField
@@ -179,22 +104,26 @@ function Step03({ onNext, toLogin }) {
               required
               InputLabelProps={{ shrink: true }}
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40)",
+                    borderWidth: "2px",
                   },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40)',
-                    borderWidth: '2px',
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40)",
+                    borderWidth: "2px",
                   },
-                }
+                },
               }}
             />
-            <FormControl fullWidth margin="normal" required error={Boolean(errors.gender)} sx={{
-              borderRadius: "8px",
-            }}>
+            <FormControl
+              fullWidth
+              margin="normal"
+              required
+              error={Boolean(errors.gender)}
+              sx={{ borderRadius: "8px" }}
+            >
               <InputLabel>성별</InputLabel>
               <Select
                 name="gender"
@@ -203,17 +132,17 @@ function Step03({ onNext, toLogin }) {
                 onChange={handleChange}
                 input={<OutlinedInput label="성별" />}
                 sx={{
-                  '&.MuiOutlinedInput-root': {
-                    borderRadius: '8px !important',
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-40) !important',
-                      borderWidth: '2px',
+                  "&.MuiOutlinedInput-root": {
+                    borderRadius: "8px !important",
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "var(--primary-40) !important",
+                      borderWidth: "2px",
                     },
-                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'var(--primary-40) !important',
-                      borderWidth: '2px',
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      borderColor: "var(--primary-40) !important",
+                      borderWidth: "2px",
                     },
-                  }
+                  },
                 }}
               >
                 {genders.map((gender) => (
@@ -222,7 +151,11 @@ function Step03({ onNext, toLogin }) {
                   </MenuItem>
                 ))}
               </Select>
-              {errors.gender && <Typography variant="caption" color="error">{errors.gender}</Typography>}
+              {errors.gender && (
+                <Typography variant="caption" color="error">
+                  {errors.gender}
+                </Typography>
+              )}
             </FormControl>
             <TextField
               fullWidth
@@ -232,17 +165,17 @@ function Step03({ onNext, toLogin }) {
               value={formData.promotion_code}
               onChange={handleChange}
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                  '&:hover .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40) !important',
-                    borderWidth: '2px',
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                  "&:hover .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40) !important",
+                    borderWidth: "2px",
                   },
-                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    borderColor: 'var(--primary-40) !important',
-                    borderWidth: '2px',
+                  "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                    borderColor: "var(--primary-40) !important",
+                    borderWidth: "2px",
                   },
-                }
+                },
               }}
             />
           </Box>
@@ -256,23 +189,27 @@ function Step03({ onNext, toLogin }) {
             sx={{
               mt: 3,
               borderRadius: "8px",
-              height: '56px',
+              height: "56px",
               fontSize: "16px",
-              backgroundColor: 'var(--primary-60)',
-              color: 'var(--nuetral-10)',
-              '&:hover': {
-                backgroundColor: 'var(--primary-80)',
-              }
+              backgroundColor: "var(--primary-60)",
+              color: "var(--nuetral-10)",
+              "&:hover": {
+                backgroundColor: "var(--primary-80)",
+              },
             }}
             disabled={loading}
           >
-            {loading ? '회원가입 중...' : '회원가입'}
+            {loading ? "회원가입 중..." : "회원가입"}
           </Button>
 
           {/* 로그인 페이지로 돌아가기 */}
           <h4
             className="body-16-medium"
-            style={{ marginTop: "10px", cursor: "pointer", textAlign: "center" }}
+            style={{
+              marginTop: "10px",
+              cursor: "pointer",
+              textAlign: "center",
+            }}
             onClick={() => toLogin()}
           >
             로그인 페이지로 돌아가기

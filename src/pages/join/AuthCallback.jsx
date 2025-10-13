@@ -1,42 +1,35 @@
-// AuthCallback.jsx
-
+// src/pages/join/AuthCallback.jsx
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveAccessToken, saveRefreshToken } from "../../utils/token";  // 토큰 저장 유틸 함수
-import { setItem } from "../../utils/sessions";  // 토큰 저장 유틸 함수
+import { saveTokens } from "../../utils/token";
 
 const AuthCallback = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const query = window.location.search.substring(1);
-    
-    const params = new URLSearchParams(query);
+    const params = new URLSearchParams(window.location.search);
     const accessToken = params.get("accessToken");
     const refreshToken = params.get("refreshToken");
     const email = params.get("email");
     const role = params.get("role");
+    const profile = params.get("profile");
 
-    console.log("params", params);
-
-    // email 등 저장하기
-    if (accessToken && refreshToken && email) {
-      saveAccessToken(accessToken);
-      saveRefreshToken(refreshToken);
-      setItem("email", email);
+    if (accessToken && refreshToken && email && role) {
+      saveTokens({ accessToken, refreshToken, email, role, profile });
+      sessionStorage.setItem("profile", profile);
     }
-    
+
     if (role === "USER") {
+      alert("이미 가입된 계정입니다. 홈 화면으로 이동합니다.");
       navigate("/home", { replace: true });
-      return;
-    }
-    else {
-      console.log("회원가입 필요, role:", role);
+    } else if (role === "GUEST") {
       navigate("/join?step=3", { replace: true });
+    } else {
+      navigate("/login", { replace: true });
     }
   }, [navigate]);
 
-  return (<div>로그인 처리중...</div>);
+  return <div>로그인 처리중...</div>;
 };
 
 export default AuthCallback;
