@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Container } from "@mui/material";
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import { PATH } from "../../data/paths";
@@ -12,6 +13,8 @@ import './Join.css';
 
 const Join = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const location = useLocation();
+  
   const navigate = useNavigateWithScrollTop();
 
   const steps = [
@@ -22,12 +25,12 @@ const Join = () => {
   ];
 
   const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
-
+  
   useEffect(() => {
-    const q = window.location.search; 
+    const q = location.search;
     const s = Number(new URLSearchParams(q).get('step'));
     if (s >= 1 && s <= 4) setCurrentStep(s);
-  }, []);
+  }, [location.search]);
 
   return (
     <Container
