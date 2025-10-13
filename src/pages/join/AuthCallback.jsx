@@ -31,6 +31,7 @@ const AuthCallback = () => {
       return;
     }
     else {
+      console.log("회원가입 필요, role:", role);
       navigate("/join?step=3", { replace: true });
     }
   }, [navigate]);

@@ -8,6 +8,7 @@ export async function fetchUserInfo() {
     const response = await springApi.get('api/user/navigation_data');    
     const userData = response.data;
     sessionStorage.setItem('user', JSON.stringify(userData));
+    console.log("✅ fetchUserInfo 성공:", userData);
     return userData;
   } catch (error) {
     console.warn('⚠️ fetchUserInfo 실패:', error.response || error);

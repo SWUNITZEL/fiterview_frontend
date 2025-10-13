@@ -166,7 +166,7 @@ function Login() {
             로그인
           </Button>
         </form>
-        <div style={{ width: "400px" }}>
+        <div style={{ width: "400px", marginTop:"40px" }}>
           <Button
           onClick={handleKakaoLogin}
           fullWidth
