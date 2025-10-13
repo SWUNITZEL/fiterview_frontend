@@ -10,7 +10,7 @@ function Step02({ onNext, toLogin }) {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_KEY;
   const REDIRECT_URI = process.env.REACT_APP_KAKAO_REDIRECT_URI;
   
-  const authorizeUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&scope=profile_nickname%20profile_image%20account_email&state=PPgQDu6rq7QPsoKU62bhD5QLpviqANg55U7Mu8oDiXM%3D&redirect_uri=${REDIRECT_URI}`
+  const authorizeUrl = `https://api.fiterview.site/springboot/oauth2/authorization/kakao`
   
 
   const handleKakaoLogin = () => {
