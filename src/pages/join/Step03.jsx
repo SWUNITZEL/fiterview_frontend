@@ -1,5 +1,7 @@
 import { Container, TextField, Button, MenuItem, Select, InputLabel, OutlinedInput, FormControl, Typography, Box } from '@mui/material';
 import { useJoin } from '../../hooks/useJoin';
+import { getItem } from "../../utils/sessions";  // 토큰 저장 유틸 함수
+
 
 import "./Join.css";
 
@@ -53,11 +55,14 @@ function Step03({ onNext, toLogin }) {
               name="email"
               type="email"
               margin="normal"
-              value={formData.email}
+              value={getItem("email") || formData.email}
               onChange={handleChange}
               error={Boolean(errors.email)}
               helperText={errors.email}
               required
+              InputProps={{
+                readOnly: true,
+              }}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '8px',

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { saveAccessToken, saveRefreshToken } from "../../utils/token";  // 토큰 저장 유틸 함수
+import { setItem } from "../../utils/sessions";  // 토큰 저장 유틸 함수
 
 const AuthCallback = () => {
   const navigate = useNavigate();
@@ -19,9 +20,10 @@ const AuthCallback = () => {
     console.log("params", params);
 
     // email 등 저장하기
-    if (accessToken && refreshToken) {
+    if (accessToken && refreshToken && email) {
       saveAccessToken(accessToken);
       saveRefreshToken(refreshToken);
+      setItem("email", email);
     }
     
     if (role === "USER") {
