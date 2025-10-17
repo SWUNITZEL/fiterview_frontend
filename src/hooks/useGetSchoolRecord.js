@@ -10,6 +10,7 @@ export function useGetSchoolRecord() {
       try {
         const result = await getSchoolRecords();
         setData(result);
+        console.log("학교 기록 불러오기 성공:", result);
       } catch (err) {
         setError(err);
       }

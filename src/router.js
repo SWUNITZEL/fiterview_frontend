@@ -7,7 +7,6 @@ import Join from "./pages/join/Join.jsx";
 import AuthCallback from "./pages/callback/AuthCallback.jsx";
 import AIMock from "./pages/aiMock/AIMock.jsx";
 import InterviewConfig from "./pages/config/InterviewConfig.jsx";
-import PersonaConfig from "./pages/config/PersonaConfig.jsx";
 import InterviewSessionWrapper from "./pages/interview/InterviewSessionWrapper.jsx";
 import ReportMain from "./pages/report/ReportMain.jsx";
 import ReportNonverbal from "./pages/report/ReportNonverbal.jsx";
@@ -36,7 +35,6 @@ const RouterConfig = () => {
       <Route path={PATH.REPORT_COMPARE} element={<ReportCompare />} />
       <Route path={PATH.REPORT_NOTICE} element={<ResultNotice />} />
       <Route path={PATH.REPORT_GENERATING} element={<ReportGenerating />} />
-      <Route path={PATH.INTERVIEW_CONFIG_PERSONA} element={<PersonaConfig />} />
       <Route path={PATH.INTERVIEW_CONFIG} element={<InterviewConfig />} />
     </Routes>
   );

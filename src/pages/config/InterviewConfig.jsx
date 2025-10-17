@@ -1,22 +1,15 @@
-/**
- * @file InterviewConfig.jsx
- * @description 면접 전 선택 페이지
- * @author 김하은
- * @created 2025-05-17
-**/
-
 import { useState } from "react";
 import { Button, Container } from "@mui/material";
 import { PlusCircleIcon , MinusCircleIcon } from "@heroicons/react/24/outline";
-import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
+import { useInterviewConfig } from "../../hooks/useInterviewConfig";
 import { universities } from "../../data/universities";
 import NavbarComponent from '../../components/Navbar'
+import LoadingModal from "../../components/LoadingModal";
 import Footer from '../../components/Footer'
 import "./InterviewConfig.css";
-import { PATH } from "../../data/paths"
 
 const InterviewConfig = () => {
-  const navigate = useNavigateWithScrollTop();
+  const { isLoading, handleStartInterview } = useInterviewConfig();
 
   const [university, setUniversity] = useState("");
   const [department, setDepartment] = useState("");
@@ -30,31 +23,6 @@ const InterviewConfig = () => {
     setDepartment("");
   };
 
-
- const handleSelectPersona = () => {
-    if (
-      university &&
-      department &&
-      interviewType &&
-      questionCount &&
-      timeLimit &&
-      interviewDate
-    ) {
-      const queryParams = new URLSearchParams({
-        university,
-        department,
-        interviewType,
-        questionCount: questionCount.toString(),
-        timeLimit: timeLimit.toString(),
-        interviewDate,
-      }).toString();
-
-      navigate(`${PATH.INTERVIEW_CONFIG_PERSONA}?${queryParams}`);
-    } else {
-      alert("모든 항목을 입력해 주세요.");
-    }
-  }
-
   const selectedUniversity = universities.find((u) => u.name === university);
 
   return (
@@ -66,6 +34,7 @@ const InterviewConfig = () => {
         overflow: "hidden"
       }}>
       <NavbarComponent />
+      {isLoading && <LoadingModal />}
       <div style={{display:"flex"}}>
       <div className="side-margin"></div>
       <main className="child-column-center content-box move-down">
@@ -105,14 +74,6 @@ const InterviewConfig = () => {
                 />
                 서류 기반 면접
               </label>
-              <label>
-                <input
-                  type="radio"
-                  checked={interviewType === "knowledge"}
-                  onChange={() => setInterviewType("knowledge")}
-                />
-                제시문 기반 면접
-              </label>
             </div>
           </div>
 
@@ -150,7 +111,7 @@ const InterviewConfig = () => {
         </div>
         <div className="form-group child-column-center" style={{marginTop:"0px"}}>
             <Button 
-              onClick={()=> handleSelectPersona()}
+              onClick={handleStartInterview(university, department, questionCount, interviewDate)}
               sx={{
                 marginLeft:"auto",
                 marginRight:"auto",
