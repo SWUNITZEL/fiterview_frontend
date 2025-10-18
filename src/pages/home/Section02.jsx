@@ -11,10 +11,10 @@ export default function Section02() {
       }}
     >
       <h2 style={{ fontSize: "32px", marginBottom: "10px", color: "var(--primary-60)" }}>
-        다양한 면접관 페르소나
+        다양한 면접 질문 유형
       </h2>
       <p style={{ fontSize: "18px", marginTop:"0px", marginBottom: "30px", color: "var(--nuetral-60)" }}>
-        AI와 면접의 고난이도를 단계별로! <br />
+        AI와 다양한 면접 질문 스타일로! <br />
         어떤 면접관을 만나도 당황하지 않도록, 면접을 체감해 보세요.
       </p>
 
