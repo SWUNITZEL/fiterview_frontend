@@ -211,7 +211,7 @@ const PostUploadContents = ({ userName, result, navigate }) => {
             {typeFirstPart} <span style={{ color: 'var(--primary-60)' }}>{typeLastWord}</span>
           </h1>
           <h4 style={{marginTop:"16px", marginBottom:"0", color:"var(--primary-40)", fontSize:"20px", fontWeight:"600"}}>{hashtags.join(" ")}</h4>
-          <div style={{
+          {/* <div style={{
             width: "100%", 
             height:"70%", 
             marginTop:"24px",
@@ -227,6 +227,16 @@ const PostUploadContents = ({ userName, result, navigate }) => {
             }}>
               <CheckCircleIcon style={{height:"20px", color:"var(--primary-60)", marginRight:"4px"}} />
               추천학과: {recommendedMajor.join(", ")}
+          </div> */}
+          <div className="category-buttons child-row-center" style={{margin:"16px 0px 0px 0px"}}>
+            {recommendedMajor.map((category) => (
+              <button
+                key={category}
+                className="active"
+              >
+                {SUBJECT[category] || category}
+              </button>
+            ))}
           </div>
           <p style={{marginTop:"48px", marginBottom:"0", fontSize:"18px", fontWeight:"400", wordBreak: "keep-all"}}>{explanation}</p>
           {advice!=="" &&
