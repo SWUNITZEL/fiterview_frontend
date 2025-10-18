@@ -17,23 +17,27 @@ export const useInterviewConfig = (university, department, questionCount, interv
     };
 
     console.log("업데이트된 state:", payload);
+    if (university==="" || !department==="" || questionCount==="" || interviewDate==="") {
+      alert("모든 필드를 올바르게 입력해 주세요."); 
+    }
+    else{
+      try {
+        setIsLoading(true);
+        const result = await startInterview(payload);
 
-    try {
-      setIsLoading(true);
-      const result = await startInterview(payload);
+        console.log("서버 응답:", result);
 
-      console.log("서버 응답:", result);
-
-      if (result.combineId) {
-        navigate(`${PATH.INTERVIEW_SELF_CHECK}?combineId=${result.combineId}`);
-      } else {
-        alert("면접 ID를 받아올 수 없습니다.");
+        if (result.combineId) {
+          navigate(`${PATH.INTERVIEW_SELF_CHECK}?combineId=${result.combineId}`);
+        } else {
+          alert("면접 ID를 받아올 수 없습니다.");
+        }
+      } catch (error) {
+        console.error("면접 설정 저장 중 오류 발생:", error);
+        alert("면접 시작 중 오류가 발생했습니다.");
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error("면접 설정 저장 중 오류 발생:", error);
-      alert("면접 시작 중 오류가 발생했습니다.");
-    } finally {
-      setIsLoading(false);
     }
   };
 

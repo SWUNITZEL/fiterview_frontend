@@ -111,7 +111,7 @@ const InterviewConfig = () => {
         </div>
         <div className="form-group child-column-center" style={{marginTop:"0px"}}>
             <Button 
-              onClick={handleStartInterview(university, department, questionCount, interviewDate)}
+              onClick={() => handleStartInterview(university, department, questionCount, interviewDate)}
               sx={{
                 marginLeft:"auto",
                 marginRight:"auto",
