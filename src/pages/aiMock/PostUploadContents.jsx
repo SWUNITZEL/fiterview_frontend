@@ -211,15 +211,10 @@ const PostUploadContents = ({ userName, result, navigate }) => {
             {typeFirstPart} <span style={{ color: 'var(--primary-60)' }}>{typeLastWord}</span>
           </h1>
           <h4 style={{marginTop:"16px", marginBottom:"0", color:"var(--primary-40)", fontSize:"20px", fontWeight:"600"}}>{hashtags.join(" ")}</h4>
-          <p style={{marginTop:"48px", marginBottom:"0", fontSize:"18px", fontWeight:"400", wordBreak: "keep-all"}}>{explanation}</p>
-          {advice!=="" &&
-          <p style={{marginTop:"48px", marginBottom:"0", fontSize:"18px", fontWeight:"400", wordBreak: "keep-all"}}>{advice}</p>
-          }
           <div style={{
             width: "100%", 
             height:"70%", 
-            marginTop:"96px",
-            marginBottom:"24px",
+            marginTop:"24px",
             borderRadius:"8px", 
             background:"var(--primary-10)",
             padding:"16px",
@@ -230,9 +225,14 @@ const PostUploadContents = ({ userName, result, navigate }) => {
             justifyContent:"center",
             alignItems:"center"
             }}>
-              <CheckCircleIcon style={{height:"20px", color:"var(--success-40)", marginRight:"4px"}} />
+              <CheckCircleIcon style={{height:"20px", color:"var(--primary-60)", marginRight:"4px"}} />
               추천학과: {recommendedMajor.join(", ")}
           </div>
+          <p style={{marginTop:"48px", marginBottom:"0", fontSize:"18px", fontWeight:"400", wordBreak: "keep-all"}}>{explanation}</p>
+          {advice!=="" &&
+          <p style={{marginTop:"24px", marginBottom:"0", fontSize:"18px", fontWeight:"400", wordBreak: "keep-all"}}>{advice}</p>
+          }
+          
           <div style={{
             width: "100%", 
             height:"70%", 
