@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { PATH } from "../data/paths";
 import { startInterview } from "../api/interview";
 
-export const useInterviewConfig = (university, department, questionCount, interviewDate) => {
+export const useInterviewConfig = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleStartInterview = async () => {
+  const handleStartInterview = async (university, department, questionCount, interviewDate) => {
     const payload = {
       university,
       department,
