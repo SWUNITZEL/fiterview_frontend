@@ -30,7 +30,7 @@ const ReportNonverbal = () => {
 
   // 점수 계산 (내 점수는 반올림, 평균 점수는 80 고정)
   const postureScoreRaw = toNum(NV.totalScore?.avgFacialScore);
-  const tensionScoreRaw = toNum(NV.totalScore?.avgGazeScore);
+  const tensionScoreRaw = 100 - toNum(NV.totalScore?.avgGazeScore);
   const gazeScoreRaw = toNum(NV.totalScore?.avgPostureScore);
 
   const postureScore = Math.round(postureScoreRaw);
