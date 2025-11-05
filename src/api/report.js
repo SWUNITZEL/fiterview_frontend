@@ -11,7 +11,7 @@ import { fastapiApi, springApi } from './client';
 export const getReportNonverbal = async (interviewId) => {
 
   try{
-      const response = await springApi.post(`report/${interviewId}/nonverbal-communication`,null);
+      const response = await springApi.post(`report/${interviewId}/nonverbal-communication`,{"interviewId":interviewId});
       console.log(response.data)
 
       return response.data;
@@ -31,7 +31,7 @@ export const getReportNonverbal = async (interviewId) => {
  */
 export const getReportDelivery = async (interviewId) => {
   try{
-      const response = await springApi.post(`report/${interviewId}/transmission`);
+      const response = await springApi.post(`report/${interviewId}/transmission`,{"interviewId":interviewId});
       console.log(response.data)
 
       return response.data;
