@@ -286,7 +286,7 @@ function Interview({stream}) {
                 .split(/(?<=[.?!])\s+/) // 문장부호 뒤에서 split
                 .map((sentence, idx) => (
                   <span key={idx}>
-                    {sentence==="done"? "":sentence}
+                    {(!isTTSPlaying)&&(!recording)&&(timeLeft === 0)? "" : sentence==="done"? "":sentence}
                     <br />
                   </span>
                 ))
