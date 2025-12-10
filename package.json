@@ -1,7 +1,28 @@
 {
-  "name": "front",
+  "name": "nexture",
   "version": "0.1.0",
   "private": true,
+  "description": "nexture front",
+  "keywords": [
+    "nexture",
+    "frontend"
+  ],
+  "bugs": {
+    "url": "https://github.com/Nexture-SWU/nexture-frontend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nexture-SWU/nexture-frontend.git"
+  },
+  "license": "ISC",
+  "author": "cwlee",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
@@ -10,7 +31,6 @@
     "@mui/material": "^5.17.1",
     "axios": "^1.9.0",
     "cra-template": "1.2.0",
-    "html2pdf.js": "^0.10.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.8",
@@ -20,11 +40,8 @@
     "web-vitals": "^4.2.4",
     "wordcloud": "^1.2.3"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
   "eslintConfig": {
     "extends": [
@@ -43,8 +60,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }

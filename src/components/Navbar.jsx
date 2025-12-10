@@ -2,7 +2,7 @@ import { useNavigateWithScrollTop } from '../hooks/useNavigateWithScrollTop';
 import { removeAccessToken, removeRefreshToken } from "../utils/token"
 import { removeItem } from "../utils/sessions"
 import { useUser } from '../contexts/UserContext';
-import { PATH } from '../data/paths';
+import { PATH } from '../config/paths';
 import {
   AppBar,
   Toolbar,
@@ -44,26 +44,20 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
-  // const handleGoToMyPage = () => {
-  //   handleMenuClose();
-  //   navigate(PATH.MYPAGE);
-  // };
-
   const handleLogout = () => {
     handleMenuClose();
     // TODO: 로그아웃 로직 추가
     removeAccessToken()
     removeRefreshToken()
     removeItem("user")
-    console.log('🚪 로그아웃 클릭됨');
-    window.location.href = PATH.HOME
+    window.location.href = PATH.MAIN
   };
 
   useEffect(() => {
     if (user) {
-      console.log('✅ user가 로그인됨:');
+      console.log('user가 로그인됨:');
     } else {
-      console.log('⚠️ user가 로그아웃 상태임');
+      console.log('user가 로그아웃됨');
     }
   }, [user]);
 
@@ -81,19 +75,19 @@ const Navbar = () => {
             backgroundColor: 'var(--background-color)',
           })}
         >
-          <Box onClick={() => navigate(PATH.HOME)} sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box onClick={() => navigate(PATH.MAIN)} sx={{ display: 'flex', alignItems: 'center' }}>
             <img src="/images/default/logo.png" alt="Logo" style={{ cursor: 'pointer', height: 18 }} />
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <Typography
+            {/* <Typography
               onClick={() => navigate(PATH.AI_MOCK)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
               className='body-14-medium'
             >
               AI 모의면접
-            </Typography>
+            </Typography> */}
             <Divider orientation="vertical" flexItem sx={{ height: '24px', margin: 'auto', borderBottomWidth: '2px' }} />
 
             {user ? (
@@ -153,10 +147,10 @@ const Navbar = () => {
                     whiteSpace: 'nowrap',
                     width: '61px',
                     height: '30px',
-                    border: '1px solid var(--nuetral-50)',
+                    // border: '1px solid var(--nuetral-50)',
                     '&:hover': {
-                      borderColor: 'var(--nuetral-60)',
-                      backgroundColor: 'var(--nuetral-30)',
+                      // borderColor: 'var(--nuetral-60)',
+                      // backgroundColor: 'var(--nuetral-30)',
                     },
                   }}
                   className='body-14-medium'

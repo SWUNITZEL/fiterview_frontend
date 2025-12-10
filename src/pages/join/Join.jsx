@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container } from "@mui/material";
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
-import { PATH } from "../../data/paths";
+import { PATH } from "../../config/paths";
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import Step01 from './Step01';
-import Step02 from './Step02';
-import Step03 from './Step03';
-import Step04 from './Step04';
 import './Join.css';
 
 const Join = () => {
@@ -36,7 +33,7 @@ const Join = () => {
     <Container
       maxWidth={false}
       style={{
-        backgroundColor: "var(--background-color)",
+        // backgroundColor: "var(--background-color)",
         minHeight: "100vh",
         padding: "120px 0 0",
         overflow: "hidden"
@@ -65,9 +62,9 @@ const Join = () => {
 
       {/* Step 분기 */}
       {currentStep === 1 && <Step01 onNext={handleNext} />}
-      {currentStep === 2 && <Step02 toLogin={() => navigate(PATH.LOGIN)} />}
-      {currentStep === 3 && <Step03 />}
-      {currentStep === 4 && <Step04 onNext={() => navigate(PATH.LOGIN)} />}
+      {/* {currentStep === 2 && <Step02 toLogin={() => navigate(PATH.LOGIN)} />} */}
+      {/* {currentStep === 3 && <Step03 />} */}
+      {/* {currentStep === 4 && <Step04 onNext={() => navigate(PATH.LOGIN)} />} */}
 
       <div style={{ height: 120 }} />
       <Footer />

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { join } from '../api/auth';
 import { useNavigateWithScrollTop } from './useNavigateWithScrollTop';
 import { getItem } from "../utils/sessions";
-import { BIRTH } from '../data/join';
 
 export const useJoin = () => {
   const navigate = useNavigateWithScrollTop();
@@ -12,16 +11,14 @@ export const useJoin = () => {
     navigate('/join?step=4');
   }
   const [formData, setFormData] = useState({
-    email: getItem("email") || '',
+    id: getItem("id") || '',
     password: '',
     confirmPassword: '',
     name: '',
-    birth: BIRTH,
-    gender: '',
-    promotion_code: '',
+    role: '',
   });
 
-  console.log("Initial email:", formData.email);
+  console.log("Initial id:", formData.id);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -34,20 +31,20 @@ export const useJoin = () => {
   const validate = () => {
     let tempErrors = {};
 
-    if (!formData.email) tempErrors.email = '이메일을 입력해주세요.';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) tempErrors.email = '유효한 이메일을 입력해주세요.';
+    // if (!formData.id) tempErrors.id = '아이디 입력해주세요.';
+    // else if (!/\S+@\S+\.\S+/.test(formData.id)) tempErrors.id = '유효한 이메일을 입력해주세요.';
 
-    if (!formData.password) tempErrors.password = '비밀번호를 입력해주세요.';
-    else if (formData.password.length < 6) tempErrors.password = '비밀번호는 6자 이상이어야 합니다.';
+    // if (!formData.password) tempErrors.password = '비밀번호를 입력해주세요.';
+    // else if (formData.password.length < 6) tempErrors.password = '비밀번호는 6자 이상이어야 합니다.';
 
-    if (formData.confirmPassword !== formData.password)
-      tempErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+    // if (formData.confirmPassword !== formData.password)
+    //   tempErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
 
-    if (!formData.name) tempErrors.name = '이름을 입력해주세요.';
+    // if (!formData.name) tempErrors.name = '이름을 입력해주세요.';
 
-    if (!formData.birth) tempErrors.birth = '생년월일을 입력해주세요.';
+    // if (!formData.birth) tempErrors.birth = '생년월일을 입력해주세요.';
 
-    if (!formData.gender) tempErrors.gender = '성별을 선택해주세요.';
+    // if (!formData.gender) tempErrors.gender = '성별을 선택해주세요.';
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -60,12 +57,12 @@ export const useJoin = () => {
     setLoading(true);
     try {
       const signupPayload = {
-        email: formData.email,
+        id: formData.id,
         password: formData.password,
         name: formData.name,
         birth: formData.birth,
-        gender: formData.gender,
-        promotion_code: formData.promotion_code,
+        role: formData.role,
+        relation: '',
       };
       const response = await join(signupPayload);
       console.log('회원가입 성공:', response);

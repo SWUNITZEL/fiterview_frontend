@@ -14,7 +14,7 @@ import Section01 from "./Section01";
 import Section02 from "./Section02";
 import Section03 from "./Section03";
 import Section04 from "./Section04";
-import { PATH } from "../../data/paths";
+import { PATH } from "../../config/paths";
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 
 function Home() {
@@ -31,12 +31,12 @@ function Home() {
 
   const [activeSection, setActiveSection] = useState(-1);
 
-  const FRONT_AI_MOCK_URL = PATH.AI_MOCK;
+  // const FRONT_AI_MOCK_URL = PATH.AI_MOCK;
   const navigate = useNavigateWithScrollTop();
 
   const handleNavigate = () => {
-    navigate(FRONT_AI_MOCK_URL);
-    window.scrollTo(0, 0);
+    // navigate(FRONT_AI_MOCK_URL);
+    // window.scrollTo(0, 0);
   };
 
   const sectionRefs = [

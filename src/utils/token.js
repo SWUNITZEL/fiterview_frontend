@@ -1,5 +1,5 @@
 // utils/token.js
-export function saveAccessToken(token) {
+export function setAccessToken(token) {
   sessionStorage.setItem('accessToken', token);
 }
 
@@ -11,7 +11,7 @@ export function removeAccessToken() {
   sessionStorage.removeItem('accessToken');
 }
 
-export function saveRefreshToken(token) {
+export function setRefreshToken(token) {
   sessionStorage.setItem('refreshToken', token);
 }
 

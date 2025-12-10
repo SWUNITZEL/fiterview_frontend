@@ -1,10 +1,7 @@
 import { Container, TextField, Button } from "@mui/material";
-
-import { useLogin } from "../../hooks/useLogin";
-import { handleKakaoLogin } from '../../hooks/useKakaoAuth';
+import { PATH } from "../../config/paths";
+import { useLogin } from "../../hooks/useLogin"
 import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
-import { PATH } from "../../data/paths";
-
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { useUser } from '../../contexts/UserContext';
@@ -13,8 +10,8 @@ function Login() {
   const navigateAndScrollTop = useNavigateWithScrollTop();
   const { refreshUser } = useUser();
   const {
-    email,
-    setEmail,
+    id,
+    setId,
     password,
     setPassword,
     error,
@@ -22,16 +19,18 @@ function Login() {
     handleLogin
   } = useLogin();
 
+  /**
+   * @description 로그인 버튼 이벤트 함수, 로그인 API 호출 후 성공시 유저정보 새로고침 
+   */
   const onSubmit = async (e) => {
     e.preventDefault();
     const success = await handleLogin(() => {
       console.log("로그인 성공!");
     });
-    if (success) {
-      
-      await refreshUser();   // 🔥 추가: 로그인 성공 후 유저 정보 새로고침
+    if (success) {      
+      await refreshUser();  
       console.log("유저 정보 새로고침 완료")
-      navigateAndScrollTop(PATH.HOME);  
+      navigateAndScrollTop(PATH.MAIN);  
     }
   };
 
@@ -40,7 +39,7 @@ function Login() {
       maxWidth={false}
       style={{
         position:"relative",
-        backgroundColor: "var(--background-color)",
+        // backgroundColor: "var(--background-color)",
         height: "auto",
         paddingTop: "120px",
         overflow: "hidden"
@@ -51,11 +50,11 @@ function Login() {
 
         <form onSubmit={onSubmit} style={{ width: "400px", display: "flex", flexDirection: "column", gap: "12px" }}>
           <TextField
-            type="email"
-            id="email"
-            placeholder="email을 입력하세요."
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="id"
+            id="id"
+            placeholder="아이디를 입력하세요."
+            value={id}
+            onChange={(e) => setId(e.target.value)}
             variant="outlined"
             required
             fullWidth
@@ -78,11 +77,11 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
+                  // borderColor: 'var(--primary-40)',
                   borderWidth: '2px',
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
+                  // borderColor: 'var(--primary-40)',
                   borderWidth: '2px',
                 },
               }
@@ -115,33 +114,33 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
+                  // borderColor: 'var(--primary-40)',
                   borderWidth: '2px',
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  borderColor: 'var(--primary-40)',
+                  // borderColor: 'var(--primary-40)',
                   borderWidth: '2px',
                 },
               }
             }}
           />
           <div style={{ height: "70px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
-            <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}>
+            {/* <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}> */}
+            <div style={{ fontSize: "16px", position: "absolute", right: "0px" }}>
               <span
                 style={{ marginRight: "10px", cursor: 'pointer' }}
-                onClick={() => navigateAndScrollTop('/find-id')}
               >
                 아이디 찾기
               </span>
               |
               <span
                 style={{ marginLeft: "10px", cursor: 'pointer' }}
-                onClick={() => navigateAndScrollTop('/find-password')}
               >
                 비밀번호 찾기
               </span>
             </div>
-            {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--error-60)", fontSize: "16px" }}>{error}</span>}
+            {/* {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--error-60)", fontSize: "16px" }}>{error}</span>} */}
+            {error && <span style={{ position: "absolute", bottom: "0px", fontSize: "16px" }}>{error}</span>}
           </div>
           <Button
             type="submit"
@@ -151,53 +150,16 @@ function Login() {
               height: '56px',
               borderRadius: '8px',
               fontSize: "16px",
-              backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
-              color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
-              '&:hover': {
-                backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-80)',
-              }
+              // backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
+              // color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
+              // '&:hover': {
+              //   backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-80)',
+              // }
             }}
           >
             로그인
           </Button>
         </form>
-        <div style={{ width: "400px", marginTop:"40px" }}>
-          <Button
-          onClick={handleKakaoLogin}
-          fullWidth
-          sx={{
-            width: "400px",
-            height: "56px",
-            borderRadius: "8px",
-            backgroundImage: 'url(/images/social_login/kakao_login_medium_narrow.png)',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: '#FEE500',
-            '&:hover': {
-              backgroundColor: '#FEE500',
-            }
-          }}
-        >
-        </Button>
-          <Button
-            fullWidth
-            onClick={()=>navigateAndScrollTop(PATH.JOIN)}
-            sx={{
-              height: '56px',
-              borderRadius: '8px',
-              mt: "12px",
-              fontSize: "16px",
-              border: "1px solid var(--nuetral-50)",
-              backgroundColor: 'var(--nuetral-10)',
-              color: 'var(--font-body)',
-              '&:hover': {
-                backgroundColor: 'var(--nuetral-20)',
-              }
-            }}
-          >
-            회원가입
-          </Button>
-        </div>
       </div>
       <Footer />
     </Container>

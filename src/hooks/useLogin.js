@@ -2,7 +2,7 @@ import { useState } from "react";
 import { login as loginAPI } from "../api/auth";
 
 export function useLogin(maxAttempts = 5) {
-  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loginAttempts, setLoginAttempts] = useState(0);
@@ -12,7 +12,7 @@ export function useLogin(maxAttempts = 5) {
     if (isLocked) return;
 
     try {
-      const data = await loginAPI({ email, password });
+      const data = await loginAPI({ id, password });
       setError("");
       setLoginAttempts(0);
       if (onSuccess) onSuccess(data);
@@ -32,8 +32,8 @@ export function useLogin(maxAttempts = 5) {
   };
 
   return {
-    email,
-    setEmail,
+    id,
+    setId,
     password,
     setPassword,
     error,
