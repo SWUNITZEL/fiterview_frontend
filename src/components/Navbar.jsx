@@ -46,7 +46,6 @@ const Navbar = () => {
 
   const handleLogout = () => {
     handleMenuClose();
-    // TODO: 로그아웃 로직 추가
     removeAccessToken()
     removeRefreshToken()
     removeItem("user")
@@ -75,19 +74,36 @@ const Navbar = () => {
             backgroundColor: 'var(--background-color)',
           })}
         >
-          <Box onClick={() => navigate(PATH.MAIN)} sx={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/images/default/logo.png" alt="Logo" style={{ cursor: 'pointer', height: 18 }} />
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            {/* <Typography
-              onClick={() => navigate(PATH.AI_MOCK)}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <img src="/images/default/logo.png" alt="Logo" style={{ cursor: 'pointer', height: 18 }} onClick={() => navigate(PATH.MAIN)}/>
+            <Typography
+              onClick={() => navigate(PATH.LEARNING)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
               className='body-14-medium'
             >
-              AI 모의면접
-            </Typography> */}
+              학습
+            </Typography>
+            <Typography
+              onClick={() => navigate(PATH.PROGRESS)}
+              variant="body2"
+              sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
+              className='body-14-medium'
+            >
+              진행현황
+            </Typography>
+            <Typography
+              onClick={() => navigate(PATH.ARTICLE)}
+              variant="body2"
+              sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
+              className='body-14-medium'
+            >
+              아티클
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+            
             <Divider orientation="vertical" flexItem sx={{ height: '24px', margin: 'auto', borderBottomWidth: '2px' }} />
 
             {user ? (

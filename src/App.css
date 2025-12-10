@@ -41,10 +41,11 @@
   --color-green-400: #23B751;
   --color-green-600: #005926;
   
-  --background-color: var(--nuetral-10);
-  --font-body: var(--nuetral-80);
+  /* --background-color: var(--nuetral-10); */
+  --primary-color: var(--color-blue-300);
+  /* --font-body: var(--nuetral-80);
   --font-light: var(--nuetral-60);
-  --font-dark: var(--nuetral-100);
+  --font-dark: var(--nuetral-100); */
 }
 
 .App {

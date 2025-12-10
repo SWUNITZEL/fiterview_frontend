@@ -84,7 +84,7 @@ function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [activeSection, isMobile]);
 
-  // 📌 모바일이면 처음부터 메인 콘텐츠 차단 + 모달만 표시
+  // 모바일이면 처음부터 메인 콘텐츠 차단 + 모달만 표시
   if (isMobile) {
     return (
       <Dialog open={true} aria-labelledby="mobile-warning-title">
@@ -98,7 +98,7 @@ function Home() {
     );
   }
 
-  // 📌 PC일 경우 정상 콘텐츠 렌더링
+  // PC일 경우 정상 콘텐츠 렌더링
   return (
     <Container
       maxWidth={false}
