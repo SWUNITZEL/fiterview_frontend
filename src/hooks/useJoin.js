@@ -31,20 +31,18 @@ export const useJoin = () => {
   const validate = () => {
     let tempErrors = {};
 
-    // if (!formData.id) tempErrors.id = '아이디 입력해주세요.';
+    if (!formData.id) tempErrors.id = '아이디를 입력해주세요.';
     // else if (!/\S+@\S+\.\S+/.test(formData.id)) tempErrors.id = '유효한 이메일을 입력해주세요.';
 
-    // if (!formData.password) tempErrors.password = '비밀번호를 입력해주세요.';
-    // else if (formData.password.length < 6) tempErrors.password = '비밀번호는 6자 이상이어야 합니다.';
+    if (!formData.password) tempErrors.password = '비밀번호를 입력해주세요.';
+    else if (formData.password.length < 6) tempErrors.password = '비밀번호는 6자 이상이어야 합니다.';
 
-    // if (formData.confirmPassword !== formData.password)
-    //   tempErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
+    if (formData.confirmPassword !== formData.password)
+      tempErrors.confirmPassword = '비밀번호가 일치하지 않습니다.';
 
-    // if (!formData.name) tempErrors.name = '이름을 입력해주세요.';
+    if (!formData.name) tempErrors.name = '이름을 입력해주세요.';
 
-    // if (!formData.birth) tempErrors.birth = '생년월일을 입력해주세요.';
-
-    // if (!formData.gender) tempErrors.gender = '성별을 선택해주세요.';
+    if (!formData.role) tempErrors.role = '회원 유형을 선택해주세요.';
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;

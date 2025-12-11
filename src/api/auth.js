@@ -3,11 +3,11 @@ import { setAccessToken, setRefreshToken } from '../utils/token';
 
 export const join = async (signupData) => {
   try {
-    console.log("회원가입 요청 중")
+    console.log("join 요청중")
     const response = await fastapiApi.post('api/user/join', signupData);
     return response.data;
   } catch (error) {
-    console.error('❌ error:', error);
+    console.error('join 실패:', error);
     throw error;
   }
 };  
@@ -19,10 +19,10 @@ export async function fetchUserInfo() {
     const response = await fastapiApi.get('api/me');    
     const userData = response.data;
     sessionStorage.setItem('user', JSON.stringify(userData));
-    console.log("✅ fetchUserInfo 성공:", userData);
+    console.log("fetchUserInfo 성공:", userData);
     return userData;
   } catch (error) {
-    console.warn('⚠️ fetchUserInfo 실패:', error.response || error);
+    console.warn('fetchUserInfo 실패:', error.response || error);
     sessionStorage.removeItem('user');
     return null;
   }
@@ -31,7 +31,7 @@ export async function fetchUserInfo() {
 // 로그인 요청
 export const login = async (credentials) => {
   try {
-    console.log("로그인 요청 중")
+    console.log("login 요청중")
     const response = await fastapiApi.post('/api/auth/login', credentials);
     const { access_token, refresh_token } = response.data;
 
@@ -40,9 +40,7 @@ export const login = async (credentials) => {
     if (refresh_token) setRefreshToken(refresh_token);
     return response.data;
   } catch (error) {
-    console.error('❌ login error:', error);
+    console.error('login 실패:', error);
     throw error;
   }
 };
-
-// 로그아웃 요청
