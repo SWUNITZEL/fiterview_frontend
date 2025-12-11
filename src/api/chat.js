@@ -29,16 +29,16 @@ export async function sendMessage(chatId, message) {
   }
 }
 
-export async function getMessagesByChatId(chatId) {
+export async function getChat(chatId) {
   try {
-    console.log("getMessagesByChatId 요청중");
+    console.log("getChat 요청중");
     const response = await fastapiApi.get(`api/chat/${chatId}/message`);
     const data = response.data;
-    console.log("getMessagesByChatId 성공:", data);
+    console.log("getChat 성공:", data);
     return data;
 
   } catch (error) {
-    console.warn("getMessagesByChatId 실패:", error.response || error);
+    console.warn("getChat 실패:", error.response || error);
     return null;
   }
 }
