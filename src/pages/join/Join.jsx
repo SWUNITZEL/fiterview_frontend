@@ -1,72 +1,153 @@
-import React, { useState, useEffect } from 'react';
+// src/pages/join/Join.jsx
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container } from "@mui/material";
-import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
-import { PATH } from "../../config/paths";
+import { Container, TextField, Button, RadioGroup, FormControlLabel, Radio, FormLabel, Box, Typography } from '@mui/material';
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
-import Step01 from './Step01';
+import { useJoin } from '../../hooks/useJoin';
+import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 import './Join.css';
 
 const Join = () => {
-  const [currentStep, setCurrentStep] = useState(1);
   const location = useLocation();
-  
   const navigate = useNavigateWithScrollTop();
+  const { formData, errors, loading, handleChange, handleSubmit } = useJoin();
 
-  const steps = [
-    { number: 1, label: '약관 동의' },
-    { number: 2, label: '소셜 회원가입' },
-    { number: 3, label: '정보 입력' },
-    { number: 4, label: '가입 완료' },
-  ];
+  // 쿼리에서 step 추출 (없으면 '1')
+  const step = useMemo(() => new URLSearchParams(location.search).get('step') || '1', [location.search]);
 
-  const handleNext = () => setCurrentStep(prev => Math.min(prev + 1, steps.length));
-  
-  useEffect(() => {
-    const q = location.search;
-    const s = Number(new URLSearchParams(q).get('step'));
-    if (s >= 1 && s <= 4) setCurrentStep(s);
-  }, [location.search]);
+  // 각 step별 UI를 반환하는 렌더러 (중복 return 방지)
+  const renderStep = () => {
+    if (step === '1') {
+      return (
+        <Box className="join-wrapper" sx={{ maxWidth: 640, mx: 'auto', py: 4 }}>
+          <Typography variant="h4" component="h1" className="join-title" sx={{ mb: 2 }}>
+            회원가입
+          </Typography>
 
+          <form className="join-form" onSubmit={handleSubmit} noValidate>
+            <TextField
+              label="아이디"
+              name="id"
+              value={formData.id}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={!!errors.id}
+              helperText={errors.id}
+              autoComplete="username"
+            />
+
+            <TextField
+              label="비밀번호"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={!!errors.password}
+              helperText={errors.password}
+              autoComplete="new-password"
+            />
+
+            <TextField
+              label="비밀번호 확인"
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={!!errors.confirmPassword}
+              helperText={errors.confirmPassword}
+            />
+
+            <TextField
+              label="이름"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              error={!!errors.name}
+              helperText={errors.name}
+            />
+
+            <FormLabel component="legend" sx={{ mt: 2 }}>
+              회원 유형
+            </FormLabel>
+            <RadioGroup
+              row
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              sx={{ mb: 1 }}
+            >
+              <FormControlLabel value="학생" control={<Radio />} label="학생" />
+              <FormControlLabel value="학부모" control={<Radio />} label="학부모" />
+            </RadioGroup>
+            {errors.role && <Typography color="error" variant="body2" sx={{ mb: 2 }}>{errors.role}</Typography>}
+
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              disabled={loading}
+              className="join-submit"
+              sx={{ mt: 2 }}
+            >
+              {loading ? '가입 중...' : '다음 단계'}
+            </Button>
+          </form>
+        </Box>
+      );
+    }
+
+    if (step === '2') {
+      return (
+        <Box className="join-wrapper" sx={{ maxWidth: 640, mx: 'auto', py: 8, textAlign: 'center' }}>
+          <Typography variant="h4" component="h1" className="join-title" sx={{ mb: 2 }}>
+            회원가입 완료
+          </Typography>
+          <Typography variant="body1" className="join-subtext" sx={{ mb: 4 }}>
+            회원가입이 정상적으로 완료되었습니다.
+          </Typography>
+
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => navigate('/login')}
+            className="join-submit"
+          >
+            로그인 하러가기
+          </Button>
+        </Box>
+      );
+    }
+
+    // 알 수 없는 step일 경우 기본적으로 step1 렌더
+    return (
+      <Box sx={{ maxWidth: 640, mx: 'auto', py: 4 }}>
+        <Typography>알 수 없는 단계입니다. 다시 시도해주세요.</Typography>
+      </Box>
+    );
+  };
+
+  // 단일 return — 여기서 Navbar / Footer 포함
   return (
     <Container
       maxWidth={false}
+      disableGutters
       style={{
-        // backgroundColor: "var(--background-color)",
-        minHeight: "100vh",
-        padding: "120px 0 0",
-        overflow: "hidden"
+        minHeight: '100vh',
+        paddingTop: 120,
       }}
     >
       <NavbarComponent />
 
-      <div className="join-container">
-        <h2 className="join-header">회원가입</h2>
-        <div className="join-stepper">
-          {steps.map((step, index) => (
-            <React.Fragment key={step.number}>
-              <div className="join-step-item">
-                <div className="join-circle-line-item">
-                  <div className={`join-circle ${currentStep === step.number ? 'active' : ''}`}>
-                    {step.number}
-                    <span className="join-label">{step.label}</span>
-                  </div>
-                  {index < steps.length - 1 && <hr className="join-line" />}
-                </div>
-              </div>
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
+      {renderStep()}
 
-      {/* Step 분기 */}
-      {currentStep === 1 && <Step01 onNext={handleNext} />}
-      {/* {currentStep === 2 && <Step02 toLogin={() => navigate(PATH.LOGIN)} />} */}
-      {/* {currentStep === 3 && <Step03 />} */}
-      {/* {currentStep === 4 && <Step04 onNext={() => navigate(PATH.LOGIN)} />} */}
-
-      <div style={{ height: 120 }} />
       <Footer />
     </Container>
   );

@@ -8,7 +8,7 @@ export const useJoin = () => {
   const navigate = useNavigateWithScrollTop();
   
   const onSuccess = () => {
-    navigate('/join?step=4');
+    navigate('/join?step=');
   }
   const [formData, setFormData] = useState({
     id: getItem("id") || '',
@@ -58,9 +58,8 @@ export const useJoin = () => {
         id: formData.id,
         password: formData.password,
         name: formData.name,
-        birth: formData.birth,
         role: formData.role,
-        relation: '',
+        relation: "",
       };
       const response = await join(signupPayload);
       console.log('회원가입 성공:', response);
