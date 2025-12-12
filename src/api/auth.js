@@ -4,7 +4,7 @@ import { setAccessToken, setRefreshToken } from '../utils/token';
 export const join = async (signupData) => {
   try {
     console.log("join 요청중")
-    const response = await fastapiApi.post('api/user/join', signupData);
+    const response = await fastapiApi.post('api/auth/join', signupData);
     console.log("join 성공")
 
     return response.data;
