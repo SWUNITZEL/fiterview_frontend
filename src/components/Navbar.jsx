@@ -62,13 +62,13 @@ const Navbar = () => {
 
   return (
     <HideOnScroll>
-      <AppBar position="fixed" color="transparent" elevation={0} sx={{ maxHeight: '50px', minHeight: '50px' }}>
+      <AppBar position="fixed" color="transparent" elevation={0} sx={{ maxHeight: '68px', minHeight: '68px' }}>
         <Toolbar
           disableGutters
           sx={(theme) => ({
-            minHeight: 50,
-            [theme.breakpoints.up('sm')]: { minHeight: 50 },
-            px: '240px',
+            minHeight: '68px',
+            [theme.breakpoints.up('sm')]: { minHeight: '68px' },
+            px: '100px',
             display: 'flex',
             justifyContent: 'space-between',
             backgroundColor: 'var(--background-color)',
@@ -80,7 +80,7 @@ const Navbar = () => {
               onClick={() => navigate(PATH.LEARNING)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
-              className='body-14-medium'
+              className='subtitle-18-medium'
             >
               학습
             </Typography>
@@ -88,7 +88,7 @@ const Navbar = () => {
               onClick={() => navigate(PATH.PROGRESS)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
-              className='body-14-medium'
+              className='subtitle-18-medium'
             >
               진행현황
             </Typography>
@@ -96,7 +96,7 @@ const Navbar = () => {
               onClick={() => navigate(PATH.ARTICLE)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
-              className='body-14-medium'
+              className='subtitle-18-medium'
             >
               아티클
             </Typography>
@@ -148,7 +148,7 @@ const Navbar = () => {
                   onClick={() => navigate(PATH.JOIN)}
                   variant="body2"
                   sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
-                  className='body-14-medium'
+                  className='subtitle-18-medium'
                 >
                   회원가입
                 </Typography>
@@ -169,7 +169,7 @@ const Navbar = () => {
                       // backgroundColor: 'var(--nuetral-30)',
                     },
                   }}
-                  className='body-14-medium'
+                  className='subtitle-18-medium'
                 >
                   로그인
                 </Button>

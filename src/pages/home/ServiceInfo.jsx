@@ -1,12 +1,12 @@
-/**
- * @file MainBanner.jsx
- * @description 메인인 배너
- * @author 이찬우
- * @created 2025-05-07
-**/
 import {Button} from "@mui/material";
+import {
+  Container,
+  Dialog,
+  DialogTitle,
+  DialogContent
+} from "@mui/material";
 
-const MainBanner = ({onNavigate}) => {
+export default function ServiceInfo({onNavigate}){
 
     return (
         <div className="center-both child-column-center" 
@@ -54,5 +54,3 @@ const MainBanner = ({onNavigate}) => {
         </div>
     );
 };
-
-export default MainBanner;
