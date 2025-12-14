@@ -64,7 +64,6 @@
 body, div, button, input, select, textarea {
   margin: 0;
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont;
-  color: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,27 +82,23 @@ code {
   font-size: 40px;
   line-height: 56px;
   font-weight: 700; 
-  color: var(--font-body);
 }
 
 .title-32-bold {
   font-size: 32px;
   line-height: 40px;
-  color: var(--font-body);
   font-weight: 700;
 }
 
 .title-24-bold {
   font-size: 24px;
   line-height: 36px;
-  color: var(--font-body);
   font-weight: 700;
 }
 
 .title-24-medium {
   font-size: 24px;
   line-height: 36px;
-  color: var(--font-body);
   font-weight: 500;
 }
 
@@ -111,62 +106,53 @@ code {
 .subtitle-20-bold {
   font-size: 20px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 700;
 }
 
 .subtitle-20-bold {
   font-size: 20px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 700;
 }
 
 .subtitle-20-semibold {
   font-size: 20px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 600;
 }
 
 .subtitle-20-medium {
   font-size: 20px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 500;
 }
 .subtitle-18-bold {
   font-size: 18px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 700;
 }
 
 .subtitle-18-semibold {
   font-size: 18px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 600;
 }
 
 .subtitle-18-medium {
   font-size: 18px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 500;
 }
 
 .subtitle-18-regular {
   font-size: 18px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 400;
 }
 
 .subtitle-16-semibold {
   font-size: 16px;
   line-height: 20px;
-  color: var(--font-body);
   font-weight: 600;
 }
 
@@ -174,28 +160,24 @@ code {
 .body-16-medium {
   font-size: 16px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 500;
 }
 
 .body-16-regular {
   font-size: 16px;
   line-height: 24px;
-  color: var(--font-body);
   font-weight: 400;
 }
 
 .body-14-medium {
   font-size: 14px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 500;
 }
 
 .body-14-regular {
   font-size: 14px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 400;
 }
 
@@ -203,14 +185,12 @@ code {
 .caption-14-medium {
   font-size: 14px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 500;
 }
 
 .caption-14-regular {
   font-size: 14px;
   line-height: 22px;
-  color: var(--font-body);
   font-weight: 400;
 }
 
