@@ -38,7 +38,7 @@ const LearningMain = () => {
               marginBottom : "16px"
             }}>
             <Typography variant="h6" fontWeight="bold" align="center">
-              Title
+              Titleㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ
             </Typography> 
           </Box>
 
