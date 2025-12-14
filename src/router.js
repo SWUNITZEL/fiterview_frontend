@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import Join from "./pages/join/Join.jsx";
-import Report from "./pages/learning/Report.jsx";
+import Report from "./pages/learning/report/Report.jsx";
 import Article from "./pages/article/Article.jsx";
 import ArticleDetail from "./pages/article/ArticleDetail.jsx";
 import { PATH } from "./config/paths";
