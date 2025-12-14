@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Box,
   Typography,
@@ -9,7 +10,9 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Stack
+  Stack,
+  Chip,
+  Pagination 
 } from "@mui/material";
 import {
   Chart as ChartJS,
@@ -22,6 +25,9 @@ import {
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
 import MainContainer from "../../components/MainContainer";
+import { useProgress } from "../../hooks/useProgress";
+import { formatDateYMD, getCreateDate, getExpiredDate } from "../../utils/date";
+
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -32,11 +38,57 @@ ChartJS.register(
 );
 
 export default function Progress({ user, onNavigate }) {
+  const ROWS_PER_PAGE = 5;
+  const [page, setPage] = useState(1);
+  const {
+    chatList,
+    curriculumList,
+    finalReportList,
+    loading,
+    error,
+  } = useProgress(user);
+  const totalPages = Math.ceil(chatList.length / ROWS_PER_PAGE);
+  const paginatedChats = chatList.slice(
+    (page - 1) * ROWS_PER_PAGE,
+    page * ROWS_PER_PAGE
+  );
+
+  const reports = finalReportList.slice(0, 4);
+  const DEFAULT_SCORES = {
+    expression: 67,
+    logical_thinking: 78,
+    manner: 85,
+    summary_accuracy: 90,
+  };
+  const scoreSum =
+    reports.length <= 4
+      ? DEFAULT_SCORES
+      : reports.reduce(
+        (acc, report) => {
+          acc.expression += report.expression || 0;
+          acc.logical_thinking += report.logical_thinking || 0;
+          acc.manner += report.manner || 0;
+          acc.summary_accuracy += report.summary_accuracy || 0;
+          return acc;
+        },
+        {
+          expression: 0,
+          logical_thinking: 0,
+          manner: 0,
+          summary_accuracy: 0,
+        }
+    );
+
   const data = {
-    labels: ["분류", "분류", "분류", "분류"],
+    labels: ["표현력", "사고력", "학습 태도", "요약 능력"],
     datasets: [
       {
-        data: [70, 60, 40, 65], // 점수
+        data: [
+          scoreSum.expression,
+          scoreSum.logical_thinking,
+          scoreSum.manner,
+          scoreSum.summary_accuracy,
+        ], // 점수
         backgroundColor: "rgba(58, 152, 245, 0.4)", // 내부 채움: --color-blue-400
         borderColor: "rgb(58, 152, 245)", // 외곽선: --color-blue-400"
         borderWidth: 2,
@@ -78,6 +130,10 @@ export default function Progress({ user, onNavigate }) {
     },
   };
 
+  if (loading) {
+    return <div>로딩중...</div>;
+  }
+
   return (
     <MainContainer sx={{ px: 2 }}>
 
@@ -96,33 +152,63 @@ export default function Progress({ user, onNavigate }) {
         bgcolor: "var(--color-blue-100)" 
       }}
       >
-
-        <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+        <Stack direction={{ xs: "column", md: "row" }} spacing={4}>
           <Box
             sx={{
               width: 160,
               height: 236,
-              bgcolor: "var(--color-gray-300)",
+              backgroundImage: `url(${chatList.length > 0 ? curriculumList[`step${chatList[0].current_step}`][`${chatList[0].current_id}`].img : curriculumList.length > 0 ? curriculumList['step1']['1'].img : "준비 중입니다"})`,
+              // bgcolor: "var(--color-gray-300)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               borderRadius: 2,
               flexShrink: 0
             }}
           />
-
           <Box flex={1} sx={{ position: "relative", mt: "12px", width: "100%" }}>
+            {chatList.length > 0 ? 
+            <Stack direction={"row"} spacing={0} sx={{ mt: "10px", mb: 2 }}>
+              <Chip 
+                label={`${Math.ceil((getExpiredDate(chatList[0].created_at) - new Date())/(1000 * 60 * 60 * 24))}일 남았어요`} 
+                sx={{
+                  bgcolor: "var(--color-blue-700)",
+                  color: "var(--color-base-000)",
+                  fontWeight: 500,
+                  fontSize: "16px",
+                  height: "28px",
+                  borderRadius: "4px",
+                  padding: "2px 4px",
+                }}
+              />
+              <Chip 
+                label={`${formatDateYMD(getCreateDate(chatList[0].created_at))} - ${formatDateYMD(getExpiredDate(chatList[0].created_at))}`}
+                sx={{
+                  bgcolor: "transparent",
+                  color: "var(--color-gray-700)",
+                  fontWeight: 500,
+                  fontSize: "16px",
+                  height: "28px",
+                  borderRadius: "4px",
+                  padding: "2px 0px",
+                }}
+                >
+              </Chip>
+            </Stack>
+            :null}
             <Typography fontWeight={700} fontSize={"24px"}>
-              1주차
+              『{chatList.length > 0 ? curriculumList[`step${chatList[0].current_step}`][`${chatList[0].current_id}`].title : curriculumList.length > 0 ? curriculumList['step1']['1'].title : "준비 중입니다"}』
             </Typography>
-            <Typography sx={{ mt: 2 }} fontWeight={700} fontSize={"20px"}>
-              "책 제목 제목"
+            <Typography sx={{ mt: 1 }} fontWeight={400} fontSize={"18px"}>
+              {chatList.length > 0 ? curriculumList[`step${chatList[0].current_step}`][`${chatList[0].current_id}`].author : curriculumList.length > 0 ? curriculumList['step1']['1'].author : "준비 중입니다"}
             </Typography>
 
-            <Box sx={{ position: "absolute", width: "100%", bottom: 12 }}>
+            <Box sx={{ position: "absolute", width: "calc(100% - 8px)", bottom: 12 }}>
               <Typography fontWeight={700} fontSize={"16px"}>
-                <span style={{fontWeight: "400"}}>학습률 </span>0%
+                <span style={{fontWeight: "400"}}>학습률 </span>{chatList.length > 0 ?chatList[0].has_final_report?100:chatList[0].current_question_index === null?50:chatList[0].current_question_index*25:0}%
               </Typography>
               <LinearProgress
                 variant="determinate"
-                value={10}
+                value={chatList.length > 0 ?chatList[0].has_final_report?100:chatList[0].current_question_index === null?50:chatList[0].current_question_index*25:0}
                 sx={{ mt: 2, height: 16, width: "100%", borderRadius: 10, 
                   backgroundColor: "var(--color-gray-100)", // 배경 바 색
                   "& .MuiLinearProgress-bar": {
@@ -188,10 +274,38 @@ export default function Progress({ user, onNavigate }) {
         px: "20px",
         py: "24px", 
         borderRadius: 3, 
+        position: "relative",
         border: "1px solid var(--color-gray-200)",
         bgcolor: "var(--color-base-000)"
       }}
       >
+        {finalReportList.length < 4 && (
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 10,
+              borderRadius: 3, 
+              bgcolor: "rgba(0, 0, 0, 0.55)",
+              backdropFilter: "blur(6px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              px: 3,
+            }}
+          >
+            <Typography
+              fontSize="20px"
+              fontWeight={700}
+              color="var(--color-base-000)"
+              lineHeight={1.6}
+            >
+              4주 이상 학습을 완료하면<br />
+              종합 평가를 확인할 수 있어요
+            </Typography>
+          </Box>
+        )}
         <Stack direction="row" spacing={3} justifyContent="space-between" height={"fit-content"}>
           <Box sx={{
             display: "flex",
@@ -202,7 +316,7 @@ export default function Progress({ user, onNavigate }) {
               좋았어요!
             </Typography>
             <Typography sx={{ marginBottom: "32px", fontSize: "18px", fontWeight: 400,  color: "var(--color-gray-800)" }}>
-              지난 4주 결과물을 텍스트 형태로 평가합니다. 문장은 간결하게 3문장 정도로 작성합니다.
+              지난 4주 결과물을 텍스트 형태로 평가합니다.
             </Typography>
 
             <Typography mb={1} fontWeight={700} fontSize={"20px"} color="var(--color-blue-900)">
@@ -253,22 +367,23 @@ export default function Progress({ user, onNavigate }) {
             }}>
             <TableRow>
               <TableCell align="center">번호</TableCell>
-              <TableCell align="center">기간</TableCell>
-              <TableCell align="center" sx={{width: 500}}>파트명</TableCell>
+              <TableCell align="center" sx={{width: 250}}>기간</TableCell>
+              <TableCell align="center" sx={{width: 300}}>파트명</TableCell>
               <TableCell align="center">보고서</TableCell>
               <TableCell align="center">진도</TableCell>
               <TableCell align="center">학습</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {[1, 2, 3, 4, 5].map((row) => (
-              <TableRow key={row}>
-                <TableCell align="center">{row}</TableCell>
-                <TableCell align="center">12/01 - 12/07</TableCell>
-                <TableCell>책 이름 - 파트 명 작성</TableCell>
+            {paginatedChats.map((chat, index) => (
+              <TableRow key={chat.chat_id}>
+                <TableCell align="center">{index+1}</TableCell>
+                <TableCell align="center">{formatDateYMD(getCreateDate(chat.created_at))} - {formatDateYMD(getExpiredDate(chat.created_at))}</TableCell>
+                <TableCell>{chat.title}</TableCell>
                 <TableCell align="center">
                   <Button 
                   size="small"
+                  onClick={()=>onNavigate(`/report/final/${chat.chat_id}`)}
                   sx = {{
                     color: 'var(--color-gray-900)',
                     fontSize: '16px',
@@ -280,12 +395,13 @@ export default function Progress({ user, onNavigate }) {
                   }}
                   >보고서 보기</Button>
                 </TableCell>
-                <TableCell align="center">0%</TableCell>
+                <TableCell align="center">{chat.has_final_report?100:chat.current_question_index === null?50:chat.current_question_index*25}%</TableCell>
                 <TableCell align="center">
                   <Button
                     size="small"
+                    onClick={()=>onNavigate(`/learning/${chat.current_question_index === null?"reflection":"chat"}/${chat.chat_id}`)}
                     variant={"outlined"}
-                    disabled={row < 3}
+                    disabled={chat.has_final_report}
                     sx={{ 
                       px: '35.5px',
                       py: '12px',
@@ -294,9 +410,9 @@ export default function Progress({ user, onNavigate }) {
                       minHeight: '32px',
                       borderRadius: '8px',
                       "&.Mui-disabled": {
-                        borderColor: row === 1 ? 'var(--color-blue-200)' : 'var(--color-gray-200)',
-                        color: row === 1 ? 'var(--color-blue-500)' : 'var(--color-gray-400)',
-                        backgroundColor: row === 1 ? 'var(--color-blue-050)' : 'var(--color-gray-200)',
+                        borderColor: chat.has_final_report ? 'var(--color-blue-200)' : 'var(--color-gray-200)',
+                        color: chat.has_final_report ? 'var(--color-blue-500)' : 'var(--color-gray-400)',
+                        backgroundColor: chat.has_final_report ? 'var(--color-blue-050)' : 'var(--color-gray-200)',
                       },
                       borderColor: 'var(--color-blue-500)',
                       color: 'var(--color-base-000)',
@@ -307,13 +423,24 @@ export default function Progress({ user, onNavigate }) {
                       },
                     }}
                   >
-                    {row === 1 ? "수강완료" : row === 2 ? "수강불가" : "수강하기"}
+                    {chat.has_final_report ? "수강완료" : getExpiredDate(getCreateDate(chat.created_at)) < new Date() ? "수강불가" : "수강하기"}
                   </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+        {chatList.length > ROWS_PER_PAGE && (
+          <Stack alignItems="center" mt={3}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              color="primary"
+              shape="rounded"
+            />
+          </Stack>
+        )}
       </Paper>
     </MainContainer>
   );

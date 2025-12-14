@@ -161,12 +161,12 @@ const Navbar = () => {
                     borderRadius: '20px',
                     textTransform: 'none',
                     whiteSpace: 'nowrap',
-                    width: '61px',
+                    width: '80px',
                     height: '30px',
-                    // border: '1px solid var(--nuetral-50)',
+                    border: '1px solid var(--color-blue-500)',
                     '&:hover': {
-                      // borderColor: 'var(--nuetral-60)',
-                      // backgroundColor: 'var(--nuetral-30)',
+                      borderColor: 'var(--color-blue-500)',
+                      backgroundColor: 'var(--color-blue-050)',
                     },
                   }}
                   className='subtitle-18-medium'
