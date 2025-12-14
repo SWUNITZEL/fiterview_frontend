@@ -6,6 +6,7 @@ import Login from "./pages/login/Login.jsx";
 import Join from "./pages/join/Join.jsx";
 import Article from "./pages/article/Article.jsx";
 import ArticleDetail from "./pages/article/ArticleDetail.jsx";
+import Learning from "./pages/learning/Learning.jsx";
 import { PATH } from "./config/paths";
 
 const RouterConfig = () => {
@@ -17,6 +18,7 @@ const RouterConfig = () => {
       <Route path={PATH.JOIN} element={<Join />} />
       <Route path={PATH.ARTICLE} element={<Article />} />
       <Route path={PATH.ARTICLE_DETAIL} element={<ArticleDetail />} />
+      <Route path={PATH.LEARNING} element={<Learning />} />
     </Routes>
   );
 };
