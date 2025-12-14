@@ -61,7 +61,7 @@ export default function Progress({ user, onNavigate }) {
     summary_accuracy: 90,
   };
   const scoreSum =
-    reports.length <= 4
+    reports.length <= 5
       ? DEFAULT_SCORES
       : reports.reduce(
         (acc, report) => {
@@ -90,7 +90,7 @@ export default function Progress({ user, onNavigate }) {
           scoreSum.summary_accuracy,
         ], // 점수
         backgroundColor: "rgba(58, 152, 245, 0.4)", // 내부 채움: --color-blue-400
-        borderColor: "rgb(58, 152, 245)", // 외곽선: --color-blue-400"
+        borderColor: "rgb(58, 152, 245)", // 외곽선: --color-blue-400
         borderWidth: 2,
         pointRadius: 0, // 점 숨기기
       },
@@ -237,7 +237,7 @@ export default function Progress({ user, onNavigate }) {
                     borderColor: 'var(--color-blue-200)',
                     backgroundColor: 'var(--color-base-000)',
                   },}}
-                onClick={() => onNavigate("curriculum")}
+                onClick={() => onNavigate("/learning")}
               >
                 커리큘럼 보기
               </Button>
@@ -256,7 +256,7 @@ export default function Progress({ user, onNavigate }) {
                     borderColor: 'var(--color-blue-400)',
                     backgroundColor: 'var(--color-blue-400)',
                   },}}
-                onClick={() => onNavigate("study")}
+                onClick={() => onNavigate(`/learning/${chatList.length > 0 ? chatList[0].current_question_index === null? `reflection/${chatList[0].chat_id}` : `chat/${chatList[0].chat_id}`: ""}`)}
               >
                 수강하기
               </Button>
