@@ -384,7 +384,7 @@ export default function Progress({ user, onNavigate }) {
                   <Button 
                   size="small"
                   disabled={!chat.has_final_report}
-                  onClick={()=>onNavigate(`/report/${chat.chat_id}`)}
+                  onClick={()=>onNavigate(`/learning/report/${chat.chat_id}`)}
                   sx = {{
                     color: 'var(--color-gray-900)',
                     fontSize: '16px',
@@ -400,7 +400,7 @@ export default function Progress({ user, onNavigate }) {
                 <TableCell align="center">
                   <Button
                     size="small"
-                    onClick={()=>onNavigate(`/learning/${chat.current_question_index === null?"report":"chat"}/${chat.chat_id}`)}
+                    onClick={()=>onNavigate(`/learning/${chat.current_question_index === null?"reflection":"chat"}/${chat.chat_id}`)}
                     variant={"outlined"}
                     disabled={chat.has_final_report}
                     sx={{ 
