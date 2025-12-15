@@ -20,7 +20,7 @@ function App() {
       <ThemeProvider theme={MuiTheme}>
         <CssBaseline />
         <UserProvider>
-          <Router basename="/nexture-frontend">
+          <Router>
             <RouterConfig />
           </Router>
         </UserProvider>
