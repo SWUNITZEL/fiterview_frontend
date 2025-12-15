@@ -13,6 +13,7 @@ import { PATH } from "./config/paths";
 const RouterConfig = () => {
   return (
     <Routes>      
+      <Route index element={<Navigate to={PATH.MAIN} replace />} />
       <Route path={PATH.ROOT} element={<Navigate to={PATH.MAIN} />} />
       <Route path={PATH.MAIN} element={<Home />} />
       <Route path={PATH.LOGIN} element={<Login />} />
