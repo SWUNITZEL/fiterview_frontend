@@ -39,7 +39,7 @@ const LoadingScreen = ({ message }) => {
           } 
           }} />
       <MainContainer>
-        <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"100px", padding:"0px"}}>{message}...</h4>
+        <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"100px", padding:"0px"}}>{message}</h4>
       </MainContainer>
     </Container>
   );

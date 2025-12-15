@@ -61,7 +61,7 @@ function Home() {
       }}
     >
       <NavbarComponent />
-      <LoadingScreen message="사용자 정보를 불러오는 중입니다" />
+      <LoadingScreen message="" />
     </Container>
     )
   }

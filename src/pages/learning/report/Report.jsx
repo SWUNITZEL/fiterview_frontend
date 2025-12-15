@@ -14,7 +14,6 @@ import LoadingScreen from '../../../components/LoadingScreen';
 
 function Report() {
   const { chatId } = useParams()
-  const { user } = useUser();
   const {
       reflection,
       finalReport,
