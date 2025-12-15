@@ -10,74 +10,90 @@ import {
   Paper,
 } from "@mui/material";
 import MainContainer from "../../../components/MainContainer";
+import { formatDateYMD, getCreateDate } from "../../../utils/date";
 
-export default function ReportTable() {
+export default function ReportTable({finalReport, reflection}) {
   const InfoTable = ({ rows }) => {
-    let lastGroup = null;
+  let lastGroup = null;
 
-    return (
-        <Table sx={{ tableLayout: "fixed", width: "100%", borderColor: "var(--color-gray-400)",
-            "& td": { fontSize: 16 }}}>
-        <TableBody>
-            {rows.map((row, idx) => {
-            const isNewGroup = row.group && row.group !== lastGroup;
-            if (row.group) lastGroup = row.group;
+  return (
+    <Table
+      sx={{
+        tableLayout: "fixed",
+        width: "100%",
+        "& td": { fontSize: 16 },
+      }}
+    >
+      <TableBody>
+        {rows.map((row, idx) => {
+          const isNewGroup = row.group && row.group !== lastGroup;
+          if (row.group) lastGroup = row.group;
 
-            return (
-                <TableRow key={idx}>
-                {/* 그룹 셀 (rowSpan) */}
-                {isNewGroup && (
-                    <TableCell
-                    align="center"
-                    rowSpan={rows.filter(r => r.group === row.group).length}
-                    sx={{
-                        width: 60,
-                        bgcolor: "var(--color-gray-100)",
-                        fontWeight: 700,
-                    }}
-                    >
-                    {row.group}
-                    </TableCell>
-                )}
+          const hasGroup = !!row.group;
 
-                {/* 일반 label */}
+          return (
+            <TableRow key={idx}>
+              {/* group 셀 */}
+              {isNewGroup && (
                 <TableCell
-                    align="center"
-                    sx={{
-                    width: 120,
+                  align="center"
+                  rowSpan={rows.filter(r => r.group === row.group).length}
+                  sx={{
+                    width: 60,
                     bgcolor: "var(--color-gray-100)",
                     fontWeight: 700,
-                    }}
+                  }}
                 >
-                    {row.label}
+                  {row.group}
                 </TableCell>
+              )}
 
-                <TableCell colSpan={row.colSpan || 1} sx={{minWidth: "100px", wordBreak: "break-word",}}>
-                    {row.value}
-                </TableCell>
+              {/* label (group 없으면 앞 칸까지 합침) */}
+              <TableCell
+                align="center"
+                colSpan={hasGroup ? 1 : 2}
+                sx={{
+                  width: 250,
+                  bgcolor: "var(--color-gray-100)",
+                  fontWeight: 700,
+                }}
+              >
+                {row.label}
+              </TableCell>
 
-                {row.extra && (
-                    <>
-                    <TableCell
-                        align="center"
-                        sx={{
-                        width: 120,
-                        bgcolor: "var(--color-gray-100)",
-                        fontWeight: 700,
-                        }}
-                    >
-                        {row.extra.label}
-                    </TableCell>
-                    <TableCell sx={{width: "35%", wordBreak: "break-word",}}>{row.extra.value}</TableCell>
-                    </>
-                )}
-                </TableRow>
-            );
-            })}
-        </TableBody>
-        </Table>
-    );
-    };
+              {/* value */}
+              <TableCell
+                colSpan={row.colSpan ?? (row.extra ? 1 : 3)}
+                sx={{ wordBreak: "break-word" }}
+              >
+                {row.value}
+              </TableCell>
+
+              {/* extra */}
+              {row.extra && (
+                <>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      width: 250,
+                      bgcolor: "var(--color-gray-100)",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {row.extra.label}
+                  </TableCell>
+                  <TableCell sx={{ wordBreak: "break-word" }}>
+                    {row.extra.value}
+                  </TableCell>
+                </>
+              )}
+            </TableRow>
+          );
+        })}
+      </TableBody>
+    </Table>
+  );
+};
 
 
   return (
@@ -85,7 +101,7 @@ export default function ReportTable() {
       {/* 헤더 */}
       <Stack direction="row" justifyContent="space-between" mb={4}>
         <Typography fontSize={28} fontWeight={700} sx={{ mb: 1 }}>
-          책 제목 <span style={{ color: "var(--color-gray-700)", fontSize: "24px" }}>- 작가 이름</span>
+          {finalReport.title} <span style={{ color: "var(--color-gray-700)", fontSize: "24px" }}>- {finalReport.author}</span>
         </Typography>
 
         <Stack direction="row" spacing={2}>
@@ -132,22 +148,22 @@ export default function ReportTable() {
             rows={[
                 {
                 label: "제목",
-                value: "제목명 작성",
-                extra: { label: "저자", value: "저자명 작성" },
+                value: `${finalReport.title}`,
+                extra: { label: "저자", value: `${finalReport.author}` },
                 },
                 {
                 label: "날짜",
-                value: "0000년 00월 00일",
-                extra: { label: "분야", value: "분야명 작성" },
+                value: `${formatDateYMD(getCreateDate(finalReport.created_at))}`,
+                extra: { label: "분야", value: "문학" },
                 },
                 {
                 label: "주제",
-                value: "주제 작성",
+                value: `${finalReport.subject}`,
                 colSpan: 3,
                 },
                 {
                 label: "줄거리",
-                value: "AI가 작성한 줄거리 작성",
+                value: `${finalReport.gold_summary}`,
                 colSpan: 3,
                 },
                 {
@@ -155,9 +171,9 @@ export default function ReportTable() {
                 group: "평가기준",
                 value: (
                     <>
-                    <Typography fontWeight={700}>0점</Typography>
-                    <Typography fontSize={14} color="text.secondary">
-                        평가에 대한 사유 서술로 작성되어 출력
+                    <Typography fontWeight={700}>{finalReport.expression + finalReport.logical_thinking + finalReport.manner + finalReport.summary_accuracy}점</Typography>
+                    <Typography fontSize={16} color="text.secondary">
+                        {finalReport.reason}
                     </Typography>
                     </>
                 ),
@@ -166,25 +182,25 @@ export default function ReportTable() {
                 {
                     label: "표현력",
                     group: "평가기준",
-                    value: "0점 / 5점",
+                    value: `${finalReport.expression}점 / 5점`,
                     colSpan: 3,
                 },
                 {
                     label: "사고력",
                     group: "평가기준",
-                    value: "0점 / 5점",
+                    value: `${finalReport.logical_thinking}점 / 5점`,
                     colSpan: 3,
                 },
                 {
                     label: "학습 태도",
                     group: "평가기준",
-                    value: "0점 / 5점",
+                    value: `${finalReport.manner}점 / 5점`,
                     colSpan: 3,
                 },
                 {
                     label: "요약 능력",
                     group: "평가기준",
-                    value: "0점 / 5점",
+                    value: `${finalReport.summary_accuracy}점 / 5점`,
                     colSpan: 3,
                 },
 
@@ -202,28 +218,28 @@ export default function ReportTable() {
             rows={[
                 {
                 label: "제목",
-                value: "제목명 작성",
-                extra: { label: "저자", value: "저자명 작성" },
+                value: `${reflection.title}`,
+                extra: { label: "저자", value: `${reflection.author}` },
                 },
                 {
                 label: "날짜",
-                value: "0000년 00월 00일",
-                extra: { label: "분야", value: "분야명 작성" },
+                value: `${formatDateYMD(getCreateDate(reflection.created_at))}`,
+                extra: { label: "분야", value: "문학" },
                 },
                 {
                 label: "주제",
-                value: "주제 작성",
+                value: `${reflection.subject}`,
                 colSpan: 3,
                 },
                 {
                 label: "줄거리",
-                value: "사용자가 작성한 줄거리",
+                value: `${reflection.summary}`,
                 colSpan: 3,
                 },
                 {
                 label: "느낀점",
-                value: "사용자가 작성한 책에 대한 감상",
-                extra: { label: "토론", value: "사용자가 작성한 토론에 대한 감상" },
+                value: `${reflection.book_review}`,
+                extra: { label: "토론", value: `${reflection.debate_review}` },
                 },
             ]}
             />

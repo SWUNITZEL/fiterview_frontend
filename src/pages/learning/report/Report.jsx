@@ -9,10 +9,17 @@ import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 
 import ReportTable from './ReportTable';
+import { useReport } from '../../../hooks/useReport';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 function Report() {
   const { chatId } = useParams()
   const { user } = useUser();
+  const {
+      reflection,
+      finalReport,
+      loading
+    } = useReport(chatId);
   const navigate = useNavigateWithScrollTop();
 
   return (
@@ -25,8 +32,9 @@ function Report() {
         overflow: "hidden"
       }}
     >
+      {loading && <LoadingScreen />}
       <NavbarComponent />
-      <ReportTable></ReportTable>      
+      <ReportTable reflection={reflection} finalReport={finalReport}></ReportTable>      
       <Footer />
     </Container>
   );
