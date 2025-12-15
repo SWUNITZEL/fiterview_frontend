@@ -25,9 +25,10 @@ import {
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
 import MainContainer from "../../components/MainContainer";
+import LoadingScreen from '../../components/LoadingScreen';
+
 import { useProgress } from "../../hooks/useProgress";
 import { formatDateYMD, getCreateDate, getExpiredDate } from "../../utils/date";
-
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -131,7 +132,7 @@ export default function Progress({ user, onNavigate }) {
   };
 
   if (loading) {
-    return <div>로딩중...</div>;
+    return <LoadingScreen message="" />;
   }
 
   return (
@@ -384,7 +385,7 @@ export default function Progress({ user, onNavigate }) {
                   <Button 
                   size="small"
                   disabled={!chat.has_final_report}
-                  onClick={()=>onNavigate(`/report/${chat.chat_id}`)}
+                  onClick={()=>onNavigate(`/learning/report/${chat.chat_id}`)}
                   sx = {{
                     color: 'var(--color-gray-900)',
                     fontSize: '16px',
@@ -400,7 +401,7 @@ export default function Progress({ user, onNavigate }) {
                 <TableCell align="center">
                   <Button
                     size="small"
-                    onClick={()=>onNavigate(`/learning/${chat.current_question_index === null?"report":"chat"}/${chat.chat_id}`)}
+                    onClick={()=>onNavigate(`/learning/${chat.current_question_index === null?"reflection":"chat"}/${chat.chat_id}`)}
                     variant={"outlined"}
                     disabled={chat.has_final_report}
                     sx={{ 

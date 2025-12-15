@@ -1,4 +1,8 @@
 import { LinearProgress } from '@mui/material';
+import MainContainer from './MainContainer';
+import {
+  Container
+} from "@mui/material";
 
 /**
  * @component LoadingScreen
@@ -12,25 +16,32 @@ import { LinearProgress } from '@mui/material';
  */
 
 const LoadingScreen = ({ message }) => {
-  const overlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'var(--background-color)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
-  };
-
   return (
-    <div style={overlayStyle} className='full-screen overflow-hidden'>
-      <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"0px", padding:"0px"}}>{message}...</h4>
-      <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
-    </div>
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        height: "100vh",
+        padding: "0",
+        overflow: "hidden"
+      }}
+    >
+      <LinearProgress 
+      sx={{ 
+        mt: "68px", 
+        height: "5px", 
+        width: "100%", 
+        borderRadius: "10px", 
+        backgroundColor: 'var(--color-blue-050)', 
+        '& .MuiLinearProgress-bar': { 
+          backgroundColor: 'var(--color-blue-200)', 
+          borderRadius: "10px", 
+          } 
+          }} />
+      <MainContainer>
+        <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"100px", padding:"0px"}}>{message}</h4>
+      </MainContainer>
+    </Container>
   );
 };
 
