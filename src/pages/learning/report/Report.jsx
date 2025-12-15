@@ -2,8 +2,6 @@ import {
   Container
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useUser } from '../../../contexts/UserContext';
-import { useNavigateWithScrollTop } from '../../../hooks/useNavigateWithScrollTop';
 
 import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
@@ -19,7 +17,6 @@ function Report() {
       finalReport,
       loading
     } = useReport(chatId);
-  const navigate = useNavigateWithScrollTop();
 
   return (
     <Container
