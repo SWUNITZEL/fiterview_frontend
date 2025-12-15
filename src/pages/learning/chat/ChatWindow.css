@@ -1,0 +1,100 @@
+.chat-window {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 입력창을 하단에 고정 */
+  overflow-y: auto;
+  padding-bottom: 80px; /* 입력창 공간 확보 */
+}
+
+/* 채팅 컨테이너 (정렬 변화의 핵심) */
+.chat-content-wrapper {
+  transition: margin 0.3s ease; /* 마진(정렬) 전환 애니메이션 */
+  min-height: 100%; /* 최소 높이 설정 */
+  width: 800px;
+
+}
+
+/* 채팅 버블 컨테이너 */
+.chat-bubble-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.chat-bubble-container.user {
+  justify-content: flex-end; /* 사용자 메시지는 오른쪽 정렬 */
+}
+
+.chat-bubble-container.ai {
+  justify-content: flex-start; /* AI 메시지는 왼쪽 정렬 */
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px 16px;
+  border-radius: 20px;
+  line-height: 1.5;
+  font-size: 18px;
+  /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+  margin-bottom: 12px;
+}
+
+.chat-bubble-container.user .chat-bubble {
+  background-color: var(--color-blue-400); /* 파란색 배경 */
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.chat-bubble-container.ai .chat-bubble {
+  background-color: var(--color-gray-050); /* 흰색 배경 */
+  color: #333;
+  border-bottom-left-radius: 5px;
+}
+
+
+/* ================== Chat Input 스타일 ================== */
+
+.chat-input-area {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    padding: 15px;
+    display: flex;
+    justify-content: center; /* 입력창 전체를 중앙에 배치 */
+    /* box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05); */
+    z-index: 5;
+}
+
+.chat-input-area input {
+    width: 800px; /* 입력창 너비 제한 */
+    height: 84px;
+    padding: 12px 20px;
+    border: 1px solid var(--color-gray-300);
+    border-radius: 8px;
+    font-size: 18px;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) inset; */
+}
+
+.chat-input-area input:focus {
+    outline:none;
+    border-color: var(--color-blue-400);
+}
+
+.chat-input-area .send-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+  position: absolute; /* 입력창 위에 겹쳐지도록 */
+  right: calc(50% - 400px + 10px); /* 중앙 정렬된 input 기준으로 오른쪽 배치 */
+  bottom: 25px;
+}
+

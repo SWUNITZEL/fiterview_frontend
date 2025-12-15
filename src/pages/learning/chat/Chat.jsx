@@ -1,0 +1,41 @@
+import {
+  Container
+} from "@mui/material";
+import { useParams } from "react-router-dom";
+// import { useUser } from '../../../contexts/UserContext';
+import { useNavigateWithScrollTop } from '../../../hooks/useNavigateWithScrollTop';
+
+import NavbarComponent from '../../../components/Navbar';
+import Footer from '../../../components/Footer';
+
+import ChatWindow from './ChatWindow';
+import { useReport } from '../../../hooks/useReport';
+import LoadingScreen from '../../../components/LoadingScreen';
+
+function Report() {
+  const { chatId } = useParams()
+  const {
+      reflection,
+      finalReport,
+      loading
+    } = useReport(chatId);
+  const navigate = useNavigateWithScrollTop();
+
+  return (
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        height: "auto",
+        padding: "0",
+        overflow: "hidden"
+      }}
+    >
+      {loading && <LoadingScreen />}
+      <NavbarComponent />
+      <ChatWindow></ChatWindow>      
+    </Container>
+  );
+}
+
+export default Report;
