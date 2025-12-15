@@ -25,9 +25,10 @@ import {
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
 import MainContainer from "../../components/MainContainer";
+import LoadingScreen from '../../components/LoadingScreen';
+
 import { useProgress } from "../../hooks/useProgress";
 import { formatDateYMD, getCreateDate, getExpiredDate } from "../../utils/date";
-
 ChartJS.register(
   RadialLinearScale,
   PointElement,
@@ -131,7 +132,7 @@ export default function Progress({ user, onNavigate }) {
   };
 
   if (loading) {
-    return <div>로딩중...</div>;
+    return <LoadingScreen message="사용자 정보를 불러오는 중입니다" />;
   }
 
   return (

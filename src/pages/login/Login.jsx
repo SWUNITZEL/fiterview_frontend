@@ -77,11 +77,11 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  // borderColor: 'var(--primary-40)',
+                  borderColor: 'var(--color-blue-400)',
                   borderWidth: '2px',
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  // borderColor: 'var(--primary-40)',
+                  borderColor: 'var(--color-blue-400)',
                   borderWidth: '2px',
                 },
               }
@@ -114,18 +114,17 @@ function Login() {
                   fontSize: '18px'
                 },
                 '&:hover .MuiOutlinedInput-notchedOutline': {
-                  // borderColor: 'var(--primary-40)',
+                  borderColor: 'var(--color-blue-400)',
                   borderWidth: '2px',
                 },
                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                  // borderColor: 'var(--primary-40)',
+                  borderColor: 'var(--color-blue-400)',
                   borderWidth: '2px',
                 },
               }
             }}
           />
           <div style={{ height: "70px", position: "relative", display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection:"column" }}>
-            {/* <div style={{ color: "var(--nuetral-60)", fontSize: "16px", position: "absolute", right: "0px" }}> */}
             <div style={{ fontSize: "16px", position: "absolute", right: "0px" }}>
               <span
                 style={{ marginRight: "10px", cursor: 'pointer' }}
@@ -139,8 +138,7 @@ function Login() {
                 비밀번호 찾기
               </span>
             </div>
-            {/* {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--error-60)", fontSize: "16px" }}>{error}</span>} */}
-            {error && <span style={{ position: "absolute", bottom: "0px", fontSize: "16px" }}>{error}</span>}
+            {error && <span style={{ position: "absolute", bottom: "0px", color: "var(--color-red-600)", fontSize: "18px" }}>{error}</span>}
           </div>
           <Button
             type="submit"
@@ -149,12 +147,12 @@ function Login() {
             sx={{
               height: '56px',
               borderRadius: '8px',
-              fontSize: "16px",
-              // backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-60)',
-              // color: isLocked ? 'var(--nuetral-50)' : 'var(--nuetral-10)',
-              // '&:hover': {
-              //   backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--primary-80)',
-              // }
+              fontSize: "18px",
+              backgroundColor: isLocked ? 'var(--color-gray-100)' : 'var(--color-blue-500)',
+              color: isLocked ? 'var(--color-gray-500)' : 'var(--color-base-000)',
+              '&:hover': {
+                backgroundColor: isLocked ? 'var(--nuetral-30)' : 'var(--color-blue-400)',
+              }
             }}
           >
             로그인
