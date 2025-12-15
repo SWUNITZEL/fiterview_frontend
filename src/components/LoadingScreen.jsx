@@ -1,5 +1,8 @@
 import { LinearProgress } from '@mui/material';
 import MainContainer from './MainContainer';
+import {
+  Container
+} from "@mui/material";
 
 /**
  * @component LoadingScreen
@@ -14,10 +17,31 @@ import MainContainer from './MainContainer';
 
 const LoadingScreen = ({ message }) => {
   return (
-    <MainContainer>
-      <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"0px", padding:"0px"}}>{message}...</h4>
-      <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
-    </MainContainer>
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        height: "100vh",
+        padding: "0",
+        overflow: "hidden"
+      }}
+    >
+      <LinearProgress 
+      sx={{ 
+        mt: "68px", 
+        height: "5px", 
+        width: "100%", 
+        borderRadius: "10px", 
+        backgroundColor: 'var(--color-blue-050)', 
+        '& .MuiLinearProgress-bar': { 
+          backgroundColor: 'var(--color-blue-200)', 
+          borderRadius: "10px", 
+          } 
+          }} />
+      <MainContainer>
+        <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"100px", padding:"0px"}}>{message}...</h4>
+      </MainContainer>
+    </Container>
   );
 };
 

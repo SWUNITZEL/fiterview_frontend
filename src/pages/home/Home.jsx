@@ -50,7 +50,20 @@ function Home() {
 
   if (loading) {
     // 사용자 정보 로딩 중일 때 로딩 화면 표시
-    return <LoadingScreen message="사용자 정보를 불러오는 중입니다" />;
+    return( 
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        height: "auto",
+        padding: "0",
+        overflow: "hidden"
+      }}
+    >
+      <NavbarComponent />
+      <LoadingScreen message="사용자 정보를 불러오는 중입니다" />
+    </Container>
+    )
   }
 
   // PC일 경우 정상 콘텐츠 렌더링
