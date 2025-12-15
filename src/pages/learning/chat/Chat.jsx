@@ -9,16 +9,17 @@ import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 
 import ChatWindow from './ChatWindow';
-import { useReport } from '../../../hooks/useReport';
+import { useChat } from '../../../hooks/useChat';
 import LoadingScreen from '../../../components/LoadingScreen';
 
 function Report() {
   const { chatId } = useParams()
   const {
-      reflection,
-      finalReport,
-      loading
-    } = useReport(chatId);
+      preChat,
+      loading,
+      sendUserMessage
+    } = useChat(chatId);
+
   const navigate = useNavigateWithScrollTop();
 
   return (
@@ -33,7 +34,7 @@ function Report() {
     >
       {loading && <LoadingScreen />}
       <NavbarComponent />
-      <ChatWindow></ChatWindow>      
+      <ChatWindow handleSend={sendUserMessage} preChat={preChat["chat"]}></ChatWindow>      
     </Container>
   );
 }

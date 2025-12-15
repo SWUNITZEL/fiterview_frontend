@@ -1,49 +1,122 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Button } from '@mui/material';
 import "./ChatWindow.css";
 import MainContainer from "../../../components/MainContainer";
 
-// 예시 채팅 데이터
-const dummyMessages = [
-  { id: 1, text: "나는 아무 걱정도 없이 가을 속의 별들을 다 헬 듯 합니다. 맑은 밤을 세워 우는 벌레는 부끄러운 이름을 슬퍼하는 까닭입니다.", sender: 'user' },
-  { id: 2, text: "나는 아무 걱정도 없이 가을 속의 별들을 다 헬 듯 합니다. 맑은 밤을 세워 우는 벌레는 부끄러운 이름을 슬퍼하는 까닭입니다.", sender: 'ai' },
-  { id: 3, text: "나는 아무 걱정도 없이 가을 속의 별들을 다 헬 듯 합니다. 맑은 밤을 세워 우는 벌레는 부끄러운 이름을 슬퍼하는 까닭입니다.", sender: 'user' },
-];
+function ChatWindow({ isSidebarOpen, handleSend, preChat }) {
+  const [messages, setMessages] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const bottomRef = useRef(null);
 
-function ChatWindow({ isSidebarOpen }) {
-  // isSidebarOpen에 따라 채팅 컨테이너의 중앙 정렬을 결정
+  // preChat 안전 로그
+  console.log("preChat in ChatWindow:", preChat?.chat_messages);
+
   const chatWrapperStyle = {
-    // 사이드바가 접혔을 때 (false)는 '0 auto'로 중앙 정렬
-    margin: isSidebarOpen ? '0 0 0 40px' : '0 auto', 
-    maxWidth: '800px', // 최대 너비 지정
+    margin: isSidebarOpen ? '0 0 0 40px' : '0 auto',
+    maxWidth: '800px',
     width: '100%',
     padding: '20px 0',
   };
 
+  const onSend = async () => {
+    if (!inputValue.trim()) return;
+
+    const userMessage = {
+      id: Date.now(),
+      content: inputValue,
+      role: 'user',
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setInputValue("");
+
+    try {
+      const aiReply = await handleSend(inputValue);
+
+      const aiMessage = {
+        id: Date.now() + 1,
+        content: aiReply,
+        role: 'assistant',
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (e) {
+      console.error("AI 응답 오류:", e);
+    }
+  };
+
+  // preChat이 변경될 때 메시지 세팅
+  useEffect(() => {
+    if (!preChat?.chat_messages) return;
+
+    const initChat = async () => {
+      // 채팅이 비어 있을 때
+      if (preChat.chat_messages.length < 1) {
+        try {
+          const aiReply = await handleSend("독서토론을 시작해볼까요?");
+
+          setMessages([
+            {
+              id: Date.now(),
+              content: aiReply,
+              role: "assistant",
+            },
+          ]);
+        } catch (e) {
+          console.error("AI 응답 오류:", e);
+        }
+        return;
+      }
+
+      // 기존 채팅 있을 때 (첫 메시지 제거)
+      setMessages(
+        preChat.chat_messages.slice(1).map((msg, idx) => ({
+          id: idx,
+          content: msg.content,
+          role: msg.role,
+        }))
+      );
+    };
+
+    initChat();
+  }, [preChat, handleSend]);
+
+
+  // 스크롤 자동 하단
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  
+
   return (
     <MainContainer>
-    <div className="chat-window">
-      {/* 1. 채팅 내용 Wrapper: 중앙/좌측 정렬을 결정하는 핵심 요소 */}
-      <div className="chat-content-wrapper" style={chatWrapperStyle}>
-        
-        {/* 채팅 메시지 렌더링 */}
-        {dummyMessages.map(msg => (
-          <div key={msg.id} className={`chat-bubble-container ${msg.sender}`}>
-            <div className={`chat-bubble`}>
-              {msg.text}
+      <div className="chat-window">
+        <div className="chat-content-wrapper" style={chatWrapperStyle}>
+          {messages.map(msg => (
+            <div
+              key={msg.id}
+              className={`chat-bubble-container ${msg.role}`}
+            >
+              <div className="chat-bubble">{msg.content}</div>
             </div>
-          </div>
-        ))}
-        
+          ))}
+          <div ref={bottomRef} />
+        </div>
+
+        {messages.length<6?
+        (<div className="chat-input-area">
+          <input
+            type="text"
+            placeholder="무엇이든 물어보세요"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && onSend()}
+          />
+          <button className="send-btn" onClick={onSend}>↑</button>
+        </div>):
+        (<Button variant="contained" disabled fullWidth>더 이상의 대화는 불가능합니다.</Button>)}
       </div>
-      
-      {/* 2. 채팅 입력창 (항상 하단에 고정) */}
-      <div className="chat-input-area">
-        <input type="text" placeholder="무엇이든 물어보세요" />
-        <button className="send-btn">
-          <span role="img" aria-label="up arrow">↑</span>
-        </button>
-      </div>
-    </div>
     </MainContainer>
   );
 }

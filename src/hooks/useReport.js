@@ -14,10 +14,10 @@ export function useReport(chatId) {
     const safeCall = async (fn, fallback = []) => {
       try {
         const result = await fn();
-        console.log("[useProgress] API 성공:", result);
+        console.log("[useReport] API 성공:", result);
         return result;
       } catch (e) {
-        console.warn("[useProgress] API 실패, fallback 사용:", e);
+        console.warn("[useReport] API 실패, fallback 사용:", e);
         return fallback;
       }
     };
