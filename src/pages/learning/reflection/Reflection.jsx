@@ -6,11 +6,10 @@ import { useParams } from "react-router-dom";
 import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 
-import ReportTable from './ReportTable';
 import { useReport } from '../../../hooks/useReport';
 import LoadingScreen from '../../../components/LoadingScreen';
 
-function Report() {
+function Reflection() {
   const { chatId } = useParams()
   const {
       reflection,
@@ -30,10 +29,9 @@ function Report() {
     >
       {loading && <LoadingScreen />}
       <NavbarComponent />
-      <ReportTable reflection={reflection} finalReport={finalReport}></ReportTable>      
       <Footer />
     </Container>
   );
 }
 
-export default Report;
+export default Reflection;

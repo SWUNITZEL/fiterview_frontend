@@ -18,14 +18,16 @@
 /* 채팅 버블 컨테이너 */
 .chat-bubble-container {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .chat-bubble-container.user {
   justify-content: flex-end; /* 사용자 메시지는 오른쪽 정렬 */
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
-.chat-bubble-container.ai {
+.chat-bubble-container.assistant {
   justify-content: flex-start; /* AI 메시지는 왼쪽 정렬 */
 }
 
@@ -36,7 +38,6 @@
   line-height: 1.5;
   font-size: 18px;
   /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
-  margin-bottom: 12px;
 }
 
 .chat-bubble-container.user .chat-bubble {
@@ -45,7 +46,7 @@
   border-bottom-right-radius: 5px;
 }
 
-.chat-bubble-container.ai .chat-bubble {
+.chat-bubble-container.assistant .chat-bubble {
   background-color: var(--color-gray-050); /* 흰색 배경 */
   color: #333;
   border-bottom-left-radius: 5px;
