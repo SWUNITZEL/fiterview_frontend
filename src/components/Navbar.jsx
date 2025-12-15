@@ -75,7 +75,7 @@ const Navbar = () => {
           })}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-            <img src="/images/default/logo.png" alt="Logo" style={{ cursor: 'pointer', height: 18 }} onClick={() => navigate(PATH.MAIN)}/>
+            <img src={`${process.env.PUBLIC_URL}/images/default/logo.png`} alt="Logo" style={{ cursor: 'pointer', height: 18 }} onClick={() => navigate(PATH.MAIN)}/>
             <Typography
               onClick={() => navigate(PATH.LEARNING)}
               variant="body2"
@@ -114,7 +114,7 @@ const Navbar = () => {
                 >
                   <Avatar
                     alt={user.name}
-                    src={user.profile || '/images/default/profile.png'}
+                    src={user.profile || `${process.env.PUBLIC_URL}/images/default/profile.png`}
                     sx={{ width: 32, height: 32 }}
                   />
                 </Box>

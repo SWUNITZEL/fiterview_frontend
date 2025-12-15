@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';
 import CssBaseline from '@mui/material/CssBaseline';
-import { BrowserRouter as Router } from "react-router-dom"; // HashRouter -> BrowserRouter로 변경
+import { HashRouter as Router } from "react-router-dom"; // HashRouter -> BrowserRouter로 변경
 import RouterConfig from "./router";
 import MuiTheme from './theme';
 import { UserProvider } from './contexts/UserContext';
