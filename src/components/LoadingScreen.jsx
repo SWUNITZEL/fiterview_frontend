@@ -1,4 +1,5 @@
 import { LinearProgress } from '@mui/material';
+import MainContainer from './MainContainer';
 
 /**
  * @component LoadingScreen
@@ -12,25 +13,11 @@ import { LinearProgress } from '@mui/material';
  */
 
 const LoadingScreen = ({ message }) => {
-  const overlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'var(--background-color)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
-  };
-
   return (
-    <div style={overlayStyle} className='full-screen overflow-hidden'>
+    <MainContainer>
       <h4 className='title-24-medium' style={{marginBottom:"100px", marginTop:"0px", padding:"0px"}}>{message}...</h4>
       <LinearProgress sx={{ width: "400px", borderRadius: "16px", '& .MuiLinearProgress-bar1Determinate': { backgroundColor: 'var(--primary-60)' } }} />
-    </div>
+    </MainContainer>
   );
 };
 
