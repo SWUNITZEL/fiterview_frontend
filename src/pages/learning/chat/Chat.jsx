@@ -21,6 +21,9 @@ function Report() {
     } = useChat(chatId);
 
   const navigate = useNavigateWithScrollTop();
+  const handleNavigate = (path) => {
+    navigate(path);
+  };
 
   return (
     <Container
@@ -34,7 +37,7 @@ function Report() {
     >
       {loading && <LoadingScreen />}
       <NavbarComponent />
-      <ChatWindow handleSend={sendUserMessage} preChat={preChat["chat"]}></ChatWindow>      
+      <ChatWindow handleSend={sendUserMessage} preChat={preChat["chat"]} navigate={handleNavigate} chatId={chatId}></ChatWindow>      
     </Container>
   );
 }

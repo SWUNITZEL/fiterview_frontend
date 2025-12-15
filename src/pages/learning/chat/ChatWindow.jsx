@@ -3,13 +3,10 @@ import { Button } from '@mui/material';
 import "./ChatWindow.css";
 import MainContainer from "../../../components/MainContainer";
 
-function ChatWindow({ isSidebarOpen, handleSend, preChat }) {
+function ChatWindow({ isSidebarOpen, handleSend, preChat, navigate, chatId }) {
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const bottomRef = useRef(null);
-
-  // preChat 안전 로그
-  console.log("preChat in ChatWindow:", preChat?.chat_messages);
 
   const chatWrapperStyle = {
     margin: isSidebarOpen ? '0 0 0 40px' : '0 auto',
@@ -115,7 +112,28 @@ function ChatWindow({ isSidebarOpen, handleSend, preChat }) {
           />
           <button className="send-btn" onClick={onSend}>↑</button>
         </div>):
-        (<Button variant="contained" disabled fullWidth>더 이상의 대화는 불가능합니다.</Button>)}
+        (<div className="chat-input-area">
+          <Button 
+          onClick={()=>navigate(`/learning/reflection/${chatId}`)}
+          variant="outlined" 
+          sx={{
+            color: 'var(--color-base-000)',
+            borderColor: 'var(--color-blue-500)',
+            backgroundColor: 'var(--color-blue-500)',
+            borderRadius: '8px',
+            fontSize: '18px',
+            height: '52px',
+            width: "800px",
+            textTransform: 'none',
+            mb: "60px",
+            '&:hover': {
+              borderColor: 'var(--color-blue-400)',
+            backgroundColor: 'var(--color-blue-400)',
+            },
+          }}
+          >다음으로
+          </Button>
+          </div>)}
       </div>
     </MainContainer>
   );

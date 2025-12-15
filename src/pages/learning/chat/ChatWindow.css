@@ -18,11 +18,13 @@
 /* 채팅 버블 컨테이너 */
 .chat-bubble-container {
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .chat-bubble-container.user {
   justify-content: flex-end; /* 사용자 메시지는 오른쪽 정렬 */
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .chat-bubble-container.assistant {
@@ -36,7 +38,6 @@
   line-height: 1.5;
   font-size: 18px;
   /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
-  margin-bottom: 12px;
 }
 
 .chat-bubble-container.user .chat-bubble {
