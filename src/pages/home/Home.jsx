@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import {
   Container,
   Dialog,
@@ -11,12 +11,13 @@ import { useNavigateWithScrollTop } from '../../hooks/useNavigateWithScrollTop';
 
 import NavbarComponent from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 import Progress from "./Progress";
 import ServiceInfo from "./ServiceInfo";
 import "./Home.css";
 
 function Home() {
-  const { user } = useUser();
+  const { user, loading } = useUser();
   const navigate = useNavigateWithScrollTop();
   const handleNavigate = (path) => {
     navigate(path);
@@ -45,6 +46,24 @@ function Home() {
         </DialogContent>
       </Dialog>
     );
+  }
+
+  if (loading) {
+    // 사용자 정보 로딩 중일 때 로딩 화면 표시
+    return( 
+    <Container
+      maxWidth={false}
+      style={{
+        backgroundColor: "var(--background-color)",
+        height: "auto",
+        padding: "0",
+        overflow: "hidden"
+      }}
+    >
+      <NavbarComponent />
+      <LoadingScreen message="" />
+    </Container>
+    )
   }
 
   // PC일 경우 정상 콘텐츠 렌더링

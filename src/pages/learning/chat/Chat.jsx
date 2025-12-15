@@ -2,13 +2,13 @@ import {
   Container
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useUser } from '../../../contexts/UserContext';
+// import { useUser } from '../../../contexts/UserContext';
 import { useNavigateWithScrollTop } from '../../../hooks/useNavigateWithScrollTop';
 
 import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 
-import ReportTable from './ReportTable';
+import ChatWindow from './ChatWindow';
 import { useReport } from '../../../hooks/useReport';
 import LoadingScreen from '../../../components/LoadingScreen';
 
@@ -33,8 +33,7 @@ function Report() {
     >
       {loading && <LoadingScreen />}
       <NavbarComponent />
-      <ReportTable reflection={reflection} finalReport={finalReport}></ReportTable>      
-      <Footer />
+      <ChatWindow></ChatWindow>      
     </Container>
   );
 }
