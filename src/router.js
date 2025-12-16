@@ -22,14 +22,13 @@ const RouterConfig = () => {
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.JOIN} element={<Join />} />
       <Route path={PATH.LEARNING} element={<Learning />} />
-    </Routes>
 <Route path={PATH.LEARNING_READING} element={<Reading />} />
       <Route path={PATH.LEARNING_REPORT} element={<Report />} />
       <Route path={PATH.LEARNING_REFLECTION} element={<Reflection />} />
       <Route path={PATH.LEARNING_CHAT} element={<Chat />} />
       <Route path={PATH.ARTICLE} element={<Article />} />
       <Route path={PATH.ARTICLE_DETAIL} element={<ArticleDetail />} />
-
+</Routes>
   );
 };
 
