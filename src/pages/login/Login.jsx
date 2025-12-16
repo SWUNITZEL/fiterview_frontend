@@ -38,14 +38,15 @@ function Login() {
     <Container
       maxWidth={false}
       style={{
-        position:"relative",
-        // backgroundColor: "var(--background-color)",
+        backgroundColor: "var(--background-color)",
         height: "auto",
-        paddingTop: "120px",
-        overflow: "hidden"
-      }}>
+        padding: "0",
+        overflow: "hidden",
+        paddingTop: "10vh"
+      }}
+    >
       <NavbarComponent />
-      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom:"120px"}}>
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", marginBottom:"120px", height: "100vh" }}>
         <h2 className="title-32-bold" style={{ marginTop: "0px", marginBottom: "50px" }}>로그인</h2>
 
         <form onSubmit={onSubmit} style={{ width: "400px", display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -159,7 +160,7 @@ function Login() {
           </Button>
         </form>
       </div>
-      <Footer />
+      <Footer/>
     </Container>
   );
 }
