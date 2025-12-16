@@ -5,6 +5,7 @@ import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import Join from "./pages/join/Join.jsx";
 import Report from "./pages/learning/report/Report.jsx";
+import Reading from "./pages/learning/reading/Reading.jsx";
 import Reflection from "./pages/learning/reflection/Reflection.jsx";
 import Chat from "./pages/learning/chat/Chat.jsx";
 import Article from "./pages/article/Article.jsx";
@@ -20,13 +21,15 @@ const RouterConfig = () => {
       <Route path={PATH.MAIN} element={<Home />} />
       <Route path={PATH.LOGIN} element={<Login />} />
       <Route path={PATH.JOIN} element={<Join />} />
+      <Route path={PATH.LEARNING} element={<Learning />} />
+    </Routes>
+<Route path={PATH.LEARNING_READING} element={<Reading />} />
       <Route path={PATH.LEARNING_REPORT} element={<Report />} />
       <Route path={PATH.LEARNING_REFLECTION} element={<Reflection />} />
       <Route path={PATH.LEARNING_CHAT} element={<Chat />} />
       <Route path={PATH.ARTICLE} element={<Article />} />
       <Route path={PATH.ARTICLE_DETAIL} element={<ArticleDetail />} />
-      <Route path={PATH.LEARNING} element={<Learning />} />
-    </Routes>
+
   );
 };
 
