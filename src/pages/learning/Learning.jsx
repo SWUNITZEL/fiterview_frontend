@@ -165,7 +165,7 @@ const Learning = () => {
 
                   {/* 카드 리스트 */}
                   {stepData.items.map((item, index) => {
-                    const disabled = item.active ? false : true;
+                    const disabled = item.chatId ? false : true;
 
                     return (
                       <Card
@@ -180,7 +180,7 @@ const Learning = () => {
                           cursor: disabled ? "default" : "pointer",
                           height: "116px",
                           borderRadius: 2,
-                          backgroundColor: item.active ? "var(--color-gray-100)" : "var(--color-gray-050)",
+                          backgroundColor: item.chatId ? "var(--color-gray-100)" : "var(--color-gray-050)",
                           ...(disabled
                             ? {}
                             : {
@@ -195,8 +195,8 @@ const Learning = () => {
                           sx={{
                             p: 2,
                             "&:last-child": { pb: 2 },
-                            cursor: item.active ? "pointer" : "default",
-                            opacity: item.chatId && item.active ? 1 : 0.5,
+                            cursor: item.chatId ? "pointer" : "default",
+                            opacity: item.chatId ? 1 : 0.5,
                           }}
                         >
                           <Typography
@@ -235,7 +235,7 @@ const Learning = () => {
                                   : "var(--color-gray-700)"
                               }
                             >
-                              {item.action}
+                              {item.chatId ? item.active? "수강하기" : "보고서 보기" : "학습 불가"}
                             </Typography>
 
                             {!disabled && (
