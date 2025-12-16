@@ -6,16 +6,16 @@ import { useParams } from "react-router-dom";
 import NavbarComponent from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 
-import { useReport } from '../../../hooks/useReport';
+import { useReflection } from '../../../hooks/useReflection';
 import LoadingScreen from '../../../components/LoadingScreen';
+import MainContainer from "../../../components/MainContainer";
+import { formatDateYMD, getCreateDate } from "../../../utils/date";
 
 function Reflection() {
   const { chatId } = useParams()
   const {
-      reflection,
-      finalReport,
       loading
-    } = useReport(chatId);
+    } = useReflection(chatId);
 
   return (
     <Container
@@ -29,6 +29,8 @@ function Reflection() {
     >
       {loading && <LoadingScreen />}
       <NavbarComponent />
+        <MainContainer>
+        </MainContainer>
       <Footer />
     </Container>
   );
