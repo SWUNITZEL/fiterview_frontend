@@ -84,14 +84,14 @@ const Navbar = () => {
             >
               학습
             </Typography>
-            <Typography
+            {/* <Typography
               onClick={() => navigate(PATH.PROGRESS)}
               variant="body2"
               sx={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
               className='subtitle-18-medium'
             >
               진행현황
-            </Typography>
+            </Typography> */}
             <Typography
               onClick={() => navigate(PATH.ARTICLE)}
               variant="body2"
