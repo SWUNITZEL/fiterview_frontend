@@ -9,6 +9,7 @@ import Reflection from "./pages/learning/reflection/Reflection.jsx";
 import Chat from "./pages/learning/chat/Chat.jsx";
 import Article from "./pages/article/Article.jsx";
 import ArticleDetail from "./pages/article/ArticleDetail.jsx";
+import Learning from "./pages/learning/Learning.jsx";
 import { PATH } from "./config/paths";
 
 const RouterConfig = () => {
@@ -24,6 +25,7 @@ const RouterConfig = () => {
       <Route path={PATH.LEARNING_CHAT} element={<Chat />} />
       <Route path={PATH.ARTICLE} element={<Article />} />
       <Route path={PATH.ARTICLE_DETAIL} element={<ArticleDetail />} />
+      <Route path={PATH.LEARNING} element={<Learning />} />
     </Routes>
   );
 };
