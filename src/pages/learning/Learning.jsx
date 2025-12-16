@@ -1,21 +1,90 @@
-import { Container, Grid, Card, CardContent, Typography, Box } from '@mui/material';
+import { useMemo } from "react";
+import { Container, Card, CardContent, Typography, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-import { useNavigate } from 'react-router-dom';
+import NavbarComponent from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import MainContainer from "../../components/MainContainer";
+import LoadingScreen from "../../components/LoadingScreen";
 
-import NavbarComponent from '../../components/Navbar';
-import { PATH } from "../../config/paths";
-import Footer from '../../components/Footer';
-import MainContainer from '../../components/MainContainer';
+import { useLearning } from "../../hooks/useLearning";
 
-import { learningList } from '../../data/learningData';
-
-
-const LearningMain = () => {
-
+const Learning = () => {
   const navigate = useNavigate();
-  
-  const handleCardClick = (titleId) => {
-    navigate(`${PATH.LEARNING}/${titleId}`);
+
+  const {
+    chatList,
+    curriculumList,
+    loading,
+  } = useLearning();
+
+  const activeChat = useMemo(() => {
+    if (!chatList.length) return null;
+
+    return chatList.reduce((max, curr) => {
+      if (
+        curr.current_step > max.current_step ||
+        (curr.current_step === max.current_step &&
+          curr.current_id > max.current_id)
+      ) {
+        return curr;
+      }
+      return max;
+    });
+  }, [chatList]);
+
+  const chatMap = useMemo(() => {
+    const map = {};
+
+    chatList.forEach((chat) => {
+      const stepKey = `step${chat.current_step}`;
+      const index = chat.current_id - 1;
+
+      map[`${stepKey}-${index}`] = {
+        chatId: chat.chat_id,
+        active: 
+          activeChat &&
+          chat.chat_id === activeChat.chat_id,
+        progress: chat.current_question_index
+      };
+    });
+
+    return map;
+  }, [chatList, activeChat]);
+
+  const normalizeStep = (stepKey, stepValue) => {
+    // step1: 단일 카드
+    if (stepValue?.title) {
+      const chatId = chatMap[`${stepKey}-0`];
+
+      return {
+        stepKey,
+        title: stepValue.title,
+        items: [
+          {
+            ...stepValue,
+            chatId,
+          },
+        ],
+      };
+    }
+
+    // step2 이상: 여러 카드
+    
+    return {
+      stepKey,
+      title: stepKey.toUpperCase(),
+      items: Object.values(stepValue ?? {}).map((item, index) => {
+        const chatInfo = chatMap[`${stepKey}-${index}`];
+
+        return {
+          ...item,
+          chatId: chatInfo?.chatId,
+          active: chatInfo?.active ?? false,
+          progress: chatInfo?.progress ?? null,
+        };
+      }),
+    };
   };
 
   return (
@@ -23,128 +92,174 @@ const LearningMain = () => {
       maxWidth={false}
       style={{
         backgroundColor: "var(--background-color)",
-        minHeight: "100vh",
+        height: "auto",
         padding: "0",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
+        overflow: "hidden"
       }}
     >
       <NavbarComponent />
-
-      <MainContainer>
-        <Typography variant="h1" fontWeight={700} fontSize={"28px"} marginBottom={"16px"}>
+      {loading && <LoadingScreen />}
+      <MainContainer sx={{ height: "70vh" }}>
+        <Typography
+          variant="h1"
+          fontWeight={700}
+          fontSize="28px"
+          marginBottom="16px"
+        >
           로드맵
         </Typography>
 
         <Box
-          sx = {{
+          sx={{
             display: "grid",
             gridTemplateColumns: {
               xs: "1fr",
               sm: "repeat(2, 1fr)",
-              md: "repeat(5, 1fr)"
+              md: "repeat(5, 1fr)",
             },
             columnGap: 3,
-          }}>
-          {learningList.map((column) => (
-            <Box
-              key={column.id}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "12px"
-              }}
-            >
-              {/* 책 제목 */}
-              <Box
-                sx = {{
-                  backgroundColor: "var(--color-blue-500)",
-                  color: "#ffffff",
-                  padding : "8px 16px",
-                  borderRadius : "8px",
-                  marginBottom : "4px",
-                  height: "72px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center"
-                }}>
-                <Typography 
-                  fontWeight={700}
-                  fontSize={"18px"}
-                  lineHeight={"28px"}
+          }}
+        >
+          {Object.entries(curriculumList ?? {}).map(
+            ([stepKey, stepValue]) => {
+              const stepData = normalizeStep(stepKey, stepValue);
+
+              return (
+                <Box
+                  key={stepKey}
                   sx={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    webKitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    maxHeight: "56px"
-                  }}>
-                    {column.title}
-                </Typography>
-              </Box>
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "16px",
+                  }}
+                >
+                  {/* STEP 제목 */}
+                  <Box
+                    sx={{
+                      backgroundColor: "var(--color-blue-500)",
+                      color: "#ffffff",
+                      padding: "8px 16px",
+                      borderRadius: "8px",
+                      height: "72px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography
+                      fontWeight={700}
+                      fontSize="18px"
+                      lineHeight="28px"
+                      sx={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        maxHeight: "56px",
+                      }}
+                    >
+                      {stepData.title}
+                    </Typography>
+                  </Box>
 
-              {/* 카드 리스트 */}
-              {column.items.map((item) =>
-                <Card
-                  onClick={
-                    item.action === "학습 불가" ? undefined
-                    : () => handleCardClick(column.id)
-                  }
+                  {/* 카드 리스트 */}
+                  {stepData.items.map((item, index) => {
+                    const disabled = item.active ? false : true;
 
-                  key={item.id}
-                  sx={{ 
-                    boxShadow: "none",
-                    cursor: item.action === "학습 불가" ? "default" : "pointer",
-                    borderRadius: 2,
-                    backgroundColor: "var(--color-gray-100)",
-                    ...(item.action !== "학습 불가" && {
-                      "&:hover": { backgroundColor: "var(--color-gray-200)", transition: "0.2s" }
-                    })
-                    }}>
-                    <CardContent 
-                      sx = {{
-                        p: 2,
-                        "&:last-child": { pb: 2 }
-                      }}>
-                      <Typography variant="h2" fontWeight={700} fontSize={"18px"} color="var(--color-gray-900)" lineHeight="28px">
-                        {item.chapter}
-                      </Typography>
-
-                      <Typography variant="body2" fontWeight={400} fontSize={"16px"} color="var(--color-blue-500)" lineHeight={"24px"} marginBottom={"4px"}>
-                        {item.progress}
-                      </Typography>
-                    
-                      <Box 
-                        sx = {{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between"
-                        }}>
-                          <Typography variant="body2" fontWeight={400} fontSize={"18px"} lineHeight={"28px"} 
-                          color={
-                            item.action === "학습 불가" 
-                            ? "var(--color-gray-400)" 
-                            : "var(--color-gray-700)"
-                          }>
-                            {item.action}
+                    return (
+                      <Card
+                        key={index}
+                        onClick={
+                          item.chatId
+                          ? () => navigate(`${item.progress===null?"reflection":"chat"}/${item.chatId}`)
+                          : undefined
+                        }
+                        sx={{
+                          boxShadow: "none",
+                          cursor: disabled ? "default" : "pointer",
+                          height: "116px",
+                          borderRadius: 2,
+                          backgroundColor: item.active ? "var(--color-gray-100)" : "var(--color-gray-050)",
+                          ...(disabled
+                            ? {}
+                            : {
+                                "&:hover": {
+                                  backgroundColor: "var(--color-gray-200)",
+                                  transition: "0.2s",
+                                },
+                              }),
+                        }}
+                      >
+                        <CardContent
+                          sx={{
+                            p: 2,
+                            "&:last-child": { pb: 2 },
+                            cursor: item.active ? "pointer" : "default",
+                            opacity: item.chatId && item.active ? 1 : 0.5,
+                          }}
+                        >
+                          <Typography
+                            fontWeight={700}
+                            fontSize="18px"
+                            color="var(--color-gray-900)"
+                            lineHeight="28px"
+                          >
+                            {item.title}
                           </Typography>
-                          <Box component="img" src="" alt="" sx = {{ width: 20, height: 20 }} />
-                      </Box>
-                    </CardContent>
-                </Card>
-              )}
-            </Box>
-          ))}
-        </Box>
 
+                          {item.chatId && (
+                            <Typography
+                              fontSize="16px"
+                              color="var(--color-blue-500)"
+                              lineHeight="24px"
+                              mb="4px"
+                            >
+                              {item.active? (item.progress===null? "50" : item.progress*16.6) : "100"}% 완료
+                            </Typography>
+                          )}
+
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Typography
+                              fontSize="18px"
+                              lineHeight="28px"
+                              color={
+                                disabled
+                                  ? "var(--color-gray-400)"
+                                  : "var(--color-gray-700)"
+                              }
+                            >
+                              {item.action}
+                            </Typography>
+
+                            {!disabled && (
+                              <Box
+                                component="img"
+                                src={`${process.env.PUBLIC_URL}/images/icons/icon-arrow-right.svg`}
+                                alt=""
+                                sx={{ width: 20, height: 20 }}
+                              />
+                            )}
+                          </Box>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </Box>
+              );
+            }
+          )}
+      </Box>
       </MainContainer>
-
       <Footer />
     </Container>
   );
 };
 
-export default LearningMain;
+export default Learning;
