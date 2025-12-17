@@ -2,7 +2,6 @@ import {
   Container,
   Typography,
   Box,
-  MenuItem,
   Button
 } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -14,6 +13,9 @@ import { useReport } from '../../../hooks/useReport';
 import LoadingScreen from '../../../components/LoadingScreen';
 import MainContainer from "../../../components/MainContainer";
 import SideBar from "../../../components/Sidebar"
+
+// 변수 받아와서 버튼 전환
+const { isReading } = false;
 
 function Reading() {
   const { chatId } = useParams()
@@ -27,21 +29,21 @@ function Reading() {
     <Container
       maxWidth={false}
       style={{
-        minHeight: "1vh",
+        height: "100vh",
         backgroundColor: "var(--background-color)",
         padding: "0",
+        overflow: "hidden",
+        display: "flex"
       }}
     >
       {/* {loading && <LoadingScreen />} */}
       <NavbarComponent />
 
-      <MainContainer>
-        <Box sx={{ display: "flex" }}>
-
+      <MainContainer sx={{ mt: "108px", mb: "40px" }}>
+        <Box sx={{ height: "100%", display: "flex" }}>
           <SideBar />
           <Content />
-
-        </Box>
+        </Box>        
       </MainContainer>
     </Container>
   );
@@ -54,20 +56,45 @@ function Content() {
   <Box
       sx={{
         flex: 1,
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        padding: "40px 60px 120px",
+        overflowY: "auto",
+        height: "100%",
+        padding: "40px 120px 80px 120px",
+        ml: 2,
+
+        "&::-webkit-scrollbar": {
+          width: "8px",
+        },
+
+        /* 화살표 제거 */
+        "&::-webkit-scrollbar-button": {
+          display: "none",
+        },
+
+        /* 배경 */
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
+        },
+
+        /* 손잡이 */
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "var(--color-gray-100)",
+          borderRadius: "8px",
+        },
+
+        /* 손잡이 호버링 */
+        "&::-webkit-scrollbar-thumb:hover": {
+          backgroundColor: "var(--color-gray-200)",
+        }
       }}>
 
         {/* 글 내용 */}
         <Box
           sx={{
             flex: 1,
-            mb: 2
+            mb: 2,
           }}>
             <Typography variant="body2" fontWeight={400} fontSize={"18px"} lineHeight={"28px"}>
-              가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이요, 내일 밤이 남은 까닭이요, 아직 나의 청춘이 다하지 않은 까닭입니다. 별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과 별 하나에 동경과 별 하나에 시와 별 하나에 어머니, 어머니, 어머님, 나는 별 하나에 아름다운 말 한 마디씩 불러 봅니다. 그러나, 겨울이 지나고 나의 별에도 봄이 오면, 무덤 위에 파란 잔디가 피어나듯이 내 이름자 묻힌 언덕 위에도 자랑처럼 풀이 무성할 거외다. 나는 무엇인지 그리워 이 많은 별빛이 내린 언덕 위에 내 이름자를 써보고 흙으로 덮어 버리었읍니다. 나는 무엇인지 그리워 이 많은 별빛이 내린 언덕 위에 내 이름자를 써보고 흙으로 덮어 버리었읍니다. 별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과 별 하나에 동경과 별 하나에 시와 별 하나에 어머니, 어머니, 어머님, 나는 별 하나에 아름다운 말 한 마디씩 불러 봅니다. 소학교 때 책상을 같이 했던 아이들의 이름과 패, 경, 옥 이런 이국소녀들의 이름과 벌써 아기 어머니된 계집애들의 이름과, 가난한 이웃 사람들의 이름과, 비둘기, 강아지, 토끼, 노새, 노루, 프랑시스 잠, 라이너 마리아 릴케 이런 시인의 이름을 불러 봅니다. 소학교 때 책상을 같이 했던 아이들의 이름과 패, 경, 옥 이런 이국소녀들의 이름과 벌써 아기 어머니된 계집애들의 이름과, 가난한 이웃 사람들의 이름과, 비둘기, 강아지, 토끼, 노새, 노루, 프랑시스 잠, 라이너 마리아 릴케 이런 시인의 이름을 불러 봅니다.
+              가슴 속에 하나 둘 새겨지는 별을 이제 다 못 헤는 것은 쉬이 아침이 오는 까닭이요, 내일 밤이 남은 까닭이요, 아직 나의 청춘이 다하지 않은 까닭입니다. 별 하나에 추억과 별 하나에 사랑과 별 하나에 쓸쓸함과 별 하나에 동경과 별 하나에 시와 별 하나에 어머니, 어머니, 어머님, 나는 별 하나에 아름다운 말 한 마디씩 불러 봅니다. 그러나, 겨울이 지나고 나의 별에도 봄이 오면, 무덤 위에 파란 잔디가 피어나듯이 내 이름자 묻힌 언덕 위에도 자랑처럼 풀이 무성할 거외다.
             </Typography>
         </Box>
 
@@ -75,15 +102,16 @@ function Content() {
         <Box
           sx={{
             position: "fixed",
-            bottom: "80px",
-            left: "240px",
-            padding: "0px 224px",
-            right: 0,
+            bottom: "40px",
+            left: "360px",
+            right: "120px",
+            padding: "0px 120px",
             display: "flex",
             justifyContent: "center",
           }}
         >
           <Button
+            disabled={isReading}
             sx={{
               width: "100%",
               color: "#FFFFFF",
@@ -92,12 +120,20 @@ function Content() {
               lineHeight: "28px",
               fontWeight: 400,
               padding: "12px 24px",
-              borderRadius: "12px"
+              borderRadius: "12px",
+
+              "&:hover" : {
+                bgcolor: "var(--color-blue-600)"
+              },
+
+              "&.Mui-disabled": {
+                backgroundColor: "var(--color-gray-200)",
+                color: "var(--color-gray-400)",
+              }
             }}>
-              다음으로
+              { isReading ? "책을 읽는 중이에요." : "다음으로" }
           </Button>
         </Box>
-
     </Box>
   )
 }
